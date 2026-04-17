@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import "./styles.css";
 import logo from "./assets/logo.png";
@@ -9,14 +9,18 @@ import KanbanBoard from "./KanbanBoard";
 const API = "https://ticket-pro-backend.onrender.com";
 
 function App() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => {
+    const saved = localStorage.getItem("user");
+    return saved ? JSON.parse(saved) : null;
+  });
+
   const [view, setView] = useState("dashboard");
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const [tickets, setTickets] = useState([]);
- 
+  const [notificaciones, setNotificaciones] = useState([]); // 🔥 NUEVO
 
   const [titulo, setTitulo] = useState("");
   const [descripcion, setDescripcion] = useState("");
@@ -25,21 +29,15 @@ function App() {
   const [asignado, setAsignado] = useState("Sin asignar");
   const [users, setUsers] = useState([]);
 
-  // 🔥 NUEVO: loader
   const [loading, setLoading] = useState(false);
 
-  // 🔥 VALIDACIONES
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  // FILTROS
   const [search, setSearch] = useState("");
   const [filtroEstado, setFiltroEstado] = useState("Todos");
   const [filtroPrioridad, setFiltroPrioridad] = useState("Todas");
 
- // const isAdmin = user?.role === "admin";
-
-  // 🔥 NUEVO: permisos reales
   const hasPermission = (perm) => {
     if (!user) return false;
     if (user.role === "admin") return true;
@@ -50,6 +48,7 @@ function App() {
     try {
       const res = await axios.post(`${API}/login`, { username, password });
       setUser(res.data);
+      localStorage.setItem("user", JSON.stringify(res.data));
       cargarTickets(res.data);
       cargarUsuarios();
     } catch {
@@ -59,42 +58,65 @@ function App() {
 
   const cargarUsuarios = async () => {
     const res = await axios.get(`${API}/users`);
-    setUsers(res.data);
+    setUsers(res.data || []);
   };
 
   const cargarTickets = async (u = user) => {
+    if (!u) return;
     setLoading(true);
-    const res = await axios.get(
-      `${API}/tickets?user=${u.username}&role=${u.role}`
-    );
-    setTickets(res.data);
-   
+    try {
+      const res = await axios.get(
+        `${API}/tickets?user=${u.username}&role=${u.role}`
+      );
+
+      const nuevos = res.data || [];
+
+      // 🔥 DETECTAR NUEVOS TICKETS
+      setTickets(prev => {
+        if (prev.length === 0) return nuevos;
+
+        if (nuevos.length > prev.length) {
+          setNotificaciones(n => [
+            { msg: "🆕 Nuevo ticket creado", time: Date.now() },
+            ...n
+          ]);
+        }
+
+        return nuevos;
+      });
+
+    } catch (err) {
+      console.error("Error tickets:", err);
+      setTickets([]);
+    }
     setLoading(false);
   };
+
+  useEffect(() => {
+    if (user) {
+      cargarTickets();
+      cargarUsuarios();
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (!user) return;
+
+    const interval = setInterval(() => {
+      cargarTickets();
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [user]);
 
   const crearTicket = async () => {
     setError("");
     setSuccess("");
 
-    if (!titulo.trim()) {
-      setError("El título es obligatorio");
-      return;
-    }
-
-    if (titulo.length < 5) {
-      setError("El título debe tener al menos 5 caracteres");
-      return;
-    }
-
-    if (!descripcion.trim()) {
-      setError("La descripción es obligatoria");
-      return;
-    }
-
-    if (descripcion.length < 10) {
-      setError("La descripción debe ser más detallada");
-      return;
-    }
+    if (!titulo.trim()) return setError("El título es obligatorio");
+    if (titulo.length < 5) return setError("El título debe tener al menos 5 caracteres");
+    if (!descripcion.trim()) return setError("La descripción es obligatoria");
+    if (descripcion.length < 10) return setError("La descripción debe ser más detallada");
 
     try {
       await axios.post(`${API}/tickets`, {
@@ -112,6 +134,12 @@ function App() {
 
       setSuccess("Ticket creado correctamente ✅");
 
+      // 🔥 NOTIFICACIÓN
+      setNotificaciones(n => [
+        { msg: "🎫 Ticket creado", time: Date.now() },
+        ...n
+      ]);
+
       cargarTickets();
 
       setTimeout(() => {
@@ -126,6 +154,13 @@ function App() {
 
   const cambiarEstado = async (id, estado) => {
     await axios.put(`${API}/tickets/${id}/estado`, { estado });
+
+    // 🔥 NOTIFICACIÓN
+    setNotificaciones(n => [
+      { msg: "🔄 Estado actualizado", time: Date.now() },
+      ...n
+    ]);
+
     cargarTickets();
   };
 
@@ -137,11 +172,18 @@ function App() {
       texto
     });
 
+    // 🔥 NOTIFICACIÓN
+    setNotificaciones(n => [
+      { msg: "💬 Nuevo comentario", time: Date.now() },
+      ...n
+    ]);
+
     cargarTickets();
   };
 
   const logout = () => {
     setUser(null);
+    localStorage.removeItem("user");
     setTickets([]);
   };
 
@@ -182,7 +224,7 @@ function App() {
               <select
                 className={`status-select ${t.estado.replace(" ", "-")}`}
                 value={t.estado}
-                onChange={(e) => cambiarEstado(t.id, e.target.value)}
+                onChange={(e) => cambiarEstado(t._id, e.target.value)}
               >
                 <option>Abierto</option>
                 <option>En proceso</option>
@@ -228,7 +270,7 @@ function App() {
             onKeyDown={(e) => {
               if (e.key === "Enter" && !e.shiftKey) {
                 e.preventDefault();
-                comentar(t.id, e.target.value);
+                comentar(t._id, e.target.value);
                 e.target.value = "";
               }
             }}
@@ -265,6 +307,13 @@ function App() {
   return (
     <div className="layout">
 
+      {/* 🔔 NOTIFICACIONES (NO rompe tu layout) */}
+      <div className="notificaciones">
+        {notificaciones.slice(0, 3).map((n, i) => (
+          <div key={i} className="notif">{n.msg}</div>
+        ))}
+      </div>
+
       <div className="sidebar">
         <div className="logo-box">
           <img src={logo} className="logo" alt="logo" />
@@ -284,108 +333,72 @@ function App() {
         </div>
 
         <button className="logout-btn" onClick={logout}>
-  Salir
-</button>
+          Salir
+        </button>
       </div>
 
       <div className="content">
 
-        {view === "dashboard" && <Dashboard />}
+        {view === "dashboard" && <Dashboard key={user?.username} />}
         {view === "users" && <AdminPanel />}
         {view === "kanban" && <KanbanBoard tickets={tickets} reload={cargarTickets} />}
 
         {view === "create" && (
-  <div className="form-wrapper">
-    <div className="form-card-pro">
+          <div className="form-wrapper">
+            <div className="form-card-pro">
 
-      <div className="form-header">
-        <h2>🎫 Crear Ticket</h2>
-        <p>Registra un nuevo incidente o solicitud</p>
-      </div>
+              <div className="form-header">
+                <h2>🎫 Crear Ticket</h2>
+                <p>Registra un nuevo incidente o solicitud</p>
+              </div>
 
-      {error && <div className="alert error">{error}</div>}
-      {success && <div className="alert success">{success}</div>}
+              {error && <div className="alert error">{error}</div>}
+              {success && <div className="alert success">{success}</div>}
 
-      <div className="form-group">
-        <label>Título</label>
-        <input
-          value={titulo}
-          onChange={(e) => setTitulo(e.target.value)}
-          placeholder="Ej: Falla en sistema de facturación"
-        />
-      </div>
+              <div className="form-group">
+                <label>Título</label>
+                <input value={titulo} onChange={(e) => setTitulo(e.target.value)} />
+              </div>
 
-      <div className="form-group">
-        <label>Descripción</label>
-        <textarea
-          value={descripcion}
-          onChange={(e) => setDescripcion(e.target.value)}
-          placeholder="Describe el problema con detalle..."
-        />
-      </div>
+              <div className="form-group">
+                <label>Descripción</label>
+                <textarea value={descripcion} onChange={(e) => setDescripcion(e.target.value)} />
+              </div>
 
-      <div className="form-row">
-        <div className="form-group">
-          <label>Prioridad</label>
-          <select
-            value={prioridad}
-            onChange={(e) => setPrioridad(e.target.value)}
-          >
-            <option>Baja</option>
-            <option>Media</option>
-            <option>Alta</option>
-          </select>
-        </div>
+              <div className="form-row">
+                <div className="form-group">
+                  <label>Prioridad</label>
+                  <select value={prioridad} onChange={(e) => setPrioridad(e.target.value)}>
+                    <option>Baja</option>
+                    <option>Media</option>
+                    <option>Alta</option>
+                  </select>
+                </div>
 
-        <div className="form-group">
-          <label>Asignar a</label>
-          <select
-            value={asignado}
-            onChange={(e) => setAsignado(e.target.value)}
-          >
-            <option>Sin asignar</option>
-            {users.map((u) => (
-              <option key={u.id}>{u.username}</option>
-            ))}
-          </select>
-        </div>
-      </div>
+                <div className="form-group">
+                  <label>Asignar a</label>
+                  <select value={asignado} onChange={(e) => setAsignado(e.target.value)}>
+                    <option>Sin asignar</option>
+                    {users.map((u) => (
+                      <option key={u._id}>{u.username}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
 
-      <button className="btn-primary" onClick={crearTicket}>
-        Crear Ticket
-      </button>
+              <button className="btn-primary" onClick={crearTicket}>
+                Crear Ticket
+              </button>
 
-    </div>
-  </div>
-)}
+            </div>
+          </div>
+        )}
+
         {view === "tickets" && (
           <div className="card">
-
-            <div className="filters-bar">
-              <input placeholder="Buscar..." value={search} onChange={(e) => setSearch(e.target.value)} />
-
-              <select onChange={(e) => setFiltroEstado(e.target.value)}>
-                <option>Todos</option>
-                <option>Abierto</option>
-                <option>En proceso</option>
-                <option>Cerrado</option>
-              </select>
-
-              <select onChange={(e) => setFiltroPrioridad(e.target.value)}>
-                <option>Todas</option>
-                <option>Alta</option>
-                <option>Media</option>
-                <option>Baja</option>
-              </select>
-            </div>
-
-            {loading ? (
-              <p>Cargando tickets...</p>
-            ) : (
-              ticketsFiltrados.map((t) => (
-                <TicketItem key={t.id} t={t} />
-              ))
-            )}
+            {loading ? <p>Cargando...</p> : ticketsFiltrados.map((t) => (
+              <TicketItem key={t._id} t={t} />
+            ))}
           </div>
         )}
 

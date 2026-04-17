@@ -666,3 +666,21 @@ body {
   transform: translateY(-2px);
   opacity: 0.9;
 }
+/* ===== lo ultimo que agregue si no funciona borrar ===== */
+
+.notificaciones {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 999;
+}
+
+.notif {
+  background: #111827;
+  color: white;
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  animation: fadeIn 0.3s ease;
+}
