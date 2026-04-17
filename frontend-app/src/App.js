@@ -149,7 +149,10 @@ pushNotif("🎫 Ticket creado");
   };
 
   const cambiarEstado = async (id, estado) => {
-    await axios.put(`${API}/tickets/${id}/estado`, { estado });
+   await axios.put(`${API}/tickets/${id}/estado`, {
+  estado,
+  user: user.username
+});
 
     // 🔥 NOTIFICACIÓN
    pushNotif("🔄 Estado actualizado");
@@ -212,6 +215,7 @@ pushNotif("🎫 Ticket creado");
             <div>
               <div className="label">Estatus</div>
               <select
+  disabled={!hasPermission("tickets")}
                 className={`status-select ${t.estado.replace(" ", "-")}`}
                 value={t.estado}
                 onChange={(e) => cambiarEstado(t._id, e.target.value)}

@@ -41,18 +41,17 @@ const ticketSchema = new mongoose.Schema({
 const Ticket = mongoose.model("Ticket", ticketSchema);
 
 // 🔥 LOGIN SIMPLE
-app.post("/login", (req, res) => {
-  res.json({
-    username: req.body.username,
-    role: "admin",
-    permisos: {
-      dashboard: true,
-      tickets: true,
-      create: true,
-      kanban: true,
-      users: true
-    }
-  });
+
+app.post("/login", async (req, res) => {
+  const { username, password } = req.body;
+
+  const user = await User.findOne({ username, password });
+
+  if (!user) {
+    return res.status(401).send("Credenciales incorrectas");
+  }
+
+  res.json(user);
 });
 
 // 🔥 USERS
@@ -71,8 +70,13 @@ app.post("/users", async (req, res) => {
 
 // 🔥 ELIMINAR USUARIO
 app.delete("/users/:id", async (req, res) => {
-  await User.findByIdAndDelete(req.params.id);
-  res.json({ ok: true });
+  try {
+    await User.findByIdAndDelete(req.params.id);
+    res.json({ ok: true });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error al eliminar usuario");
+  }
 });
 
 // 🔥 ACTUALIZAR USUARIO (permisos, etc)
@@ -115,14 +119,17 @@ app.post("/tickets", async (req, res) => {
 
 // 🔥 CAMBIAR ESTADO
 app.put("/tickets/:id/estado", async (req, res) => {
-  try {
-    const { estado } = req.body;
-    await Ticket.findByIdAndUpdate(req.params.id, { estado });
-    res.json({ ok: true });
-  } catch (err) {
-    console.log(err);
-    res.status(500).send("Error interno");
+  const { estado, user } = req.body;
+
+  const dbUser = await User.findOne({ username: user });
+
+  if (!dbUser || !dbUser.permisos?.tickets) {
+    return res.status(403).send("Sin permiso");
   }
+
+  await Ticket.findByIdAndUpdate(req.params.id, { estado });
+
+  res.json({ ok: true });
 });
 
 // 🔥 COMENTARIO
