@@ -214,8 +214,8 @@ pushNotif("🎫 Ticket creado");
 
             <div>
               <div className="label">Estatus</div>
-              <select
-  disabled={!hasPermission("tickets")}
+            <select
+  disabled={user.role !== "admin"}
                 className={`status-select ${t.estado.replace(" ", "-")}`}
                 value={t.estado}
                 onChange={(e) => cambiarEstado(t._id, e.target.value)}

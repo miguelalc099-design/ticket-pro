@@ -119,17 +119,24 @@ app.post("/tickets", async (req, res) => {
 
 // 🔥 CAMBIAR ESTADO
 app.put("/tickets/:id/estado", async (req, res) => {
-  const { estado, user } = req.body;
+  try {
+    const { estado, user } = req.body;
 
-  const dbUser = await User.findOne({ username: user });
+    const dbUser = await User.findOne({ username: user });
 
-  if (!dbUser || !dbUser.permisos?.tickets) {
-    return res.status(403).send("Sin permiso");
+    // 🔒 SOLO ADMIN PUEDE CAMBIAR ESTADO
+    if (!dbUser || dbUser.role !== "admin") {
+      return res.status(403).send("Solo admin puede cambiar estado");
+    }
+
+    await Ticket.findByIdAndUpdate(req.params.id, { estado });
+
+    res.json({ ok: true });
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error");
   }
-
-  await Ticket.findByIdAndUpdate(req.params.id, { estado });
-
-  res.json({ ok: true });
 });
 
 // 🔥 COMENTARIO
