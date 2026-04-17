@@ -9,7 +9,7 @@ app.use(cors());
 app.use(express.json());
 
 // 🔥 CONEXIÓN MONGO (AGREGADO)
-mongoose.connect("mongodb://appuser:MiPass1234@ac-zwgc44u-shard-00-00.qlsaznk.mongodb.net:27017,ac-zwgc44u-shard-00-01.qlsaznk.mongodb.net:27017,ac-zwgc44u-shard-00-02.qlsaznk.mongodb.net:27017/tickets?ssl=true&replicaSet=atlas-11dtrn-shard-0&authSource=admin")
+mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("🔥 Mongo conectado"))
   .catch(err => console.log(err));
 
@@ -270,6 +270,8 @@ app.get("/stats", (req, res) => {
 });
 
 // ---------------- SERVER ----------------
-app.listen(3001, () => {
-  console.log("🚀 Server running on http://localhost:3001");
+const PORT = process.env.PORT || 3001;
+
+app.listen(PORT, () => {
+  console.log("🚀 Server running on port " + PORT);
 });
