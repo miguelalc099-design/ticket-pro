@@ -68,7 +68,7 @@ function App() {
       `${API}/tickets?user=${u.username}&role=${u.role}`
     );
     setTickets(res.data);
-    setCount(res.data.length);
+   
     setLoading(false);
   };
 
