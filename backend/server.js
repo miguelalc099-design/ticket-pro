@@ -7,11 +7,9 @@ app.use(cors());
 app.use(express.json());
 
 // 🔥 CONEXIÓN MONGO
-mongoose.connect("mongodb://appuser:MiPass1234@ac-zwgc44u-shard-00-00.qlsaznk.mongodb.net:27017,ac-zwgc44u-shard-00-01.qlsaznk.mongodb.net:27017,ac-zwgc44u-shard-00-02.qlsaznk.mongodb.net:27017/tickets?ssl=true&replicaSet=atlas-11dtrn-shard-0&authSource=admin")
-  .then(() => console.log("🔥 Mongo conectado")
+mongoose.connect("mongodb+srv://appuser:MiPass1234@cluster0.qlsaznk.mongodb.net/tickets?retryWrites=true&w=majority")
   .then(() => console.log("🔥 Mongo conectado"))
-  .catch(err => console.log(err));
-
+  .catch(err => console.log("❌ Error Mongo:", err));
 // 🔥 MODELO
 const ticketSchema = new mongoose.Schema({
   titulo: String,
