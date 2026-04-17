@@ -38,11 +38,11 @@ function App() {
   const [filtroEstado, setFiltroEstado] = useState("Todos");
   const [filtroPrioridad, setFiltroPrioridad] = useState("Todas");
 
-  const hasPermission = (perm) => {
-    if (!user) return false;
-    if (user.role === "admin") return true;
-    return user.permisos?.[perm];
-  };
+ const hasPermission = (perm) => {
+  if (!user) return false;
+  if (user.role === "admin") return true;
+  return user.permisos?.[perm] === true;
+};
 
   const login = async () => {
     try {

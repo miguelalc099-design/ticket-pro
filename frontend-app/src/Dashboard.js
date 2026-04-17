@@ -26,7 +26,7 @@ function Dashboard() {
   const load = async (params = {}) => {
     try {
       const resStats = await axios.get(`${API}/stats`, { params });
-      const resTickets = await axios.get(`${API}/tickets?role=admin`);
+      const resTickets = await axios.get(`${API}/tickets`);
 
       let filteredTickets = resTickets.data || [];
 
@@ -65,8 +65,8 @@ function Dashboard() {
     load();
   };
 
-  // 🔥 PROTECCIÓN (CLAVE)
-  if (!data || !data.porSemana) {
+  // 🔥 PROTECCIÓN TOTAL
+  if (!data) {
     return <div className="card">Cargando dashboard...</div>;
   }
 
@@ -107,6 +107,7 @@ function Dashboard() {
         </div>
       </div>
 
+      {/* ESTATUS */}
       <div className="card">
         <h4>📌 Estado de tickets</h4>
         <Bar data={{
@@ -119,53 +120,65 @@ function Dashboard() {
         }} />
       </div>
 
-      <div className="card">
-        <h4>📅 Tickets por semana</h4>
-        <Bar data={{
-          labels: data.porSemana.map(d => d.semana),
-          datasets: [{
-            data: data.porSemana.map(d => d.total),
-            backgroundColor: "#f97316",
-            borderRadius: 6
-          }]
-        }} />
-      </div>
+      {/* SEMANA */}
+      {data.porSemana?.length > 0 && (
+        <div className="card">
+          <h4>📅 Tickets por semana</h4>
+          <Bar data={{
+            labels: data.porSemana.map(d => d.semana),
+            datasets: [{
+              data: data.porSemana.map(d => d.total),
+              backgroundColor: "#f97316",
+              borderRadius: 6
+            }]
+          }} />
+        </div>
+      )}
 
-      <div className="card">
-        <h4>👤 Tickets por usuario</h4>
-        <Bar data={{
-          labels: data.porUsuario.map(d => d.usuario),
-          datasets: [{
-            data: data.porUsuario.map(d => d.total),
-            backgroundColor: "#3b82f6",
-            borderRadius: 6
-          }]
-        }} />
-      </div>
+      {/* USUARIO */}
+      {data.porUsuario?.length > 0 && (
+        <div className="card">
+          <h4>👤 Tickets por usuario</h4>
+          <Bar data={{
+            labels: data.porUsuario.map(d => d.usuario),
+            datasets: [{
+              data: data.porUsuario.map(d => d.total),
+              backgroundColor: "#3b82f6",
+              borderRadius: 6
+            }]
+          }} />
+        </div>
+      )}
 
-      <div className="card">
-        <h4>📆 Tickets por mes</h4>
-        <Bar data={{
-          labels: data.porMes.map(d => d.mes),
-          datasets: [{
-            data: data.porMes.map(d => d.total),
-            backgroundColor: "#22c55e",
-            borderRadius: 6
-          }]
-        }} />
-      </div>
+      {/* MES */}
+      {data.porMes?.length > 0 && (
+        <div className="card">
+          <h4>📆 Tickets por mes</h4>
+          <Bar data={{
+            labels: data.porMes.map(d => d.mes),
+            datasets: [{
+              data: data.porMes.map(d => d.total),
+              backgroundColor: "#22c55e",
+              borderRadius: 6
+            }]
+          }} />
+        </div>
+      )}
 
-      <div className="card">
-        <h4>🔥 Tickets por prioridad</h4>
-        <Bar data={{
-          labels: data.porPrioridad.map(d => d.prioridad),
-          datasets: [{
-            data: data.porPrioridad.map(d => d.total),
-            backgroundColor: ["#22c55e", "#facc15", "#ef4444"],
-            borderRadius: 6
-          }]
-        }} />
-      </div>
+      {/* PRIORIDAD */}
+      {data.porPrioridad?.length > 0 && (
+        <div className="card">
+          <h4>🔥 Tickets por prioridad</h4>
+          <Bar data={{
+            labels: data.porPrioridad.map(d => d.prioridad),
+            datasets: [{
+              data: data.porPrioridad.map(d => d.total),
+              backgroundColor: ["#22c55e", "#facc15", "#ef4444"],
+              borderRadius: 6
+            }]
+          }} />
+        </div>
+      )}
 
     </div>
   );
