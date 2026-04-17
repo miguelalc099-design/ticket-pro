@@ -16,7 +16,7 @@ function App() {
   const [password, setPassword] = useState("");
 
   const [tickets, setTickets] = useState([]);
-  const [count, setCount] = useState(0);
+ 
 
   const [titulo, setTitulo] = useState("");
   const [descripcion, setDescripcion] = useState("");
@@ -37,7 +37,7 @@ function App() {
   const [filtroEstado, setFiltroEstado] = useState("Todos");
   const [filtroPrioridad, setFiltroPrioridad] = useState("Todas");
 
-  const isAdmin = user?.role === "admin";
+ // const isAdmin = user?.role === "admin";
 
   // 🔥 NUEVO: permisos reales
   const hasPermission = (perm) => {
