@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-const API = "http://localhost:3001";
+const API = "https://ticket-pro-backend.onrender.com";
 
 function AdminPanel() {
   const [users, setUsers] = useState([]);
@@ -53,7 +53,7 @@ function AdminPanel() {
       }
     };
 
-    await axios.put(`${API}/users/${user.id}`, updated);
+    await axios.put(`${API}/users/${user._id}`, updated);
     loadUsers();
   };
 
@@ -97,7 +97,7 @@ function AdminPanel() {
         </div>
 
         {users.map((u) => (
-          <div key={u.id} className="users-row">
+          <div key={u._id} className="users-row">
 
             {/* USER */}
             <div className="user-info">
@@ -117,10 +117,10 @@ function AdminPanel() {
             {/* PASSWORD */}
             <div className="user-password">
               <span>
-                {showPass[u.id] ? u.password : "••••••••"}
+                {showPass[u._id] ? u.password : "••••••••"}
               </span>
 
-              <button onClick={() => toggleShowPass(u.id)}>
+              <button onClick={() => toggleShowPass(u._id)}>
                 👁
               </button>
             </div>
@@ -141,11 +141,11 @@ function AdminPanel() {
 
             {/* ACCIONES */}
             <div className="user-actions">
-              <button onClick={() => changePassword(u.id)}>
+              <button onClick={() => changePassword(u._id)}>
                 🔑
               </button>
 
-              <button onClick={() => deleteUser(u.id)}>
+              <button onClick={() => deleteUser(u._id)}>
                 ❌
               </button>
             </div>
