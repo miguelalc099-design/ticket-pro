@@ -7,7 +7,8 @@ app.use(cors());
 app.use(express.json());
 
 // 🔥 CONEXIÓN MONGO
-mongoose.connect("TU_URI_DE_MONGO_AQUI")
+mongoose.connect("mongodb://appuser:MiPass1234@ac-zwgc44u-shard-00-00.qlsaznk.mongodb.net:27017,ac-zwgc44u-shard-00-01.qlsaznk.mongodb.net:27017,ac-zwgc44u-shard-00-02.qlsaznk.mongodb.net:27017/tickets?ssl=true&replicaSet=atlas-11dtrn-shard-0&authSource=admin")
+  .then(() => console.log("🔥 Mongo conectado")
   .then(() => console.log("🔥 Mongo conectado"))
   .catch(err => console.log(err));
 
