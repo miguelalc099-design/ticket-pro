@@ -6,7 +6,7 @@ import Dashboard from "./Dashboard";
 import AdminPanel from "./AdminPanel";
 import KanbanBoard from "./KanbanBoard";
 
-const API = "http://localhost:3001";
+const API = "https://ticket-pro-backend.onrender.com";
 
 function App() {
   const [user, setUser] = useState(null);
