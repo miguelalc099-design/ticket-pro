@@ -85,7 +85,7 @@ const pushNotif = (msg) => {
       const nuevos = res.data || [];
 
       // 🔥 DETECTAR NUEVOS TICKETS
-      setTickets(prev => {
+      setTickets(() => {
         if (prev.length === 0) return nuevos;
 
         if (nuevos.length > prev.length) {
@@ -105,6 +105,7 @@ const pushNotif = (msg) => {
   useEffect(() => {
   if (user) {
     cargarTickets();
+setView("tickets");
   }
 }, [user]);
 
@@ -318,9 +319,12 @@ pushNotif("🎫 Ticket creado");
           {hasPermission("dashboard") && <button onClick={() => setView("dashboard")}>Dashboard</button>}
           {hasPermission("create") && <button onClick={() => setView("create")}>Crear</button>}
           {hasPermission("tickets") && (
-            <button onClick={() => setView("tickets")}>
-              Tickets ({ticketsFiltrados.length})
-            </button>
+            <button onClick={() => {
+  cargarTickets(); // 🔥 fuerza refresh
+  setView("tickets");
+}}>
+  Tickets ({tickets.length})
+</button>
           )}
           {hasPermission("kanban") && <button onClick={() => setView("kanban")}>Kanban</button>}
           {hasPermission("users") && <button onClick={() => setView("users")}>Usuarios</button>}
