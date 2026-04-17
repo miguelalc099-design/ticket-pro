@@ -1,4 +1,5 @@
 {
+"build": "react-scripts build && echo 'cache bust'"
   "name": "frontend-app",
   "version": "0.1.0",
   "private": true,
