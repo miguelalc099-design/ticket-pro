@@ -9,6 +9,19 @@ import KanbanBoard from "./KanbanBoard";
 const API = "https://ticket-pro-backend.onrender.com";
 
 function App() {
+
+const pushNotif = (msg) => {
+  const id = Date.now();
+
+  setNotificaciones((prev) => {
+    const nuevas = [{ id, msg }, ...prev].slice(0, 3); // 🔥 máximo 3 visibles
+    return nuevas;
+  });
+
+  setTimeout(() => {
+    setNotificaciones((prev) => prev.filter((n) => n.id !== id));
+  }, 3000);
+};
   const [user, setUser] = useState(() => {
     const saved = localStorage.getItem("user");
     return saved ? JSON.parse(saved) : null;
@@ -76,10 +89,7 @@ function App() {
         if (prev.length === 0) return nuevos;
 
         if (nuevos.length > prev.length) {
-          setNotificaciones(n => [
-            { msg: "🆕 Nuevo ticket creado", time: Date.now() },
-            ...n
-          ]);
+         pushNotif("🆕 Nuevo ticket creado");
         }
 
         return nuevos;
@@ -124,13 +134,7 @@ function App() {
       setSuccess("Ticket creado correctamente ✅");
 
       // 🔥 NOTIFICACIÓN
-    const nueva = { msg: "🎫 Ticket creado", id: Date.now() };
-
-setNotificaciones(n => [nueva, ...n]);
-
-setTimeout(() => {
-  setNotificaciones(n => n.filter(x => x.id !== nueva.id));
-}, 3000);
+pushNotif("🎫 Ticket creado");
 
       cargarTickets();
 
@@ -148,10 +152,7 @@ setTimeout(() => {
     await axios.put(`${API}/tickets/${id}/estado`, { estado });
 
     // 🔥 NOTIFICACIÓN
-    setNotificaciones(n => [
-      { msg: "🔄 Estado actualizado", time: Date.now() },
-      ...n
-    ]);
+   pushNotif("🔄 Estado actualizado");
 
     cargarTickets();
   };
@@ -165,10 +166,7 @@ setTimeout(() => {
     });
 
     // 🔥 NOTIFICACIÓN
-    setNotificaciones(n => [
-      { msg: "💬 Nuevo comentario", time: Date.now() },
-      ...n
-    ]);
+    pushNotif("💬 Nuevo comentario");
 
     cargarTickets();
   };
@@ -331,11 +329,19 @@ setTimeout(() => {
 
       <div className="content">
 
-        {view === "dashboard" && <Dashboard key={user?.username} />}
-        {view === "users" && <AdminPanel />}
-        {view === "kanban" && <KanbanBoard tickets={tickets} reload={cargarTickets} />}
+       {view === "dashboard" && hasPermission("dashboard") && (
+  <Dashboard key={user?.username} />
+)}
 
-        {view === "create" && (
+{view === "users" && hasPermission("users") && (
+  <AdminPanel />
+)}
+
+{view === "kanban" && hasPermission("kanban") && (
+  <KanbanBoard tickets={tickets} reload={cargarTickets} />
+)}
+
+{view === "create" && hasPermission("create") && (
           <div className="form-wrapper">
             <div className="form-card-pro">
 
@@ -385,8 +391,7 @@ setTimeout(() => {
             </div>
           </div>
         )}
-
-        {view === "tickets" && (
+{view === "tickets" && hasPermission("tickets") && (
           <div className="card">
             {loading ? <p>Cargando...</p> : ticketsFiltrados.map((t) => (
               <TicketItem key={t._id} t={t} />
