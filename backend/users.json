@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "username": "admin",
+    "password": "123",
+    "role": "admin",
+    "permisos": {
+      "users": true,
+      "kanban": true,
+      "create": true,
+      "tickets": true,
+      "dashboard": true
+    }
+  },
+  {
+    "id": 1776352887918,
+    "username": "Judith",
+    "password": "123",
+    "role": "user",
+    "permisos": {
+      "kanban": true,
+      "create": true,
+      "tickets": true
+    }
+  },
+  {
+    "id": 1776352899798,
+    "username": "oziel",
+    "password": "123",
+    "role": "user",
+    "permisos": {
+      "create": true,
+      "kanban": true,
+      "users": false,
+      "dashboard": false,
+      "tickets": true
+    }
+  },
+  {
+    "id": 1776352906957,
+    "username": "alondra",
+    "password": "123",
+    "role": "user",
+    "permisos": {
+      "create": true,
+      "kanban": true,
+      "tickets": true
+    }
+  }
+]

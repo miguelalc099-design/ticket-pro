@@ -1,0 +1,85 @@
+[
+  {
+    "id": 1776298489663,
+    "titulo": "ed",
+    "descripcion": "locos",
+    "usuario": "admin",
+    "estado": "En proceso",
+    "fecha": 1776298489663,
+    "comentarios": [
+      {
+        "usuario": "admin",
+        "texto": "hola",
+        "fecha": 1776359664213
+      }
+    ],
+    "asignado": "admin",
+    "prioridad": "Media"
+  },
+  {
+    "id": 1776352957924,
+    "titulo": "Impresora de oficina",
+    "descripcion": "No me deja imprimir y a los demás si",
+    "usuario": "oziel",
+    "estado": "Cerrado",
+    "fecha": 1776352957924,
+    "comentarios": [
+      {
+        "usuario": "admin",
+        "texto": "Ya se reparo",
+        "fecha": 1776359713170
+      },
+      {
+        "usuario": "oziel",
+        "texto": "gracias",
+        "fecha": 1776359725478
+      }
+    ],
+    "asignado": "Sin asignar",
+    "prioridad": "Media"
+  },
+  {
+    "id": 1776353027315,
+    "titulo": "Computadora no prende",
+    "descripcion": "mi compu no prende",
+    "usuario": "Judith",
+    "estado": "Cerrado",
+    "fecha": 1776353027315,
+    "comentarios": [],
+    "asignado": "admin",
+    "prioridad": "Media"
+  },
+  {
+    "id": 1776357829748,
+    "titulo": "3241",
+    "descripcion": "wfqwfqwwwwwwwwwwwwwwwwwwwwwwwwwwww",
+    "usuario": "oziel",
+    "estado": "Cerrado",
+    "fecha": 1776357829748,
+    "comentarios": [],
+    "asignado": "admin",
+    "prioridad": "Media"
+  },
+  {
+    "id": 1776361088696,
+    "titulo": "No funciona mi lap",
+    "descripcion": "lap no funciona",
+    "usuario": "admin",
+    "estado": "Abierto",
+    "fecha": 1776361088696,
+    "comentarios": [],
+    "asignado": "admin",
+    "prioridad": "Media"
+  },
+  {
+    "id": 1776381850240,
+    "titulo": "error de impresora",
+    "descripcion": "fjasfa f afaf",
+    "usuario": "alondra",
+    "asignado": "admin",
+    "prioridad": "Alta",
+    "estado": "Abierto",
+    "fecha": 1776381850240,
+    "comentarios": []
+  }
+]

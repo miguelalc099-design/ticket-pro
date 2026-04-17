@@ -1,0 +1,668 @@
+/* ================= BASE ================= */
+body {
+  margin: 0;
+  font-family: Arial;
+  background: #0f172a;
+  color: white;
+}
+
+/* ================= LOGIN ================= */
+.login-saas {
+  display: flex;
+  height: 100vh;
+}
+
+.login-left {
+  flex: 1;
+  background: linear-gradient(135deg, #3b82f6, #1e3a8a);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 60px;
+}
+
+.login-left h1 {
+  font-size: 42px;
+}
+
+.login-left p {
+  color: #cbd5f5;
+}
+
+.login-right {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #020617;
+}
+
+.login-card-pro {
+  background: #0f172a;
+  padding: 35px;
+  border-radius: 14px;
+  width: 320px;
+  text-align: center;
+  border: 1px solid #1e293b;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+}
+
+.logo-login {
+  width: 150px;
+  margin-bottom: 10px;
+}
+
+.login-card-pro input {
+  width: 100%;
+  padding: 12px;
+  margin: 12px 0;
+  background: #020617;
+  color: white;
+  border: 2px solid #1e293b;
+  border-radius: 10px;
+}
+
+.login-card-pro button {
+  width: 100%;
+  padding: 12px;
+  background: #3b82f6;
+  border: none;
+  border-radius: 8px;
+  color: white;
+}
+
+/* ================= LAYOUT ================= */
+.layout {
+  display: flex;
+  height: 100vh;
+}
+
+/* ================= SIDEBAR ================= */
+.sidebar {
+  width: 240px;
+  background: linear-gradient(180deg, #020617, #0f172a);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.logo-box {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 15px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.logo {
+  width: 600px;
+}
+
+.user-name {
+  font-size: 10px;
+  font-weight: 500;
+  color: #3b82f6;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.menu button {
+  padding: 12px;
+  background: transparent;
+  border: none;
+  color: #cbd5f5;
+  border-radius: 10px;
+  text-align: left;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.menu button:hover {
+  background: rgba(255,255,255,0.05);
+  transform: translateX(3px);
+}
+
+.menu button.active {
+  background: rgba(59,130,246,0.15);
+  color: white;
+}
+
+/* ================= CONTENT ================= */
+.content {
+  flex: 1;
+  padding: 20px;
+}
+
+/* ================= CARD ================= */
+.card {
+  background: #111827;
+  padding: 20px;
+  border-radius: 12px;
+}
+
+/* ================= TICKETS ================= */
+.ticket-pro {
+  background: linear-gradient(145deg, #1f2937, #020617);
+  padding: 18px;
+  border-radius: 14px;
+  margin-top: 12px;
+  border: 1px solid #1e293b;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ticket-header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.ticket-title {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.ticket-user {
+  font-size: 13px;
+  color: #94a3b8;
+}
+
+.ticket-date {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.label {
+  font-size: 11px;
+  color: #64748b;
+}
+
+.ticket-grid {
+  display: flex;
+  gap: 25px;
+}
+
+/* PRIORIDAD */
+.priority {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.priority.Alta {
+  background: rgba(239,68,68,0.2);
+  color: #ef4444;
+}
+
+.priority.Media {
+  background: rgba(234,179,8,0.2);
+  color: #eab308;
+}
+
+.priority.Baja {
+  background: rgba(34,197,94,0.2);
+  color: #22c55e;
+}
+
+/* STATUS */
+.status-select {
+  border-radius: 20px;
+  padding: 4px 10px;
+  font-size: 12px;
+  border: none;
+}
+
+.status-select.Abierto {
+  background: rgba(59,130,246,0.2);
+  color: #3b82f6;
+}
+
+.status-select.En-proceso {
+  background: rgba(234,179,8,0.2);
+  color: #eab308;
+}
+
+.status-select.Cerrado {
+  background: rgba(34,197,94,0.2);
+  color: #22c55e;
+}
+
+.ticket-description p {
+  color: #cbd5f5;
+}
+
+/* COMMENTS */
+.comment {
+  background: #020617;
+  border: 1px solid #1e293b;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+/* ================= FORM ================= */
+.form-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.form-card {
+  width: 100%;
+  max-width: 500px;
+  background: #111827;
+  padding: 30px;
+  border-radius: 14px;
+}
+
+.form-input,
+.form-textarea {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 12px;
+  background: #020617;
+  color: white;
+  border: 1px solid #1e293b;
+  border-radius: 8px;
+}
+
+/* FILTROS */
+.filters-bar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.filters-bar input,
+.filters-bar select {
+  background: #020617;
+  border: 1px solid #1e293b;
+  color: white;
+  padding: 8px;
+  border-radius: 8px;
+}
+
+/* ALERTAS */
+.alert {
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  font-size: 13px;
+}
+
+.alert.error {
+  background: rgba(239,68,68,0.2);
+  color: #ef4444;
+}
+
+.alert.success {
+  background: rgba(34,197,94,0.2);
+  color: #22c55e;
+}
+/* ================= RESTORE KANBAN ================= */
+
+.kanban-container {
+  display: flex;
+  gap: 15px;
+}
+
+.kanban-column {
+  flex: 1;
+  background: #020617;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.kanban-card {
+  background: #1e293b;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+/* ================= RESTORE USERS ================= */
+
+.users-table {
+  margin-top: 20px;
+}
+
+.users-header {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1.5fr 3fr 1fr;
+  padding: 10px;
+  font-size: 13px;
+  color: #94a3b8;
+}
+
+.users-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1.5fr 3fr 1fr;
+  align-items: center;
+  background: #020617;
+  border: 1px solid #1e293b;
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 10px;
+}
+
+.users-row:hover {
+  background: #1e293b;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  background: #3b82f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-weight: bold;
+}
+
+.role {
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+.role.admin {
+  background: #22c55e;
+}
+
+.role.user {
+  background: #3b82f6;
+}
+
+.permisos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.permisos label {
+  background: #1e293b;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+}
+
+.user-actions {
+  display: flex;
+  gap: 5px;
+}
+
+.user-actions button {
+  padding: 6px;
+  border-radius: 6px;
+  border: none;
+}
+
+.user-actions button:first-child {
+  background: #3b82f6;
+}
+
+.user-actions button:last-child {
+  background: #ef4444;
+}
+/* ===== FIX INPUT COMENTARIOS (SIN ROMPER) ===== */
+
+.comments {
+  background: #0f172a;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.comment-input {
+  width: 100%;
+  max-width: 100%;
+  min-height: 70px;
+
+  margin-top: 8px;
+
+  background: #020617;
+  color: white;
+
+  border: 1px solid #1e293b;
+  border-radius: 8px;
+
+  padding: 10px;
+
+  resize: vertical;
+  box-sizing: border-box;
+
+  outline: none;
+}
+
+/* focus bonito */
+.comment-input:focus {
+  border-color: #3b82f6;
+}
+/* ===== LOGO + USUARIO BIEN ACOMODADO ===== */
+
+.sidebar .logo-box {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+
+  padding: 15px 10px !important;
+  gap: 10px !important;
+}
+
+/* logo más compacto */
+.sidebar .logo {
+  width: 55px !important;
+  height: auto !important;
+}
+
+/* usuario más abajo y visible este es el bueno para modificar el nombre del usuario */
+.sidebar .user-name {
+  margin-top: 200px !important;
+  font-size: 20px !important;
+  font-weight: 700 !important;
+  color: #000000 !important;
+}
+
+/* ===== FIX FINAL SIN ROMPER NADA ===== */
+
+/* 1. separar visualmente usuario del logo */
+.sidebar .user-name {
+  margin-top: 10px !important;
+  padding-top: 8px !important;
+
+  border-top: 2px solid rgba(0,0,0,0.15);
+
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
+/* 2. reducir tamaño del logo (sin afectar layout) */
+.sidebar .logo {
+  width: 150px !important;
+}
+
+/* 3. FIX botón salir (ya no usa last-child) */
+.sidebar > button {
+  margin-top: 20px;
+
+  background: rgba(239,68,68,0.15);
+  color: #ef4444;
+
+  border: none;
+  border-radius: 10px;
+
+  padding: 10px;
+  font-size: 13px;
+
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.sidebar > button:hover {
+  background: #ef4444;
+  color: white;
+}
+/* ===== SELECT CON COLOR (VISIBLE) ===== */
+
+.status-select.Abierto {
+  background: rgba(59,130,246,0.2) !important;
+  color: #3b82f6 !important;
+}
+
+.status-select.En-proceso {
+  background: rgba(234,179,8,0.2) !important;
+  color: #eab308 !important;
+}
+
+.status-select.Cerrado {
+  background: rgba(34,197,94,0.2) !important;
+  color: #22c55e !important;
+}
+
+/* ===== DROPDOWN NEUTRO ===== */
+
+.status-select option {
+  background: #020617 !important;
+  color: white !important;
+}
+/* FIX PROFESIONAL BOTON SALIR */
+.logout-btn {
+  background: rgba(239,68,68,0.15) !important;
+  color: #ef4444 !important;
+}
+
+.logout-btn:hover {
+  background: #ef4444 !important;
+  color: white !important;
+}
+/* KPIs PRO */
+.kpis {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.kpi {
+  background: #020617;
+  padding: 18px;
+  border-radius: 12px;
+  text-align: center;
+  border: 1px solid #1e293b;
+  transition: 0.2s;
+}
+
+.kpi:hover {
+  transform: translateY(-3px);
+}
+
+.kpi h3 {
+  font-size: 26px;
+  margin: 0;
+}
+
+.kpi p {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.kpi.blue { border-left: 4px solid #3b82f6; }
+.kpi.yellow { border-left: 4px solid #facc15; }
+.kpi.orange { border-left: 4px solid #f97316; }
+.kpi.green { border-left: 4px solid #22c55e; }
+.kpi.red {
+  border-left: 4px solid #ef4444;
+}
+/* ===== FORM PRO ===== */
+
+.form-card-pro {
+  width: 100%;
+  max-width: 550px;
+  background: linear-gradient(145deg, #111827, #020617);
+  padding: 30px;
+  border-radius: 16px;
+  border: 1px solid #1e293b;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form-header h2 {
+  margin: 0;
+}
+
+.form-header p {
+  font-size: 13px;
+  color: #94a3b8;
+  margin-top: 5px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #1e293b;
+  background: #020617;
+  color: white;
+  outline: none;
+  transition: 0.2s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  border-color: #3b82f6;
+}
+
+.form-row {
+  display: flex;
+  gap: 15px;
+}
+
+.btn-primary {
+  margin-top: 10px;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
