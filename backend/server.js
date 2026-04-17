@@ -12,6 +12,15 @@ mongoose.connect("mongodb+srv://appuser:MiPass1234@cluster0.qlsaznk.mongodb.net/
   .catch(err => console.log("❌ Error Mongo:", err));
 
 // 🔥 MODELO
+const userSchema = new mongoose.Schema({
+  username: String,
+  password: String,
+  role: String,
+  permisos: Object
+});
+
+const User = mongoose.model("User", userSchema);
+
 const ticketSchema = new mongoose.Schema({
   titulo: String,
   descripcion: String,
@@ -47,9 +56,39 @@ app.post("/login", (req, res) => {
 });
 
 // 🔥 USERS
-app.get("/users", (req, res) => {
-  res.json([{ _id: "1", username: "admin" }]);
+// 🔥 OBTENER USUARIOS
+app.get("/users", async (req, res) => {
+  const users = await User.find();
+  res.json(users);
 });
+
+// 🔥 CREAR USUARIO
+app.post("/users", async (req, res) => {
+  const user = new User(req.body);
+  await user.save();
+  res.json(user);
+});
+
+// 🔥 ELIMINAR USUARIO
+app.delete("/users/:id", async (req, res) => {
+  await User.findByIdAndDelete(req.params.id);
+  res.json({ ok: true });
+});
+
+// 🔥 ACTUALIZAR USUARIO (permisos, etc)
+app.put("/users/:id", async (req, res) => {
+  await User.findByIdAndUpdate(req.params.id, req.body);
+  res.json({ ok: true });
+});
+
+// 🔥 CAMBIAR PASSWORD
+app.put("/users/:id/password", async (req, res) => {
+  await User.findByIdAndUpdate(req.params.id, {
+    password: req.body.password
+  });
+  res.json({ ok: true });
+});
+
 
 // 🔥 GET TICKETS
 app.get("/tickets", async (req, res) => {
@@ -114,15 +153,32 @@ app.get("/stats", async (req, res) => {
   try {
     const tickets = await Ticket.find();
 
+    const porUsuario = {};
+    const porPrioridad = {};
+    const porMes = {};
+
+    tickets.forEach(t => {
+      // usuario
+      porUsuario[t.usuario] = (porUsuario[t.usuario] || 0) + 1;
+
+      // prioridad
+      porPrioridad[t.prioridad] = (porPrioridad[t.prioridad] || 0) + 1;
+
+      // mes
+      const mes = new Date(t.fecha).toLocaleString("es-MX", { month: "short" });
+      porMes[mes] = (porMes[mes] || 0) + 1;
+    });
+
     res.json({
       porSemana: [],
-      porUsuario: [],
-      porMes: [],
-      porPrioridad: []
+      porUsuario: Object.entries(porUsuario).map(([usuario, total]) => ({ usuario, total })),
+      porMes: Object.entries(porMes).map(([mes, total]) => ({ mes, total })),
+      porPrioridad: Object.entries(porPrioridad).map(([prioridad, total]) => ({ prioridad, total }))
     });
+
   } catch (err) {
     console.log(err);
-    res.status(500).send("Error interno");
+    res.status(500).send("Error");
   }
 });
 

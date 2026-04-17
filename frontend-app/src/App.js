@@ -93,21 +93,10 @@ function App() {
   };
 
   useEffect(() => {
-    if (user) {
-      cargarTickets();
-      cargarUsuarios();
-    }
-  }, [user]);
-
-  useEffect(() => {
-    if (!user) return;
-
-    const interval = setInterval(() => {
-      cargarTickets();
-    }, 3000);
-
-    return () => clearInterval(interval);
-  }, [user]);
+  if (user) {
+    cargarTickets();
+  }
+}, [user]);
 
   const crearTicket = async () => {
     setError("");
@@ -135,10 +124,13 @@ function App() {
       setSuccess("Ticket creado correctamente ✅");
 
       // 🔥 NOTIFICACIÓN
-      setNotificaciones(n => [
-        { msg: "🎫 Ticket creado", time: Date.now() },
-        ...n
-      ]);
+    const nueva = { msg: "🎫 Ticket creado", id: Date.now() };
+
+setNotificaciones(n => [nueva, ...n]);
+
+setTimeout(() => {
+  setNotificaciones(n => n.filter(x => x.id !== nueva.id));
+}, 3000);
 
       cargarTickets();
 
