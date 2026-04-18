@@ -46,13 +46,25 @@ const Ticket = mongoose.model("Ticket", ticketSchema);
 app.post("/login", async (req, res) => {
   const { username, password } = req.body;
 
-  const user = await User.findOne({ username, password });
+  try {
+    const user = await User.findOne({ username });
 
-  if (!user) {
-    return res.status(401).send("Credenciales incorrectas");
+    if (!user) {
+      return res.status(401).send("Usuario no encontrado");
+    }
+
+    const valid = await bcrypt.compare(password, user.password);
+
+    if (!valid) {
+      return res.status(401).send("Contraseña incorrecta");
+    }
+
+    res.json(user);
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error en login");
   }
-
-  res.json(user);
 });
 
 // 🔥 USERS
@@ -111,9 +123,12 @@ app.put("/users/:id", async (req, res) => {
 
 // 🔥 CAMBIAR PASSWORD
 app.put("/users/:id/password", async (req, res) => {
+  const hashedPassword = await bcrypt.hash(req.body.password, 10);
+
   await User.findByIdAndUpdate(req.params.id, {
-    password: req.body.password
+    password: hashedPassword
   });
+
   res.json({ ok: true });
 });
 
