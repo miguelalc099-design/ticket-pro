@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const bcrypt = require("bcrypt");
 
 const app = express();
 app.use(cors());
@@ -63,9 +64,32 @@ app.get("/users", async (req, res) => {
 
 // 🔥 CREAR USUARIO
 app.post("/users", async (req, res) => {
-  const user = new User(req.body);
-  await user.save();
-  res.json(user);
+  const { username, password } = req.body;
+
+  try {
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const user = new User({
+      username,
+      password: hashedPassword,
+      role: "user",
+      permisos: {
+        dashboard: true,
+        tickets: true,
+        create: true,
+        kanban: false,
+        users: false
+      }
+    });
+
+    await user.save();
+
+    res.json(user);
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error al crear usuario");
+  }
 });
 
 // 🔥 ELIMINAR USUARIO
