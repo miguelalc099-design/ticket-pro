@@ -85,15 +85,15 @@ const pushNotif = (msg) => {
       const nuevos = res.data || [];
 
       // 🔥 DETECTAR NUEVOS TICKETS
-      setTickets(() => {
-        if (prev.length === 0) return nuevos;
+      setTickets((prev) => {
+  if (prev.length === 0) return nuevos;
 
-        if (nuevos.length > prev.length) {
-         pushNotif("🆕 Nuevo ticket creado");
-        }
+  if (nuevos.length > prev.length) {
+    pushNotif("🆕 Nuevo ticket creado");
+  }
 
-        return nuevos;
-      });
+  return nuevos;
+});
 
     } catch (err) {
       console.error("Error tickets:", err);
