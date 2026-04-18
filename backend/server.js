@@ -165,7 +165,18 @@ app.post("/tickets/:id/comentario", async (req, res) => {
 // 🔥 STATS
 app.get("/stats", async (req, res) => {
   try {
-    const tickets = await Ticket.find();
+    const { start, end } = req.query;
+
+let filtro = {};
+
+if (start && end) {
+  filtro.fecha = {
+    $gte: new Date(start),
+    $lte: new Date(end)
+  };
+}
+
+const tickets = await Ticket.find(filtro);
 
     const porUsuario = {};
     const porPrioridad = {};
