@@ -5,6 +5,7 @@ import logo from "./assets/logo.png";
 import Dashboard from "./Dashboard";
 import AdminPanel from "./AdminPanel";
 import KanbanBoard from "./KanbanBoard";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 
 const API = "https://ticket-pro-backend.onrender.com";
 
@@ -408,6 +409,7 @@ pushNotif("🎫 Ticket creado");
         )}
 
       </div>
+      <SpeedInsights />
     </div>
   );
 }
