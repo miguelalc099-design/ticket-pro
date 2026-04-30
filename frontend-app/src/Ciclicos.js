@@ -7,22 +7,18 @@ const API = "https://ticket-pro-backend.onrender.com";
 function Ciclicos() {
 
   const [modo, setModo] = useState("inicio");
-
   const [sku, setSku] = useState("");
   const [item, setItem] = useState(null);
-
   const [captura, setCaptura] = useState([]);
   const [conteo, setConteo] = useState("");
 
-  // 📥 SUBIR EXCEL
-
+  // 📥 INVENTARIO
   const subirExcel = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
     const data = await file.arrayBuffer();
     const workbook = XLSX.read(data);
-
     const sheet = workbook.Sheets[workbook.SheetNames[0]];
     const json = XLSX.utils.sheet_to_json(sheet);
 
@@ -32,14 +28,32 @@ function Ciclicos() {
       existencia: row["Existencia"] || 0
     }));
 
-    await axios.post(`${API}/inventario/upload`, {
-      data: limpio
-    });
+    await axios.post(`${API}/inventario/upload`, { data: limpio });
 
-    alert("Inventario cargado correctamente 🔥");
+    alert("Inventario cargado 🔥");
   };
 
-  // 🔍 CONSULTA NORMAL
+  // 📋 CATALOGO
+  const subirCatalogo = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const data = await file.arrayBuffer();
+    const workbook = XLSX.read(data);
+    const sheet = workbook.Sheets[workbook.SheetNames[0]];
+    const json = XLSX.utils.sheet_to_json(sheet);
+
+    const limpio = json.map(row => ({
+      sku: row["Código del artículo"] || row["Codigo"] || row["SKU"],
+      articulo: row["Artículo"] || row["Descripcion"]
+    }));
+
+    await axios.post(`${API}/catalogo/upload`, { data: limpio });
+
+    alert("Catálogo cargado 🔥");
+  };
+
+  // 🔍 BUSCAR NORMAL
   const buscar = async () => {
     if (!sku) return;
 
@@ -51,7 +65,7 @@ function Ciclicos() {
     }
   };
 
-  // 🔍 BUSCAR PARA CICLICO (CON CATALOGO)
+  // 🔍 BUSCAR CICLICO (CON CATALOGO)
   const buscarParaCiclico = async () => {
     if (!sku) return;
 
@@ -63,24 +77,7 @@ function Ciclicos() {
         return;
       }
 
-      const buscarParaCiclico = async () => {
-  if (!sku) return;
-
-  try {
-    const res = await axios.get(`${API}/inventario/${sku}`);
-
-    if (res.data) {
-      setItem(res.data);
-      return;
-    }
-
-    // 🔥 mientras no haya catálogo
-    alert("SKU no encontrado en inventario");
-
-  } catch {
-    alert("Error conexión");
-  }
-};
+      const cat = await axios.get(`${API}/catalogo/${sku}`);
 
       if (cat.data) {
         setItem({
@@ -94,17 +91,15 @@ function Ciclicos() {
 
       alert("SKU no existe");
 
-    } catch (err) {
-      console.log(err);
+    } catch {
       alert("Error conexión");
     }
   };
 
-  // ➕ AGREGAR AL CICLICO
+  // ➕ AGREGAR
   const agregar = () => {
     if (!item || conteo === "") return;
 
-    // 🔒 evitar duplicados
     if (captura.find(i => i.sku === item.sku)) {
       alert("SKU ya capturado");
       return;
@@ -119,7 +114,6 @@ function Ciclicos() {
 
     setCaptura([...captura, nuevo]);
 
-    // limpiar
     setSku("");
     setItem(null);
     setConteo("");
@@ -130,35 +124,20 @@ function Ciclicos() {
 
       <h2>📦 Módulo Cíclicos</h2>
 
-      {/* 📥 SUBIR EXCEL */}
       <div style={{ marginBottom: "20px" }}>
-        <label>📥 Subir Inventario Excel</label><br />
+        <label>📥 Inventario</label><br />
         <input type="file" onChange={subirExcel} />
       </div>
-<div style={{ marginBottom: "20px" }}>
-  <label>📋 Subir Catálogo (solo códigos)</label><br />
-  <input type="file" onChange={subirCatalogo} />
-</div>
 
-      {/* ================= INICIO ================= */}
+      <div style={{ marginBottom: "20px" }}>
+        <label>📋 Catálogo</label><br />
+        <input type="file" onChange={subirCatalogo} />
+      </div>
+
       {modo === "inicio" && (
         <>
-          {/* 🔍 BUSCADOR */}
-          <div style={{ marginBottom: "20px" }}>
-            <input
-              placeholder="Buscar SKU"
-              value={sku}
-              onChange={(e) => setSku(e.target.value)}
-            />
-            <button onClick={buscar}>Buscar</button>
-
-            {item && (
-              <div>
-                <p><b>Artículo:</b> {item.articulo}</p>
-                <p><b>Existencia:</b> {item.existencia}</p>
-              </div>
-            )}
-          </div>
+          <input value={sku} onChange={(e) => setSku(e.target.value)} />
+          <button onClick={buscar}>Buscar</button>
 
           <button onClick={() => setModo("captura")}>
             Nuevo Cíclico
@@ -166,16 +145,9 @@ function Ciclicos() {
         </>
       )}
 
-      {/* ================= CAPTURA ================= */}
       {modo === "captura" && (
         <>
-          <h3>📝 Captura de Cíclico</h3>
-
-          <input
-            placeholder="Escanea o escribe SKU"
-            value={sku}
-            onChange={(e) => setSku(e.target.value)}
-          />
+          <input value={sku} onChange={(e) => setSku(e.target.value)} />
           <button onClick={buscarParaCiclico}>Buscar</button>
 
           {item && (
@@ -184,7 +156,6 @@ function Ciclicos() {
               <p>Sistema: {item.existencia}</p>
 
               <input
-                placeholder="Conteo"
                 value={conteo}
                 onChange={(e) => setConteo(e.target.value)}
               />
@@ -193,8 +164,7 @@ function Ciclicos() {
             </div>
           )}
 
-          {/* TABLA */}
-          <table style={{ width: "100%", marginTop: "20px" }}>
+          <table>
             <thead>
               <tr>
                 <th>SKU</th>
@@ -210,22 +180,17 @@ function Ciclicos() {
                   <td>{i.sku}</td>
                   <td>{i.sistema}</td>
                   <td>{i.conteo}</td>
-                  <td style={{ color: i.conteo - i.sistema !== 0 ? "red" : "green" }}>
-                    {i.conteo - i.sistema}
-                  </td>
+                  <td>{i.conteo - i.sistema}</td>
                 </tr>
               ))}
             </tbody>
           </table>
-
-          <br />
 
           <button onClick={() => setModo("inicio")}>
             Terminar
           </button>
         </>
       )}
-
     </div>
   );
 }
