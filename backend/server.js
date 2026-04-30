@@ -40,6 +40,16 @@ const ticketSchema = new mongoose.Schema({
 });
 
 const Ticket = mongoose.model("Ticket", ticketSchema);
+// 🔥 INVENTARIO
+const inventarioSchema = new mongoose.Schema({
+  sku: String,
+  articulo: String,
+  existencia: Number,
+  ubicacion: String,
+  fecha: { type: Date, default: Date.now }
+});
+
+const Inventario = mongoose.model("Inventario", inventarioSchema);
 
 // 🔥 LOGIN SIMPLE
 
@@ -88,9 +98,10 @@ app.post("/users", async (req, res) => {
       permisos: {
         dashboard: true,
         tickets: true,
+        ciclicos: true,
         create: true,
         kanban: false,
-        users: false
+        users: false	
       }
     });
 
@@ -245,7 +256,39 @@ const tickets = await Ticket.find(filtro);
     res.status(500).send("Error");
   }
 });
+// 🔥 SUBIR INVENTARIO
+app.post("/inventario/upload", async (req, res) => {
+  try {
+    const data = req.body.data;
 
+    await Inventario.deleteMany(); // limpia
+    await Inventario.insertMany(data);
+
+    res.json({ ok: true });
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error al subir inventario");
+  }
+});
+// 🔍 CONSULTA SKU
+app.get("/inventario/:sku", async (req, res) => {
+  try {
+    const item = await Inventario.findOne({ sku: req.params.sku });
+    res.json(item);
+  } catch (err) {
+    res.status(500).send("Error");
+  }
+});
+// 📋 LISTA CICLICOS
+app.get("/ciclicos", async (req, res) => {
+  try {
+    const data = await Inventario.find().limit(200);
+    res.json(data);
+  } catch (err) {
+    res.status(500).send("Error");
+  }
+});
 const PORT = process.env.PORT || 3001;
 
 app.listen(PORT, () => {
