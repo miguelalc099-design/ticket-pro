@@ -127,7 +127,7 @@ function AdminPanel() {
 
             {/* PERMISOS */}
             <div className="permisos">
-              {["dashboard","tickets","create","kanban","users"].map((p) => (
+              {["dashboard","tickets","create","kanban","users","ciclicos"].map((p) => (
                 <label key={p}>
                   <input
                     type="checkbox"
