@@ -15,6 +15,7 @@ function Ciclicos() {
   const [conteo, setConteo] = useState("");
 
   // 📥 SUBIR EXCEL
+
   const subirExcel = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -62,7 +63,24 @@ function Ciclicos() {
         return;
       }
 
-      const cat = await axios.get(`${API}/catalogo/${sku}`);
+      const buscarParaCiclico = async () => {
+  if (!sku) return;
+
+  try {
+    const res = await axios.get(`${API}/inventario/${sku}`);
+
+    if (res.data) {
+      setItem(res.data);
+      return;
+    }
+
+    // 🔥 mientras no haya catálogo
+    alert("SKU no encontrado en inventario");
+
+  } catch {
+    alert("Error conexión");
+  }
+};
 
       if (cat.data) {
         setItem({
@@ -117,6 +135,10 @@ function Ciclicos() {
         <label>📥 Subir Inventario Excel</label><br />
         <input type="file" onChange={subirExcel} />
       </div>
+<div style={{ marginBottom: "20px" }}>
+  <label>📋 Subir Catálogo (solo códigos)</label><br />
+  <input type="file" onChange={subirCatalogo} />
+</div>
 
       {/* ================= INICIO ================= */}
       {modo === "inicio" && (
