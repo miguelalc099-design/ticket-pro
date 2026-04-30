@@ -13,6 +13,12 @@ mongoose.connect("mongodb+srv://appuser:MiPass1234@cluster0.qlsaznk.mongodb.net/
   .catch(err => console.log("❌ Error Mongo:", err));
 
 // 🔥 MODELO
+const catalogoSchema = new mongoose.Schema({
+  sku: String,
+  articulo: String
+});
+
+const Catalogo = mongoose.model("Catalogo", catalogoSchema);
 const userSchema = new mongoose.Schema({
   username: String,
   password: String,
@@ -295,4 +301,41 @@ app.post("/inventario/upload", async (req, res) => {
     console.log(err);
     res.status(500).send("Error limpieza");
   }
+});
+// 📥 SUBIR CATALOGO
+app.post("/catalogo/upload", async (req, res) => {
+  try {
+    const raw = req.body.data;
+
+    let catalogo = {};
+
+    raw.forEach(row => {
+      const sku = String(row.sku || "").trim();
+      const articulo = String(row.articulo || "").trim();
+
+      if (!sku) return;
+
+      catalogo[sku] = {
+        sku,
+        articulo
+      };
+    });
+
+    const limpio = Object.values(catalogo);
+
+    await Catalogo.deleteMany();
+    await Catalogo.insertMany(limpio);
+
+    res.json({ ok: true, total: limpio.length });
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error catálogo");
+  }
+});
+
+// 🔍 CONSULTAR CATALOGO
+app.get("/catalogo/:sku", async (req, res) => {
+  const item = await Catalogo.findOne({ sku: req.params.sku });
+  res.json(item);
 });
