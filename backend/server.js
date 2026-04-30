@@ -339,3 +339,8 @@ app.get("/catalogo/:sku", async (req, res) => {
   const item = await Catalogo.findOne({ sku: req.params.sku });
   res.json(item);
 });
+const PORT = process.env.PORT || 3001;
+
+app.listen(PORT, () => {
+  console.log("🚀 Server running on port " + PORT);
+});
