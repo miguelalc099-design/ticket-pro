@@ -274,11 +274,9 @@ app.post("/inventario/upload", async (req, res) => {
       const articulo = String(row.articulo || "").trim();
       const existencia = Number(String(row.existencia).replace(",", ".").trim());
 
-      // ❌ ignorar basura
       if (!sku || isNaN(existencia)) return;
       if (articulo.toUpperCase().includes("TOTAL")) return;
 
-      // ✔️ agrupar
       if (!inventario[sku]) {
         inventario[sku] = {
           sku,
@@ -302,35 +300,16 @@ app.post("/inventario/upload", async (req, res) => {
     res.status(500).send("Error limpieza");
   }
 });
-// 📥 SUBIR CATALOGO
-app.post("/catalogo/upload", async (req, res) => {
+
+
+// 🔍 CONSULTAR INVENTARIO POR SKU (VA FUERA)
+app.get("/inventario/:sku", async (req, res) => {
   try {
-    const raw = req.body.data;
-
-    let catalogo = {};
-
-    raw.forEach(row => {
-      const sku = String(row.sku || "").trim();
-      const articulo = String(row.articulo || "").trim();
-
-      if (!sku) return;
-
-      catalogo[sku] = {
-        sku,
-        articulo
-      };
-    });
-
-    const limpio = Object.values(catalogo);
-
-    await Catalogo.deleteMany();
-    await Catalogo.insertMany(limpio);
-
-    res.json({ ok: true, total: limpio.length });
-
+    const item = await Inventario.findOne({ sku: req.params.sku });
+    res.json(item);
   } catch (err) {
     console.log(err);
-    res.status(500).send("Error catálogo");
+    res.status(500).send("Error");
   }
 });
 
