@@ -2,7 +2,31 @@ import { useState } from "react";
 import axios from "axios";
 
 const API = "https://ticket-pro-backend.onrender.com";
+import * as XLSX from "xlsx";
 
+const subirExcel = async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const data = await file.arrayBuffer();
+  const workbook = XLSX.read(data);
+
+  const sheet = workbook.Sheets[workbook.SheetNames[0]];
+  const json = XLSX.utils.sheet_to_json(sheet);
+
+  // 🔥 adaptamos columnas a tu Excel
+  const limpio = json.map(row => ({
+    sku: row["Código del artículo"] || row["Codigo"] || row["SKU"],
+    articulo: row["Artículo"] || row["Descripcion"],
+    existencia: row["Existencia"] || 0
+  }));
+
+  await axios.post(`${API}/inventario/upload`, {
+    data: limpio
+  });
+
+  alert("Inventario cargado correctamente 🔥");
+};
 function Ciclicos() {
 
   const [modo, setModo] = useState("inicio");
@@ -60,6 +84,10 @@ function Ciclicos() {
     <div className="card">
 
       <h2>📦 Módulo Cíclicos</h2>
+<div style={{ marginBottom: "20px" }}>
+  <label>📥 Subir Inventario Excel</label><br />
+  <input type="file" onChange={subirExcel} />
+</div>
 
       {/* ================= INICIO ================= */}
       {modo === "inicio" && (
