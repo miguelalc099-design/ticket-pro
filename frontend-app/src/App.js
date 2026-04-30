@@ -59,17 +59,20 @@ const pushNotif = (msg) => {
 };
 
   const login = async () => {
-    try {
-      const res = await axios.post(`${API}/login`, { username, password });
-      setUser(res.data);
-      localStorage.setItem("user", JSON.stringify(res.data));
-      cargarTickets(res.data);
-      cargarUsuarios();
- catch (err) {
-  console.log(err);
-  alert("Error de conexión con servidor");
-}
-  };
+  try {
+    const res = await axios.post(`${API}/login`, { username, password });
+
+    setUser(res.data);
+    localStorage.setItem("user", JSON.stringify(res.data));
+
+    cargarTickets(res.data);
+    cargarUsuarios();
+
+  } catch (err) {
+    console.log(err);
+    alert("Error de conexión con servidor");
+  }
+};
 
   const cargarUsuarios = async () => {
     const res = await axios.get(`${API}/users`);
