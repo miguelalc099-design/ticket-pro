@@ -338,21 +338,29 @@ app.post("/catalogo/upload", async (req, res) => {
 // 🔍 CONSULTAR INVENTARIO POR SKU (VA FUERA)
 app.get("/inventario/:sku", async (req, res) => {
   try {
-    const item = await Inventario.findOne({ sku: req.params.sku });
+    const sku = String(req.params.sku).trim().toUpperCase();
+
+    const item = await Inventario.findOne({
+      sku: { $regex: `^${sku}$`, $options: "i" }
+    });
+
     res.json(item);
   } catch (err) {
-    console.log(err);
     res.status(500).send("Error");
   }
 });
 
 // 🔍 CONSULTAR CATALOGO
 app.get("/catalogo/:sku", async (req, res) => {
-  const item = await Catalogo.findOne({ sku: req.params.sku });
-  res.json(item);
-});
-const PORT = process.env.PORT || 3001;
+  try {
+    const sku = String(req.params.sku).trim().toUpperCase();
 
-app.listen(PORT, () => {
-  console.log("🚀 Server running on port " + PORT);
+    const item = await Catalogo.findOne({
+      sku: { $regex: `^${sku}$`, $options: "i" }
+    });
+
+    res.json(item);
+  } catch {
+    res.status(500).send("Error");
+  }
 });
