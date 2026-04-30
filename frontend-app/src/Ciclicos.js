@@ -5,10 +5,15 @@ const API = "https://ticket-pro-backend.onrender.com";
 
 function Ciclicos() {
 
+  const [modo, setModo] = useState("inicio");
+
   const [sku, setSku] = useState("");
   const [item, setItem] = useState(null);
-  const [lista, setLista] = useState([]);
 
+  const [captura, setCaptura] = useState([]);
+  const [conteo, setConteo] = useState("");
+
+  // 🔍 CONSULTA NORMAL
   const buscar = async () => {
     if (!sku) return;
 
@@ -20,13 +25,35 @@ function Ciclicos() {
     }
   };
 
-  const cargarCiclico = async () => {
+  // 🔍 BUSCAR PARA CICLICO
+  const buscarParaCiclico = async () => {
+    if (!sku) return;
+
     try {
-      const res = await axios.get(`${API}/ciclicos`);
-      setLista(res.data);
+      const res = await axios.get(`${API}/inventario/${sku}`);
+      setItem(res.data);
     } catch {
-      alert("Error al cargar");
+      alert("SKU no existe");
     }
+  };
+
+  // ➕ AGREGAR AL CICLICO
+  const agregar = () => {
+    if (!item || conteo === "") return;
+
+    const nuevo = {
+      sku: item.sku,
+      articulo: item.articulo,
+      sistema: item.existencia,
+      conteo: Number(conteo)
+    };
+
+    setCaptura([...captura, nuevo]);
+
+    // limpiar
+    setSku("");
+    setItem(null);
+    setConteo("");
   };
 
   return (
@@ -34,52 +61,89 @@ function Ciclicos() {
 
       <h2>📦 Módulo Cíclicos</h2>
 
-      {/* 🔍 BUSCADOR */}
-      <div style={{ marginBottom: "20px" }}>
-        <input
-          placeholder="Buscar SKU"
-          value={sku}
-          onChange={(e) => setSku(e.target.value)}
-        />
-        <button onClick={buscar}>Buscar</button>
+      {/* ================= INICIO ================= */}
+      {modo === "inicio" && (
+        <>
+          {/* 🔍 BUSCADOR */}
+          <div style={{ marginBottom: "20px" }}>
+            <input
+              placeholder="Buscar SKU"
+              value={sku}
+              onChange={(e) => setSku(e.target.value)}
+            />
+            <button onClick={buscar}>Buscar</button>
 
-        {item && (
-          <div>
-            <p><b>Artículo:</b> {item.articulo}</p>
-            <p><b>Existencia:</b> {item.existencia}</p>
+            {item && (
+              <div>
+                <p><b>Artículo:</b> {item.articulo}</p>
+                <p><b>Existencia:</b> {item.existencia}</p>
+              </div>
+            )}
           </div>
-        )}
-      </div>
 
-      {/* 📋 BOTÓN */}
-      <button onClick={cargarCiclico}>
-        Generar Cíclico
-      </button>
+          <button onClick={() => setModo("captura")}>
+            Nuevo Cíclico
+          </button>
+        </>
+      )}
 
-      {/* 📊 TABLA */}
-      <table style={{ width: "100%", marginTop: "20px" }}>
-        <thead>
-          <tr>
-            <th>SKU</th>
-            <th>Sistema</th>
-            <th>Conteo</th>
-            <th>Diferencia</th>
-          </tr>
-        </thead>
+      {/* ================= CAPTURA ================= */}
+      {modo === "captura" && (
+        <>
+          <h3>📝 Captura de Cíclico</h3>
 
-        <tbody>
-          {lista.map((i, idx) => (
-            <tr key={idx}>
-              <td>{i.sku}</td>
-              <td>{i.existencia}</td>
-              <td>
-                <input />
-              </td>
-              <td>-</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+          {/* INPUT SKU */}
+          <input
+            placeholder="Escanea o escribe SKU"
+            value={sku}
+            onChange={(e) => setSku(e.target.value)}
+          />
+          <button onClick={buscarParaCiclico}>Buscar</button>
+
+          {/* INFO */}
+          {item && (
+            <div>
+              <p>{item.articulo}</p>
+              <p>Sistema: {item.existencia}</p>
+
+              <input
+                placeholder="Conteo"
+                value={conteo}
+                onChange={(e) => setConteo(e.target.value)}
+              />
+
+              <button onClick={agregar}>Agregar</button>
+            </div>
+          )}
+
+          {/* TABLA */}
+          <table style={{ width: "100%", marginTop: "20px" }}>
+            <thead>
+              <tr>
+                <th>SKU</th>
+                <th>Sistema</th>
+                <th>Conteo</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {captura.map((i, idx) => (
+                <tr key={idx}>
+                  <td>{i.sku}</td>
+                  <td>{i.sistema}</td>
+                  <td>{i.conteo}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          <br />
+
+          <button onClick={() => setModo("inicio")}>
+            Terminar
+          </button>
+        </>
+      )}
 
     </div>
   );
