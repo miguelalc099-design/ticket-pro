@@ -315,20 +315,27 @@ pushNotif("🎫 Ticket creado");
           <p className="user-name">{user.username}</p>
         </div>
 
-        <div className="menu">
-          {hasPermission("dashboard") && <button onClick={() => setView("dashboard")}>Dashboard</button>}
-          {hasPermission("create") && <button onClick={() => setView("create")}>Crear</button>}
-          {hasPermission("tickets") && (
-            <button onClick={() => {
-  cargarTickets(); // 🔥 fuerza refresh
-  setView("tickets");
-}}>
-  Tickets ({tickets.length})
-</button>
-          )}
-          {hasPermission("kanban") && <button onClick={() => setView("kanban")}>Kanban</button>}
-          {hasPermission("users") && <button onClick={() => setView("users")}>Usuarios</button>}
-        </div>
+  <div className="menu">
+  {hasPermission("dashboard") && <button onClick={() => setView("dashboard")}>Dashboard</button>}
+  {hasPermission("create") && <button onClick={() => setView("create")}>Crear</button>}
+  {hasPermission("tickets") && (
+    <button onClick={() => {
+      cargarTickets();
+      setView("tickets");
+    }}>
+      Tickets ({tickets.length})
+    </button>
+  )}
+  {hasPermission("kanban") && <button onClick={() => setView("kanban")}>Kanban</button>}
+  {hasPermission("users") && <button onClick={() => setView("users")}>Usuarios</button>}
+
+  {/* 🔥 NUEVO */}
+  {hasPermission("ciclicos") && (
+    <button onClick={() => setView("ciclicos")}>
+      Ciclicos
+    </button>
+  )}
+</div>
 
         <button className="logout-btn" onClick={logout}>
           Salir
