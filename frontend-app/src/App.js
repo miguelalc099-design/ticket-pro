@@ -5,6 +5,7 @@ import logo from "./assets/logo.png";
 import Dashboard from "./Dashboard";
 import AdminPanel from "./AdminPanel";
 import KanbanBoard from "./KanbanBoard";
+import Ciclicos from "./Ciclicos";
 
 const API = "https://ticket-pro-backend.onrender.com";
 
@@ -350,6 +351,9 @@ pushNotif("🎫 Ticket creado");
 
 {view === "users" && hasPermission("users") && (
   <AdminPanel />
+)}
+{view === "ciclicos" && hasPermission("ciclicos") && (
+  <Ciclicos />
 )}
 
 {view === "kanban" && hasPermission("kanban") && (
