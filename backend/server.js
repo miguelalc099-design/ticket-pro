@@ -15,7 +15,8 @@ mongoose.connect("mongodb+srv://appuser:MiPass1234@cluster0.qlsaznk.mongodb.net/
 // 🔥 MODELO
 const catalogoSchema = new mongoose.Schema({
   sku: String,
-  articulo: String
+  articulo: String,
+  ubicacion: String   // 🔥 NUEVO
 });
 
 const Catalogo = mongoose.model("Catalogo", catalogoSchema);
@@ -300,7 +301,39 @@ app.post("/inventario/upload", async (req, res) => {
     res.status(500).send("Error limpieza");
   }
 });
+// 📥 SUBIR CATALOGO
+app.post("/catalogo/upload", async (req, res) => {
+  try {
+    const raw = req.body.data;
 
+    let catalogo = {};
+
+    raw.forEach(row => {
+      const sku = String(row.sku || "").trim();
+      const articulo = String(row.articulo || "").trim();
+      const ubicacion = String(row.ubicacion || "").trim();
+
+      if (!sku) return;
+
+      catalogo[sku] = {
+        sku,
+        articulo,
+        ubicacion
+      };
+    });
+
+    const limpio = Object.values(catalogo);
+
+    await Catalogo.deleteMany();
+    await Catalogo.insertMany(limpio);
+
+    res.json({ ok: true, total: limpio.length });
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error catálogo");
+  }
+});
 
 // 🔍 CONSULTAR INVENTARIO POR SKU (VA FUERA)
 app.get("/inventario/:sku", async (req, res) => {
