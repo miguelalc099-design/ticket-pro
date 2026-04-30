@@ -65,9 +65,10 @@ const pushNotif = (msg) => {
       localStorage.setItem("user", JSON.stringify(res.data));
       cargarTickets(res.data);
       cargarUsuarios();
-    } catch {
-      alert("Credenciales incorrectas");
-    }
+ catch (err) {
+  console.log(err);
+  alert("Error de conexión con servidor");
+}
   };
 
   const cargarUsuarios = async () => {

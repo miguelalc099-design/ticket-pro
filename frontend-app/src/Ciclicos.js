@@ -1,32 +1,9 @@
 import { useState } from "react";
 import axios from "axios";
-
-const API = "https://ticket-pro-backend.onrender.com";
 import * as XLSX from "xlsx";
 
-const subirExcel = async (e) => {
-  const file = e.target.files[0];
-  if (!file) return;
+const API = "https://ticket-pro-backend.onrender.com";
 
-  const data = await file.arrayBuffer();
-  const workbook = XLSX.read(data);
-
-  const sheet = workbook.Sheets[workbook.SheetNames[0]];
-  const json = XLSX.utils.sheet_to_json(sheet);
-
-  // 🔥 adaptamos columnas a tu Excel
-  const limpio = json.map(row => ({
-    sku: row["Código del artículo"] || row["Codigo"] || row["SKU"],
-    articulo: row["Artículo"] || row["Descripcion"],
-    existencia: row["Existencia"] || 0
-  }));
-
-  await axios.post(`${API}/inventario/upload`, {
-    data: limpio
-  });
-
-  alert("Inventario cargado correctamente 🔥");
-};
 function Ciclicos() {
 
   const [modo, setModo] = useState("inicio");
@@ -36,6 +13,30 @@ function Ciclicos() {
 
   const [captura, setCaptura] = useState([]);
   const [conteo, setConteo] = useState("");
+
+  // 📥 SUBIR EXCEL
+  const subirExcel = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const data = await file.arrayBuffer();
+    const workbook = XLSX.read(data);
+
+    const sheet = workbook.Sheets[workbook.SheetNames[0]];
+    const json = XLSX.utils.sheet_to_json(sheet);
+
+    const limpio = json.map(row => ({
+      sku: row["Código del artículo"] || row["Codigo"] || row["SKU"],
+      articulo: row["Artículo"] || row["Descripcion"],
+      existencia: row["Existencia"] || 0
+    }));
+
+    await axios.post(`${API}/inventario/upload`, {
+      data: limpio
+    });
+
+    alert("Inventario cargado correctamente 🔥");
+  };
 
   // 🔍 CONSULTA NORMAL
   const buscar = async () => {
@@ -49,21 +50,47 @@ function Ciclicos() {
     }
   };
 
-  // 🔍 BUSCAR PARA CICLICO
+  // 🔍 BUSCAR PARA CICLICO (CON CATALOGO)
   const buscarParaCiclico = async () => {
     if (!sku) return;
 
     try {
       const res = await axios.get(`${API}/inventario/${sku}`);
-      setItem(res.data);
-    } catch {
+
+      if (res.data) {
+        setItem(res.data);
+        return;
+      }
+
+      const cat = await axios.get(`${API}/catalogo/${sku}`);
+
+      if (cat.data) {
+        setItem({
+          sku,
+          articulo: cat.data.articulo,
+          existencia: 0
+        });
+        alert("SKU sin existencia");
+        return;
+      }
+
       alert("SKU no existe");
+
+    } catch (err) {
+      console.log(err);
+      alert("Error conexión");
     }
   };
 
   // ➕ AGREGAR AL CICLICO
   const agregar = () => {
     if (!item || conteo === "") return;
+
+    // 🔒 evitar duplicados
+    if (captura.find(i => i.sku === item.sku)) {
+      alert("SKU ya capturado");
+      return;
+    }
 
     const nuevo = {
       sku: item.sku,
@@ -84,10 +111,12 @@ function Ciclicos() {
     <div className="card">
 
       <h2>📦 Módulo Cíclicos</h2>
-<div style={{ marginBottom: "20px" }}>
-  <label>📥 Subir Inventario Excel</label><br />
-  <input type="file" onChange={subirExcel} />
-</div>
+
+      {/* 📥 SUBIR EXCEL */}
+      <div style={{ marginBottom: "20px" }}>
+        <label>📥 Subir Inventario Excel</label><br />
+        <input type="file" onChange={subirExcel} />
+      </div>
 
       {/* ================= INICIO ================= */}
       {modo === "inicio" && (
@@ -120,7 +149,6 @@ function Ciclicos() {
         <>
           <h3>📝 Captura de Cíclico</h3>
 
-          {/* INPUT SKU */}
           <input
             placeholder="Escanea o escribe SKU"
             value={sku}
@@ -128,7 +156,6 @@ function Ciclicos() {
           />
           <button onClick={buscarParaCiclico}>Buscar</button>
 
-          {/* INFO */}
           {item && (
             <div>
               <p>{item.articulo}</p>
@@ -151,6 +178,7 @@ function Ciclicos() {
                 <th>SKU</th>
                 <th>Sistema</th>
                 <th>Conteo</th>
+                <th>Diferencia</th>
               </tr>
             </thead>
 
@@ -160,6 +188,9 @@ function Ciclicos() {
                   <td>{i.sku}</td>
                   <td>{i.sistema}</td>
                   <td>{i.conteo}</td>
+                  <td style={{ color: i.conteo - i.sistema !== 0 ? "red" : "green" }}>
+                    {i.conteo - i.sistema}
+                  </td>
                 </tr>
               ))}
             </tbody>
