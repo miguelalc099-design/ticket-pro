@@ -259,38 +259,40 @@ const tickets = await Ticket.find(filtro);
 // 🔥 SUBIR INVENTARIO
 app.post("/inventario/upload", async (req, res) => {
   try {
-    const data = req.body.data;
+    const raw = req.body.data;
 
-    await Inventario.deleteMany(); // limpia
-    await Inventario.insertMany(data);
+    let inventario = {};
 
-    res.json({ ok: true });
+    raw.forEach(row => {
+      const sku = String(row.sku || "").trim();
+      const articulo = String(row.articulo || "").trim();
+      const existencia = Number(String(row.existencia).replace(",", ".").trim());
+
+      // ❌ ignorar basura
+      if (!sku || isNaN(existencia)) return;
+      if (articulo.toUpperCase().includes("TOTAL")) return;
+
+      // ✔️ agrupar
+      if (!inventario[sku]) {
+        inventario[sku] = {
+          sku,
+          articulo,
+          existencia: 0
+        };
+      }
+
+      inventario[sku].existencia += existencia;
+    });
+
+    const limpio = Object.values(inventario);
+
+    await Inventario.deleteMany();
+    await Inventario.insertMany(limpio);
+
+    res.json({ ok: true, total: limpio.length });
 
   } catch (err) {
     console.log(err);
-    res.status(500).send("Error al subir inventario");
+    res.status(500).send("Error limpieza");
   }
-});
-// 🔍 CONSULTA SKU
-app.get("/inventario/:sku", async (req, res) => {
-  try {
-    const item = await Inventario.findOne({ sku: req.params.sku });
-    res.json(item);
-  } catch (err) {
-    res.status(500).send("Error");
-  }
-});
-// 📋 LISTA CICLICOS
-app.get("/ciclicos", async (req, res) => {
-  try {
-    const data = await Inventario.find().limit(200);
-    res.json(data);
-  } catch (err) {
-    res.status(500).send("Error");
-  }
-});
-const PORT = process.env.PORT || 3001;
-
-app.listen(PORT, () => {
-  console.log("🚀 Server running on port " + PORT);
 });
