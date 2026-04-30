@@ -12,7 +12,7 @@ function Ciclicos() {
   const [captura, setCaptura] = useState([]);
   const [conteo, setConteo] = useState("");
 
-  // 📥 INVENTARIO
+  // 📥 SUBIR INVENTARIO
   const subirExcel = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -33,7 +33,7 @@ function Ciclicos() {
     alert("Inventario cargado 🔥");
   };
 
-  // 📋 CATALOGO
+  // 📋 SUBIR CATALOGO
   const subirCatalogo = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -45,7 +45,8 @@ function Ciclicos() {
 
     const limpio = json.map(row => ({
       sku: row["Código del artículo"] || row["Codigo"] || row["SKU"],
-      articulo: row["Artículo"] || row["Descripcion"]
+      articulo: row["Artículo"] || row["Descripcion"],
+      ubicacion: row["Ubicacion"] || row["Ubicación"] || "SIN UBICACION"
     }));
 
     await axios.post(`${API}/catalogo/upload`, { data: limpio });
@@ -65,7 +66,7 @@ function Ciclicos() {
     }
   };
 
-  // 🔍 BUSCAR CICLICO (CON CATALOGO)
+  // 🔍 BUSCAR CICLICO (INVENTARIO + CATALOGO)
   const buscarParaCiclico = async () => {
     if (!sku) return;
 
@@ -83,7 +84,8 @@ function Ciclicos() {
         setItem({
           sku,
           articulo: cat.data.articulo,
-          existencia: 0
+          existencia: 0,
+          ubicacion: cat.data.ubicacion
         });
         alert("SKU sin existencia");
         return;
@@ -96,7 +98,7 @@ function Ciclicos() {
     }
   };
 
-  // ➕ AGREGAR
+  // ➕ AGREGAR AL CICLICO
   const agregar = () => {
     if (!item || conteo === "") return;
 
@@ -108,8 +110,9 @@ function Ciclicos() {
     const nuevo = {
       sku: item.sku,
       articulo: item.articulo,
-      sistema: item.existencia,
-      conteo: Number(conteo)
+      sistema: item.existencia || 0,
+      conteo: Number(conteo),
+      ubicacion: item.ubicacion || "-"
     };
 
     setCaptura([...captura, nuevo]);
@@ -124,20 +127,35 @@ function Ciclicos() {
 
       <h2>📦 Módulo Cíclicos</h2>
 
+      {/* 📥 INVENTARIO */}
       <div style={{ marginBottom: "20px" }}>
-        <label>📥 Inventario</label><br />
+        <label>📥 Subir Inventario</label><br />
         <input type="file" onChange={subirExcel} />
       </div>
 
+      {/* 📋 CATALOGO */}
       <div style={{ marginBottom: "20px" }}>
-        <label>📋 Catálogo</label><br />
+        <label>📋 Subir Catálogo</label><br />
         <input type="file" onChange={subirCatalogo} />
       </div>
 
+      {/* ================= INICIO ================= */}
       {modo === "inicio" && (
         <>
-          <input value={sku} onChange={(e) => setSku(e.target.value)} />
+          <input
+            placeholder="Buscar SKU"
+            value={sku}
+            onChange={(e) => setSku(e.target.value)}
+          />
           <button onClick={buscar}>Buscar</button>
+
+          {item && (
+            <div>
+              <p><b>Artículo:</b> {item.articulo}</p>
+              <p><b>Existencia:</b> {item.existencia}</p>
+              <p><b>Ubicación:</b> {item.ubicacion || "N/A"}</p>
+            </div>
+          )}
 
           <button onClick={() => setModo("captura")}>
             Nuevo Cíclico
@@ -145,17 +163,26 @@ function Ciclicos() {
         </>
       )}
 
+      {/* ================= CAPTURA ================= */}
       {modo === "captura" && (
         <>
-          <input value={sku} onChange={(e) => setSku(e.target.value)} />
+          <h3>📝 Captura</h3>
+
+          <input
+            placeholder="Escanea SKU"
+            value={sku}
+            onChange={(e) => setSku(e.target.value)}
+          />
           <button onClick={buscarParaCiclico}>Buscar</button>
 
           {item && (
             <div>
               <p>{item.articulo}</p>
-              <p>Sistema: {item.existencia}</p>
+              <p>Sistema: {item.existencia || 0}</p>
+              <p>Ubicación: {item.ubicacion || "N/A"}</p>
 
               <input
+                placeholder="Conteo"
                 value={conteo}
                 onChange={(e) => setConteo(e.target.value)}
               />
@@ -164,10 +191,12 @@ function Ciclicos() {
             </div>
           )}
 
-          <table>
+          {/* TABLA */}
+          <table style={{ marginTop: "20px", width: "100%" }}>
             <thead>
               <tr>
                 <th>SKU</th>
+                <th>Ubicación</th>
                 <th>Sistema</th>
                 <th>Conteo</th>
                 <th>Diferencia</th>
@@ -178,13 +207,18 @@ function Ciclicos() {
               {captura.map((i, idx) => (
                 <tr key={idx}>
                   <td>{i.sku}</td>
+                  <td>{i.ubicacion}</td>
                   <td>{i.sistema}</td>
                   <td>{i.conteo}</td>
-                  <td>{i.conteo - i.sistema}</td>
+                  <td style={{ color: i.conteo - i.sistema !== 0 ? "red" : "green" }}>
+                    {i.conteo - i.sistema}
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
+
+          <br />
 
           <button onClick={() => setModo("inicio")}>
             Terminar
