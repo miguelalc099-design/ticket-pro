@@ -1,25 +1,108 @@
-import { useState } from "react";
+```javascript
+import { useState, useEffect } from "react";
 import axios from "axios";
 import * as XLSX from "xlsx";
 
 const API = "https://ticket-pro-backend.onrender.com";
 
-function Ciclicos() {
+function Ciclicos({ user }) {
 
-  const [modo, setModo] = useState("inicio");
+  // ================= ESTADOS =================
+
+  const [modo, setModo] = useState("lista");
+
   const [sku, setSku] = useState("");
   const [item, setItem] = useState(null);
+
   const [captura, setCaptura] = useState([]);
   const [conteo, setConteo] = useState("");
 
-  // 📥 SUBIR INVENTARIO
+  const [ciclicos, setCiclicos] = useState([]);
+
+  const [titulo, setTitulo] = useState("");
+  const [fecha, setFecha] = useState("");
+
+  const [ciclicoActivo, setCiclicoActivo] = useState(null);
+
+  // ================= CARGAR CICLICOS =================
+
+  const cargarCiclicos = async () => {
+    try {
+
+      const res = await axios.get(`${API}/ciclicos`);
+
+      setCiclicos(res.data || []);
+
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  // ================= CARGAR CAPTURAS =================
+
+  const cargarCapturas = async (id) => {
+    try {
+
+      const res = await axios.get(`${API}/ciclicos/${id}/capturas`);
+
+      setCaptura(res.data || []);
+
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  // ================= INIT =================
+
+  useEffect(() => {
+    cargarCiclicos();
+  }, []);
+
+  // ================= CREAR CICLICO =================
+
+  const crearCiclico = async () => {
+
+    if (!titulo || !fecha) {
+      alert("Completa título y fecha");
+      return;
+    }
+
+    try {
+
+      const res = await axios.post(`${API}/ciclicos`, {
+        titulo,
+        fecha,
+        creadoPor: user.username
+      });
+
+      setCiclicoActivo(res.data);
+
+      setCaptura([]);
+
+      setModo("captura");
+
+      cargarCiclicos();
+
+    } catch (err) {
+      console.log(err);
+      alert("Error creando cíclico");
+    }
+  };
+
+  // ================= SUBIR INVENTARIO =================
+
   const subirExcel = async (e) => {
+
     const file = e.target.files[0];
+
     if (!file) return;
 
     const data = await file.arrayBuffer();
+
     const workbook = XLSX.read(data);
+
     const sheet = workbook.Sheets[workbook.SheetNames[0]];
+
     const json = XLSX.utils.sheet_to_json(sheet);
 
     const limpio = json.map(row => ({
@@ -28,19 +111,27 @@ function Ciclicos() {
       existencia: row["Existencia"] || 0
     }));
 
-    await axios.post(`${API}/inventario/upload`, { data: limpio });
+    await axios.post(`${API}/inventario/upload`, {
+      data: limpio
+    });
 
     alert("Inventario cargado 🔥");
   };
 
-  // 📋 SUBIR CATALOGO
+  // ================= SUBIR CATALOGO =================
+
   const subirCatalogo = async (e) => {
+
     const file = e.target.files[0];
+
     if (!file) return;
 
     const data = await file.arrayBuffer();
+
     const workbook = XLSX.read(data);
+
     const sheet = workbook.Sheets[workbook.SheetNames[0]];
+
     const json = XLSX.utils.sheet_to_json(sheet);
 
     const limpio = json.map(row => ({
@@ -49,28 +140,21 @@ function Ciclicos() {
       ubicacion: row["Ubicacion"] || row["Ubicación"] || "SIN UBICACION"
     }));
 
-    await axios.post(`${API}/catalogo/upload`, { data: limpio });
+    await axios.post(`${API}/catalogo/upload`, {
+      data: limpio
+    });
 
     alert("Catálogo cargado 🔥");
   };
 
-  // 🔍 BUSCAR NORMAL
-  const buscar = async () => {
-    if (!sku) return;
+  // ================= BUSCAR SKU =================
 
-    try {
-      const res = await axios.get(`${API}/inventario/${sku}`);
-      setItem(res.data);
-    } catch {
-      alert("No encontrado");
-    }
-  };
-
-  // 🔍 BUSCAR CICLICO (INVENTARIO + CATALOGO)
   const buscarParaCiclico = async () => {
+
     if (!sku) return;
 
     try {
+
       const res = await axios.get(`${API}/inventario/${sku}`);
 
       if (res.data) {
@@ -81,13 +165,16 @@ function Ciclicos() {
       const cat = await axios.get(`${API}/catalogo/${sku}`);
 
       if (cat.data) {
+
         setItem({
           sku,
           articulo: cat.data.articulo,
           existencia: 0,
           ubicacion: cat.data.ubicacion
         });
+
         alert("SKU sin existencia");
+
         return;
       }
 
@@ -98,101 +185,289 @@ function Ciclicos() {
     }
   };
 
-  // ➕ AGREGAR AL CICLICO
-  const agregar = () => {
+  // ================= AGREGAR =================
+
+  const agregar = async () => {
+
     if (!item || conteo === "") return;
 
-    if (captura.find(i => i.sku === item.sku)) {
+    try {
+
+      const nuevo = {
+        sku: item.sku,
+        articulo: item.articulo,
+
+        sistema: item.existencia || 0,
+
+        conteo: Number(conteo),
+
+        diferencia:
+          Number(conteo) - Number(item.existencia || 0),
+
+        ubicacion: item.ubicacion || "-"
+      };
+
+      await axios.post(
+        `${API}/ciclicos/${ciclicoActivo._id}/captura`,
+        nuevo
+      );
+
+      await cargarCapturas(ciclicoActivo._id);
+
+      await cargarCiclicos();
+
+      setSku("");
+
+      setItem(null);
+
+      setConteo("");
+
+    } catch (err) {
+
+      console.log(err);
+
       alert("SKU ya capturado");
-      return;
     }
-
-    const nuevo = {
-      sku: item.sku,
-      articulo: item.articulo,
-      sistema: item.existencia || 0,
-      conteo: Number(conteo),
-      ubicacion: item.ubicacion || "-"
-    };
-
-    setCaptura([...captura, nuevo]);
-
-    setSku("");
-    setItem(null);
-    setConteo("");
   };
+
+  // ================= ABRIR CICLICO =================
+
+  const abrirCiclico = async (c) => {
+
+    setCiclicoActivo(c);
+
+    await cargarCapturas(c._id);
+
+    setModo("captura");
+  };
+
+  // ================= CERRAR CICLICO =================
+
+  const cerrarCiclico = async () => {
+
+    if (!ciclicoActivo) return;
+
+    try {
+
+      await axios.put(
+        `${API}/ciclicos/${ciclicoActivo._id}/cerrar`
+      );
+
+      alert("Cíclico cerrado ✅");
+
+      setModo("lista");
+
+      setCaptura([]);
+
+      setCiclicoActivo(null);
+
+      cargarCiclicos();
+
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  // ================= RENDER =================
 
   return (
     <div className="card">
 
       <h2>📦 Módulo Cíclicos</h2>
 
-      {/* 📥 INVENTARIO */}
-      <div style={{ marginBottom: "20px" }}>
-        <label>📥 Subir Inventario</label><br />
-        <input type="file" onChange={subirExcel} />
-      </div>
+      {/* ================= LISTA ================= */}
 
-      {/* 📋 CATALOGO */}
-      <div style={{ marginBottom: "20px" }}>
-        <label>📋 Subir Catálogo</label><br />
-        <input type="file" onChange={subirCatalogo} />
-      </div>
-
-      {/* ================= INICIO ================= */}
-      {modo === "inicio" && (
+      {modo === "lista" && (
         <>
-          <input
-            placeholder="Buscar SKU"
-            value={sku}
-            onChange={(e) => setSku(e.target.value)}
-          />
-          <button onClick={buscar}>Buscar</button>
 
-          {item && (
-            <div>
-              <p><b>Artículo:</b> {item.articulo}</p>
-              <p><b>Existencia:</b> {item.existencia}</p>
-              <p><b>Ubicación:</b> {item.ubicacion || "N/A"}</p>
-            </div>
+          <button onClick={() => setModo("nuevo")}>
+            ➕ Nuevo Cíclico
+          </button>
+
+          <br /><br />
+
+          {ciclicos.length === 0 && (
+            <p>No hay cíclicos</p>
           )}
 
-          <button onClick={() => setModo("captura")}>
-            Nuevo Cíclico
+          {ciclicos.map((c) => (
+
+            <div
+              key={c._id}
+              style={{
+                border: "1px solid #333",
+                padding: "15px",
+                marginBottom: "15px",
+                borderRadius: "10px"
+              }}
+            >
+
+              <h3>{c.folio}</h3>
+
+              <p><b>Título:</b> {c.titulo}</p>
+
+              <p><b>Fecha:</b> {c.fecha}</p>
+
+              <p><b>Estado:</b> {c.estado}</p>
+
+              <p>
+                <b>SKUs:</b> {c.totalCapturados}
+              </p>
+
+              <p>
+                <b>Diferencias:</b> {c.diferencias}
+              </p>
+
+              <button onClick={() => abrirCiclico(c)}>
+                {c.estado === "Abierto"
+                  ? "▶ Continuar"
+                  : "👁 Ver"}
+              </button>
+
+            </div>
+          ))}
+
+        </>
+      )}
+
+      {/* ================= NUEVO ================= */}
+
+      {modo === "nuevo" && (
+        <>
+
+          <h3>➕ Nuevo Cíclico</h3>
+
+          <input
+            placeholder="Título"
+            value={titulo}
+            onChange={(e) => setTitulo(e.target.value)}
+          />
+
+          <br /><br />
+
+          <input
+            type="date"
+            value={fecha}
+            onChange={(e) => setFecha(e.target.value)}
+          />
+
+          <br /><br />
+
+          {/* INVENTARIO */}
+
+          <div style={{ marginBottom: "20px" }}>
+            <label>📥 Subir Inventario</label>
+            <br />
+
+            <input
+              type="file"
+              onChange={subirExcel}
+            />
+          </div>
+
+          {/* CATALOGO */}
+
+          <div style={{ marginBottom: "20px" }}>
+            <label>📋 Subir Catálogo</label>
+            <br />
+
+            <input
+              type="file"
+              onChange={subirCatalogo}
+            />
+          </div>
+
+          <button onClick={crearCiclico}>
+            🚀 Iniciar Cíclico
           </button>
+
+          <button
+            style={{ marginLeft: "10px" }}
+            onClick={() => setModo("lista")}
+          >
+            Cancelar
+          </button>
+
         </>
       )}
 
       {/* ================= CAPTURA ================= */}
-      {modo === "captura" && (
+
+      {modo === "captura" && ciclicoActivo && (
         <>
-          <h3>📝 Captura</h3>
 
-          <input
-            placeholder="Escanea SKU"
-            value={sku}
-            onChange={(e) => setSku(e.target.value)}
-          />
-          <button onClick={buscarParaCiclico}>Buscar</button>
+          <h3>
+            {ciclicoActivo.folio}
+          </h3>
 
-          {item && (
-            <div>
-              <p>{item.articulo}</p>
-              <p>Sistema: {item.existencia || 0}</p>
-              <p>Ubicación: {item.ubicacion || "N/A"}</p>
+          <p>
+            <b>{ciclicoActivo.titulo}</b>
+          </p>
+
+          <p>
+            Estado: {ciclicoActivo.estado}
+          </p>
+
+          <hr />
+
+          {ciclicoActivo.estado === "Abierto" && (
+            <>
 
               <input
-                placeholder="Conteo"
-                value={conteo}
-                onChange={(e) => setConteo(e.target.value)}
+                placeholder="Escanea SKU"
+                value={sku}
+                onChange={(e) => setSku(e.target.value)}
               />
 
-              <button onClick={agregar}>Agregar</button>
-            </div>
+              <button onClick={buscarParaCiclico}>
+                Buscar
+              </button>
+
+              {item && (
+                <div
+                  style={{
+                    marginTop: "20px",
+                    marginBottom: "20px"
+                  }}
+                >
+
+                  <p>
+                    <b>Artículo:</b> {item.articulo}
+                  </p>
+
+                  <p>
+                    <b>Sistema:</b> {item.existencia || 0}
+                  </p>
+
+                  <p>
+                    <b>Ubicación:</b> {item.ubicacion || "N/A"}
+                  </p>
+
+                  <input
+                    placeholder="Conteo"
+                    value={conteo}
+                    onChange={(e) => setConteo(e.target.value)}
+                  />
+
+                  <button onClick={agregar}>
+                    Agregar
+                  </button>
+
+                </div>
+              )}
+
+            </>
           )}
 
           {/* TABLA */}
-          <table style={{ marginTop: "20px", width: "100%" }}>
+
+          <table
+            style={{
+              marginTop: "20px",
+              width: "100%"
+            }}
+          >
+
             <thead>
               <tr>
                 <th>SKU</th>
@@ -204,27 +479,58 @@ function Ciclicos() {
             </thead>
 
             <tbody>
+
               {captura.map((i, idx) => (
+
                 <tr key={idx}>
+
                   <td>{i.sku}</td>
+
                   <td>{i.ubicacion}</td>
+
                   <td>{i.sistema}</td>
+
                   <td>{i.conteo}</td>
-                  <td style={{ color: i.conteo - i.sistema !== 0 ? "red" : "green" }}>
-                    {i.conteo - i.sistema}
+
+                  <td
+                    style={{
+                      color:
+                        i.diferencia !== 0
+                          ? "red"
+                          : "green"
+                    }}
+                  >
+                    {i.diferencia}
                   </td>
+
                 </tr>
               ))}
+
             </tbody>
+
           </table>
 
           <br />
 
-          <button onClick={() => setModo("inicio")}>
-            Terminar
+          {ciclicoActivo.estado === "Abierto" && (
+            <button onClick={cerrarCiclico}>
+              ✅ Finalizar Cíclico
+            </button>
+          )}
+
+          <button
+            style={{ marginLeft: "10px" }}
+            onClick={() => {
+              setModo("lista");
+              setItem(null);
+            }}
+          >
+            ← Volver
           </button>
+
         </>
       )}
+
     </div>
   );
 }

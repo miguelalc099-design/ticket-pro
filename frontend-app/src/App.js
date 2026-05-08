@@ -357,7 +357,7 @@ pushNotif("🎫 Ticket creado");
   <AdminPanel />
 )}
 {view === "ciclicos" && hasPermission("ciclicos") && (
-  <Ciclicos />
+ <Ciclicos user={user} />
 )}
 
 {view === "kanban" && hasPermission("kanban") && (
