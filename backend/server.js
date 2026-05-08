@@ -516,6 +516,9 @@ app.get("/ciclicos/:id/capturas", async (req, res) => {
     res.status(500).send("Error");
   }
 });
+app.get("/ciclicos/:id/excel", async (req, res) => {
+
+});
 app.put("/ciclicos/:id/cerrar", async (req, res) => {
   try {
 
