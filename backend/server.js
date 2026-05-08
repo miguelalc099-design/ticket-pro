@@ -58,6 +58,57 @@ const inventarioSchema = new mongoose.Schema({
 
 const Inventario = mongoose.model("Inventario", inventarioSchema);
 
+// 🔥 CICLICOS
+const ciclicoSchema = new mongoose.Schema({
+  folio: String,
+  titulo: String,
+  fecha: String,
+
+  estado: {
+    type: String,
+    default: "Abierto"
+  },
+
+  creadoPor: String,
+
+  totalCapturados: {
+    type: Number,
+    default: 0
+  },
+
+  diferencias: {
+    type: Number,
+    default: 0
+  },
+
+  createdAt: {
+    type: Date,
+    default: Date.now
+  }
+});
+
+const Ciclico = mongoose.model("Ciclico", ciclicoSchema);
+
+// 🔥 CAPTURAS
+const capturaSchema = new mongoose.Schema({
+  ciclicoId: String,
+
+  sku: String,
+  articulo: String,
+  ubicacion: String,
+
+  sistema: Number,
+  conteo: Number,
+  diferencia: Number,
+
+  fecha: {
+    type: Date,
+    default: Date.now
+  }
+});
+
+const CapturaCiclico = mongoose.model("CapturaCiclico", capturaSchema);
+
 // 🔥 LOGIN SIMPLE
 
 app.post("/login", async (req, res) => {
@@ -363,4 +414,113 @@ app.get("/catalogo/:sku", async (req, res) => {
   } catch {
     res.status(500).send("Error");
   }
+app.post("/ciclicos", async (req, res) => {
+  try {
+
+    const total = await Ciclico.countDocuments();
+
+    const nuevo = new Ciclico({
+      folio: `CIC-${String(total + 1).padStart(4, "0")}`,
+      titulo: req.body.titulo,
+      fecha: req.body.fecha,
+      creadoPor: req.body.creadoPor
+    });
+
+    await nuevo.save();
+
+    res.json(nuevo);
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error");
+  }
+});
+app.get("/ciclicos", async (req, res) => {
+  try {
+
+    const data = await Ciclico.find()
+      .sort({ createdAt: -1 });
+
+    res.json(data);
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error");
+  }
+});
+app.post("/ciclicos/:id/captura", async (req, res) => {
+  try {
+
+    const existe = await CapturaCiclico.findOne({
+      ciclicoId: req.params.id,
+      sku: req.body.sku
+    });
+
+    if (existe) {
+      return res.status(400).send("SKU ya capturado");
+    }
+
+    const nueva = new CapturaCiclico({
+      ciclicoId: req.params.id,
+
+      sku: req.body.sku,
+      articulo: req.body.articulo,
+      ubicacion: req.body.ubicacion,
+
+      sistema: req.body.sistema,
+      conteo: req.body.conteo,
+      diferencia: req.body.diferencia
+    });
+
+    await nueva.save();
+
+    const totalCapturados = await CapturaCiclico.countDocuments({
+      ciclicoId: req.params.id
+    });
+
+    const diferencias = await CapturaCiclico.countDocuments({
+      ciclicoId: req.params.id,
+      diferencia: { $ne: 0 }
+    });
+
+    await Ciclico.findByIdAndUpdate(req.params.id, {
+      totalCapturados,
+      diferencias
+    });
+
+    res.json(nueva);
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error");
+  }
+});
+app.get("/ciclicos/:id/capturas", async (req, res) => {
+  try {
+
+    const data = await CapturaCiclico.find({
+      ciclicoId: req.params.id
+    });
+
+    res.json(data);
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error");
+  }
+});
+app.put("/ciclicos/:id/cerrar", async (req, res) => {
+  try {
+
+    await Ciclico.findByIdAndUpdate(req.params.id, {
+      estado: "Cerrado"
+    });
+
+    res.json({ ok: true });
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error");
+  }
+});
 });
