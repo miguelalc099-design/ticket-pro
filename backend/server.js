@@ -404,6 +404,7 @@ app.get("/inventario/:sku", async (req, res) => {
 // 🔍 CONSULTAR CATALOGO
 app.get("/catalogo/:sku", async (req, res) => {
   try {
+
     const sku = String(req.params.sku).trim().toUpperCase();
 
     const item = await Catalogo.findOne({
@@ -411,9 +412,15 @@ app.get("/catalogo/:sku", async (req, res) => {
     });
 
     res.json(item);
+
   } catch {
     res.status(500).send("Error");
   }
+}); // 🔥 ESTE TE FALTABA
+
+
+
+// 🔥 CREAR CICLICO
 app.post("/ciclicos", async (req, res) => {
   try {
 
@@ -523,4 +530,9 @@ app.put("/ciclicos/:id/cerrar", async (req, res) => {
     res.status(500).send("Error");
   }
 });
+
+const PORT = process.env.PORT || 10000;
+
+app.listen(PORT, () => {
+  console.log("Servidor iniciado " + PORT);
 });
