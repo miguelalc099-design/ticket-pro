@@ -148,9 +148,9 @@ const subirCatalogo = async (e) => {
 
       sku: String(row["SKU"]).trim(),
 
-      articulo: row["SKU"],
+     articulo: row["Artículo"],
 
-      Ubicación: row["Ubicación"]
+     ubicacion: row["Ubicación"]
 
     }));
 
