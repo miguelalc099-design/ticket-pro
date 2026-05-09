@@ -93,102 +93,124 @@ const cargarCiclicos = async () => {
 
   const subirExcel = async (e) => {
 
-    const file = e.target.files[0];
+  const file = e.target.files[0];
 
-    if (!file) return;
+  if (!file) return;
 
-    const data = await file.arrayBuffer();
+  const data = await file.arrayBuffer();
 
-    const workbook = XLSX.read(data);
+  const workbook = XLSX.read(data);
 
-    const sheet = workbook.Sheets[workbook.SheetNames[0]];
+  const sheet = workbook.Sheets[workbook.SheetNames[0]];
 
-    const json = XLSX.utils.sheet_to_json(sheet);
+  const json = XLSX.utils.sheet_to_json(sheet);
 
-    const limpio = json.map(row => ({
-  sku: row["Código del artículo"],
-  articulo: row["Artículo"],
-  ubicacion: row["Ubicacion"]
-}));
+  const limpio = json
+    .filter(row =>
+      row["Código del artículo "] ||
+      row["Código del artículo"]
+    )
+    .map(row => ({
 
-    await axios.post(API + "/inventario/upload", {
-      data: limpio
-    });
+      sku: String(
+  row["Código del artículo "] ||
+  row["Código del artículo"] ||
+  row["Codigo"] ||
+  row["SKU"]
+).trim(),
 
-    alert("Inventario cargado 🔥");
-  };
+      articulo:
+        row["Artículo "] ||
+        row["Artículo"] ||
+        row["Descripcion"],
+
+      existencia: row["Existencia"] || 0
+
+    }));
+
+  await axios.post(API + "/inventario/upload", {
+    data: limpio
+  });
+
+  alert("Inventario cargado 🔥");
+};
 
   // ================= SUBIR CATALOGO =================
 
   const subirCatalogo = async (e) => {
 
-    const file = e.target.files[0];
+  const file = e.target.files[0];
 
-    if (!file) return;
+  if (!file) return;
 
-    const data = await file.arrayBuffer();
+  const data = await file.arrayBuffer();
 
-    const workbook = XLSX.read(data);
+  const workbook = XLSX.read(data);
 
-    const sheet = workbook.Sheets[workbook.SheetNames[0]];
+  const sheet = workbook.Sheets[workbook.SheetNames[0]];
 
-    const json = XLSX.utils.sheet_to_json(sheet);
-console.log(json[0]);
+  const json = XLSX.utils.sheet_to_json(sheet);
 
-    const limpio = json.map(row => ({
-      sku: row["Código del artículo"] || row["Codigo"] || row["SKU"],
-      articulo: row["Artículo"] || row["Descripcion"],
-      ubicacion: row["Ubicacion"] || row["Ubicación"] || "SIN UBICACION"
+  const limpio = json
+    .filter(row => row["Código"])
+    .map(row => ({
+
+      sku: String(row["Código"]).trim(),
+
+      articulo: row["Artículo"],
+
+      ubicacion: row["Ubicación"]
+
     }));
 
-    await axios.post(API + "/catalogo/upload", {
-      data: limpio
-    });
+  await axios.post(API + "/catalogo/upload", {
+    data: limpio
+  });
 
-    alert("Catálogo cargado 🔥");
-  };
-
+  alert("Catálogo cargado 🔥");
+};
   // ================= BUSCAR SKU =================
-
   const buscarParaCiclico = async () => {
 
-    if (!sku) return;
+  if (!sku) return;
 
-    try {
+  const codigo = String(sku).trim();
 
-      const res = await axios.get(
-  API + "/inventario/" + sku
-);
+  try {
 
-      if (res.data) {
-        setItem(res.data);
-        return;
-      }
+    const res = await axios.get(
+      API + "/inventario/" + codigo
+    );
 
-      const cat = await axios.get(
-  API + "/catalogo/" + sku
-);
-
-      if (cat.data) {
-
-        setItem({
-          sku,
-          articulo: cat.data.articulo,
-          existencia: 0,
-          ubicacion: cat.data.ubicacion
-        });
-
-        alert("SKU sin existencia");
-
-        return;
-      }
-
-      alert("SKU no existe");
-
-    } catch {
-      alert("Error conexión");
+    if (res.data) {
+      setItem(res.data);
+      return;
     }
-  };
+
+    const cat = await axios.get(
+      API + "/catalogo/" + codigo
+    );
+
+    if (cat.data) {
+
+      setItem({
+        sku: codigo,
+        articulo: cat.data.articulo,
+        existencia: 0,
+        ubicacion: cat.data.ubicacion
+      });
+
+      alert("SKU sin existencia");
+
+      return;
+    }
+
+    alert("SKU no existe");
+
+  } catch {
+    alert("Error conexión");
+  }
+};
 
   // ================= AGREGAR =================
 
