@@ -316,20 +316,42 @@ const tickets = await Ticket.find(filtro);
 });
 // 🔥 SUBIR INVENTARIO
 app.post("/inventario/upload", async (req, res) => {
+
   try {
+
     const raw = req.body.data;
 
     let inventario = {};
 
     raw.forEach(row => {
-      const sku = String(row.Código del artículo || "").trim();
-      const articulo = String(row.Artículo || "").trim();
-      const existencia = Number(String(row.existencia).replace(",", ".").trim());
 
-      if (!sku || isNaN(existencia)) return;
+      const sku = String(
+        row["Código del artículo "] ||
+        row["Código del artículo"] ||
+        ""
+      ).trim();
+
+      const articulo = String(
+        row["Artículo "] ||
+        row["Artículo"] ||
+        ""
+      ).trim();
+
+      const existencia = Number(
+        String(row["Existencia"] || 0)
+          .replace(",", ".")
+          .trim()
+      );
+
+      // 🔥 IGNORAR FILAS VACIAS
+      if (!sku) return;
+
+      // 🔥 IGNORAR TOTALES
       if (articulo.toUpperCase().includes("TOTAL")) return;
 
+      // 🔥 SI NO EXISTE
       if (!inventario[sku]) {
+
         inventario[sku] = {
           sku,
           articulo,
@@ -337,33 +359,57 @@ app.post("/inventario/upload", async (req, res) => {
         };
       }
 
+      // 🔥 SUMAR EXISTENCIA
       inventario[sku].existencia += existencia;
+
     });
 
     const limpio = Object.values(inventario);
 
+    // 🔥 LIMPIAR ANTERIOR
     await Inventario.deleteMany();
+
+    // 🔥 INSERTAR NUEVO
     await Inventario.insertMany(limpio);
 
-    res.json({ ok: true, total: limpio.length });
+    res.json({
+      ok: true,
+      total: limpio.length
+    });
 
   } catch (err) {
+
     console.log(err);
+
     res.status(500).send("Error limpieza");
   }
 });
+
+
 // 📥 SUBIR CATALOGO
 app.post("/catalogo/upload", async (req, res) => {
+
   try {
+
     const raw = req.body.data;
 
     let catalogo = {};
 
     raw.forEach(row => {
-      const sku = String(row.Código || "").trim();
-      const articulo = String(row.Artículo || "").trim();
-      const ubicacion = String(row.Ubicación || "").trim();
 
+      const sku = String(
+        row["Código"] || ""
+      ).trim();
+
+      const articulo = String(
+        row["Artículo"] || ""
+      ).trim();
+
+      const ubicacion = String(
+        row["Ubicación"] || ""
+      ).trim();
+
+      // 🔥 IGNORAR VACIOS
       if (!sku) return;
 
       catalogo[sku] = {
@@ -371,21 +417,29 @@ app.post("/catalogo/upload", async (req, res) => {
         articulo,
         ubicacion
       };
+
     });
 
     const limpio = Object.values(catalogo);
 
+    // 🔥 BORRAR ANTERIOR
     await Catalogo.deleteMany();
+
+    // 🔥 INSERTAR NUEVO
     await Catalogo.insertMany(limpio);
 
-    res.json({ ok: true, total: limpio.length });
+    res.json({
+      ok: true,
+      total: limpio.length
+    });
 
   } catch (err) {
+
     console.log(err);
+
     res.status(500).send("Error catálogo");
   }
 });
-
 // 🔍 CONSULTAR INVENTARIO POR SKU (VA FUERA)
 app.get("/inventario/:sku", async (req, res) => {
   try {
