@@ -55,8 +55,8 @@ function Ciclicos({ user }) {
   // ================= INIT =================
 
   useEffect(() => {
-    await cargarCiclicos();
-  }, []);
+  cargarCiclicos();
+}, []);
 
   // ================= CREAR CICLICO =================
 
