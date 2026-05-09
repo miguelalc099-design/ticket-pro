@@ -326,22 +326,22 @@ app.post("/inventario/upload", async (req, res) => {
     raw.forEach(row => {
 
       const sku = String(
-        row["Código del artículo "] ||
-        row["Código del artículo"] ||
-        ""
-      ).trim();
+  row["Código del artículo "] ||
+  row["Código del artículo"] ||
+  ""
+).trim();
 
-      const articulo = String(
-        row["Artículo "] ||
-        row["Artículo"] ||
-        ""
-      ).trim();
+const articulo = String(
+  row["Artículo "] ||
+  row["Artículo"] ||
+  ""
+).trim();
 
-      const existencia = Number(
-        String(row["Existencia"] || 0)
-          .replace(",", ".")
-          .trim()
-      );
+const existencia = Number(
+  String(row["Existencia"] || 0)
+    .replace(",", ".")
+    .trim()
+);
 
       // 🔥 IGNORAR FILAS VACIAS
       if (!sku) return;
@@ -398,16 +398,16 @@ app.post("/catalogo/upload", async (req, res) => {
     raw.forEach(row => {
 
       const sku = String(
-        row["Código"] || ""
-      ).trim();
+  row["Código"] || ""
+).trim();
 
-      const articulo = String(
-        row["Artículo"] || ""
-      ).trim();
+const articulo = String(
+  row["Artículo"] || ""
+).trim();
 
-      const ubicacion = String(
-        row["Ubicación"] || ""
-      ).trim();
+const ubicacion = String(
+  row["Ubicación"] || ""
+).trim();
 
       // 🔥 IGNORAR VACIOS
       if (!sku) return;
