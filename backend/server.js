@@ -314,6 +314,7 @@ const tickets = await Ticket.find(filtro);
     res.status(500).send("Error");
   }
 });
+
 // 🔥 SUBIR INVENTARIO
 app.post("/inventario/upload", async (req, res) => {
 
@@ -323,27 +324,29 @@ app.post("/inventario/upload", async (req, res) => {
 
     let inventario = {};
 
-    raw.forEach(row => {
+    raw.forEach((row, index) => {
 
+      // 🔥 SALTAR ENCABEZADO
+      if (index === 0) return;
+
+      // 🔥 COLUMNA C = ARTICULO
+      const articulo = String(
+        row[2] || ""
+      ).trim();
+
+      // 🔥 COLUMNA D = SKU
       const sku = String(
-  row["Código del artículo "] ||
-  row["Código del artículo"] ||
-  ""
-).trim();
+        row[3] || ""
+      ).trim();
 
-const articulo = String(
-  row["Artículo "] ||
-  row["Artículo"] ||
-  ""
-).trim();
+      // 🔥 COLUMNA F = EXISTENCIA
+      const existencia = Number(
+        String(row[5] || 0)
+          .replace(",", ".")
+          .trim()
+      );
 
-const existencia = Number(
-  String(row["Existencia"] || 0)
-    .replace(",", ".")
-    .trim()
-);
-
-      // 🔥 IGNORAR FILAS VACIAS
+      // 🔥 IGNORAR VACIOS
       if (!sku) return;
 
       // 🔥 IGNORAR TOTALES
@@ -366,7 +369,7 @@ const existencia = Number(
 
     const limpio = Object.values(inventario);
 
-    // 🔥 LIMPIAR ANTERIOR
+    // 🔥 BORRAR ANTERIOR
     await Inventario.deleteMany();
 
     // 🔥 INSERTAR NUEVO
@@ -381,7 +384,7 @@ const existencia = Number(
 
     console.log(err);
 
-    res.status(500).send("Error limpieza");
+    res.status(500).send("Error inventario");
   }
 });
 
@@ -395,26 +398,26 @@ app.post("/catalogo/upload", async (req, res) => {
 
     let catalogo = {};
 
-    raw.forEach(row => {
+    raw.forEach((row, index) => {
 
+      // 🔥 SALTAR ENCABEZADO
+      if (index === 0) return;
+
+      // 🔥 COLUMNA B = SKU
       const sku = String(
-  row["Código"] || ""
-).trim();
+        row[1] || ""
+      ).trim();
 
-const articulo = String(
-  row["Artículo"] || ""
-).trim();
-
-const ubicacion = String(
-  row["Ubicación"] || ""
-).trim();
+      // 🔥 COLUMNA H = UBICACION
+      const ubicacion = String(
+        row[7] || ""
+      ).trim();
 
       // 🔥 IGNORAR VACIOS
       if (!sku) return;
 
       catalogo[sku] = {
         sku,
-        articulo,
         ubicacion
       };
 
@@ -440,26 +443,40 @@ const ubicacion = String(
     res.status(500).send("Error catálogo");
   }
 });
-// 🔍 CONSULTAR INVENTARIO POR SKU (VA FUERA)
+
+
+// 🔍 CONSULTAR INVENTARIO POR SKU
 app.get("/inventario/:sku", async (req, res) => {
+
   try {
-    const sku = String(req.params.sku).trim().toUpperCase();
+
+    const sku = String(req.params.sku)
+      .trim()
+      .toUpperCase();
 
     const item = await Inventario.findOne({
       sku: { $regex: `^${sku}$`, $options: "i" }
     });
 
     res.json(item);
+
   } catch (err) {
+
+    console.log(err);
+
     res.status(500).send("Error");
   }
 });
 
+
 // 🔍 CONSULTAR CATALOGO
 app.get("/catalogo/:sku", async (req, res) => {
+
   try {
 
-    const sku = String(req.params.sku).trim().toUpperCase();
+    const sku = String(req.params.sku)
+      .trim()
+      .toUpperCase();
 
     const item = await Catalogo.findOne({
       sku: { $regex: `^${sku}$`, $options: "i" }
@@ -467,12 +484,13 @@ app.get("/catalogo/:sku", async (req, res) => {
 
     res.json(item);
 
-  } catch {
+  } catch (err) {
+
+    console.log(err);
+
     res.status(500).send("Error");
   }
-}); // 🔥 ESTE TE FALTABA
-
-
+});
 
 // 🔥 CREAR CICLICO
 app.post("/ciclicos", async (req, res) => {
