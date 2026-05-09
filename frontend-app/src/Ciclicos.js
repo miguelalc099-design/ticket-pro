@@ -105,9 +105,7 @@ const cargarCiclicos = async () => {
 
   const json = XLSX.utils.sheet_to_json(sheet);
 
-  const limpio = json
-    .filter(row => row["SKU"])
-    .map(row => ({
+  const limpio = json;
 
       sku: String(row["SKU"]).trim(),
 
@@ -142,9 +140,7 @@ const subirCatalogo = async (e) => {
 
   const json = XLSX.utils.sheet_to_json(sheet);
 
-  const limpio = json
-    .filter(row => row["SKU"])
-    .map(row => ({
+  const limpio = json;
 
       sku: String(row["SKU"]).trim(),
 
