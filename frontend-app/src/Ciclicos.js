@@ -105,24 +105,13 @@ const cargarCiclicos = async () => {
 
   const json = XLSX.utils.sheet_to_json(sheet);
 
-  const limpio = json;
+const limpio = json;
 
-      sku: String(row["SKU"]).trim(),
+console.log(limpio.slice(0, 5));
 
-      articulo:
-        row["Artículo"] ||
-        row["Descripcion"],
-
-      existencia: row["Existencia"] || 0
-
-    }));
-
-  console.log(limpio.slice(0, 5));
-
-  await axios.post(API + "/inventario/upload", {
-    data: limpio
-  });
-
+await axios.post(API + "/inventario/upload", {
+  data: limpio
+});
   alert("Inventario cargado 🔥");
 };
   // ================= SUBIR CATALOGO =================
@@ -140,19 +129,11 @@ const subirCatalogo = async (e) => {
 
   const json = XLSX.utils.sheet_to_json(sheet);
 
-  const limpio = json;
+const limpio = json;
 
-      sku: String(row["SKU"]).trim(),
-
-     articulo: row["Artículo"],
-
-     ubicacion: row["Ubicación"]
-
-    }));
-
-  await axios.post(API + "/catalogo/upload", {
-    data: limpio
-  });
+await axios.post(API + "/catalogo/upload", {
+  data: limpio
+});
 
   alert("Catálogo cargado 🔥");
 };  
