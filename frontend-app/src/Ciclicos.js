@@ -88,10 +88,9 @@ const cargarCiclicos = async () => {
       alert("Error creando cíclico");
     }
   };
+// ================= SUBIR INVENTARIO =================
 
-  // ================= SUBIR INVENTARIO =================
-
-  const subirExcel = async (e) => {
+const subirExcel = async (e) => {
 
   const file = e.target.files[0];
 
@@ -103,18 +102,23 @@ const cargarCiclicos = async () => {
 
   const sheet = workbook.Sheets[workbook.SheetNames[0]];
 
-  const json = XLSX.utils.sheet_to_json(sheet);
+  // 🔥 ARRAY POR COLUMNAS
+  const json = XLSX.utils.sheet_to_json(sheet, {
+    header: 1
+  });
 
-const limpio = json;
+  console.log(json.slice(0, 5));
 
-console.log(limpio.slice(0, 5));
+  await axios.post(API + "/inventario/upload", {
+    data: json
+  });
 
-await axios.post(API + "/inventario/upload", {
-  data: limpio
-});
   alert("Inventario cargado 🔥");
 };
-  // ================= SUBIR CATALOGO =================
+
+
+// ================= SUBIR CATALOGO =================
+
 const subirCatalogo = async (e) => {
 
   const file = e.target.files[0];
@@ -127,18 +131,24 @@ const subirCatalogo = async (e) => {
 
   const sheet = workbook.Sheets[workbook.SheetNames[0]];
 
-  const json = XLSX.utils.sheet_to_json(sheet);
+  // 🔥 ARRAY POR COLUMNAS
+  const json = XLSX.utils.sheet_to_json(sheet, {
+    header: 1
+  });
 
-const limpio = json;
+  console.log(json.slice(0, 5));
 
-await axios.post(API + "/catalogo/upload", {
-  data: limpio
-});
+  await axios.post(API + "/catalogo/upload", {
+    data: json
+  });
 
   alert("Catálogo cargado 🔥");
-};  
-  // ================= BUSCAR SKU =================
-  const buscarParaCiclico = async () => {
+};
+
+
+// ================= BUSCAR SKU =================
+
+const buscarParaCiclico = async () => {
 
   if (!sku) return;
 
@@ -156,9 +166,11 @@ await axios.post(API + "/catalogo/upload", {
       API + "/catalogo/" + codigo
     );
 
-    // 🔥 NO EXISTE EN NINGUNO
+    // 🔥 NO EXISTE
     if (!inv.data && !cat.data) {
+
       alert("SKU no existe");
+
       return;
     }
 
@@ -168,7 +180,6 @@ await axios.post(API + "/catalogo/upload", {
 
       articulo:
         inv.data?.articulo ||
-        cat.data?.articulo ||
         "Sin descripción",
 
       existencia:
@@ -185,8 +196,7 @@ await axios.post(API + "/catalogo/upload", {
 
     alert("Error conexión");
   }
-};
-
+};  
   // ================= AGREGAR =================
 
   const agregar = async () => {
