@@ -1,4 +1,3 @@
-```javascript
 import { useState, useEffect } from "react";
 import axios from "axios";
 import * as XLSX from "xlsx";
@@ -26,24 +25,25 @@ function Ciclicos({ user }) {
 
   // ================= CARGAR CICLICOS =================
 
-  const cargarCiclicos = async () => {
-    try {
+const cargarCiclicos = async () => {
+  try {
+    const res = await axios.get(API + "/ciclicos");
 
-      const res = await axios.get(`${API}/ciclicos`);
+    setCiclicos(res.data || []);
 
-      setCiclicos(res.data || []);
-
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  } catch (err) {
+    console.log(err);
+  }
+};
 
   // ================= CARGAR CAPTURAS =================
 
   const cargarCapturas = async (id) => {
     try {
 
-      const res = await axios.get(`${API}/ciclicos/${id}/capturas`);
+      const res = await axios.get(
+  API + "/ciclicos/" + id + "/capturas"
+);
 
       setCaptura(res.data || []);
 
@@ -69,7 +69,7 @@ function Ciclicos({ user }) {
 
     try {
 
-      const res = await axios.post(`${API}/ciclicos`, {
+      const res = await axios.post(API + "/ciclicos", {
         titulo,
         fecha,
         creadoPor: user.username
@@ -111,7 +111,7 @@ function Ciclicos({ user }) {
       existencia: row["Existencia"] || 0
     }));
 
-    await axios.post(`${API}/inventario/upload`, {
+    await axios.post(API + "/inventario/upload", {
       data: limpio
     });
 
@@ -140,7 +140,7 @@ function Ciclicos({ user }) {
       ubicacion: row["Ubicacion"] || row["Ubicación"] || "SIN UBICACION"
     }));
 
-    await axios.post(`${API}/catalogo/upload`, {
+    await axios.post(API + "/catalogo/upload", {
       data: limpio
     });
 
@@ -155,14 +155,18 @@ function Ciclicos({ user }) {
 
     try {
 
-      const res = await axios.get(`${API}/inventario/${sku}`);
+      const res = await axios.get(
+  API + "/inventario/" + sku
+);
 
       if (res.data) {
         setItem(res.data);
         return;
       }
 
-      const cat = await axios.get(`${API}/catalogo/${sku}`);
+      const cat = await axios.get(
+  API + "/catalogo/" + sku
+);
 
       if (cat.data) {
 
@@ -208,9 +212,9 @@ function Ciclicos({ user }) {
       };
 
       await axios.post(
-        `${API}/ciclicos/${ciclicoActivo._id}/captura`,
-        nuevo
-      );
+  API + "/ciclicos/" + ciclicoActivo._id + "/captura",
+  nuevo
+);
 
       await cargarCapturas(ciclicoActivo._id);
 
@@ -250,8 +254,8 @@ function Ciclicos({ user }) {
   try {
 
     await axios.put(
-      `${API}/ciclicos/${ciclicoActivo._id}/cerrar`
-    );
+  API + "/ciclicos/" + ciclicoActivo._id + "/cerrar"
+);
 
     alert("Cíclico cerrado ✅");
 
