@@ -106,21 +106,12 @@ const cargarCiclicos = async () => {
   const json = XLSX.utils.sheet_to_json(sheet);
 
   const limpio = json
-    .filter(row =>
-      row["Código del artículo "] ||
-      row["Código del artículo"]
-    )
+    .filter(row => row["SKU"])
     .map(row => ({
 
-      sku: String(
-  row["Código del artículo "] ||
-  row["Código del artículo"] ||
-  row["Codigo"] ||
-  row["SKU"]
-).trim(),
+      sku: String(row["SKU"]).trim(),
 
       articulo:
-        row["Artículo "] ||
         row["Artículo"] ||
         row["Descripcion"],
 
@@ -128,16 +119,16 @@ const cargarCiclicos = async () => {
 
     }));
 
+  console.log(limpio.slice(0, 5));
+
   await axios.post(API + "/inventario/upload", {
     data: limpio
   });
 
   alert("Inventario cargado 🔥");
 };
-
   // ================= SUBIR CATALOGO =================
-
-  const subirCatalogo = async (e) => {
+const subirCatalogo = async (e) => {
 
   const file = e.target.files[0];
 
@@ -152,10 +143,10 @@ const cargarCiclicos = async () => {
   const json = XLSX.utils.sheet_to_json(sheet);
 
   const limpio = json
-    .filter(row => row["Código"])
+    .filter(row => row["SKU"])
     .map(row => ({
 
-      sku: String(row["Código"]).trim(),
+      sku: String(row["SKU"]).trim(),
 
       articulo: row["Artículo"],
 
@@ -168,7 +159,7 @@ const cargarCiclicos = async () => {
   });
 
   alert("Catálogo cargado 🔥");
-};
+};  
   // ================= BUSCAR SKU =================
   const buscarParaCiclico = async () => {
 
