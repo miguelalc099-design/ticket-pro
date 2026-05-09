@@ -322,8 +322,8 @@ app.post("/inventario/upload", async (req, res) => {
     let inventario = {};
 
     raw.forEach(row => {
-      const sku = String(row.sku || "").trim();
-      const articulo = String(row.articulo || "").trim();
+      const sku = String(row.Código del artículo || "").trim();
+      const articulo = String(row.Artículo || "").trim();
       const existencia = Number(String(row.existencia).replace(",", ".").trim());
 
       if (!sku || isNaN(existencia)) return;
@@ -360,9 +360,9 @@ app.post("/catalogo/upload", async (req, res) => {
     let catalogo = {};
 
     raw.forEach(row => {
-      const sku = String(row.sku || "").trim();
-      const articulo = String(row.articulo || "").trim();
-      const ubicacion = String(row.ubicacion || "").trim();
+      const sku = String(row.Código || "").trim();
+      const articulo = String(row.Artículo || "").trim();
+      const ubicacion = String(row.Ubicación || "").trim();
 
       if (!sku) return;
 
