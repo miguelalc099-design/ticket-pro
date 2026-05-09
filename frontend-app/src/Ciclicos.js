@@ -169,36 +169,43 @@ const subirCatalogo = async (e) => {
 
   try {
 
-    const res = await axios.get(
+    // 🔥 INVENTARIO
+    const inv = await axios.get(
       API + "/inventario/" + codigo
     );
 
-    if (res.data) {
-      setItem(res.data);
-      return;
-    }
-
+    // 🔥 CATALOGO
     const cat = await axios.get(
       API + "/catalogo/" + codigo
     );
 
-    if (cat.data) {
-
-      setItem({
-        sku: codigo,
-        articulo: cat.data.articulo,
-        existencia: 0,
-        ubicacion: cat.data.ubicacion
-      });
-
-      alert("SKU sin existencia");
-
+    // 🔥 NO EXISTE EN NINGUNO
+    if (!inv.data && !cat.data) {
+      alert("SKU no existe");
       return;
     }
 
-    alert("SKU no existe");
+    setItem({
 
-  } catch {
+      sku: codigo,
+
+      articulo:
+        inv.data?.articulo ||
+        cat.data?.articulo ||
+        "Sin descripción",
+
+      existencia:
+        inv.data?.existencia || 0,
+
+      ubicacion:
+        cat.data?.ubicacion || "N/A"
+
+    });
+
+  } catch (err) {
+
+    console.log(err);
+
     alert("Error conexión");
   }
 };
