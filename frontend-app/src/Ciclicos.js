@@ -55,7 +55,7 @@ function Ciclicos({ user }) {
   // ================= INIT =================
 
   useEffect(() => {
-    cargarCiclicos();
+    await cargarCiclicos();
   }, []);
 
   // ================= CREAR CICLICO =================
@@ -245,28 +245,28 @@ function Ciclicos({ user }) {
 
   const cerrarCiclico = async () => {
 
-    if (!ciclicoActivo) return;
+  if (!ciclicoActivo) return;
 
-    try {
+  try {
 
-      await axios.put(
-        `${API}/ciclicos/${ciclicoActivo._id}/cerrar`
-      );
+    await axios.put(
+      `${API}/ciclicos/${ciclicoActivo._id}/cerrar`
+    );
 
-      alert("Cíclico cerrado ✅");
+    alert("Cíclico cerrado ✅");
 
-      setModo("lista");
+    await cargarCiclicos();
 
-      setCaptura([]);
+    setModo("lista");
 
-      setCiclicoActivo(null);
+    setCaptura([]);
 
-      cargarCiclicos();
+    setCiclicoActivo(null);
 
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  } catch (err) {
+    console.log(err);
+  }
+};
 
   // ================= RENDER =================
 
