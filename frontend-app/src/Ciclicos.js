@@ -106,10 +106,10 @@ const cargarCiclicos = async () => {
     const json = XLSX.utils.sheet_to_json(sheet);
 
     const limpio = json.map(row => ({
-      sku: row["Código del artículo"] || row["Codigo"] || row["SKU"],
-      articulo: row["Artículo"] || row["Descripcion"],
-      existencia: row["Existencia"] || 0
-    }));
+  sku: row["Código del artículo"],
+  articulo: row["Artículo"],
+  ubicacion: row["Ubicacion"]
+}));
 
     await axios.post(API + "/inventario/upload", {
       data: limpio
@@ -133,6 +133,7 @@ const cargarCiclicos = async () => {
     const sheet = workbook.Sheets[workbook.SheetNames[0]];
 
     const json = XLSX.utils.sheet_to_json(sheet);
+console.log(json[0]);
 
     const limpio = json.map(row => ({
       sku: row["Código del artículo"] || row["Codigo"] || row["SKU"],
