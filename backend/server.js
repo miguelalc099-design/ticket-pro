@@ -103,7 +103,9 @@ const ciclicoSchema = new mongoose.Schema({
 const Ciclico = mongoose.model("Ciclico", ciclicoSchema);
 
 // 🔥 CAPTURAS
+
 const capturaSchema = new mongoose.Schema({
+
   ciclicoId: String,
 
   sku: String,
@@ -113,6 +115,10 @@ const capturaSchema = new mongoose.Schema({
   sistema: Number,
   conteo: Number,
   diferencia: Number,
+
+  costo: Number,
+
+  ajuste: Number,
 
   fecha: {
     type: Date,
@@ -606,17 +612,21 @@ const palabras = q
           sku: item.sku
         });
 
-        return {
+return {
 
-          sku: item.sku,
+  sku: item.sku,
 
-          articulo: item.articulo,
+  articulo: item.articulo,
 
-          ubicacion: item.ubicacion,
+  ubicacion: item.ubicacion,
 
-          existencia:
-            inv?.existencia || 0
-        };
+  existencia:
+    inv?.existencia || 0,
+
+  costo:
+    inv?.costo || 0
+};
+
       })
     );
 
@@ -686,7 +696,12 @@ app.post("/ciclicos/:id/captura", async (req, res) => {
 
       sistema: req.body.sistema,
       conteo: req.body.conteo,
-      diferencia: req.body.diferencia
+
+diferencia: req.body.diferencia,
+
+costo: req.body.costo,
+
+ajuste: req.body.ajuste
     });
 
     await nueva.save();
