@@ -63,8 +63,10 @@ const inventarioSchema = new mongoose.Schema({
   articulo: String,
   existencia: Number,
   ubicacion: String,
-costo: Number
-  fecha: { type: Date, default: Date.now }
+  costo: Number,
+  fecha: { type: Date, 
+  default: Date.now 
+}
 });
 
 const Inventario = mongoose.model("Inventario", inventarioSchema);
