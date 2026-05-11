@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
 
 const API = "https://ticket-pro-backend.onrender.com";
 
@@ -360,6 +361,71 @@ ajuste:
   }
 };
 
+// ================= EXPORTAR EXCEL =================
+
+const exportarExcel = async () => {
+
+  try {
+
+    const res = await axios.get(
+      API + "/ciclicos/" + ciclicoActivo._id + "/excel"
+    );
+
+    const datos = res.data.map(i => ({
+
+      SKU: i.sku,
+
+      Articulo: i.articulo,
+
+      Ubicacion: i.ubicacion,
+
+      Sistema: i.sistema,
+
+      Conteo: i.conteo,
+
+      Diferencia: i.diferencia,
+
+      Costo: i.costo,
+
+      Ajuste: i.ajuste
+    }));
+
+    const ws = XLSX.utils.json_to_sheet(datos);
+
+    const wb = XLSX.utils.book_new();
+
+    XLSX.utils.book_append_sheet(
+      wb,
+      ws,
+      "Ciclico"
+    );
+
+    const excelBuffer = XLSX.write(wb, {
+      bookType: "xlsx",
+      type: "array"
+    });
+
+    const fileData = new Blob(
+      [excelBuffer],
+      {
+        type:
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+      }
+    );
+
+    saveAs(
+      fileData,
+      `${ciclicoActivo.folio}.xlsx`
+    );
+
+  } catch (err) {
+
+    console.log(err);
+
+    alert("Error exportando Excel");
+  }
+};
+
   // ================= RENDER =================
 
   return (
@@ -559,7 +625,12 @@ style={{
           <button onClick={crearCiclico}>
             🚀 Iniciar Cíclico
           </button>
-
+<button
+  style={{ marginRight: "10px" }}
+  onClick={exportarExcel}
+>
+  📥 Descargar Excel
+</button>
           <button
             style={{ marginLeft: "10px" }}
             onClick={() => setModo("lista")}
