@@ -505,6 +505,71 @@ app.get("/catalogo/:sku", async (req, res) => {
     res.status(500).send("Error");
   }
 });
+
+// 🔍 BUSQUEDA INTELIGENTE
+app.get("/buscar", async (req, res) => {
+
+  try {
+
+    const q = String(req.query.q || "")
+      .trim()
+      .toLowerCase();
+
+    // 🔥 VACIO
+    if (!q) {
+
+      return res.json([]);
+    }
+
+    // 🔥 SEPARAR PALABRAS
+    const palabras = q.split(" ");
+
+    // 🔥 TODAS LAS PALABRAS
+    const filtros = palabras.map(p => ({
+      articulo: {
+        $regex: p,
+        $options: "i"
+      }
+    }));
+
+    // 🔥 BUSCAR EN CATALOGO
+    const catalogo = await Catalogo.find({
+      $and: filtros
+    }).limit(20);
+
+    // 🔥 AGREGAR EXISTENCIA
+    const resultado = await Promise.all(
+
+      catalogo.map(async item => {
+
+        const inv = await Inventario.findOne({
+          sku: item.sku
+        });
+
+        return {
+
+          sku: item.sku,
+
+          articulo: item.articulo,
+
+          ubicacion: item.ubicacion,
+
+          existencia:
+            inv?.existencia || 0
+        };
+      })
+    );
+
+    res.json(resultado);
+
+  } catch (err) {
+
+    console.log(err);
+
+    res.status(500).send("Error búsqueda");
+  }
+});
+
 // 🔥 CREAR CICLICO
 app.post("/ciclicos", async (req, res) => {
   try {
