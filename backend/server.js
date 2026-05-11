@@ -63,6 +63,7 @@ const inventarioSchema = new mongoose.Schema({
   articulo: String,
   existencia: Number,
   ubicacion: String,
+costo: Number
   fecha: { type: Date, default: Date.now }
 });
 
@@ -357,6 +358,17 @@ console.log(raw.slice(0, 5));
           .replace(",", ".")
           .trim()
       );
+// 🔥 G = COSTO
+const costo = Number(
+
+  String(row[6] || 0)
+
+    .replace("$", "")
+
+    .replace(/,/g, "")
+
+    .trim()
+);
 
       // 🔥 IGNORAR VACIOS
       if (!sku) return;
@@ -367,11 +379,16 @@ console.log(raw.slice(0, 5));
       // 🔥 SI NO EXISTE
       if (!inventario[sku]) {
 
-        inventario[sku] = {
-          sku,
-          articulo,
-          existencia: 0
-        };
+inventario[sku] = {
+
+  sku,
+
+  articulo,
+
+  existencia: 0,
+
+  costo
+};
       }
 
       // 🔥 SUMAR EXISTENCIA
