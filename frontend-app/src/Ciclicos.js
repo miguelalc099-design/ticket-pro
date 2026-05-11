@@ -92,59 +92,83 @@ const cargarCiclicos = async () => {
 
 const subirExcel = async (e) => {
 
-  const file = e.target.files[0];
+  try {
 
-  if (!file) return;
+    const file = e.target.files[0];
 
-  const data = await file.arrayBuffer();
+    if (!file) return;
 
-  const workbook = XLSX.read(data);
+    const data = await file.arrayBuffer();
 
-  const sheet = workbook.Sheets[workbook.SheetNames[0]];
+    const workbook = XLSX.read(data);
 
-  // 🔥 IMPORTANTE
-  const json = XLSX.utils.sheet_to_json(sheet, {
-    header: 1
-  });
+    const sheet = workbook.Sheets[workbook.SheetNames[0]];
 
-  console.log(json.slice(0, 5));
+    const json = XLSX.utils.sheet_to_json(sheet, {
+      header: 1
+    });
 
-  await axios.post(API + "/inventario/upload", {
-    data: json
-  });
+    console.log(json.slice(0, 5));
 
-  alert("Inventario cargado 🔥");
+    const res = await axios.post(
+      API + "/inventario/upload",
+      {
+        data: json
+      }
+    );
+
+    console.log(res.data);
+
+    alert("Inventario cargado 🔥");
+
+  } catch (err) {
+
+    console.log(err);
+
+    alert("Error subiendo inventario");
+  }
 };
-
 
 // ================= SUBIR CATALOGO =================
 
 const subirCatalogo = async (e) => {
 
-  const file = e.target.files[0];
+  try {
 
-  if (!file) return;
+    const file = e.target.files[0];
 
-  const data = await file.arrayBuffer();
+    if (!file) return;
 
-  const workbook = XLSX.read(data);
+    const data = await file.arrayBuffer();
 
-  const sheet = workbook.Sheets[workbook.SheetNames[0]];
+    const workbook = XLSX.read(data);
 
-  // 🔥 IMPORTANTE
-  const json = XLSX.utils.sheet_to_json(sheet, {
-    header: 1
-  });
+    const sheet = workbook.Sheets[workbook.SheetNames[0]];
 
-  console.log(json.slice(0, 5));
+    const json = XLSX.utils.sheet_to_json(sheet, {
+      header: 1
+    });
 
-  await axios.post(API + "/catalogo/upload", {
-    data: json
-  });
+    console.log(json.slice(0, 5));
 
-  alert("Catálogo cargado 🔥");
+    const res = await axios.post(
+      API + "/catalogo/upload",
+      {
+        data: json
+      }
+    );
+
+    console.log(res.data);
+
+    alert("Catálogo cargado 🔥");
+
+  } catch (err) {
+
+    console.log(err);
+
+    alert("Error subiendo catálogo");
+  }
 };
-
 // ================= BUSCAR SKU =================
 
 const buscarParaCiclico = async () => {
