@@ -619,27 +619,52 @@ style={{
     <div
       key={index}
 
-      onClick={() => {
+onClick={async () => {
 
-        setSku(r.sku);
+  try {
 
-setItem({
+    // 🔥 INVENTARIO REAL
+    const inv = await axios.get(
+      API + "/inventario/" + r.sku
+    );
 
-  sku: r.sku,
+    // 🔥 CATALOGO
+    const cat = await axios.get(
+      API + "/catalogo/" + r.sku
+    );
 
-  articulo: r.articulo,
+    setSku(r.sku);
 
-  existencia: r.existencia,
+    setItem({
 
-  ubicacion: r.ubicacion,
+      sku: r.sku,
 
-  costo: r.costo || 0
-});
+      articulo:
+        inv.data?.articulo ||
+        r.articulo,
 
-        setResultados([]);
+      // 🔥 SIEMPRE INVENTARIO
+      existencia:
+        inv.data?.existencia || 0,
 
-        setBusqueda("");
-      }}
+      // 🔥 SIEMPRE INVENTARIO
+      costo:
+        inv.data?.costo || 0,
+
+      // 🔥 SOLO CATALOGO
+      ubicacion:
+        cat.data?.ubicacion || "N/A"
+    });
+
+    setResultados([]);
+
+    setBusqueda("");
+
+  } catch (err) {
+
+    console.log(err);
+  }
+}}
 
       style={{
         border: "1px solid #444",
