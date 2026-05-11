@@ -373,26 +373,67 @@ const exportarExcel = async () => {
       API + "/ciclicos/" + ciclicoActivo._id + "/excel"
     );
 
-    const datos = res.data.map(i => ({
+    const datos = [
+  [],
+  ["FOLIO", ciclicoActivo.folio],
+  ["TÍTULO", ciclicoActivo.titulo],
+  ["FECHA", ciclicoActivo.fecha],
+  ["CREADO POR", ciclicoActivo.creadoPor],
+  ["ESTADO", ciclicoActivo.estado],
 
-      SKU: i.sku,
+  [],
 
-      Articulo: i.articulo,
+  ["RESUMEN"],
 
-      Ubicacion: i.ubicacion,
+["Total SKUs", totalSKUs],
 
-      Sistema: i.sistema,
+["Diferencias", totalDiferencias],
 
-      Conteo: i.conteo,
+["Ajuste Total $",
+  res.data.reduce(
+    (acc, i) =>
+      acc + Number(i.ajuste || 0),
+    0
+  ).toFixed(2)
+],
 
-      Diferencia: i.diferencia,
+[],
+  [
+    "SKU",
+    "Artículo",
+    "Ubicación",
+    "Sistema",
+    "Conteo",
+    "Diferencia",
+    "Costo",
+    "Ajuste"
+  ],
 
-      Costo: i.costo,
-
-      Ajuste: i.ajuste
-    }));
-
-    const ws = XLSX.utils.json_to_sheet(datos);
+  ...res.data.map(i => ([
+    i.sku,
+    i.articulo,
+    i.ubicacion,
+    i.sistema,
+    i.conteo,
+    i.diferencia,
+    Number(i.costo || 0).toFixed(2),
+Number(i.ajuste || 0).toFixed(2)
+  ]))
+];
+    const ws = XLSX.utils.aoa_to_sheet(datos);
+ws["!cols"] = [
+  { wch: 18 },
+  { wch: 45 },
+  { wch: 20 },
+  { wch: 12 },
+  { wch: 12 },
+  { wch: 14 },
+  { wch: 14 },
+  { wch: 16 }
+];
+ws["!autofilter"] = {
+  ref: "A15:H15"
+};
 
     const wb = XLSX.utils.book_new();
 
@@ -653,26 +694,72 @@ style={{
         API + "/ciclicos/" + c._id + "/excel"
       );
 
-      const datos = res.data.map(i => ({
+     const datos = [
+  [],
+  ["FOLIO", c.folio],
+  ["TÍTULO", c.titulo],
+  ["FECHA", c.fecha],
+  ["CREADO POR", c.creadoPor],
+  ["ESTADO", c.estado],
 
-        SKU: i.sku,
+  [],
 
-        Articulo: i.articulo,
+ ["RESUMEN"],
 
-        Ubicacion: i.ubicacion,
+["Total SKUs", c.totalCapturados],
 
-        Sistema: i.sistema,
+["Diferencias", c.diferencias],
 
-        Conteo: i.conteo,
+["Ajuste Total $",
+  res.data.reduce(
+    (acc, i) =>
+      acc + Number(i.ajuste || 0),
+    0
+  ).toFixed(2)
+],
 
-        Diferencia: i.diferencia,
+[],
 
-        Costo: i.costo,
+  [
+    "SKU",
+    "Artículo",
+    "Ubicación",
+    "Sistema",
+    "Conteo",
+    "Diferencia",
+    "Costo",
+    "Ajuste"
+  ],
 
-        Ajuste: i.ajuste
-      }));
+  ...res.data.map(i => ([
+    i.sku,
+    i.articulo,
+    i.ubicacion,
+    i.sistema,
+    i.conteo,
+    i.diferencia,
 
-      const ws = XLSX.utils.json_to_sheet(datos);
+    Number(i.costo || 0).toFixed(2),
+
+    Number(i.ajuste || 0).toFixed(2)
+  ]))
+];
+
+      const ws = XLSX.utils.aoa_to_sheet(datos);
+ws["!cols"] = [
+  { wch: 18 },
+  { wch: 45 },
+  { wch: 20 },
+  { wch: 12 },
+  { wch: 12 },
+  { wch: 14 },
+  { wch: 14 },
+  { wch: 16 }
+];
+
+ws["!autofilter"] = {
+  ref: "A12:H12"
+};
 
       const wb = XLSX.utils.book_new();
 
@@ -914,7 +1001,7 @@ onClick={async () => {
             </>
           )}
 {/* ================= RESUMEN ================= */}
-
+{captura.length > 0 && (
 <div className="kpis">
 
   <div className="kpi blue">
@@ -992,8 +1079,9 @@ onClick={async () => {
   </button>
 
 </div>
+)}
 {/* TABLA */}
-
+{captura.length > 0 && (
 <div
   style={{
     overflowX: "auto",
@@ -1127,6 +1215,7 @@ onClick={async () => {
 
           </table>
 </div>
+)}
 
           <br />
 
