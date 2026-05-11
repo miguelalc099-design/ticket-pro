@@ -356,13 +356,17 @@ const buscarDescripcion = async (texto) => {
     onChange={(e) =>
       buscarDescripcion(e.target.value)
     }
-    style={{
-      width: "100%",
-      padding: "12px",
-      borderRadius: "10px",
-      border: "1px solid #ccc",
-      fontSize: "16px"
-    }}
+ 
+style={{
+  width: "100%",
+  padding: "12px",
+  borderRadius: "10px",
+  border: "1px solid #444",
+  fontSize: "16px",
+  background: "#1e1e1e",
+  color: "#fff"
+}}
+
   />
 
 </div>
@@ -380,13 +384,16 @@ const buscarDescripcion = async (texto) => {
 
     <div
       key={index}
-      style={{
-        border: "1px solid #ddd",
-        borderRadius: "10px",
-        padding: "12px",
-        background: "#fff",
-        boxShadow: "0 2px 5px rgba(0,0,0,0.05)"
-      }}
+      
+style={{
+  border: "1px solid #444",
+  borderRadius: "10px",
+  padding: "12px",
+  background: "#1e1e1e",
+  color: "#fff",
+  boxShadow: "0 2px 5px rgba(0,0,0,0.3)"
+}}
+
     >
 
       <div>
