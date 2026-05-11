@@ -28,6 +28,8 @@ const [busqueda, setBusqueda] = useState("");
 const [resultados, setResultados] = useState([]);
 const [filtroTabla, setFiltroTabla] =
   useState("todos");
+const [historial, setHistorial] =
+  useState([]);
 
   // ================= CARGAR CICLICOS =================
 
