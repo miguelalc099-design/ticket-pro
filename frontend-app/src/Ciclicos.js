@@ -30,7 +30,23 @@ const [filtroTabla, setFiltroTabla] =
   useState("todos");
 const [historial, setHistorial] =
   useState([]);
+// ================= HISTORIAL =================
 
+const cargarHistorial = async () => {
+
+  try {
+
+    const res = await axios.get(
+      API + "/historial-cargas"
+    );
+
+    setHistorial(res.data || []);
+
+  } catch (err) {
+
+    console.log(err);
+  }
+};
   // ================= CARGAR CICLICOS =================
 
 const cargarCiclicos = async () => {
