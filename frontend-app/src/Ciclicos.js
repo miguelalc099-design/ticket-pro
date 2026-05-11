@@ -26,6 +26,8 @@ function Ciclicos({ user }) {
 const [busqueda, setBusqueda] = useState("");
 
 const [resultados, setResultados] = useState([]);
+const [filtroTabla, setFiltroTabla] =
+  useState("todos");
 
   // ================= CARGAR CICLICOS =================
 
@@ -444,6 +446,32 @@ const faltantes = captura
 const ajusteTotal = captura
   .reduce((acc, i) =>
     acc + Number(i.ajuste || 0), 0);
+// ================= FILTROS TABLA =================
+
+const capturaFiltrada = captura.filter(i => {
+
+  // TODOS
+  if (filtroTabla === "todos") {
+    return true;
+  }
+
+  // SOLO DIFERENCIAS
+  if (filtroTabla === "diferencias") {
+    return i.diferencia !== 0;
+  }
+
+  // SOBRANTES
+  if (filtroTabla === "sobrantes") {
+    return i.diferencia > 0;
+  }
+
+  // FALTANTES
+  if (filtroTabla === "faltantes") {
+    return i.diferencia < 0;
+  }
+
+  return true;
+});
 
   // ================= RENDER =================
 
@@ -928,6 +956,42 @@ onClick={async () => {
   </div>
 
 </div>
+{/* ================= FILTROS ================= */}
+
+<div
+  style={{
+    display: "flex",
+    gap: "10px",
+    marginBottom: "15px",
+    flexWrap: "wrap"
+  }}
+>
+
+  <button
+    onClick={() => setFiltroTabla("todos")}
+  >
+    Todos
+  </button>
+
+  <button
+    onClick={() => setFiltroTabla("diferencias")}
+  >
+    Diferencias
+  </button>
+
+  <button
+    onClick={() => setFiltroTabla("sobrantes")}
+  >
+    Sobrantes
+  </button>
+
+  <button
+    onClick={() => setFiltroTabla("faltantes")}
+  >
+    Faltantes
+  </button>
+
+</div>
 {/* TABLA */}
 
 <div
@@ -990,7 +1054,7 @@ onClick={async () => {
 
             <tbody>
 
-              {captura.map((i, idx) => (
+             {capturaFiltrada.map((i, idx) => (
 
               
 <tr
