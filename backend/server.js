@@ -741,7 +741,23 @@ app.get("/ciclicos/:id/capturas", async (req, res) => {
     res.status(500).send("Error");
   }
 });
+// 🔥 EXPORTAR EXCEL CICLICO
 app.get("/ciclicos/:id/excel", async (req, res) => {
+
+  try {
+
+    const capturas = await CapturaCiclico.find({
+      ciclicoId: req.params.id
+    });
+
+    res.json(capturas);
+
+  } catch (err) {
+
+    console.log(err);
+
+    res.status(500).send("Error exportando");
+  }
 
 });
 app.put("/ciclicos/:id/cerrar", async (req, res) => {
