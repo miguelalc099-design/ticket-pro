@@ -568,11 +568,59 @@ style={{
           {ciclicoActivo.estado === "Abierto" && (
             <>
 
-              <input
-                placeholder="Escanea SKU"
-                value={sku}
-                onChange={(e) => setSku(e.target.value)}
-              />
+              <```jsx id="auto4"
+<input
+  placeholder="Escanea SKU"
+  value={sku}
+
+  onChange={async (e) => {
+
+    const valor = e.target.value;
+
+    setSku(valor);
+
+    // 🔥 SCANNER
+    if (valor.length >= 3) {
+
+      try {
+
+        const inv = await axios.get(
+          API + "/inventario/" + valor
+        );
+
+        const cat = await axios.get(
+          API + "/catalogo/" + valor
+        );
+
+        if (!inv.data && !cat.data) {
+
+          return;
+        }
+
+        setItem({
+
+          sku: valor,
+
+          articulo:
+            inv.data?.articulo ||
+            "Sin descripción",
+
+          existencia:
+            inv.data?.existencia || 0,
+
+          ubicacion:
+            cat.data?.ubicacion || "N/A"
+        });
+
+      } catch (err) {
+
+        console.log(err);
+      }
+    }
+  }}
+/>
+```
+
 <br /><br />
 
 <input
@@ -592,9 +640,7 @@ style={{
     color: "#fff"
   }}
 />
-              <button onClick={buscarParaCiclico}>
-                Buscar
-              </button>
+             
 <div
   style={{
     display: "flex",
