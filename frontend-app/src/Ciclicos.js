@@ -553,6 +553,48 @@ const capturaFiltrada = captura.filter(i => {
 >
 
   <h3>🔧 Herramientas</h3>
+<div
+  style={{
+    marginTop: "20px"
+  }}
+>
+
+  <h3>📜 Historial de Cargas</h3>
+
+  {historial.length === 0 && (
+    <p>No hay historial</p>
+  )}
+
+  {historial.map((h, idx) => (
+
+    <div
+      key={idx}
+      style={{
+        borderBottom: "1px solid #333",
+        padding: "10px 0"
+      }}
+    >
+
+      <div>
+        <b>{h.tipo}</b>
+      </div>
+
+      <div>
+        👤 {h.usuario}
+      </div>
+
+      <div>
+        📅 {h.fecha}
+      </div>
+
+      <div>
+        📦 {h.registros} registros
+      </div>
+
+    </div>
+  ))}
+
+</div>
 
   {/* INVENTARIO */}
 
