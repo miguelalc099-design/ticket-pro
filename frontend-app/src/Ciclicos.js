@@ -204,18 +204,30 @@ setItem({
 
   sku: codigo,
 
+  // 🔥 INVENTARIO SI EXISTE
+  // 🔥 SI NO, USA CATALOGO
   articulo:
+
     inv.data?.articulo ||
+
+    cat.data?.articulo ||
+
     "Sin descripción",
 
+  // 🔥 SOLO INVENTARIO TIJUANA
   existencia:
+
     inv.data?.existencia || 0,
 
-  ubicacion:
-    cat.data?.ubicacion || "N/A",
-
+  // 🔥 SOLO INVENTARIO
   costo:
-    inv.data?.costo || 0
+
+    inv.data?.costo || 0,
+
+  // 🔥 SOLO CATALOGO
+  ubicacion:
+
+    cat.data?.ubicacion || "N/A"
 });
 
   } catch (err) {
