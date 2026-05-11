@@ -102,7 +102,7 @@ const subirExcel = async (e) => {
 
   const sheet = workbook.Sheets[workbook.SheetNames[0]];
 
-  // 🔥 ARRAY POR COLUMNAS
+  // 🔥 IMPORTANTE
   const json = XLSX.utils.sheet_to_json(sheet, {
     header: 1
   });
@@ -131,7 +131,7 @@ const subirCatalogo = async (e) => {
 
   const sheet = workbook.Sheets[workbook.SheetNames[0]];
 
-  // 🔥 ARRAY POR COLUMNAS
+  // 🔥 IMPORTANTE
   const json = XLSX.utils.sheet_to_json(sheet, {
     header: 1
   });
@@ -144,7 +144,6 @@ const subirCatalogo = async (e) => {
 
   alert("Catálogo cargado 🔥");
 };
-
 
 // ================= BUSCAR SKU =================
 
