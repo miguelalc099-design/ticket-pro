@@ -17,10 +17,16 @@ mongoose.connect("mongodb+srv://appuser:MiPass1234@cluster0.qlsaznk.mongodb.net/
   .catch(err => console.log("❌ Error Mongo:", err));
 
 // 🔥 MODELO
+
 const catalogoSchema = new mongoose.Schema({
+
   sku: String,
+
   articulo: String,
-  ubicacion: String   // 🔥 NUEVO
+
+  existencia: Number,
+
+  ubicacion: String
 });
 
 const Catalogo = mongoose.model("Catalogo", catalogoSchema);
@@ -406,30 +412,47 @@ console.log(raw.slice(0, 5));
 
     let catalogo = {};
 
-    raw.forEach((row, index) => {
+raw.forEach((row, index) => {
 
-      // 🔥 SALTAR ENCABEZADO
-      if (index === 0) return;
+  // 🔥 SALTAR ENCABEZADO
+  if (index === 0) return;
 
-      // 🔥 COLUMNA B = SKU
-      const sku = String(
-        row[1] || ""
-      ).trim();
+  // 🔥 B = SKU
+  const sku = String(
+    row[1] || ""
+  ).trim();
 
-      // 🔥 COLUMNA H = UBICACION
-      const ubicacion = String(
-        row[7] || ""
-      ).trim();
+  // 🔥 C = ARTICULO
+  const articulo = String(
+    row[2] || ""
+  ).trim();
 
-      // 🔥 IGNORAR VACIOS
-      if (!sku) return;
+  // 🔥 D = EXISTENCIA
+  const existencia = Number(
+    String(row[3] || 0)
+      .replace(",", ".")
+      .trim()
+  );
 
-      catalogo[sku] = {
-        sku,
-        ubicacion
-      };
+  // 🔥 H = UBICACION
+  const ubicacion = String(
+    row[7] || ""
+  ).trim();
 
-    });
+  if (!sku) return;
+
+  catalogo[sku] = {
+
+    sku,
+
+    articulo,
+
+    existencia,
+
+    ubicacion
+  };
+
+});
 
     const limpio = Object.values(catalogo);
 
