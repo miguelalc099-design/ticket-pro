@@ -595,6 +595,9 @@ style={{
               <p><b>Título:</b> {c.titulo}</p>
 
               <p><b>Fecha:</b> {c.fecha}</p>
+<p>
+  <b>Creado por:</b> {c.creadoPor || "N/A"}
+</p>
 
               <p><b>Estado:</b> {c.estado}</p>
 
