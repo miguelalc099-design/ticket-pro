@@ -623,16 +623,18 @@ style={{
 
         setSku(r.sku);
 
-        setItem({
+setItem({
 
-          sku: r.sku,
+  sku: r.sku,
 
-          articulo: r.articulo,
+  articulo: r.articulo,
 
-          existencia: r.existencia,
+  existencia: r.existencia,
 
-          ubicacion: r.ubicacion
-        });
+  ubicacion: r.ubicacion,
+
+  costo: r.costo || 0
+});
 
         setResultados([]);
 
