@@ -356,8 +356,11 @@ console.log(raw.slice(0, 5));
 
       // 🔥 COLUMNA D = SKU
       const sku = String(
-        row[3] || ""
-      ).trim();
+  row[3] || ""
+)
+.trim()
+.replace(/^0+/, "")
+.toUpperCase();
 
       // 🔥 COLUMNA F = EXISTENCIA
       const existencia = Number(
