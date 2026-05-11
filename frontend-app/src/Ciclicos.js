@@ -1002,6 +1002,7 @@ onClick={async () => {
           )}
 {/* ================= RESUMEN ================= */}
 {captura.length > 0 && (
+<>
 <div className="kpis">
 
   <div className="kpi blue">
@@ -1079,6 +1080,7 @@ onClick={async () => {
   </button>
 
 </div>
+</>
 )}
 {/* TABLA */}
 {captura.length > 0 && (
