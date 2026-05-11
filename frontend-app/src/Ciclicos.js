@@ -200,18 +200,22 @@ const buscarParaCiclico = async () => {
       return;
     }
 
-   
 setItem({
 
-  sku: r.sku,
+  sku: codigo,
 
-  articulo: r.articulo,
+  articulo:
+    inv.data?.articulo ||
+    "Sin descripción",
 
-  existencia: r.existencia,
+  existencia:
+    inv.data?.existencia || 0,
 
-  ubicacion: r.ubicacion,
+  ubicacion:
+    cat.data?.ubicacion || "N/A",
 
-  costo: r.costo || 0
+  costo:
+    inv.data?.costo || 0
 });
 
   } catch (err) {
@@ -700,7 +704,7 @@ style={{
             </>
           )}
 
-          {/* TABLA */}
+{/* TABLA */}
 
 <div
   style={{
@@ -709,19 +713,18 @@ style={{
   }}
 >
 
-<table
-  style={{
-    width: "100%",
-    borderCollapse: "collapse",
-    minWidth: "1200px",
-    background: "#1e1e1e",
-    color: "#fff",
-    borderRadius: "10px",
-    overflow: "hidden"
-  }}
->
-
-      
+  <table
+    style={{
+      width: "100%",
+      borderCollapse: "collapse",
+      minWidth: "1200px",
+      background: "#1e1e1e",
+      color: "#fff",
+      borderRadius: "10px",
+      overflow: "hidden"
+    }}
+  >
+   
 <thead
   style={{
     background: "#111"
@@ -835,6 +838,7 @@ style={{
             </tbody>
 
           </table>
+</div>
 
           <br />
 
