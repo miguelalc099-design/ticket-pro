@@ -361,10 +361,10 @@ console.log(raw.slice(0, 5));
 
       // 🔥 COLUMNA F = EXISTENCIA
       const existencia = Number(
-        String(row[5] || 0)
-          .replace(",", ".")
-          .trim()
-      );
+  String(row[5] || 0)
+    .replace(/,/g, "")
+    .trim()
+);
 // 🔥 G = COSTO
 const costo = Number(
 
@@ -453,7 +453,7 @@ raw.forEach((row, index) => {
   // 🔥 D = EXISTENCIA
   const existencia = Number(
     String(row[3] || 0)
-      .replace(",", ".")
+      .replace(/,/g, "")
       .trim()
   );
 
