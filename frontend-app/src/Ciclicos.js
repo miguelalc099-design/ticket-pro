@@ -531,27 +531,21 @@ const capturaFiltrada = captura.filter(i => {
 >
 
   <h3>🔧 Herramientas</h3>
-<div
-  style={{
-    marginTop: "20px"
-  }}
->
 
+{/* INVENTARIO */}
 
-  {/* INVENTARIO */}
+<div style={{ marginBottom: "15px" }}>
 
-  <div style={{ marginBottom: "15px" }}>
+  <label>📥 Actualizar Inventario</label>
 
-    <label>📥 Actualizar Inventario</label>
+  <br />
 
-    <br />
+  <input
+    type="file"
+    onChange={subirExcel}
+  />
 
-    <input
-      type="file"
-      onChange={subirExcel}
-    />
-
-  </div>
+</div>
 
   {/* CATALOGO */}
 
