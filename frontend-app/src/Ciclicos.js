@@ -342,6 +342,49 @@ const buscarDescripcion = async (texto) => {
     <div className="card">
 
       <h2>📦 Módulo Cíclicos</h2>
+<div
+  style={{
+    border: "1px solid #444",
+    borderRadius: "10px",
+    padding: "15px",
+    marginBottom: "20px",
+    background: "#1e1e1e"
+  }}
+>
+
+  <h3>🔧 Herramientas</h3>
+
+  {/* INVENTARIO */}
+
+  <div style={{ marginBottom: "15px" }}>
+
+    <label>📥 Actualizar Inventario</label>
+
+    <br />
+
+    <input
+      type="file"
+      onChange={subirExcel}
+    />
+
+  </div>
+
+  {/* CATALOGO */}
+
+  <div style={{ marginBottom: "15px" }}>
+
+    <label>📋 Actualizar Catálogo</label>
+
+    <br />
+
+    <input
+      type="file"
+      onChange={subirCatalogo}
+    />
+
+  </div>
+
+</div>
 
       {/* ================= LISTA ================= */}
 
@@ -488,30 +531,6 @@ style={{
           />
 
           <br /><br />
-
-          {/* INVENTARIO */}
-
-          <div style={{ marginBottom: "20px" }}>
-            <label>📥 Subir Inventario</label>
-            <br />
-
-            <input
-              type="file"
-              onChange={subirExcel}
-            />
-          </div>
-
-          {/* CATALOGO */}
-
-          <div style={{ marginBottom: "20px" }}>
-            <label>📋 Subir Catálogo</label>
-            <br />
-
-            <input
-              type="file"
-              onChange={subirCatalogo}
-            />
-          </div>
 
           <button onClick={crearCiclico}>
             🚀 Iniciar Cíclico
