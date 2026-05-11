@@ -573,10 +573,91 @@ style={{
                 value={sku}
                 onChange={(e) => setSku(e.target.value)}
               />
+<br /><br />
 
+<input
+  type="text"
+  placeholder="🔍 Buscar descripción..."
+  value={busqueda}
+  onChange={(e) =>
+    buscarDescripcion(e.target.value)
+  }
+  style={{
+    width: "100%",
+    padding: "12px",
+    borderRadius: "10px",
+    border: "1px solid #444",
+    fontSize: "16px",
+    background: "#1e1e1e",
+    color: "#fff"
+  }}
+/>
               <button onClick={buscarParaCiclico}>
                 Buscar
               </button>
+<div
+  style={{
+    display: "flex",
+    flexDirection: "column",
+    gap: "10px",
+    marginTop: "15px",
+    marginBottom: "20px"
+  }}
+>
+
+  {resultados.map((r, index) => (
+
+    <div
+      key={index}
+
+      onClick={() => {
+
+        setSku(r.sku);
+
+        setItem({
+
+          sku: r.sku,
+
+          articulo: r.articulo,
+
+          existencia: r.existencia,
+
+          ubicacion: r.ubicacion
+        });
+
+        setResultados([]);
+
+        setBusqueda("");
+      }}
+
+      style={{
+        border: "1px solid #444",
+        borderRadius: "10px",
+        padding: "12px",
+        background: "#1e1e1e",
+        color: "#fff",
+        cursor: "pointer"
+      }}
+    >
+
+      <div>
+        <strong>{r.sku}</strong>
+      </div>
+
+      <div>{r.articulo}</div>
+
+      <div>
+        📍 {r.ubicacion || "Sin ubicación"}
+      </div>
+
+      <div>
+        📦 {r.existencia}
+      </div>
+
+    </div>
+  ))}
+
+</div>
 
               {item && (
                 <div
