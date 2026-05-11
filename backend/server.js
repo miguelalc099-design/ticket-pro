@@ -430,11 +430,22 @@ inventario[sku] = {
     // 🔥 INSERTAR NUEVO
     await Inventario.insertMany(limpio);
 
-    res.json({
-      ok: true,
-      total: limpio.length
-    });
+await HistorialCarga.create({
 
+  tipo: "Inventario",
+
+  usuario: req.body.usuario || "Admin",
+
+  fecha: new Date().toLocaleString(),
+
+  registros: limpio.length
+
+});
+
+res.json({
+  ok: true,
+  total: limpio.length
+});
   } catch (err) {
 
     console.log(err);
