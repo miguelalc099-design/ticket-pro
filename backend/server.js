@@ -127,6 +127,24 @@ const capturaSchema = new mongoose.Schema({
 });
 
 const CapturaCiclico = mongoose.model("CapturaCiclico", capturaSchema);
+// ================= HISTORIAL CARGAS =================
+
+const historialCargaSchema = new mongoose.Schema({
+
+  tipo: String,
+
+  usuario: String,
+
+  fecha: String,
+
+  registros: Number
+
+});
+
+const HistorialCarga = mongoose.model(
+  "HistorialCarga",
+  historialCargaSchema
+);
 
 // 🔥 LOGIN SIMPLE
 
