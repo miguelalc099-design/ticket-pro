@@ -28,25 +28,7 @@ const [busqueda, setBusqueda] = useState("");
 const [resultados, setResultados] = useState([]);
 const [filtroTabla, setFiltroTabla] =
   useState("todos");
-const [historial, setHistorial] =
-  useState([]);
-// ================= HISTORIAL =================
 
-const cargarHistorial = async () => {
-
-  try {
-
-    const res = await axios.get(
-      API + "/historial-cargas"
-    );
-
-    setHistorial(res.data || []);
-
-  } catch (err) {
-
-    console.log(err);
-  }
-};
   // ================= CARGAR CICLICOS =================
 
 const cargarCiclicos = async () => {
@@ -78,12 +60,8 @@ const cargarCiclicos = async () => {
 
   // ================= INIT =================
 
- useEffect(() => {
-
+useEffect(() => {
   cargarCiclicos();
-
-  cargarHistorial();
-
 }, []);
 
   // ================= CREAR CICLICO =================
@@ -559,42 +537,6 @@ const capturaFiltrada = captura.filter(i => {
   }}
 >
 
-  <h3>📜 Historial de Cargas</h3>
-
-  {historial.length === 0 && (
-    <p>No hay historial</p>
-  )}
-
-  {historial.map((h, idx) => (
-
-    <div
-      key={idx}
-      style={{
-        borderBottom: "1px solid #333",
-        padding: "10px 0"
-      }}
-    >
-
-      <div>
-        <b>{h.tipo}</b>
-      </div>
-
-      <div>
-        👤 {h.usuario}
-      </div>
-
-      <div>
-        📅 {h.fecha}
-      </div>
-
-      <div>
-        📦 {h.registros} registros
-      </div>
-
-    </div>
-  ))}
-
-</div>
 
   {/* INVENTARIO */}
 
