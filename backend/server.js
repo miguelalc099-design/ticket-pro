@@ -250,6 +250,29 @@ app.get("/tickets", async (req, res) => {
   }
 });
 
+// ================= HISTORIAL CARGAS =================
+
+app.get("/historial-cargas", async (req, res) => {
+
+  try {
+
+    const historial =
+      await HistorialCarga
+        .find()
+        .sort({ _id: -1 });
+
+    res.json(historial);
+
+  } catch (err) {
+
+    console.log(err);
+
+    res.status(500).json({
+      error: "Error historial"
+    });
+  }
+});
+
 // 🔥 CREAR TICKET
 app.post("/tickets", async (req, res) => {
   try {
@@ -516,11 +539,21 @@ raw.forEach((row, index) => {
     // 🔥 INSERTAR NUEVO
     await Catalogo.insertMany(limpio);
 
-    res.json({
-      ok: true,
-      total: limpio.length
-    });
+await HistorialCarga.create({
 
+  tipo: "Catalogo",
+
+  usuario: req.body.usuario || "Admin",
+
+  fecha: new Date().toLocaleString(),
+
+  registros: limpio.length
+
+});
+
+res.json({
+  ok: true
+});
   } catch (err) {
 
     console.log(err);
