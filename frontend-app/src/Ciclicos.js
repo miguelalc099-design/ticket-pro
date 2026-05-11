@@ -200,21 +200,19 @@ const buscarParaCiclico = async () => {
       return;
     }
 
-    setItem({
+   
+setItem({
 
-      sku: codigo,
+  sku: r.sku,
 
-      articulo:
-        inv.data?.articulo ||
-        "Sin descripción",
+  articulo: r.articulo,
 
-      existencia:
-        inv.data?.existencia || 0,
+  existencia: r.existencia,
 
-      ubicacion:
-        cat.data?.ubicacion || "N/A"
+  ubicacion: r.ubicacion,
 
-    });
+  costo: r.costo || 0
+});
 
   } catch (err) {
 
@@ -272,7 +270,17 @@ const buscarDescripcion = async (texto) => {
         diferencia:
           Number(conteo) - Number(item.existencia || 0),
 
-        ubicacion: item.ubicacion || "-"
+        ubicacion: item.ubicacion || "-",
+
+costo: item.costo || 0,
+
+ajuste:
+
+  (Number(conteo) -
+  Number(item.existencia || 0))
+
+  * Number(item.costo || 0),
+
       };
 
       await axios.post(
@@ -694,20 +702,62 @@ style={{
 
           {/* TABLA */}
 
-          <table
-            style={{
-              marginTop: "20px",
-              width: "100%"
-            }}
-          >
+<div
+  style={{
+    overflowX: "auto",
+    marginTop: "20px"
+  }}
+>
 
-            <thead>
+<table
+  style={{
+    width: "100%",
+    borderCollapse: "collapse",
+    minWidth: "1200px",
+    background: "#1e1e1e",
+    color: "#fff",
+    borderRadius: "10px",
+    overflow: "hidden"
+  }}
+>
+
+      
+<thead
+  style={{
+    background: "#111"
+  }}
+>
               <tr>
-                <th>SKU</th>
-                <th>Ubicación</th>
-                <th>Sistema</th>
-                <th>Conteo</th>
-                <th>Diferencia</th>
+               
+<th style={{ padding: "12px" }}>SKU</th>
+
+<th style={{ padding: "12px" }}>
+  Artículo
+</th>
+
+<th style={{ padding: "12px" }}>
+  Ubicación
+</th>
+
+<th style={{ padding: "12px" }}>
+  Sistema
+</th>
+
+<th style={{ padding: "12px" }}>
+  Conteo
+</th>
+
+<th style={{ padding: "12px" }}>
+  Diferencia
+</th>
+
+<th style={{ padding: "12px" }}>
+  Costo Unidad
+</th>
+
+<th style={{ padding: "12px" }}>
+  Ajuste $
+</th>
               </tr>
             </thead>
 
@@ -715,26 +765,69 @@ style={{
 
               {captura.map((i, idx) => (
 
-                <tr key={idx}>
+              
+<tr
+  key={idx}
+  style={{
+    borderBottom: "1px solid #333"
+  }}
+>
 
-                  <td>{i.sku}</td>
+<td style={{ padding: "12px" }}>
+  {i.sku}
+</td>
 
-                  <td>{i.ubicacion}</td>
+<td style={{ padding: "12px" }}>
+  {i.articulo}
+</td>
 
-                  <td>{i.sistema}</td>
+<td style={{ padding: "12px" }}>
+  {i.ubicacion}
+</td>
 
-                  <td>{i.conteo}</td>
+<td style={{ padding: "12px" }}>
+  {i.sistema}
+</td>
 
-                  <td
-                    style={{
-                      color:
-                        i.diferencia !== 0
-                          ? "red"
-                          : "green"
-                    }}
-                  >
-                    {i.diferencia}
-                  </td>
+<td style={{ padding: "12px" }}>
+  {i.conteo}
+</td>
+
+<td
+  style={{
+    padding: "12px",
+    color:
+      i.diferencia !== 0
+        ? "#ff4d4f"
+        : "#52c41a",
+    fontWeight: "bold"
+  }}
+>
+  {i.diferencia}
+</td>
+
+<td style={{ padding: "12px" }}>
+  $
+
+  {Number(i.costo || 0)
+    .toLocaleString()}
+</td>
+
+<td
+  style={{
+    padding: "12px",
+    color:
+      i.ajuste < 0
+        ? "#ff4d4f"
+        : "#52c41a",
+    fontWeight: "bold"
+  }}
+>
+  $
+
+  {Number(i.ajuste || 0)
+    .toLocaleString()}
+</td>
 
                 </tr>
               ))}
