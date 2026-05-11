@@ -544,9 +544,27 @@ app.get("/buscar", async (req, res) => {
       return res.json([]);
     }
 
-    // 🔥 SEPARAR PALABRAS
-    const palabras = q.split(" ");
+// 🔥 PALABRAS IGNORADAS
+const ignorar = [
+  "de",
+  "la",
+  "el",
+  "los",
+  "las",
+  "para",
+  "p/",
+  "con",
+  "y"
+];
 
+// 🔥 SEPARAR Y LIMPIAR
+const palabras = q
+  .split(" ")
+  .map(p => p.trim())
+  .filter(p =>
+    p.length > 1 &&
+    !ignorar.includes(p)
+  );
     // 🔥 TODAS LAS PALABRAS
     const filtros = palabras.map(p => ({
       articulo: {
