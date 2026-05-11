@@ -321,6 +321,8 @@ app.post("/inventario/upload", async (req, res) => {
   try {
 
     const raw = req.body.data;
+console.log("RAW INVENTARIO:");
+console.log(raw.slice(0, 5));
 
     let inventario = {};
 
@@ -395,6 +397,8 @@ app.post("/catalogo/upload", async (req, res) => {
   try {
 
     const raw = req.body.data;
+console.log("RAW CATALOGO:");
+console.log(raw.slice(0, 5));
 
     let catalogo = {};
 
@@ -444,7 +448,6 @@ app.post("/catalogo/upload", async (req, res) => {
   }
 });
 
-
 // 🔍 CONSULTAR INVENTARIO POR SKU
 app.get("/inventario/:sku", async (req, res) => {
 
@@ -454,9 +457,13 @@ app.get("/inventario/:sku", async (req, res) => {
       .trim()
       .toUpperCase();
 
+    console.log("BUSCANDO INVENTARIO:", sku);
+
     const item = await Inventario.findOne({
       sku: { $regex: `^${sku}$`, $options: "i" }
     });
+
+    console.log("ITEM INVENTARIO:", item);
 
     res.json(item);
 
@@ -467,7 +474,6 @@ app.get("/inventario/:sku", async (req, res) => {
     res.status(500).send("Error");
   }
 });
-
 
 // 🔍 CONSULTAR CATALOGO
 app.get("/catalogo/:sku", async (req, res) => {
@@ -478,9 +484,13 @@ app.get("/catalogo/:sku", async (req, res) => {
       .trim()
       .toUpperCase();
 
+    console.log("BUSCANDO CATALOGO:", sku);
+
     const item = await Catalogo.findOne({
       sku: { $regex: `^${sku}$`, $options: "i" }
     });
+
+    console.log("ITEM CATALOGO:", item);
 
     res.json(item);
 
@@ -491,7 +501,6 @@ app.get("/catalogo/:sku", async (req, res) => {
     res.status(500).send("Error");
   }
 });
-
 // 🔥 CREAR CICLICO
 app.post("/ciclicos", async (req, res) => {
   try {
