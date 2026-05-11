@@ -22,6 +22,9 @@ function Ciclicos({ user }) {
   const [fecha, setFecha] = useState("");
 
   const [ciclicoActivo, setCiclicoActivo] = useState(null);
+const [busqueda, setBusqueda] = useState("");
+
+const [resultados, setResultados] = useState([]);
 
   // ================= CARGAR CICLICOS =================
 
@@ -220,6 +223,36 @@ const buscarParaCiclico = async () => {
     alert("Error conexión");
   }
 };  
+
+
+// ================= BUSQUEDA INTELIGENTE =================
+
+const buscarDescripcion = async (texto) => {
+
+  setBusqueda(texto);
+
+  // 🔥 MUY CORTO
+  if (texto.trim().length < 2) {
+
+    setResultados([]);
+
+    return;
+  }
+
+  try {
+
+    const res = await axios.get(
+      API + "/buscar?q=" + texto
+    );
+
+    setResultados(res.data);
+
+  } catch (err) {
+
+    console.log(err);
+  }
+};
+
   // ================= AGREGAR =================
 
   const agregar = async () => {
@@ -314,7 +347,68 @@ const buscarParaCiclico = async () => {
 
       {modo === "lista" && (
         <>
+<div style={{ marginBottom: "20px" }}>
 
+  <input
+    type="text"
+    placeholder="🔍 Buscar SKU o descripción..."
+    value={busqueda}
+    onChange={(e) =>
+      buscarDescripcion(e.target.value)
+    }
+    style={{
+      width: "100%",
+      padding: "12px",
+      borderRadius: "10px",
+      border: "1px solid #ccc",
+      fontSize: "16px"
+    }}
+  />
+
+</div>
+
+<div
+  style={{
+    display: "flex",
+    flexDirection: "column",
+    gap: "10px",
+    marginBottom: "20px"
+  }}
+>
+
+  {resultados.map((item, index) => (
+
+    <div
+      key={index}
+      style={{
+        border: "1px solid #ddd",
+        borderRadius: "10px",
+        padding: "12px",
+        background: "#fff",
+        boxShadow: "0 2px 5px rgba(0,0,0,0.05)"
+      }}
+    >
+
+      <div>
+        <strong>{item.sku}</strong>
+      </div>
+
+      <div>
+        {item.articulo}
+      </div>
+
+      <div>
+        📍 {item.ubicacion || "Sin ubicación"}
+      </div>
+
+      <div>
+        📦 {item.existencia}
+      </div>
+
+    </div>
+  ))}
+
+</div>
           <button onClick={() => setModo("nuevo")}>
             ➕ Nuevo Cíclico
           </button>
