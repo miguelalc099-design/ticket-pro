@@ -592,6 +592,61 @@ style={{
                   ? "▶ Continuar"
                   : "👁 Ver"}
               </button>
+<button
+  style={{ marginLeft: "10px" }}
+
+  onClick={async () => {
+
+    try {
+
+      const res = await axios.get(
+        API + "/ciclicos/" + c._id + "/excel"
+      );
+
+      const datos = res.data.map(i => ({
+
+        SKU: i.sku,
+
+        Articulo: i.articulo,
+
+        Ubicacion: i.ubicacion,
+
+        Sistema: i.sistema,
+
+        Conteo: i.conteo,
+
+        Diferencia: i.diferencia,
+
+        Costo: i.costo,
+
+        Ajuste: i.ajuste
+      }));
+
+      const ws = XLSX.utils.json_to_sheet(datos);
+
+      const wb = XLSX.utils.book_new();
+
+      XLSX.utils.book_append_sheet(
+        wb,
+        ws,
+        "Ciclico"
+      );
+
+      XLSX.writeFile(
+        wb,
+        `${c.folio}.xlsx`
+      );
+
+    } catch (err) {
+
+      console.log(err);
+
+      alert("Error exportando");
+    }
+  }}
+>
+  📥 Excel
+</button>
 
             </div>
           ))}
@@ -625,12 +680,7 @@ style={{
           <button onClick={crearCiclico}>
             🚀 Iniciar Cíclico
           </button>
-<button
-  style={{ marginRight: "10px" }}
-  onClick={exportarExcel}
->
-  📥 Descargar Excel
-</button>
+
           <button
             style={{ marginLeft: "10px" }}
             onClick={() => setModo("lista")}
