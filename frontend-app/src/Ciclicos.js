@@ -78,8 +78,12 @@ const cargarCiclicos = async () => {
 
   // ================= INIT =================
 
-  useEffect(() => {
+ useEffect(() => {
+
   cargarCiclicos();
+
+  cargarHistorial();
+
 }, []);
 
   // ================= CREAR CICLICO =================
