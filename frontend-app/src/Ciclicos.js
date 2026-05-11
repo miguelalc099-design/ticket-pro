@@ -425,6 +425,25 @@ const exportarExcel = async () => {
     alert("Error exportando Excel");
   }
 };
+// ================= RESUMEN EJECUTIVO =================
+
+const totalSKUs = captura.length;
+
+const totalDiferencias = captura.filter(
+  i => i.diferencia !== 0
+).length;
+
+const sobrantes = captura
+  .filter(i => i.ajuste > 0)
+  .reduce((acc, i) => acc + Number(i.ajuste || 0), 0);
+
+const faltantes = captura
+  .filter(i => i.ajuste < 0)
+  .reduce((acc, i) => acc + Number(i.ajuste || 0), 0);
+
+const ajusteTotal = captura
+  .reduce((acc, i) =>
+    acc + Number(i.ajuste || 0), 0);
 
   // ================= RENDER =================
 
@@ -863,7 +882,49 @@ onClick={async () => {
 
             </>
           )}
+{/* ================= RESUMEN ================= */}
 
+<div className="kpis">
+
+  <div className="kpi blue">
+    <h3>{totalSKUs}</h3>
+    <p>Total SKUs</p>
+  </div>
+
+  <div className="kpi yellow">
+    <h3>{totalDiferencias}</h3>
+    <p>Diferencias</p>
+  </div>
+
+  <div className="kpi green">
+    <h3>
+      $
+      {sobrantes.toLocaleString()}
+    </h3>
+
+    <p>Sobrantes</p>
+  </div>
+
+  <div className="kpi red">
+    <h3>
+      $
+      {Math.abs(faltantes)
+        .toLocaleString()}
+    </h3>
+
+    <p>Faltantes</p>
+  </div>
+
+  <div className="kpi orange">
+    <h3>
+      $
+      {ajusteTotal.toLocaleString()}
+    </h3>
+
+    <p>Ajuste Total</p>
+  </div>
+
+</div>
 {/* TABLA */}
 
 <div
