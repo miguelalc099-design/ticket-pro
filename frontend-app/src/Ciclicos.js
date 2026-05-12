@@ -429,7 +429,7 @@ const capturaFiltrada = captura.filter(i => {
   // ================= RENDER =================
 
   return (
-<div className="dashboard-layout">
+<div>
 
   {/* MAIN */}
 
@@ -1892,8 +1892,9 @@ style={{
         </>
       )}
 
-        </div>
-</div>
+           </div>
+      </div>
+    </div>
 
 );
 }
