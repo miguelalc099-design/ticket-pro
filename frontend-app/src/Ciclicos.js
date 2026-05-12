@@ -472,7 +472,6 @@ const capturaFiltrada = captura.filter(i => {
   </div>
 
 </div>
->
 
       {/* ================= LISTA ================= */}
 
@@ -917,13 +916,29 @@ const capturaFiltrada = captura.filter(i => {
     }
  
 style={{
+
   width: "100%",
-  padding: "12px",
-  borderRadius: "10px",
-  border: "1px solid #444",
-  fontSize: "16px",
-  background: "#1e1e1e",
-  color: "#fff"
+
+  padding: "18px",
+
+  borderRadius: "18px",
+
+  border:
+    "1px solid rgba(255,255,255,0.08)",
+
+  fontSize: "17px",
+
+  background:
+    "rgba(15,23,42,0.9)",
+
+  color: "#fff",
+
+  boxShadow:
+    "0 10px 30px rgba(0,0,0,0.25)",
+
+  outline: "none",
+
+  boxSizing: "border-box"
 }}
 
   />
@@ -949,14 +964,24 @@ style={{
       key={index}
       
 style={{
-  border: "1px solid #444",
-  borderRadius: "10px",
-  padding: "12px",
-  background: "#1e1e1e",
-  color: "#fff",
-  boxShadow: "0 2px 5px rgba(0,0,0,0.3)"
-}}
 
+  border:
+    "1px solid rgba(255,255,255,0.08)",
+
+  borderRadius: "18px",
+
+  padding: "18px",
+
+  background:
+    "linear-gradient(145deg,#0f172a,#020617)",
+
+  color: "#fff",
+
+  boxShadow:
+    "0 10px 25px rgba(0,0,0,0.35)",
+
+  transition: "0.25s"
+}}
     >
 
       <div>
@@ -998,11 +1023,24 @@ style={{
             <div
               key={c._id}
               style={{
-                border: "1px solid #333",
-                padding: "15px",
-                marginBottom: "15px",
-                borderRadius: "10px"
-              }}
+
+  background:
+    "linear-gradient(145deg,#0f172a,#020617)",
+
+  border:
+    "1px solid rgba(255,255,255,0.06)",
+
+  borderRadius: "24px",
+
+  padding: "28px",
+
+  marginBottom: "20px",
+
+  boxShadow:
+    "0 15px 40px rgba(0,0,0,0.35)",
+
+  transition: "0.25s"
+}}
             >
 
               <h3>{c.folio}</h3>
@@ -1231,6 +1269,7 @@ ws["!autofilter"] = {
           </p>
 
           <hr />
+<div style={{ marginTop: "30px" }} />
 
           {ciclicoActivo.estado === "Abierto" && (
             <>
@@ -1270,15 +1309,31 @@ ref={skuInputRef}
   onChange={(e) =>
     buscarDescripcion(e.target.value)
   }
-  style={{
-    width: "100%",
-    padding: "12px",
-    borderRadius: "10px",
-    border: "1px solid #444",
-    fontSize: "16px",
-    background: "#1e1e1e",
-    color: "#fff"
-  }}
+ style={{
+
+  width: "100%",
+
+  padding: "18px",
+
+  borderRadius: "18px",
+
+  border:
+    "1px solid rgba(255,255,255,0.08)",
+
+  fontSize: "17px",
+
+  background:
+    "rgba(15,23,42,0.9)",
+
+  color: "#fff",
+
+  boxShadow:
+    "0 10px 30px rgba(0,0,0,0.25)",
+
+  outline: "none",
+
+  boxSizing: "border-box"
+}}
 />
 {resultados.length > 0 && (
 <div
@@ -1345,14 +1400,27 @@ onClick={async () => {
   }
 }}
 
-      style={{
-        border: "1px solid #444",
-        borderRadius: "10px",
-        padding: "12px",
-        background: "#1e1e1e",
-        color: "#fff",
-        cursor: "pointer"
-      }}
+style={{
+
+  border:
+    "1px solid rgba(255,255,255,0.08)",
+
+  borderRadius: "18px",
+
+  padding: "18px",
+
+  background:
+    "linear-gradient(145deg,#0f172a,#020617)",
+
+  color: "#fff",
+
+  cursor: "pointer",
+
+  boxShadow:
+    "0 10px 25px rgba(0,0,0,0.35)",
+
+  transition: "0.25s"
+}}
     >
 
       <div>
@@ -1555,15 +1623,26 @@ onClick={async () => {
 >
 
   <table
-    style={{
-      width: "100%",
-      borderCollapse: "collapse",
-      minWidth: "1200px",
-      background: "#1e1e1e",
-      color: "#fff",
-      borderRadius: "10px",
-      overflow: "hidden"
-    }}
+   style={{
+
+  width: "100%",
+
+  borderCollapse: "collapse",
+
+  minWidth: "1200px",
+
+  background:
+    "linear-gradient(145deg,#0f172a,#020617)",
+
+  color: "#fff",
+
+  borderRadius: "24px",
+
+  overflow: "hidden",
+
+  boxShadow:
+    "0 15px 40px rgba(0,0,0,0.35)"
+}}
   >
    
 <thead
