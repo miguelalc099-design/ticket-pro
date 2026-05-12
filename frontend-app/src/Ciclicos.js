@@ -33,6 +33,7 @@ const [busqueda, setBusqueda] = useState("");
 const [resultados, setResultados] = useState([]);
 const [filtroTabla, setFiltroTabla] =
   useState("todos");
+const busquedaRef = useRef("");
 const skuInputRef = useRef(null);
   // ================= CARGAR CICLICOS =================
 
@@ -252,6 +253,7 @@ setItem({
 const buscarDescripcion = async (texto) => {
 
   setBusqueda(texto);
+busquedaRef.current = texto;
 
   // 🔥 MUY CORTO
  if (texto.trim().length < 2) {
@@ -263,12 +265,24 @@ const buscarDescripcion = async (texto) => {
 
   try {
 
-    const res = await axios.get(
-      API + "/buscar?q=" + texto
-    );
+    const busquedaActual = texto;
 
-    setResultados(res.data);
+const res = await axios.get(
+  API + "/buscar?q=" + texto
+);
 
+// 🔥 SI EL INPUT YA CAMBIÓ
+// IGNORA RESPUESTA VIEJA
+
+if (busquedaActual !== busqueda) {
+  return;
+}
+
+if (busquedaRef.current !== texto) {
+  return;
+}
+
+setResultados(res.data);
   } catch (err) {
 
     console.log(err);
