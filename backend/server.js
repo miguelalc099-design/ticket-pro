@@ -771,6 +771,43 @@ app.get("/ciclicos/:id/capturas", async (req, res) => {
     res.status(500).send("Error");
   }
 });
+// 🔥 EDITAR CAPTURA
+app.put("/capturas/:id", async (req, res) => {
+
+  try {
+
+    const captura = await CapturaCiclico.findById(
+  req.params.id
+);
+
+    if (!captura) {
+      return res.status(404).send("No existe");
+    }
+
+    const conteo = Number(req.body.conteo);
+
+    captura.conteo = conteo;
+
+    captura.diferencia =
+      conteo - Number(captura.sistema || 0);
+
+    captura.ajuste =
+      captura.diferencia *
+      Number(captura.costo || 0);
+
+    await captura.save();
+
+    res.json({
+      ok: true
+    });
+
+  } catch (err) {
+
+    console.log(err);
+
+    res.status(500).send("Error editando");
+  }
+});
 // 🔥 EXPORTAR EXCEL CICLICO
 app.get("/ciclicos/:id/excel", async (req, res) => {
 
