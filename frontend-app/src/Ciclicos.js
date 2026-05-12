@@ -474,7 +474,11 @@ const capturaFiltrada = captura.filter(i => {
 </div>
 >
 
-  {/* HEADER */}
+      {/* ================= LISTA ================= */}
+
+      {modo === "lista" && (
+        <>
+{/* HEADER */}
 
   <div
     style={{
@@ -902,10 +906,6 @@ const capturaFiltrada = captura.filter(i => {
   </div>
 
 </div>
-      {/* ================= LISTA ================= */}
-
-      {modo === "lista" && (
-        <>
 <div style={{ marginBottom: "20px" }}>
 
   <input
