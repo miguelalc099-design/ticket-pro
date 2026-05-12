@@ -1715,6 +1715,47 @@ onClick={async () => {
 >
   ✏ Editar
 </button>
+<button
+  className="btn-pro btn-danger"
+
+  onClick={async () => {
+
+    const confirmar = window.confirm(
+      "¿Eliminar captura?"
+    );
+
+    if (!confirmar) return;
+
+    try {
+
+      await axios.delete(
+        API + "/capturas/" + i._id
+      );
+
+      toast.success("Eliminado 🔥");
+
+      await cargarCapturas(
+        ciclicoActivo._id
+      );
+
+      await cargarCiclicos();
+
+    } catch (err) {
+
+      console.log(err);
+
+      toast.error("Error eliminando");
+    }
+  }}
+
+  style={{
+    padding: "8px 12px",
+    fontSize: "14px",
+    marginLeft: "8px"
+  }}
+>
+  🗑 Eliminar
+</button>
 
 </td>
 
