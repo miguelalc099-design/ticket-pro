@@ -904,7 +904,7 @@ const capturaFiltrada = captura.filter(i => {
 
   </div>
 
-</div>
+
 <div style={{ marginBottom: "20px" }}>
 
   <input
