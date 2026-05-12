@@ -369,111 +369,6 @@ skuInputRef.current?.focus();
   }
 };
 
-// ================= EXPORTAR EXCEL =================
-
-const exportarExcel = async () => {
-
-  try {
-
-    const res = await axios.get(
-      API + "/ciclicos/" + ciclicoActivo._id + "/excel"
-    );
-
-    const datos = [
-  [],
-  ["FOLIO", ciclicoActivo.folio],
-  ["TÍTULO", ciclicoActivo.titulo],
-  ["FECHA", ciclicoActivo.fecha],
-  ["CREADO POR", ciclicoActivo.creadoPor],
-  ["ESTADO", ciclicoActivo.estado],
-
-  [],
-
-  ["RESUMEN"],
-
-["Total SKUs", totalSKUs],
-
-["Diferencias", totalDiferencias],
-
-["Ajuste Total $",
-  res.data.reduce(
-    (acc, i) =>
-      acc + Number(i.ajuste || 0),
-    0
-  ).toFixed(2)
-],
-
-[],
-  [
-    "SKU",
-    "Artículo",
-    "Ubicación",
-    "Sistema",
-    "Conteo",
-    "Diferencia",
-    "Costo",
-    "Ajuste"
-  ],
-
-  ...res.data.map(i => ([
-    i.sku,
-    i.articulo,
-    i.ubicacion,
-    i.sistema,
-    i.conteo,
-    i.diferencia,
-    Number(i.costo || 0).toFixed(2),
-Number(i.ajuste || 0).toFixed(2)
-  ]))
-];
-    const ws = XLSX.utils.aoa_to_sheet(datos);
-ws["!cols"] = [
-  { wch: 18 },
-  { wch: 45 },
-  { wch: 20 },
-  { wch: 12 },
-  { wch: 12 },
-  { wch: 14 },
-  { wch: 14 },
-  { wch: 16 }
-];
-ws["!autofilter"] = {
-  ref: "A15:H15"
-};
-
-    const wb = XLSX.utils.book_new();
-
-    XLSX.utils.book_append_sheet(
-      wb,
-      ws,
-      "Ciclico"
-    );
-
-    const excelBuffer = XLSX.write(wb, {
-      bookType: "xlsx",
-      type: "array"
-    });
-
-    const fileData = new Blob(
-      [excelBuffer],
-      {
-        type:
-          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-      }
-    );
-
-    saveAs(
-      fileData,
-      `${ciclicoActivo.folio}.xlsx`
-    );
-
-  } catch (err) {
-
-    console.log(err);
-
-    toast.error("Error exportando Excel");
-  }
-};
 // ================= RESUMEN EJECUTIVO =================
 
 const totalSKUs = captura.length;
@@ -692,12 +587,16 @@ style={{
                 <b>Diferencias:</b> {c.diferencias}
               </p>
 
-              <button onClick={() => abrirCiclico(c)}>
+             <button
+  className="btn-pro"
+  onClick={() => abrirCiclico(c)}
+>
                 {c.estado === "Abierto"
                   ? "▶ Continuar"
                   : "👁 Ver"}
               </button>
 <button
+  className="btn-pro btn-secondary"
   style={{ marginLeft: "10px" }}
 
   onClick={async () => {
@@ -812,28 +711,63 @@ ws["!autofilter"] = {
 
           <h3>➕ Nuevo Cíclico</h3>
 
-          <input
-            placeholder="Título"
-            value={titulo}
-            onChange={(e) => setTitulo(e.target.value)}
-          />
+         <input
+  placeholder="📝 Título del cíclico"
+  value={titulo}
+
+  onChange={(e) =>
+    setTitulo(e.target.value)
+  }
+
+  style={{
+    width: "100%",
+    padding: "16px",
+    borderRadius: "14px",
+    border: "2px solid #334155",
+    background: "#0f172a",
+    color: "#fff",
+    fontSize: "18px",
+    outline: "none",
+    boxSizing: "border-box"
+  }}
+/>
 
           <br /><br />
 
           <input
-            type="date"
-            value={fecha}
-            onChange={(e) => setFecha(e.target.value)}
-          />
+  type="date"
+  value={fecha}
+
+  onChange={(e) =>
+    setFecha(e.target.value)
+  }
+
+  style={{
+    width: "100%",
+    padding: "16px",
+    borderRadius: "14px",
+    border: "2px solid #334155",
+    background: "#0f172a",
+    color: "#fff",
+    fontSize: "18px",
+    outline: "none",
+    boxSizing: "border-box"
+  }}
+/>
 
           <br /><br />
 
-          <button onClick={crearCiclico}>
+          <button
+  className="btn-pro"
+  onClick={crearCiclico}
+>
             🚀 Iniciar Cíclico
           </button>
 
           <button
-            style={{ marginLeft: "10px" }}
+  className="btn-pro btn-secondary"
+  style={{ marginLeft: "10px" }}
+
             onClick={() => setModo("lista")}
           >
             Cancelar
@@ -1217,7 +1151,18 @@ onClick={async () => {
 <tr
   key={idx}
   style={{
-    borderBottom: "1px solid #333"
+
+    borderBottom: "1px solid #333",
+
+    background:
+
+      i.diferencia > 0
+        ? "rgba(34,197,94,0.15)"
+
+      : i.diferencia < 0
+        ? "rgba(239,68,68,0.15)"
+
+      : "#1e1e1e"
   }}
 >
 
