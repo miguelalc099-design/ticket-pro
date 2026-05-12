@@ -902,7 +902,7 @@ ref={skuInputRef}
   flexDirection: "column",
   gap: "10px",
   marginTop: "15px",
-  marginBottom: "35px",
+  marginBottom: "60px",
   position: "relative",
   zIndex: 20
 }}
@@ -1074,6 +1074,7 @@ onClick={async () => {
 {/* ================= RESUMEN ================= */}
 {captura.length > 0 && (
 <>
+<div style={{ marginTop: "25px" }}>
 <div className="kpis">
 
   <div className="kpi blue">
@@ -1154,6 +1155,7 @@ onClick={async () => {
     Faltantes
   </button>
 
+</div>
 </div>
 
 </>
