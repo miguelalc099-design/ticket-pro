@@ -484,25 +484,40 @@ const capturaFiltrada = captura.filter(i => {
   position="top-right"
 />
 
-<div className="card">
+<div>
 
-      <h2>📦 Módulo Cíclicos</h2>
-<div
-  style={{
-    background:
-      "linear-gradient(145deg, #0f172a, #020617)",
+  <div className="top-card">
 
-    border: "1px solid #1e293b",
+  <div className="top-row">
 
-    borderRadius: "28px",
+    <div className="ciclico-header">
 
-    padding: "30px",
+      <div className="ciclico-icon">
+        📦
+      </div>
 
-    marginBottom: "30px",
+      <div>
 
-    boxShadow:
-      "0 25px 60px rgba(0,0,0,0.45)"
-  }}
+        <h1 className="ciclico-title">
+          Módulo Cíclicos
+        </h1>
+
+        <div
+          style={{
+            color: "#94a3b8",
+            marginTop: "8px"
+          }}
+        >
+          Control inteligente de inventario
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
 >
 
   {/* HEADER */}
