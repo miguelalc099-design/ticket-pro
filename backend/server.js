@@ -591,11 +591,26 @@ const palabras = q
   );
     // 🔥 TODAS LAS PALABRAS
     const filtros = palabras.map(p => ({
+
+  $or: [
+
+    {
       articulo: {
         $regex: p,
         $options: "i"
       }
-    }));
+    },
+
+    {
+      sku: {
+        $regex: p,
+        $options: "i"
+      }
+    }
+
+  ]
+
+}));
 
     // 🔥 BUSCAR EN CATALOGO
     const catalogo = await Catalogo.find({
