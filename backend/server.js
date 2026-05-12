@@ -627,9 +627,20 @@ const palabras = q
 
       catalogo.map(async item => {
 
-        const inv = await Inventario.findOne({
-          sku: item.sku
-        });
+        let skuBusqueda = String(item.sku)
+  .trim()
+  .toUpperCase();
+
+// 🔥 SOLO NUMÉRICOS
+if (/^\d+$/.test(skuBusqueda)) {
+
+  skuBusqueda =
+    skuBusqueda.replace(/^0+/, "");
+}
+
+const inv = await Inventario.findOne({
+  sku: skuBusqueda
+});
 
 return {
 
