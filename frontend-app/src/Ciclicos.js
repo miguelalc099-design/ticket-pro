@@ -274,9 +274,6 @@ const res = await axios.get(
 // 🔥 SI EL INPUT YA CAMBIÓ
 // IGNORA RESPUESTA VIEJA
 
-if (busquedaActual !== busqueda) {
-  return;
-}
 
 if (busquedaRef.current !== texto) {
   return;
@@ -552,11 +549,14 @@ style={{
 
 <div
   style={{
-    display: "flex",
-    flexDirection: "column",
-    gap: "10px",
-    marginBottom: "20px"
-  }}
+  display: "flex",
+  flexDirection: "column",
+  gap: "10px",
+  marginTop: "15px",
+  marginBottom: "35px",
+  position: "relative",
+  zIndex: 20
+}}
 >
 
   {resultados.map((item, index) => (
@@ -898,12 +898,14 @@ ref={skuInputRef}
 {resultados.length > 0 && (
 <div
   style={{
-    display: "flex",
-    flexDirection: "column",
-    gap: "10px",
-    marginTop: "15px",
-    marginBottom: "20px"
-  }}
+  display: "flex",
+  flexDirection: "column",
+  gap: "10px",
+  marginTop: "15px",
+  marginBottom: "35px",
+  position: "relative",
+  zIndex: 20
+}}
 >
 
   {resultados.map((r, index) => (
