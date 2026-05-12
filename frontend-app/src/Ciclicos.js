@@ -254,12 +254,14 @@ const buscarDescripcion = async (texto) => {
   setBusqueda(texto);
 
   // 🔥 MUY CORTO
-  if (texto.trim().length < 2) {
+ if (texto.trim().length < 2) {
 
-    setResultados([]);
+  setResultados([]);
 
-    return;
-  }
+  setBusqueda("");
+
+  return;
+}
 
   try {
 
@@ -427,13 +429,21 @@ const capturaFiltrada = captura.filter(i => {
 
       <h2>📦 Módulo Cíclicos</h2>
 <div
-  style={{
-    border: "1px solid #444",
-    borderRadius: "10px",
-    padding: "15px",
-    marginBottom: "20px",
-    background: "#1e1e1e"
-  }}
+style={{
+  background:
+    "linear-gradient(145deg, #111827, #020617)",
+
+  border: "1px solid #1e293b",
+
+  borderRadius: "18px",
+
+  padding: "22px",
+
+  marginBottom: "25px",
+
+  boxShadow:
+    "0 15px 35px rgba(0,0,0,0.45)"
+}}
 >
 
   <h3>🔧 Herramientas</h3>
@@ -442,14 +452,28 @@ const capturaFiltrada = captura.filter(i => {
 
 <div style={{ marginBottom: "15px" }}>
 
-  <label>📥 Actualizar Inventario</label>
+<label
+  style={{
+    fontSize: "15px",
+    fontWeight: "600",
+    color: "#fff"
+  }}
+>
+  📥 Actualizar Inventario
+</label>
 
   <br />
 
   <input
-    type="file"
-    onChange={subirExcel}
-  />
+  type="file"
+
+  style={{
+    marginTop: "10px",
+    color: "#94a3b8"
+  }}
+
+  onChange={subirExcel}
+/>
 
 </div>
 
@@ -457,14 +481,28 @@ const capturaFiltrada = captura.filter(i => {
 
   <div style={{ marginBottom: "15px" }}>
 
-    <label>📋 Actualizar Catálogo</label>
+<label
+  style={{
+    fontSize: "15px",
+    fontWeight: "600",
+    color: "#fff"
+  }}
+>
+  📋 Actualizar Catálogo
+</label>
 
     <br />
 
-    <input
-      type="file"
-      onChange={subirCatalogo}
-    />
+  <input
+  type="file"
+
+  style={{
+    marginTop: "10px",
+    color: "#94a3b8"
+  }}
+
+  onChange={subirCatalogo}
+/>
 
   </div>
 
@@ -953,6 +991,26 @@ onClick={async () => {
                   <p>
                     <b>Ubicación:</b> {item.ubicacion || "N/A"}
                   </p>
+<button
+  className="btn-pro btn-secondary"
+
+  onClick={() => {
+
+    setSku("");
+
+    setItem(null);
+
+    setConteo("");
+
+    skuInputRef.current?.focus();
+  }}
+
+  style={{
+    marginBottom: "15px"
+  }}
+>
+  🗑 Limpiar
+</button>
 
                   <input
   type="number"
