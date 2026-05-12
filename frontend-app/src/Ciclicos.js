@@ -660,14 +660,40 @@ const capturaFiltrada = captura.filter(i => {
         Selecciona tu archivo
       </p>
 
-      <input
-        type="file"
-        onChange={subirExcel}
+     <label
+  style={{
+    background:
+      "linear-gradient(145deg,#2563eb,#1d4ed8)",
 
-        style={{
-          color: "#94a3b8"
-        }}
-      />
+    color: "#fff",
+
+    padding: "14px 28px",
+
+    borderRadius: "14px",
+
+    cursor: "pointer",
+
+    fontWeight: "bold",
+
+    fontSize: "17px",
+
+    boxShadow:
+      "0 10px 20px rgba(37,99,235,0.35)",
+
+    transition: "0.2s"
+  }}
+>
+  ⬆ Seleccionar archivo
+
+  <input
+    type="file"
+    onChange={subirExcel}
+
+    style={{
+      display: "none"
+    }}
+  />
+</label>
 
     </div>
 
@@ -817,14 +843,40 @@ const capturaFiltrada = captura.filter(i => {
         Selecciona tu archivo
       </p>
 
-      <input
-        type="file"
-        onChange={subirCatalogo}
+      <label
+  style={{
+    background:
+      "linear-gradient(145deg,#9333ea,#7e22ce)",
 
-        style={{
-          color: "#94a3b8"
-        }}
-      />
+    color: "#fff",
+
+    padding: "14px 28px",
+
+    borderRadius: "14px",
+
+    cursor: "pointer",
+
+    fontWeight: "bold",
+
+    fontSize: "17px",
+
+    boxShadow:
+      "0 10px 20px rgba(147,51,234,0.35)",
+
+    transition: "0.2s"
+  }}
+>
+  ⬆ Seleccionar archivo
+
+  <input
+    type="file"
+    onChange={subirCatalogo}
+
+    style={{
+      display: "none"
+    }}
+  />
+</label>
 
     </div>
 
