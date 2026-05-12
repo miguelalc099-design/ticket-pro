@@ -808,6 +808,25 @@ app.put("/capturas/:id", async (req, res) => {
     res.status(500).send("Error editando");
   }
 });
+// 🔥 ELIMINAR CAPTURA
+app.delete("/capturas/:id", async (req, res) => {
+
+  try {
+
+    const captura =
+      await CapturaCiclico.findById(
+        req.params.id
+      );
+
+    if (!captura) {
+      return res.status(404).send("No existe");
+    }
+
+    const ciclicoId =
+      captura.ciclicoId;
+
+    await CapturaCiclico.findByIdAndDelete(
+     
 // 🔥 EXPORTAR EXCEL CICLICO
 app.get("/ciclicos/:id/excel", async (req, res) => {
 
