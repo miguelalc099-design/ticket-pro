@@ -429,7 +429,57 @@ const capturaFiltrada = captura.filter(i => {
   // ================= RENDER =================
 
   return (
-<>
+<div className="dashboard-layout">
+
+  {/* SIDEBAR */}
+
+  <div className="sidebar-pro">
+
+    <div className="logo-pro">
+      COMMAND <span>CENTER</span>
+    </div>
+
+    <div className="sidebar-group">
+
+      <div className="sidebar-title">
+        INVENTARIO
+      </div>
+
+      <button className="sidebar-btn active">
+        📦 Cíclicos
+      </button>
+
+      <button className="sidebar-btn">
+        📚 Inventario
+      </button>
+
+      <button className="sidebar-btn">
+        🗂 Catálogo
+      </button>
+
+    </div>
+
+    <div className="sidebar-group">
+
+      <div className="sidebar-title">
+        ADMINISTRACIÓN
+      </div>
+
+      <button className="sidebar-btn">
+        👥 Usuarios
+      </button>
+
+      <button className="sidebar-btn">
+        📊 Reportes
+      </button>
+
+    </div>
+
+  </div>
+
+  {/* MAIN */}
+
+  <div className="main-pro">
 <Toaster
   position="top-right"
 />
@@ -1795,8 +1845,9 @@ onClick={async () => {
       )}
 
         </div>
-    </>
-  );
+</div>
+
+);
 }
 
 export default Ciclicos;
