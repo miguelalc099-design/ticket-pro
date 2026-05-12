@@ -1021,27 +1021,13 @@ style={{
           {ciclicos.map((c) => (
 
             <div
-              key={c._id}
-              style={{
-
-  background:
-    "linear-gradient(145deg,#0f172a,#020617)",
-
-  border:
-    "1px solid rgba(255,255,255,0.06)",
-
-  borderRadius: "24px",
-
-  padding: "28px",
-
-  marginBottom: "20px",
-
-  boxShadow:
-    "0 15px 40px rgba(0,0,0,0.35)",
-
-  transition: "0.25s"
-}}
-            >
+  key={c._id}
+  className="card-pro"
+  style={{
+    padding: "28px",
+    marginBottom: "20px"
+  }}
+>
 
               <h3>{c.folio}</h3>
 
