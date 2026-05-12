@@ -1583,6 +1583,9 @@ onClick={async () => {
 <th style={{ padding: "12px" }}>
   Ajuste $
 </th>
+<th style={{ padding: "12px" }}>
+  Acciones
+</th>
               </tr>
             </thead>
 
@@ -1644,7 +1647,6 @@ onClick={async () => {
 
 <td style={{ padding: "12px" }}>
   $
-
   {Number(i.costo || 0)
     .toLocaleString()}
 </td>
@@ -1660,13 +1662,65 @@ onClick={async () => {
   }}
 >
   $
-
   {Number(i.ajuste || 0)
     .toLocaleString()}
 </td>
 
-                </tr>
-              ))}
+<td style={{ padding: "12px" }}>
+
+<button
+  className="btn-pro btn-secondary"
+
+  onClick={async () => {
+
+    const nuevo = prompt(
+      "Nuevo conteo:",
+      i.conteo
+    );
+
+    if (
+      nuevo === null ||
+      nuevo === ""
+    ) return;
+
+    try {
+
+      await axios.put(
+        API + "/capturas/" + i._id,
+        {
+          conteo: Number(nuevo)
+        }
+      );
+
+      toast.success("Actualizado 🔥");
+
+      await cargarCapturas(
+        ciclicoActivo._id
+      );
+
+      await cargarCiclicos();
+
+    } catch (err) {
+
+      console.log(err);
+
+      toast.error("Error editando");
+    }
+  }}
+
+  style={{
+    padding: "8px 12px",
+    fontSize: "14px"
+  }}
+>
+  ✏ Editar
+</button>
+
+</td>
+
+</tr>
+
+))}
 
             </tbody>
 
