@@ -826,7 +826,40 @@ app.delete("/capturas/:id", async (req, res) => {
       captura.ciclicoId;
 
     await CapturaCiclico.findByIdAndDelete(
-     
+      req.params.id
+    );
+
+    // 🔥 RECALCULAR KPIs
+    const totalCapturados =
+      await CapturaCiclico.countDocuments({
+        ciclicoId
+      });
+
+    const diferencias =
+      await CapturaCiclico.countDocuments({
+        ciclicoId,
+        diferencia: { $ne: 0 }
+      });
+
+    await Ciclico.findByIdAndUpdate(
+      ciclicoId,
+      {
+        totalCapturados,
+        diferencias
+      }
+    );
+
+    res.json({
+      ok: true
+    });
+
+  } catch (err) {
+
+    console.log(err);
+
+    res.status(500).send("Error eliminando");
+  }
+});
 // 🔥 EXPORTAR EXCEL CICLICO
 app.get("/ciclicos/:id/excel", async (req, res) => {
 
