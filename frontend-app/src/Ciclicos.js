@@ -534,6 +534,8 @@ style={{
 
 </div>
 
+{resultados.length > 0 && (
+
 <div
   style={{
     display: "flex",
@@ -544,7 +546,6 @@ style={{
 >
 
   {resultados.map((item, index) => (
-
     <div
       key={index}
       
@@ -579,6 +580,7 @@ style={{
   ))}
 
 </div>
+)}
          <button
   className="btn-pro"
   onClick={() => setModo("nuevo")}
@@ -879,6 +881,7 @@ ref={skuInputRef}
     color: "#fff"
   }}
 />
+{resultados.length > 0 && (
 <div
   style={{
     display: "flex",
@@ -969,7 +972,7 @@ onClick={async () => {
   ))}
 
 </div>
-
+)}
               {item && (
                 <div
                   style={{
