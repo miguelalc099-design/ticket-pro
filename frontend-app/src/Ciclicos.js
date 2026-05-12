@@ -258,8 +258,6 @@ const buscarDescripcion = async (texto) => {
 
   setResultados([]);
 
-  setBusqueda("");
-
   return;
 }
 
