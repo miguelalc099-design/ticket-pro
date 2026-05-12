@@ -682,3 +682,59 @@ body {
   margin-bottom: 8px;
   border-radius: 8px;
 }
+/* ================= BOTONES PRO ================= */
+
+.btn-pro {
+  padding: 14px 22px;
+  border: none;
+  border-radius: 14px;
+
+  background: linear-gradient(
+    135deg,
+    #2563eb,
+    #1d4ed8
+  );
+
+  color: white;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+
+  box-shadow:
+    0 8px 20px rgba(37,99,235,0.35);
+
+  min-height: 52px;
+}
+
+.btn-pro:hover {
+  transform: translateY(-2px);
+  opacity: 0.95;
+}
+
+.btn-pro:active {
+  transform: scale(0.98);
+}
+
+/* ROJO */
+
+.btn-danger {
+  background: linear-gradient(
+    135deg,
+    #dc2626,
+    #b91c1c
+  );
+}
+
+/* GRIS */
+
+.btn-secondary {
+  background: linear-gradient(
+    135deg,
+    #334155,
+    #1e293b
+  );
+}

@@ -1,7 +1,12 @@
-import { useState, useEffect } from "react";
+import {
+  useState,
+  useEffect,
+  useRef
+} from "react";
 import axios from "axios";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
+import toast, { Toaster } from "react-hot-toast";
 
 const API = "https://ticket-pro-backend.onrender.com";
 
@@ -28,7 +33,7 @@ const [busqueda, setBusqueda] = useState("");
 const [resultados, setResultados] = useState([]);
 const [filtroTabla, setFiltroTabla] =
   useState("todos");
-
+const skuInputRef = useRef(null);
   // ================= CARGAR CICLICOS =================
 
 const cargarCiclicos = async () => {
@@ -69,7 +74,7 @@ useEffect(() => {
   const crearCiclico = async () => {
 
     if (!titulo || !fecha) {
-      alert("Completa título y fecha");
+      toast.error("Completa título y fecha");
       return;
     }
 
@@ -91,7 +96,7 @@ useEffect(() => {
 
     } catch (err) {
       console.log(err);
-      alert("Error creando cíclico");
+      toast.error("Error creando cíclico");
     }
   };
 // ================= SUBIR INVENTARIO =================
@@ -125,13 +130,13 @@ const subirExcel = async (e) => {
 
     console.log(res.data);
 
-    alert("Inventario cargado 🔥");
+    toast.success("Inventario cargado 🔥");
 
   } catch (err) {
 
     console.log(err);
 
-    alert("Error subiendo inventario");
+    toast.error("Error subiendo inventario");
   }
 };
 
@@ -166,13 +171,13 @@ const subirCatalogo = async (e) => {
 
     console.log(res.data);
 
-    alert("Catálogo cargado 🔥");
+   toast.success("Catálogo cargado 🔥");
 
   } catch (err) {
 
     console.log(err);
 
-    alert("Error subiendo catálogo");
+    toast.error("Error subiendo catálogo");
   }
 };
 // ================= BUSCAR SKU =================
@@ -198,7 +203,7 @@ const buscarParaCiclico = async () => {
     // 🔥 NO EXISTE
     if (!inv.data && !cat.data) {
 
-      alert("SKU no existe");
+      toast.error("SKU no existe");
 
       return;
     }
@@ -237,7 +242,7 @@ setItem({
 
     console.log(err);
 
-    alert("Error conexión");
+   toast.error("Error conexión");
   }
 };  
 
@@ -316,12 +321,13 @@ ajuste:
       setItem(null);
 
       setConteo("");
+skuInputRef.current?.focus();
 
     } catch (err) {
 
       console.log(err);
 
-      alert("SKU ya capturado");
+      toast.error("SKU ya capturado");
     }
   };
 
@@ -348,7 +354,7 @@ ajuste:
   API + "/ciclicos/" + ciclicoActivo._id + "/cerrar"
 );
 
-    alert("Cíclico cerrado ✅");
+    toast.success("Cíclico cerrado");
 
     await cargarCiclicos();
 
@@ -465,7 +471,7 @@ ws["!autofilter"] = {
 
     console.log(err);
 
-    alert("Error exportando Excel");
+    toast.error("Error exportando Excel");
   }
 };
 // ================= RESUMEN EJECUTIVO =================
@@ -517,7 +523,12 @@ const capturaFiltrada = captura.filter(i => {
   // ================= RENDER =================
 
   return (
-    <div className="card">
+<>
+<Toaster
+  position="top-right"
+/>
+
+<div className="card">
 
       <h2>📦 Módulo Cíclicos</h2>
 <div
@@ -637,7 +648,10 @@ style={{
   ))}
 
 </div>
-          <button onClick={() => setModo("nuevo")}>
+         <button
+  className="btn-pro"
+  onClick={() => setModo("nuevo")}
+>
             ➕ Nuevo Cíclico
           </button>
 
@@ -778,7 +792,7 @@ ws["!autofilter"] = {
 
       console.log(err);
 
-      alert("Error exportando");
+      toast.error("Error exportando");
     }
   }}
 >
@@ -851,10 +865,31 @@ ws["!autofilter"] = {
             <>
 
               <input
-                placeholder="Escanea SKU"
-                value={sku}
-                onChange={(e) => setSku(e.target.value)}
-              />
+ref={skuInputRef}
+  placeholder="🔍 Escanea o escribe SKU"
+  value={sku}
+  onChange={(e) => setSku(e.target.value)}
+
+  onKeyDown={(e) => {
+
+    if (e.key === "Enter") {
+
+      buscarParaCiclico();
+    }
+  }}
+
+  style={{
+    width: "100%",
+    padding: "16px",
+    borderRadius: "14px",
+    border: "2px solid #334155",
+    background: "#0f172a",
+    color: "#fff",
+    fontSize: "20px",
+    outline: "none",
+    boxSizing: "border-box"
+  }}
+/>
 <br /><br />
 
 <input
@@ -986,12 +1021,39 @@ onClick={async () => {
                   </p>
 
                   <input
-                    placeholder="Conteo"
-                    value={conteo}
-                    onChange={(e) => setConteo(e.target.value)}
-                  />
+  type="number"
+  placeholder="🔢 Conteo"
+  value={conteo}
 
-                  <button onClick={agregar}>
+  onChange={(e) =>
+    setConteo(e.target.value)
+  }
+
+  onKeyDown={(e) => {
+
+    if (e.key === "Enter") {
+
+      agregar();
+    }
+  }}
+
+  style={{
+    width: "100%",
+    padding: "16px",
+    borderRadius: "14px",
+    border: "2px solid #334155",
+    background: "#0f172a",
+    color: "#fff",
+    fontSize: "22px",
+    marginBottom: "12px",
+    boxSizing: "border-box"
+  }}
+/>
+
+                  <button
+  className="btn-pro"
+  onClick={agregar}
+>
                     Agregar
                   </button>
 
@@ -1056,30 +1118,35 @@ onClick={async () => {
 >
 
   <button
+    className="btn-pro btn-secondary"
     onClick={() => setFiltroTabla("todos")}
   >
     Todos
   </button>
 
   <button
+    className="btn-pro btn-secondary"
     onClick={() => setFiltroTabla("diferencias")}
   >
     Diferencias
   </button>
 
   <button
+    className="btn-pro btn-secondary"
     onClick={() => setFiltroTabla("sobrantes")}
   >
     Sobrantes
   </button>
 
   <button
+    className="btn-pro btn-secondary"
     onClick={() => setFiltroTabla("faltantes")}
   >
     Faltantes
   </button>
 
 </div>
+
 </>
 )}
 {/* TABLA */}
@@ -1222,13 +1289,17 @@ onClick={async () => {
           <br />
 
           {ciclicoActivo.estado === "Abierto" && (
-            <button onClick={cerrarCiclico}>
+            <button
+  className="btn-pro btn-danger"
+  onClick={cerrarCiclico}
+>
               ✅ Finalizar Cíclico
             </button>
           )}
 
           <button
-            style={{ marginLeft: "10px" }}
+  className="btn-pro btn-secondary"
+  style={{ marginLeft: "10px" }}
             onClick={() => {
               setModo("lista");
               setItem(null);
@@ -1240,7 +1311,8 @@ onClick={async () => {
         </>
       )}
 
-    </div>
+        </div>
+    </>
   );
 }
 
