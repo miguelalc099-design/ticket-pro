@@ -438,85 +438,399 @@ const capturaFiltrada = captura.filter(i => {
 
       <h2>📦 Módulo Cíclicos</h2>
 <div
-style={{
-  background:
-    "linear-gradient(145deg, #111827, #020617)",
-
-  border: "1px solid #1e293b",
-
-  borderRadius: "18px",
-
-  padding: "22px",
-
-  marginBottom: "25px",
-
-  boxShadow:
-    "0 15px 35px rgba(0,0,0,0.45)"
-}}
->
-
-  <h3>🔧 Herramientas</h3>
-
-{/* INVENTARIO */}
-
-<div style={{ marginBottom: "15px" }}>
-
-<label
   style={{
-    fontSize: "15px",
-    fontWeight: "600",
-    color: "#fff"
+    background:
+      "linear-gradient(145deg, #0f172a, #020617)",
+
+    border: "1px solid #1e293b",
+
+    borderRadius: "28px",
+
+    padding: "30px",
+
+    marginBottom: "30px",
+
+    boxShadow:
+      "0 25px 60px rgba(0,0,0,0.45)"
   }}
 >
-  📥 Actualizar Inventario
-</label>
 
-  <br />
+  {/* HEADER */}
 
-  <input
-  type="file"
+  <div
+    style={{
+      display: "flex",
+      alignItems: "center",
+      gap: "18px",
+      marginBottom: "35px"
+    }}
+  >
 
-  style={{
-    marginTop: "10px",
-    color: "#94a3b8"
-  }}
+    <div
+      style={{
+        width: "70px",
+        height: "70px",
+        borderRadius: "22px",
 
-  onChange={subirExcel}
-/>
+        background:
+          "linear-gradient(145deg,#2563eb,#7c3aed)",
 
-</div>
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+
+        fontSize: "34px",
+
+        boxShadow:
+          "0 10px 25px rgba(59,130,246,0.35)"
+      }}
+    >
+      🛠
+    </div>
+
+    <div>
+
+      <h2
+        style={{
+          margin: 0,
+          fontSize: "34px",
+          color: "#fff"
+        }}
+      >
+        Herramientas
+      </h2>
+
+      <p
+        style={{
+          marginTop: "6px",
+          color: "#94a3b8",
+          fontSize: "16px"
+        }}
+      >
+        Administra inventario y catálogo
+      </p>
+
+    </div>
+
+  </div>
+
+  {/* INVENTARIO */}
+
+  <div
+    style={{
+      display: "grid",
+
+      gridTemplateColumns:
+  "repeat(auto-fit, minmax(320px, 1fr))",
+
+      gap: "25px",
+
+      background:
+        "rgba(15,23,42,0.7)",
+
+      border:
+        "1px solid #1e293b",
+
+      borderRadius: "24px",
+
+      padding: "25px",
+
+      marginBottom: "25px"
+    }}
+  >
+
+    {/* INFO */}
+
+    <div>
+
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "15px",
+          marginBottom: "20px"
+        }}
+      >
+
+        <div
+          style={{
+            width: "60px",
+            height: "60px",
+            borderRadius: "18px",
+
+            background:
+              "linear-gradient(145deg,#2563eb,#1d4ed8)",
+
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+
+            fontSize: "28px"
+          }}
+        >
+          📥
+        </div>
+
+        <div>
+
+          <h3
+            style={{
+              margin: 0,
+              color: "#fff",
+              fontSize: "28px"
+            }}
+          >
+            Actualizar Inventario
+          </h3>
+
+          <p
+            style={{
+              marginTop: "8px",
+              color: "#94a3b8"
+            }}
+          >
+            Carga existencias y costos
+          </p>
+
+        </div>
+
+      </div>
+
+      <div
+        style={{
+          background:
+            "rgba(37,99,235,0.12)",
+
+          border:
+            "1px solid rgba(59,130,246,0.25)",
+
+          borderRadius: "14px",
+
+          padding: "14px",
+
+          color: "#93c5fd",
+
+          fontSize: "15px"
+        }}
+      >
+        ℹ Formatos soportados:
+        .xlsx / .xls
+      </div>
+
+    </div>
+
+    {/* BOTON */}
+
+    <div
+      style={{
+        border:
+          "2px dashed rgba(59,130,246,0.5)",
+
+        borderRadius: "24px",
+
+        display: "flex",
+
+        flexDirection: "column",
+
+        alignItems: "center",
+
+        justifyContent: "center",
+
+        padding: "30px"
+      }}
+    >
+
+      <div
+        style={{
+          fontSize: "55px",
+          marginBottom: "15px"
+        }}
+      >
+        ☁
+      </div>
+
+      <p
+        style={{
+          color: "#fff",
+          fontSize: "20px",
+          fontWeight: "bold",
+          marginBottom: "10px"
+        }}
+      >
+        Selecciona tu archivo
+      </p>
+
+      <input
+        type="file"
+        onChange={subirExcel}
+
+        style={{
+          color: "#94a3b8"
+        }}
+      />
+
+    </div>
+
+  </div>
 
   {/* CATALOGO */}
 
-  <div style={{ marginBottom: "15px" }}>
+  <div
+    style={{
+      display: "grid",
 
-<label
-  style={{
-    fontSize: "15px",
-    fontWeight: "600",
-    color: "#fff"
-  }}
->
-  📋 Actualizar Catálogo
-</label>
+      gridTemplateColumns:
+  "repeat(auto-fit, minmax(320px, 1fr))",
 
-    <br />
+      gap: "25px",
 
-  <input
-  type="file"
+      background:
+        "rgba(15,23,42,0.7)",
 
-  style={{
-    marginTop: "10px",
-    color: "#94a3b8"
-  }}
+      border:
+        "1px solid #1e293b",
 
-  onChange={subirCatalogo}
-/>
+      borderRadius: "24px",
+
+      padding: "25px"
+    }}
+  >
+
+    {/* INFO */}
+
+    <div>
+
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "15px",
+          marginBottom: "20px"
+        }}
+      >
+
+        <div
+          style={{
+            width: "60px",
+            height: "60px",
+            borderRadius: "18px",
+
+            background:
+              "linear-gradient(145deg,#9333ea,#7e22ce)",
+
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+
+            fontSize: "28px"
+          }}
+        >
+          📋
+        </div>
+
+        <div>
+
+          <h3
+            style={{
+              margin: 0,
+              color: "#fff",
+              fontSize: "28px"
+            }}
+          >
+            Actualizar Catálogo
+          </h3>
+
+          <p
+            style={{
+              marginTop: "8px",
+              color: "#94a3b8"
+            }}
+          >
+            Carga ubicaciones y artículos
+          </p>
+
+        </div>
+
+      </div>
+
+      <div
+        style={{
+          background:
+            "rgba(147,51,234,0.12)",
+
+          border:
+            "1px solid rgba(168,85,247,0.25)",
+
+          borderRadius: "14px",
+
+          padding: "14px",
+
+          color: "#d8b4fe",
+
+          fontSize: "15px"
+        }}
+      >
+        ℹ Formatos soportados:
+        .xlsx / .xls
+      </div>
+
+    </div>
+
+    {/* BOTON */}
+
+    <div
+      style={{
+        border:
+          "2px dashed rgba(168,85,247,0.45)",
+
+        borderRadius: "24px",
+
+        display: "flex",
+
+        flexDirection: "column",
+
+        alignItems: "center",
+
+        justifyContent: "center",
+
+        padding: "30px"
+      }}
+    >
+
+      <div
+        style={{
+          fontSize: "55px",
+          marginBottom: "15px"
+        }}
+      >
+        ☁
+      </div>
+
+      <p
+        style={{
+          color: "#fff",
+          fontSize: "20px",
+          fontWeight: "bold",
+          marginBottom: "10px"
+        }}
+      >
+        Selecciona tu archivo
+      </p>
+
+      <input
+        type="file"
+        onChange={subirCatalogo}
+
+        style={{
+          color: "#94a3b8"
+        }}
+      />
+
+    </div>
 
   </div>
 
 </div>
-
       {/* ================= LISTA ================= */}
 
       {modo === "lista" && (
