@@ -1653,7 +1653,21 @@ setCaptura(prev =>
   prev.map(c =>
 
     c._id === i._id
-      ? res.data
+
+      ? {
+
+          ...res.data,
+
+          ajuste:
+            Number(res.data.ajuste || 0),
+
+          diferencia:
+            Number(res.data.diferencia || 0),
+
+          conteo:
+            Number(res.data.conteo || 0)
+        }
+
       : c
   )
 );
