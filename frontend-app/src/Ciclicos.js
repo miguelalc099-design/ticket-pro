@@ -1654,39 +1654,30 @@ const res = await axios.put(
 
 toast.success("Actualizado 🔥");
 
-setCaptura(prev =>
+const nuevasCapturas = captura.map(c => {
 
-  prev.map(c => {
+  if (c._id !== i._id) {
+    return c;
+  }
 
-    if (c._id !== i._id) {
-      return c;
-    }
+  const nuevoConteo =
+    Number(nuevo);
 
-    const nuevoConteo =
-      Number(nuevo);
+  const nuevaDiferencia =
+    nuevoConteo -
+    Number(c.sistema || 0);
 
-    const nuevaDiferencia =
-      nuevoConteo -
-      Number(c.sistema || 0);
+  return {
 
-    const nuevoAjuste =
+    ...c,
 
-      nuevaDiferencia *
+    conteo: nuevoConteo,
 
-      Number(c.costo || 0);
+    diferencia: nuevaDiferencia
+  };
+});
 
-    return {
-
-      ...c,
-
-      conteo: nuevoConteo,
-
-      diferencia: nuevaDiferencia,
-
-      ajuste: nuevoAjuste
-    };
-  })
-);
+setCaptura([...nuevasCapturas]);
 
 await cargarCiclicos();
 
