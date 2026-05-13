@@ -1549,7 +1549,7 @@ style={{
 
               
 <tr
-  key={idx}
+  key={i._id}
   style={{
 
     borderBottom: "1px solid #333",
