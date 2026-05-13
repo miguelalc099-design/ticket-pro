@@ -320,6 +320,13 @@ setResultados(res.data);
 
 costo: item.costo || 0,
 
+ajuste:
+
+  (Number(conteo) -
+  Number(item.existencia || 0))
+
+  * Number(item.costo || 0),
+
       };
 
       await axios.post(
@@ -425,6 +432,7 @@ const faltantes = captura
       ),
     0
   );
+
 const ajusteTotal = captura
   .reduce(
     (acc, i) =>
@@ -1568,12 +1576,6 @@ style={{
 
              {capturaFiltrada.map((i, idx) => {
 
-const ajusteCalculado =
-
-  Number(i.diferencia ?? 0) *
-
-  parseFloat(i.costo ?? 0);
-
 return (
               
 <tr
@@ -1638,7 +1640,11 @@ return (
     padding: "12px",
 
     color:
-      ajusteCalculado < 0
+      (
+        Number(i.conteo || 0) -
+        Number(i.sistema || 0)
+      ) *
+      Number(i.costo || 0) < 0
         ? "#ff4d4f"
         : "#52c41a",
 
@@ -1646,7 +1652,13 @@ return (
   }}
 >
   $
-  {ajusteCalculado.toLocaleString()}
+  {(
+    (
+      Number(i.conteo || 0) -
+      Number(i.sistema || 0)
+    ) *
+    Number(i.costo || 0)
+  ).toLocaleString()}
 </td>
 <td style={{ padding: "12px" }}>
 
@@ -1667,7 +1679,7 @@ return (
 
   try {
 
-const res = await axios.put(
+await axios.put(
   API + "/capturas/" + i._id,
   {
     conteo: Number(nuevo)
@@ -1703,7 +1715,6 @@ setCaptura(prev =>
 );
 
 await cargarCiclicos();
-
 } catch (err) {
 
   console.log(err);
