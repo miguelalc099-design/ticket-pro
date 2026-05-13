@@ -1645,20 +1645,26 @@ style={{
 
   try {
 
-  await axios.put(
-    API + "/capturas/" + i._id,
-    {
-      conteo: Number(nuevo)
-    }
-  );
+const res = await axios.put(
+  API + "/capturas/" + i._id,
+  {
+    conteo: Number(nuevo)
+  }
+);
 
-  toast.success("Actualizado 🔥");
+toast.success("Actualizado 🔥");
 
-  await cargarCapturas(
-    ciclicoActivo._id
-  );
+setCaptura(prev =>
 
-  await cargarCiclicos();
+  prev.map(c =>
+
+    c._id === i._id
+      ? res.data
+      : c
+  )
+);
+
+await cargarCiclicos();
 
 } catch (err) {
 
