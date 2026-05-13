@@ -1680,39 +1680,34 @@ return (
       nuevo === ""
     ) return;
 
-  try {
+try {
 
-await axios.put(
-  API + "/capturas/" + i._id,
-  {
-    conteo: Number(nuevo)
-  }
-);
-
-toast.success("Actualizado 🔥");
-
-setCaptura(prev =>
-
-  prev.map(c => {
-
-    if (c._id !== i._id) {
-      return { ...c };
+  await axios.put(
+    API + "/capturas/" + i._id,
+    {
+      conteo: Number(nuevo)
     }
+  );
 
-    return {
+  toast.success("Actualizado 🔥");
 
-      ...c,
+  setCaptura(prev =>
 
-      conteo: Number(nuevo),
+    prev.map(c => {
 
-      diferencia:
-        Number(nuevo) -
-        Number(c.sistema || 0)
-    };
-  })
-);
+      if (c._id !== i._id) {
+        return { ...c };
+      }
 
-await cargarCiclicos();
+      return {
+
+        ...c,
+
+        conteo: Number(nuevo)
+      };
+    })
+  );
+
 } catch (err) {
 
   console.log(err);
