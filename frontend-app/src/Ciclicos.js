@@ -1639,22 +1639,47 @@ style={{
 
     try {
 
-      await axios.put(
-        API + "/capturas/" + i._id,
-        {
-          conteo: Number(nuevo)
-        }
-      );
+  await axios.put(
+    API + "/capturas/" + i._id,
+    {
+      conteo: Number(nuevo)
+    }
+  );
 
-      toast.success("Actualizado 🔥");
+  toast.success("Actualizado 🔥");
 
-      await cargarCapturas(
-        ciclicoActivo._id
-      );
+  setCaptura(prev =>
 
-      await cargarCiclicos();
+    prev.map(c =>
 
-    } catch (err) {
+      c._id === i._id
+
+        ? {
+            ...c,
+
+            conteo: Number(nuevo),
+
+            diferencia:
+              Number(nuevo) -
+              Number(c.sistema || 0),
+
+            ajuste:
+
+              (
+                Number(nuevo) -
+                Number(c.sistema || 0)
+              )
+
+              * Number(c.costo || 0)
+          }
+
+        : c
+    )
+  );
+
+  await cargarCiclicos();
+
+} catch (err) {
 
       console.log(err);
 
