@@ -717,15 +717,29 @@ if (ciclico.estado === "Cerrado") {
     .status(400)
     .send("Cíclico cerrado");
 }
-    const existe = await CapturaCiclico.findOne({
-      ciclicoId: req.params.id,
-      sku: req.body.sku
-    });
+    
+const existente =
+  await CapturaCiclico.findOne({
 
-    if (existe) {
-      return res.status(400).send("SKU ya capturado");
-    }
+    ciclicoId: req.params.id,
 
+    sku: req.body.sku
+  });
+if (existente) {
+
+  existente.conteo =
+    req.body.conteo;
+
+  existente.diferencia =
+    req.body.diferencia;
+
+  existente.ajuste =
+    req.body.ajuste;
+
+  await existente.save();
+
+  return res.send(existente);
+}
     const nueva = new CapturaCiclico({
       ciclicoId: req.params.id,
 
