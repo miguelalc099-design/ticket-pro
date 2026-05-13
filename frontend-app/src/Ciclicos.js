@@ -1608,18 +1608,24 @@ style={{
 <td
   style={{
     padding: "12px",
+
     color:
-      i.ajuste < 0
+      (
+        Number(i.diferencia || 0) *
+        Number(i.costo || 0)
+      ) < 0
         ? "#ff4d4f"
         : "#52c41a",
+
     fontWeight: "bold"
   }}
 >
   $
-  {Number(i.ajuste || 0)
-    .toLocaleString()}
+  {(
+    Number(i.diferencia || 0) *
+    Number(i.costo || 0)
+  ).toLocaleString()}
 </td>
-
 <td style={{ padding: "12px" }}>
 
 <button
