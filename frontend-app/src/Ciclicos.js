@@ -1172,8 +1172,6 @@ ws["!autofilter"] = {
 
           <h3>➕ Nuevo Cíclico</h3>
 
-<h3>➕ Nuevo Cíclico</h3>
-
 <input
   className="input-pro"
   placeholder="📝 Título del cíclico"
