@@ -737,6 +737,20 @@ if (existente) {
     req.body.ajuste;
 
   await existente.save();
+const diferencias =
+  await CapturaCiclico.countDocuments({
+
+    ciclicoId: req.params.id,
+
+    diferencia: { $ne: 0 }
+  });
+
+await Ciclico.findByIdAndUpdate(
+  req.params.id,
+  {
+    diferencias
+  }
+);
 
   return res.send(existente);
 }
