@@ -320,13 +320,6 @@ setResultados(res.data);
 
 costo: item.costo || 0,
 
-ajuste:
-
-  (Number(conteo) -
-  Number(item.existencia || 0))
-
-  * Number(item.costo || 0),
-
       };
 
       await axios.post(
@@ -404,16 +397,44 @@ const totalDiferencias = captura.filter(
 ).length;
 
 const sobrantes = captura
-  .filter(i => i.ajuste > 0)
-  .reduce((acc, i) => acc + Number(i.ajuste || 0), 0);
+  .filter(i =>
+    (Number(i.diferencia || 0) *
+    Number(i.costo || 0)) > 0
+  )
+  .reduce(
+    (acc, i) =>
+      acc +
+      (
+        Number(i.diferencia || 0) *
+        Number(i.costo || 0)
+      ),
+    0
+  );
 
 const faltantes = captura
-  .filter(i => i.ajuste < 0)
-  .reduce((acc, i) => acc + Number(i.ajuste || 0), 0);
-
+  .filter(i =>
+    (Number(i.diferencia || 0) *
+    Number(i.costo || 0)) < 0
+  )
+  .reduce(
+    (acc, i) =>
+      acc +
+      (
+        Number(i.diferencia || 0) *
+        Number(i.costo || 0)
+      ),
+    0
+  );
 const ajusteTotal = captura
-  .reduce((acc, i) =>
-    acc + Number(i.ajuste || 0), 0);
+  .reduce(
+    (acc, i) =>
+      acc +
+      (
+        Number(i.diferencia || 0) *
+        Number(i.costo || 0)
+      ),
+    0
+  );
 // ================= FILTROS TABLA =================
 
 const capturaFiltrada = captura.filter(i => {
@@ -1545,8 +1566,15 @@ style={{
 
             <tbody>
 
-             {capturaFiltrada.map((i, idx) => (
+             {capturaFiltrada.map((i, idx) => {
 
+const ajusteCalculado =
+
+  Number(i.diferencia ?? 0) *
+
+  parseFloat(i.costo ?? 0);
+
+return (
               
 <tr
   key={i._id}
@@ -1610,10 +1638,7 @@ style={{
     padding: "12px",
 
     color:
-      (
-        Number(i.diferencia || 0) *
-        Number(i.costo || 0)
-      ) < 0
+      ajusteCalculado < 0
         ? "#ff4d4f"
         : "#52c41a",
 
@@ -1621,10 +1646,7 @@ style={{
   }}
 >
   $
-  {(
-    Number(i.diferencia || 0) *
-    Number(i.costo || 0)
-  ).toLocaleString()}
+  {ajusteCalculado.toLocaleString()}
 </td>
 <td style={{ padding: "12px" }}>
 
@@ -1733,7 +1755,8 @@ await cargarCiclicos();
 
 </tr>
 
-))}
+);
+})}
 
             </tbody>
 
