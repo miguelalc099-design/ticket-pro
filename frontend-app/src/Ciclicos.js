@@ -35,6 +35,7 @@ const [filtroTabla, setFiltroTabla] =
   useState("todos");
 const busquedaRef = useRef("");
 const skuInputRef = useRef(null);
+const [loading, setLoading] = useState(false);
   // ================= CARGAR CICLICOS =================
 
 const cargarCiclicos = async () => {
@@ -904,43 +905,16 @@ const capturaFiltrada = captura.filter(i => {
 
   </div>
 
-
 <div style={{ marginBottom: "20px" }}>
 
   <input
+    className="input-pro"
     type="text"
     placeholder="🔍 Buscar SKU o descripción..."
     value={busqueda}
     onChange={(e) =>
       buscarDescripcion(e.target.value)
     }
- 
-style={{
-
-  width: "100%",
-
-  padding: "18px",
-
-  borderRadius: "18px",
-
-  border:
-    "1px solid rgba(255,255,255,0.08)",
-
-  fontSize: "17px",
-
-  background:
-    "rgba(15,23,42,0.9)",
-
-  color: "#fff",
-
-  boxShadow:
-    "0 10px 30px rgba(0,0,0,0.25)",
-
-  outline: "none",
-
-  boxSizing: "border-box"
-}}
-
   />
 
 </div>
@@ -959,31 +933,14 @@ style={{
 }}
 >
 
-  {resultados.map((item, index) => (
+ {resultados.map((item, index) => (
     <div
       key={index}
-      
-style={{
-
-  border:
-    "1px solid rgba(255,255,255,0.08)",
-
-  borderRadius: "18px",
-
-  padding: "18px",
-
-  background:
-    "linear-gradient(145deg,#0f172a,#020617)",
-
-  color: "#fff",
-
-  boxShadow:
-    "0 10px 25px rgba(0,0,0,0.35)",
-
-  transition: "0.25s"
-}}
+      className="card-pro"
+      style={{
+        padding: "18px"
+      }}
     >
-
       <div>
         <strong>{item.sku}</strong>
       </div>
@@ -1194,12 +1151,15 @@ ws["!autofilter"] = {
 
 <br /><br />
 
-          <button
+         <button
   className="btn-pro"
   onClick={crearCiclico}
+  disabled={loading}
 >
-            🚀 Iniciar Cíclico
-          </button>
+  {loading
+    ? "⏳ Creando..."
+    : "🚀 Iniciar Cíclico"}
+</button>
 
           <button
   className="btn-pro btn-secondary"
@@ -1326,26 +1286,11 @@ onClick={async () => {
   }
 }}
 
+className="card-pro"
+
 style={{
-
-  border:
-    "1px solid rgba(255,255,255,0.08)",
-
-  borderRadius: "18px",
-
   padding: "18px",
-
-  background:
-    "linear-gradient(145deg,#0f172a,#020617)",
-
-  color: "#fff",
-
-  cursor: "pointer",
-
-  boxShadow:
-    "0 10px 25px rgba(0,0,0,0.35)",
-
-  transition: "0.25s"
+  cursor: "pointer"
 }}
     >
 
@@ -1424,12 +1369,15 @@ style={{
   }}
 />
 
-                  <button
+                 <button
   className="btn-pro"
   onClick={agregar}
+  disabled={loading}
 >
-                    Agregar
-                  </button>
+  {loading
+    ? "⏳ Guardando..."
+    : "Agregar"}
+</button>
 
                 </div>
               )}
