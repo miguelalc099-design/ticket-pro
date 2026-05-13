@@ -1688,11 +1688,17 @@ style={{
 
       toast.success("Eliminado 🔥");
 
-      await cargarCapturas(
-        ciclicoActivo._id
-      );
+      const nuevasCapturas =
+  await axios.get(
+    API +
+    "/ciclicos/" +
+    ciclicoActivo._id +
+    "/capturas"
+  );
 
-      await cargarCiclicos();
+setCaptura(nuevasCapturas.data);
+
+await cargarCiclicos();
 
     } catch (err) {
 
