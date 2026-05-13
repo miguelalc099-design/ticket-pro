@@ -1650,26 +1650,36 @@ toast.success("Actualizado 🔥");
 
 setCaptura(prev =>
 
-  prev.map(c =>
+  prev.map(c => {
 
-    c._id === i._id
+    if (c._id !== i._id) {
+      return c;
+    }
 
-      ? {
+    const nuevoConteo =
+      Number(nuevo);
 
-          ...res.data,
+    const nuevaDiferencia =
+      nuevoConteo -
+      Number(c.sistema || 0);
 
-          ajuste:
-            Number(res.data.ajuste || 0),
+    const nuevoAjuste =
 
-          diferencia:
-            Number(res.data.diferencia || 0),
+      nuevaDiferencia *
 
-          conteo:
-            Number(res.data.conteo || 0)
-        }
+      Number(c.costo || 0);
 
-      : c
-  )
+    return {
+
+      ...c,
+
+      conteo: nuevoConteo,
+
+      diferencia: nuevaDiferencia,
+
+      ajuste: nuevoAjuste
+    };
+  })
 );
 
 await cargarCiclicos();
