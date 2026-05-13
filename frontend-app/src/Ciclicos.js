@@ -34,6 +34,7 @@ const [resultados, setResultados] = useState([]);
 const [filtroTabla, setFiltroTabla] =
   useState("todos");
 const busquedaRef = useRef("");
+const conteoInputRef = useRef(null);
 const skuInputRef = useRef(null);
 const [loading, setLoading] = useState(false);
   // ================= CARGAR CICLICOS =================
@@ -247,6 +248,11 @@ setItem({
 
     cat.data?.ubicacion || "N/A"
 });
+setTimeout(() => {
+
+  conteoInputRef.current?.focus();
+
+}, 100);
 
   } catch (err) {
 
@@ -1265,6 +1271,7 @@ ws["!autofilter"] = {
             <>
 
 <input
+ref={skuInputRef}
   className="input-pro"
   placeholder="🔍 Escanea o escribe SKU"
   value={sku}
@@ -1347,6 +1354,11 @@ onClick={async () => {
     setResultados([]);
 
     setBusqueda("");
+setTimeout(() => {
+
+  conteoInputRef.current?.focus();
+
+}, 100);
 
   } catch (err) {
 
@@ -1423,6 +1435,7 @@ style={{
 <div style={{ marginTop: "25px" }} />
 
 <input
+ref={conteoInputRef}
   className="input-pro"
   type="number"
   placeholder="🔢 Conteo"
