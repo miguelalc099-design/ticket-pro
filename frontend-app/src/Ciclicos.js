@@ -1689,6 +1689,8 @@ return (
 </td>
 
 <td style={{ padding: "12px" }}>
+{ciclicoActivo.estado === "Abierto" && (
+<>
 
 <button
   className="btn-pro btn-secondary"
@@ -1795,7 +1797,8 @@ await cargarCiclicos();
 >
   🗑 Eliminar
 </button>
-
+</>
+)}
 </td>
 
 </tr>
