@@ -406,25 +406,36 @@ skuInputRef.current?.focus();
     console.log(err);
   }
 };
+const obtenerDiferencia = (i) => {
+
+  return (
+
+    Number(i.conteo || 0) -
+
+    Number(i.sistema || 0)
+  );
+};
 
 // ================= RESUMEN EJECUTIVO =================
 
 const totalSKUs = captura.length;
 
 const totalDiferencias = captura.filter(
-  i => i.diferencia !== 0
+  i => obtenerDiferencia(i) !== 0
 ).length;
 
 const sobrantes = captura
   .filter(i =>
-    (Number(i.diferencia || 0) *
-    Number(i.costo || 0)) > 0
+    (
+      obtenerDiferencia(i) *
+      Number(i.costo || 0)
+    ) > 0
   )
   .reduce(
     (acc, i) =>
       acc +
       (
-        Number(i.diferencia || 0) *
+        obtenerDiferencia(i) *
         Number(i.costo || 0)
       ),
     0
@@ -432,14 +443,16 @@ const sobrantes = captura
 
 const faltantes = captura
   .filter(i =>
-    (Number(i.diferencia || 0) *
-    Number(i.costo || 0)) < 0
+    (
+      obtenerDiferencia(i) *
+      Number(i.costo || 0)
+    ) < 0
   )
   .reduce(
     (acc, i) =>
       acc +
       (
-        Number(i.diferencia || 0) *
+        obtenerDiferencia(i) *
         Number(i.costo || 0)
       ),
     0
@@ -450,7 +463,7 @@ const ajusteTotal = captura
     (acc, i) =>
       acc +
       (
-        Number(i.diferencia || 0) *
+        obtenerDiferencia(i) *
         Number(i.costo || 0)
       ),
     0
