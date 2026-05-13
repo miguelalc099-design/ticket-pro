@@ -1576,6 +1576,12 @@ style={{
 
              {capturaFiltrada.map((i, idx) => {
 
+const diferenciaCalculada =
+
+  Number(i.conteo || 0) -
+
+  Number(i.sistema || 0);
+
 return (
               
 <tr
@@ -1586,10 +1592,10 @@ return (
 
     background:
 
-      i.diferencia > 0
+      diferenciaCalculada > 0
         ? "rgba(34,197,94,0.15)"
 
-      : i.diferencia < 0
+      : diferenciaCalculada < 0
         ? "rgba(239,68,68,0.15)"
 
       : "#1e1e1e"
@@ -1619,14 +1625,16 @@ return (
 <td
   style={{
     padding: "12px",
+
     color:
-      i.diferencia !== 0
+      diferenciaCalculada !== 0
         ? "#ff4d4f"
         : "#52c41a",
+
     fontWeight: "bold"
   }}
 >
-  {i.diferencia}
+  {diferenciaCalculada}
 </td>
 
 <td style={{ padding: "12px" }}>
@@ -1640,10 +1648,7 @@ return (
     padding: "12px",
 
     color:
-      (
-        Number(i.conteo || 0) -
-        Number(i.sistema || 0)
-      ) *
+      diferenciaCalculada *
       Number(i.costo || 0) < 0
         ? "#ff4d4f"
         : "#52c41a",
@@ -1653,13 +1658,11 @@ return (
 >
   $
   {(
-    (
-      Number(i.conteo || 0) -
-      Number(i.sistema || 0)
-    ) *
+    diferenciaCalculada *
     Number(i.costo || 0)
   ).toLocaleString()}
 </td>
+
 <td style={{ padding: "12px" }}>
 
 <button
