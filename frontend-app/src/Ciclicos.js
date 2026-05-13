@@ -363,15 +363,92 @@ Number(item.existencia || 0))
       setConteo("");
 skuInputRef.current?.focus();
 
-   } catch (err) {
+ } catch (err) {
 
   console.log(err);
 
-  toast.error("SKU ya capturado");
+  // 🔥 DUPLICADO
+  if (
+    err.response?.status === 409
+  ) {
 
-} finally {
+    const existente =
+      err.response.data.captura;
 
-  setLoading(false);
+    const opcion = window.prompt(
+
+`⚠ SKU ya capturado
+
+Conteo actual: ${existente.conteo}
+
+Nuevo conteo: ${conteoFinal}
+
+1 = SUMAR
+2 = REEMPLAZAR
+3 = CANCELAR`
+    );
+
+    // 🔥 CANCELAR
+    if (
+      opcion === "3" ||
+      opcion === null
+    ) {
+
+      return;
+    }
+
+    let nuevoConteo =
+      existente.conteo;
+
+    // 🔥 SUMAR
+    if (opcion === "1") {
+
+      nuevoConteo =
+
+        Number(existente.conteo || 0) +
+
+        Number(conteoFinal || 0);
+    }
+
+    // 🔥 REEMPLAZAR
+    if (opcion === "2") {
+
+      nuevoConteo =
+        Number(conteoFinal || 0);
+    }
+
+    // 🔥 UPDATE
+    await axios.put(
+
+      API + "/capturas/" + existente._id,
+
+      {
+        conteo: nuevoConteo
+      }
+    );
+
+    toast.success(
+      "SKU actualizado 🔥"
+    );
+
+    await cargarCapturas(
+      ciclicoActivo._id
+    );
+
+    await cargarCiclicos();
+
+    setSku("");
+
+    setItem(null);
+
+    setConteo("");
+
+    skuInputRef.current?.focus();
+
+    return;
+  }
+
+  toast.error("Error agregando");
 }
   };
 
