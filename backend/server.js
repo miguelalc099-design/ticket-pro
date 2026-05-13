@@ -727,33 +727,15 @@ const existente =
   });
 if (existente) {
 
-  existente.conteo =
-    req.body.conteo;
+  return res.status(409).json({
 
-  existente.diferencia =
-    req.body.diferencia;
+    duplicado: true,
 
-  existente.ajuste =
-    req.body.ajuste;
-
-  await existente.save();
-const diferencias =
-  await CapturaCiclico.countDocuments({
-
-    ciclicoId: req.params.id,
-
-    diferencia: { $ne: 0 }
+    captura: existente
   });
-
-await Ciclico.findByIdAndUpdate(
-  req.params.id,
-  {
-    diferencias
-  }
-);
-
-  return res.send(existente);
 }
+
+
     const nueva = new CapturaCiclico({
       ciclicoId: req.params.id,
 
