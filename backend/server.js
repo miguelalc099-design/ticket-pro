@@ -776,40 +776,50 @@ app.put("/capturas/:id", async (req, res) => {
 
   try {
 
-    const captura = await CapturaCiclico.findById(
-  req.params.id
-);
+    const { conteo } = req.body;
+
+    const captura =
+      await CapturaCiclico.findById(
+        req.params.id
+      );
 
     if (!captura) {
-      return res.status(404).send("No existe");
+      return res
+        .status(404)
+        .send("No encontrada");
     }
 
-    const conteo = Number(req.body.conteo);
-
-    captura.conteo = conteo;
+    captura.conteo =
+      Number(conteo);
 
     captura.diferencia =
-      conteo - Number(captura.sistema || 0);
+
+      Number(conteo) -
+
+      Number(captura.sistema || 0);
 
     captura.ajuste =
+
       captura.diferencia *
+
       Number(captura.costo || 0);
 
-   await captura.save();
+    await captura.save();
 
-// 🔥 VOLVER A CONSULTAR YA ACTUALIZADO
-const actualizada =
-  await CapturaCiclico.findById(
-    req.params.id
-  );
+    // 🔥 ESTO ES LO IMPORTANTE
+    const actualizada =
+      await CapturaCiclico.findById(
+        req.params.id
+      );
 
-res.json(actualizada);
+    res.json(actualizada);
 
   } catch (err) {
 
     console.log(err);
 
-    res.status(500).send("Error editando");
+    res.status(500)
+      .send("Error editando");
   }
 });
 // 🔥 ELIMINAR CAPTURA
