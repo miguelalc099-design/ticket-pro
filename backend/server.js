@@ -795,11 +795,15 @@ app.put("/capturas/:id", async (req, res) => {
       captura.diferencia *
       Number(captura.costo || 0);
 
-    await captura.save();
+   await captura.save();
 
-    res.json({
-      ok: true
-    });
+// 🔥 VOLVER A CONSULTAR YA ACTUALIZADO
+const actualizada =
+  await CapturaCiclico.findById(
+    req.params.id
+  );
+
+res.json(actualizada);
 
   } catch (err) {
 
