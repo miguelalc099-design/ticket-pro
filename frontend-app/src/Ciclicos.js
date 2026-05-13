@@ -35,7 +35,6 @@ const [filtroTabla, setFiltroTabla] =
   useState("todos");
 const busquedaRef = useRef("");
 const skuInputRef = useRef(null);
-const [loading, setLoading] = useState(false);
   // ================= CARGAR CICLICOS =================
 
 const cargarCiclicos = async () => {
@@ -75,8 +74,6 @@ useEffect(() => {
 
   const crearCiclico = async () => {
 
-  setLoading(true);
-
     if (!titulo || !fecha) {
       toast.error("Completa título y fecha");
       return;
@@ -98,16 +95,10 @@ useEffect(() => {
 
       cargarCiclicos();
 
-   } catch (err) {
-
-  console.log(err);
-
-  toast.error("Error creando cíclico");
-
-} finally {
-
-  setLoading(false);
-}
+    } catch (err) {
+      console.log(err);
+      toast.error("Error creando cíclico");
+    }
   };
 // ================= SUBIR INVENTARIO =================
 
@@ -299,8 +290,6 @@ setResultados(res.data);
 
   const agregar = async () => {
 
-  setLoading(true);
-
     if (!item || conteo === "") return;
 
     try {
@@ -345,16 +334,12 @@ ajuste:
       setConteo("");
 skuInputRef.current?.focus();
 
-   } catch (err) {
+    } catch (err) {
 
-  console.log(err);
+      console.log(err);
 
-  toast.error("SKU ya capturado");
-
-} finally {
-
-  setLoading(false);
-}
+      toast.error("SKU ya capturado");
+    }
   };
 
   // ================= ABRIR CICLICO =================
@@ -919,16 +904,43 @@ const capturaFiltrada = captura.filter(i => {
 
   </div>
 
+
 <div style={{ marginBottom: "20px" }}>
 
   <input
-    className="input-pro"
     type="text"
     placeholder="🔍 Buscar SKU o descripción..."
     value={busqueda}
     onChange={(e) =>
       buscarDescripcion(e.target.value)
     }
+ 
+style={{
+
+  width: "100%",
+
+  padding: "18px",
+
+  borderRadius: "18px",
+
+  border:
+    "1px solid rgba(255,255,255,0.08)",
+
+  fontSize: "17px",
+
+  background:
+    "rgba(15,23,42,0.9)",
+
+  color: "#fff",
+
+  boxShadow:
+    "0 10px 30px rgba(0,0,0,0.25)",
+
+  outline: "none",
+
+  boxSizing: "border-box"
+}}
+
   />
 
 </div>
@@ -947,14 +959,31 @@ const capturaFiltrada = captura.filter(i => {
 }}
 >
 
- {resultados.map((item, index) => (
+  {resultados.map((item, index) => (
     <div
       key={index}
-      className="card-pro"
-      style={{
-        padding: "18px"
-      }}
+      
+style={{
+
+  border:
+    "1px solid rgba(255,255,255,0.08)",
+
+  borderRadius: "18px",
+
+  padding: "18px",
+
+  background:
+    "linear-gradient(145deg,#0f172a,#020617)",
+
+  color: "#fff",
+
+  boxShadow:
+    "0 10px 25px rgba(0,0,0,0.35)",
+
+  transition: "0.25s"
+}}
     >
+
       <div>
         <strong>{item.sku}</strong>
       </div>
@@ -1165,15 +1194,12 @@ ws["!autofilter"] = {
 
 <br /><br />
 
-         <button
+          <button
   className="btn-pro"
   onClick={crearCiclico}
-  disabled={loading}
 >
-  {loading
-    ? "⏳ Creando..."
-    : "🚀 Iniciar Cíclico"}
-</button>
+            🚀 Iniciar Cíclico
+          </button>
 
           <button
   className="btn-pro btn-secondary"
@@ -1223,7 +1249,7 @@ ws["!autofilter"] = {
   }}
 />
 
-<div style={{ marginTop: "20px" }} />
+<br /><br />
 
 <input
   className="input-pro"
@@ -1300,11 +1326,26 @@ onClick={async () => {
   }
 }}
 
-className="card-pro"
-
 style={{
+
+  border:
+    "1px solid rgba(255,255,255,0.08)",
+
+  borderRadius: "18px",
+
   padding: "18px",
-  cursor: "pointer"
+
+  background:
+    "linear-gradient(145deg,#0f172a,#020617)",
+
+  color: "#fff",
+
+  cursor: "pointer",
+
+  boxShadow:
+    "0 10px 25px rgba(0,0,0,0.35)",
+
+  transition: "0.25s"
 }}
     >
 
@@ -1366,9 +1407,8 @@ style={{
 >
   🗑 Limpiar
 </button>
-<div style={{ marginTop: "25px" }} />
 
-<input
+         <input
   className="input-pro"
   type="number"
   placeholder="🔢 Conteo"
@@ -1384,17 +1424,12 @@ style={{
   }}
 />
 
-<div style={{ marginTop: "18px" }} />
-
-<button
+                  <button
   className="btn-pro"
   onClick={agregar}
-  disabled={loading}
 >
-  {loading
-    ? "⏳ Guardando..."
-    : "Agregar"}
-</button>
+                    Agregar
+                  </button>
 
                 </div>
               )}
@@ -1549,7 +1584,7 @@ style={{
 
               
 <tr
-  key={i._id}
+  key={idx}
   style={{
 
     borderBottom: "1px solid #333",
@@ -1608,24 +1643,18 @@ style={{
 <td
   style={{
     padding: "12px",
-
     color:
-      (
-        Number(i.diferencia || 0) *
-        Number(i.costo || 0)
-      ) < 0
+      i.ajuste < 0
         ? "#ff4d4f"
         : "#52c41a",
-
     fontWeight: "bold"
   }}
 >
   $
-  {(
-    Number(i.diferencia || 0) *
-    Number(i.costo || 0)
-  ).toLocaleString()}
+  {Number(i.ajuste || 0)
+    .toLocaleString()}
 </td>
+
 <td style={{ padding: "12px" }}>
 
 <button
@@ -1645,43 +1674,22 @@ style={{
 
     try {
 
-const res = await axios.put(
-  API + "/capturas/" + i._id,
-  {
-    conteo: Number(nuevo)
-  }
-);
+      await axios.put(
+        API + "/capturas/" + i._id,
+        {
+          conteo: Number(nuevo)
+        }
+      );
 
-toast.success("Actualizado 🔥");
+      toast.success("Actualizado 🔥");
 
-const nuevasCapturas = captura.map(c => {
+      await cargarCapturas(
+        ciclicoActivo._id
+      );
 
-  if (c._id !== i._id) {
-    return c;
-  }
+      await cargarCiclicos();
 
-  const nuevoConteo =
-    Number(nuevo);
-
-  const nuevaDiferencia =
-    nuevoConteo -
-    Number(c.sistema || 0);
-
-  return {
-
-    ...c,
-
-    conteo: nuevoConteo,
-
-    diferencia: nuevaDiferencia
-  };
-});
-
-setCaptura([...nuevasCapturas]);
-
-await cargarCiclicos();
-
-} catch (err) {
+    } catch (err) {
 
       console.log(err);
 
@@ -1715,17 +1723,11 @@ await cargarCiclicos();
 
       toast.success("Eliminado 🔥");
 
-      const nuevasCapturas =
-  await axios.get(
-    API +
-    "/ciclicos/" +
-    ciclicoActivo._id +
-    "/capturas"
-  );
+      await cargarCapturas(
+        ciclicoActivo._id
+      );
 
-setCaptura(nuevasCapturas.data);
-
-await cargarCiclicos();
+      await cargarCiclicos();
 
     } catch (err) {
 
@@ -1758,35 +1760,25 @@ await cargarCiclicos();
 
           <br />
 
-          <div
-  style={{
-    marginTop: "30px",
-    display: "flex",
-    gap: "12px",
-    flexWrap: "wrap"
-  }}
+          {ciclicoActivo.estado === "Abierto" && (
+            <button
+  className="btn-pro btn-danger"
+  onClick={cerrarCiclico}
 >
+              ✅ Finalizar Cíclico
+            </button>
+          )}
 
-  {ciclicoActivo.estado === "Abierto" && (
-    <button
-      className="btn-pro btn-danger"
-      onClick={cerrarCiclico}
-    >
-      ✅ Finalizar Cíclico
-    </button>
-  )}
-
-  <button
-    className="btn-pro btn-secondary"
-    onClick={() => {
-      setModo("lista");
-      setItem(null);
-    }}
-  >
-    ← Volver
-  </button>
-
-</div>
+          <button
+  className="btn-pro btn-secondary"
+  style={{ marginLeft: "10px" }}
+            onClick={() => {
+              setModo("lista");
+              setItem(null);
+            }}
+          >
+            ← Volver
+          </button>
 
         </>
       )}
