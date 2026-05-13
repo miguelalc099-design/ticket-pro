@@ -1678,12 +1678,28 @@ toast.success("Actualizado 🔥");
 
 setCaptura(prev =>
 
-  prev.map(c =>
+  prev.map(c => {
 
-    c._id === i._id
-      ? res.data
-      : c
-  )
+    if (c._id !== i._id) {
+      return c;
+    }
+
+    const nuevoConteo =
+      Number(nuevo);
+
+    const nuevaDiferencia =
+      nuevoConteo -
+      Number(c.sistema || 0);
+
+    return {
+
+      ...c,
+
+      conteo: nuevoConteo,
+
+      diferencia: nuevaDiferencia
+    };
+  })
 );
 
 await cargarCiclicos();
