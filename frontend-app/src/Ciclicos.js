@@ -1691,30 +1691,27 @@ await axios.put(
 
 toast.success("Actualizado 🔥");
 
-const nuevasCapturas = [...captura];
+setCaptura(prev =>
 
-const index = nuevasCapturas.findIndex(
-  c => c._id === i._id
+  prev.map(c => {
+
+    if (c._id !== i._id) {
+      return { ...c };
+    }
+
+    return {
+
+      ...c,
+
+      conteo: Number(nuevo),
+
+      diferencia:
+        Number(nuevo) -
+        Number(c.sistema || 0)
+    };
+  })
 );
 
-if (index !== -1) {
-
-  nuevasCapturas[index] = {
-
-    ...nuevasCapturas[index],
-
-    conteo: Number(nuevo),
-
-    diferencia:
-      Number(nuevo) -
-      Number(
-        nuevasCapturas[index]
-          .sistema || 0
-      )
-  };
-}
-
-setCaptura(nuevasCapturas);
 await cargarCiclicos();
 } catch (err) {
 
