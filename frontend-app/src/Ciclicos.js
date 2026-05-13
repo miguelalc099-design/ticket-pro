@@ -301,7 +301,18 @@ setResultados(res.data);
 
   setLoading(true);
 
-    if (!item || conteo === "") return;
+    if (!item) {
+
+  setLoading(false);
+
+  return;
+}
+
+const conteoFinal =
+
+  conteo === ""
+    ? 0
+    : Number(conteo);
 
     try {
 
@@ -311,10 +322,11 @@ setResultados(res.data);
 
         sistema: item.existencia || 0,
 
-        conteo: Number(conteo),
+conteo: conteoFinal,
 
-        diferencia:
-          Number(conteo) - Number(item.existencia || 0),
+diferencia:
+  conteoFinal -
+  Number(item.existencia || 0),
 
         ubicacion: item.ubicacion || "-",
 
@@ -322,8 +334,8 @@ costo: item.costo || 0,
 
 ajuste:
 
-  (Number(conteo) -
-  Number(item.existencia || 0))
+(conteoFinal -
+Number(item.existencia || 0))
 
   * Number(item.costo || 0),
 
