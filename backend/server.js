@@ -707,7 +707,16 @@ app.get("/ciclicos", async (req, res) => {
 });
 app.post("/ciclicos/:id/captura", async (req, res) => {
   try {
+const ciclico = await Ciclico.findById(
+  req.params.id
+);
 
+if (ciclico.estado === "Cerrado") {
+
+  return res
+    .status(400)
+    .send("Cíclico cerrado");
+}
     const existe = await CapturaCiclico.findOne({
       ciclicoId: req.params.id,
       sku: req.body.sku
@@ -788,7 +797,17 @@ app.put("/capturas/:id", async (req, res) => {
         .status(404)
         .send("No encontrada");
     }
+const ciclico =
+  await Ciclico.findById(
+    captura.ciclicoId
+  );
 
+if (ciclico.estado === "Cerrado") {
+
+  return res
+    .status(400)
+    .send("Cíclico cerrado");
+}
     captura.conteo =
       Number(conteo);
 
@@ -835,6 +854,17 @@ app.delete("/capturas/:id", async (req, res) => {
     if (!captura) {
       return res.status(404).send("No existe");
     }
+const ciclico =
+  await Ciclico.findById(
+    captura.ciclicoId
+  );
+
+if (ciclico.estado === "Cerrado") {
+
+  return res
+    .status(400)
+    .send("Cíclico cerrado");
+}
 
     const ciclicoId =
       captura.ciclicoId;
