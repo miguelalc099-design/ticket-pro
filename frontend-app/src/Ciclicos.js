@@ -5,7 +5,6 @@ import {
 } from "react";
 import axios from "axios";
 import * as XLSX from "xlsx";
-import { saveAs } from "file-saver";
 import toast, { Toaster } from "react-hot-toast";
 
 const API = "https://ticket-pro-backend.onrender.com";
@@ -37,6 +36,11 @@ const busquedaRef = useRef("");
 const conteoInputRef = useRef(null);
 const skuInputRef = useRef(null);
 const [loading, setLoading] = useState(false);
+const [duplicadoModal, setDuplicadoModal] =
+  useState(false);
+
+const [duplicadoData, setDuplicadoData] =
+  useState(null);
   // ================= CARGAR CICLICOS =================
 
 const cargarCiclicos = async () => {
@@ -80,6 +84,7 @@ useEffect(() => {
 
     if (!titulo || !fecha) {
       toast.error("Completa título y fecha");
+setLoading(false);
       return;
     }
 
@@ -212,12 +217,16 @@ const buscarParaCiclico = async () => {
     );
 
     // 🔥 NO EXISTE
-    if (!inv.data && !cat.data) {
+   if (!inv.data && !cat.data) {
 
-      toast.error("SKU no existe");
+  toast.error("SKU no existe");
 
-      return;
-    }
+  setSku("");
+
+  skuInputRef.current?.focus();
+
+  return;
+}
 
 setItem({
 
@@ -280,7 +289,7 @@ busquedaRef.current = texto;
 
   try {
 
-    const busquedaActual = texto;
+
 
 const res = await axios.get(
   API + "/buscar?q=" + texto
@@ -352,72 +361,86 @@ Number(item.existencia || 0))
   nuevo
 );
 
-      await cargarCapturas(ciclicoActivo._id);
+await cargarCapturas(
+  ciclicoActivo._id
+);
 
-      await cargarCiclicos();
+await cargarCiclicos();
 
-      setSku("");
+setSku("");
 
-      setItem(null);
+setItem(null);
 
-      setConteo("");
+setConteo("");
+
+setDuplicadoModal(false);
+
+setDuplicadoData(null);
+
 skuInputRef.current?.focus();
 
+setLoading(false);
  } catch (err) {
 
   console.log(err);
 
   // 🔥 DUPLICADO
-  if (
-    err.response?.status === 409
-  ) {
+setLoading(false);
+ if (
+  err.response?.status === 409
+) {
+
+  const existente =
+    err.response.data.captura;
+
+  setDuplicadoData({
+
+    existente,
+
+    conteoNuevo: conteoFinal
+  });
+
+  setDuplicadoModal(true);
+
+  return;
+}
+
+toast.error("Error agregando");
+}
+  };
+const manejarDuplicado = async (
+
+  tipo
+) => {
+setLoading(true);
+  try {
 
     const existente =
-      err.response.data.captura;
-
-    const opcion = window.prompt(
-
-`⚠ SKU ya capturado
-
-Conteo actual: ${existente.conteo}
-
-Nuevo conteo: ${conteoFinal}
-
-1 = SUMAR
-2 = REEMPLAZAR
-3 = CANCELAR`
-    );
-
-    // 🔥 CANCELAR
-    if (
-      opcion === "3" ||
-      opcion === null
-    ) {
-
-      return;
-    }
+      duplicadoData.existente;
 
     let nuevoConteo =
       existente.conteo;
 
     // 🔥 SUMAR
-    if (opcion === "1") {
+    if (tipo === "sumar") {
 
       nuevoConteo =
 
         Number(existente.conteo || 0) +
 
-        Number(conteoFinal || 0);
+        Number(
+          duplicadoData.conteoNuevo || 0
+        );
     }
 
     // 🔥 REEMPLAZAR
-    if (opcion === "2") {
+    if (tipo === "reemplazar") {
 
-      nuevoConteo =
-        Number(conteoFinal || 0);
+      nuevoConteo = Number(
+        duplicadoData.conteoNuevo || 0
+      );
     }
 
-    // 🔥 UPDATE
     await axios.put(
 
       API + "/capturas/" + existente._id,
@@ -431,27 +454,41 @@ Nuevo conteo: ${conteoFinal}
       "SKU actualizado 🔥"
     );
 
-    await cargarCapturas(
-      ciclicoActivo._id
-    );
+await cargarCapturas(
+  ciclicoActivo._id
+);
 
-    await cargarCiclicos();
+await cargarCiclicos();
 
-    setSku("");
+setSku("");
 
-    setItem(null);
+setItem(null);
 
-    setConteo("");
+setConteo("");
 
-    skuInputRef.current?.focus();
+setDuplicadoModal(false);
 
-    return;
-  }
+setDuplicadoData(null);
 
-  toast.error("Error agregando");
+skuInputRef.current?.focus();
+
+setLoading(false);
+
+ } catch (err) {
+
+  console.log(err);
+
+  setDuplicadoModal(false);
+
+  setDuplicadoData(null);
+
+  setLoading(false);
+
+  toast.error(
+    "Error actualizando"
+  );
 }
-  };
-
+};
   // ================= ABRIR CICLICO =================
 
   const abrirCiclico = async (c) => {
@@ -1494,14 +1531,18 @@ style={{
 
   onClick={() => {
 
-    setSku("");
+  setDuplicadoModal(false);
 
-    setItem(null);
+  setDuplicadoData(null);
 
-    setConteo("");
+  setSku("");
 
-    skuInputRef.current?.focus();
-  }}
+  setItem(null);
+
+  setConteo("");
+
+  skuInputRef.current?.focus();
+}}
 
   style={{
     marginBottom: "15px"
@@ -1939,6 +1980,164 @@ await cargarCiclicos();
 
            </div>
       </div>
+{duplicadoModal && (
+
+<div
+  style={{
+
+    position: "fixed",
+
+    top: 0,
+    left: 0,
+
+    width: "100%",
+    height: "100%",
+
+    background:
+      "rgba(0,0,0,0.65)",
+
+    backdropFilter: "blur(8px)",
+
+    display: "flex",
+
+    alignItems: "center",
+
+    justifyContent: "center",
+
+    zIndex: 9999
+  }}
+>
+
+  <div
+    style={{
+
+      width: "420px",
+
+animation: "modalPop 0.25s ease",
+
+background:
+        "linear-gradient(145deg,#0f172a,#1e293b)",
+
+      border:
+        "1px solid rgba(148,163,184,0.15)",
+
+      borderRadius: "24px",
+
+      padding: "30px",
+
+      boxShadow:
+        "0 20px 60px rgba(0,0,0,0.45)"
+    }}
+  >
+
+    <div
+      style={{
+        fontSize: "55px",
+        marginBottom: "15px",
+        textAlign: "center"
+      }}
+    >
+      ⚠
+    </div>
+
+    <h2
+      style={{
+        color: "#fff",
+        textAlign: "center",
+        marginBottom: "10px"
+      }}
+    >
+      SKU Duplicado
+    </h2>
+
+    <p
+      style={{
+        color: "#94a3b8",
+        textAlign: "center",
+        marginBottom: "25px"
+      }}
+    >
+      El SKU ya fue capturado.
+    </p>
+
+    <div
+      style={{
+        background: "rgba(255,255,255,0.04)",
+
+        borderRadius: "16px",
+
+        padding: "18px",
+
+        marginBottom: "25px"
+      }}
+    >
+
+      <p style={{ color: "#fff" }}>
+        <b>Conteo actual:</b>{" "}
+        {duplicadoData?.existente?.conteo}
+      </p>
+
+      <p style={{ color: "#fff" }}>
+        <b>Nuevo conteo:</b>{" "}
+        {duplicadoData?.conteoNuevo}
+      </p>
+
+    </div>
+
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "12px"
+      }}
+    >
+
+      <button
+        className="btn-pro"
+        onClick={() =>
+          manejarDuplicado("sumar")
+        }
+      >
+        ➕ SUMAR
+      </button>
+
+      <button
+        className="btn-pro btn-secondary"
+        onClick={() =>
+          manejarDuplicado(
+            "reemplazar"
+          )
+        }
+      >
+        🔄 REEMPLAZAR
+      </button>
+
+      <button
+        className="btn-pro btn-danger"
+        onClick={() => {
+
+  setDuplicadoModal(false);
+
+  setDuplicadoData(null);
+
+  setSku("");
+
+  setItem(null);
+
+  setConteo("");
+
+  skuInputRef.current?.focus();
+}}
+      >
+        ❌ CANCELAR
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+)}
     </div>
 
 );
