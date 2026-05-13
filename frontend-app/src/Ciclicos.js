@@ -1172,6 +1172,19 @@ ws["!autofilter"] = {
 
           <h3>➕ Nuevo Cíclico</h3>
 
+<h3>➕ Nuevo Cíclico</h3>
+
+<input
+  className="input-pro"
+  placeholder="📝 Título del cíclico"
+  value={titulo}
+  onChange={(e) =>
+    setTitulo(e.target.value)
+  }
+/>
+
+<br /><br />
+
 <input
   className="input-pro"
   type="date"
@@ -1182,18 +1195,6 @@ ws["!autofilter"] = {
 />
 
 <br /><br />
-
-       <input
-  className="input-pro"
-  type="date"
-  value={fecha}
-
-  onChange={(e) =>
-    setFecha(e.target.value)
-  }
-
-
-          <br /><br />
 
           <button
   className="btn-pro"
@@ -1253,13 +1254,16 @@ ws["!autofilter"] = {
 <br /><br />
 
 <input
+  className="input-pro"
   type="text"
   placeholder="🔍 Buscar descripción..."
   value={busqueda}
   onChange={(e) =>
     buscarDescripcion(e.target.value)
   }
- {resultados.length > 0 && (
+/>
+
+{resultados.length > 0 && (
 <div
   style={{
   display: "flex",
