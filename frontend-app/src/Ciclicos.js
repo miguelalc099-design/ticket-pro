@@ -1223,7 +1223,7 @@ ws["!autofilter"] = {
   }}
 />
 
-<br /><br />
+<div style={{ marginTop: "20px" }} />
 
 <input
   className="input-pro"
@@ -1366,8 +1366,9 @@ style={{
 >
   🗑 Limpiar
 </button>
+<div style={{ marginTop: "25px" }} />
 
-         <input
+<input
   className="input-pro"
   type="number"
   placeholder="🔢 Conteo"
@@ -1383,7 +1384,9 @@ style={{
   }}
 />
 
-                 <button
+<div style={{ marginTop: "18px" }} />
+
+<button
   className="btn-pro"
   onClick={agregar}
   disabled={loading}
@@ -1722,25 +1725,35 @@ style={{
 
           <br />
 
-          {ciclicoActivo.estado === "Abierto" && (
-            <button
-  className="btn-pro btn-danger"
-  onClick={cerrarCiclico}
+          <div
+  style={{
+    marginTop: "30px",
+    display: "flex",
+    gap: "12px",
+    flexWrap: "wrap"
+  }}
 >
-              ✅ Finalizar Cíclico
-            </button>
-          )}
 
-          <button
-  className="btn-pro btn-secondary"
-  style={{ marginLeft: "10px" }}
-            onClick={() => {
-              setModo("lista");
-              setItem(null);
-            }}
-          >
-            ← Volver
-          </button>
+  {ciclicoActivo.estado === "Abierto" && (
+    <button
+      className="btn-pro btn-danger"
+      onClick={cerrarCiclico}
+    >
+      ✅ Finalizar Cíclico
+    </button>
+  )}
+
+  <button
+    className="btn-pro btn-secondary"
+    onClick={() => {
+      setModo("lista");
+      setItem(null);
+    }}
+  >
+    ← Volver
+  </button>
+
+</div>
 
         </>
       )}
