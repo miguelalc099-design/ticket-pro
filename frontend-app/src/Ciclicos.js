@@ -35,6 +35,7 @@ const [filtroTabla, setFiltroTabla] =
   useState("todos");
 const busquedaRef = useRef("");
 const skuInputRef = useRef(null);
+const [loading, setLoading] = useState(false);
   // ================= CARGAR CICLICOS =================
 
 const cargarCiclicos = async () => {
@@ -74,6 +75,8 @@ useEffect(() => {
 
   const crearCiclico = async () => {
 
+  setLoading(true);
+
     if (!titulo || !fecha) {
       toast.error("Completa título y fecha");
       return;
@@ -95,10 +98,16 @@ useEffect(() => {
 
       cargarCiclicos();
 
-    } catch (err) {
-      console.log(err);
-      toast.error("Error creando cíclico");
-    }
+   } catch (err) {
+
+  console.log(err);
+
+  toast.error("Error creando cíclico");
+
+} finally {
+
+  setLoading(false);
+}
   };
 // ================= SUBIR INVENTARIO =================
 
@@ -290,6 +299,8 @@ setResultados(res.data);
 
   const agregar = async () => {
 
+  setLoading(true);
+
     if (!item || conteo === "") return;
 
     try {
@@ -334,12 +345,16 @@ ajuste:
       setConteo("");
 skuInputRef.current?.focus();
 
-    } catch (err) {
+   } catch (err) {
 
-      console.log(err);
+  console.log(err);
 
-      toast.error("SKU ya capturado");
-    }
+  toast.error("SKU ya capturado");
+
+} finally {
+
+  setLoading(false);
+}
   };
 
   // ================= ABRIR CICLICO =================
@@ -904,43 +919,16 @@ const capturaFiltrada = captura.filter(i => {
 
   </div>
 
-
 <div style={{ marginBottom: "20px" }}>
 
   <input
+    className="input-pro"
     type="text"
     placeholder="🔍 Buscar SKU o descripción..."
     value={busqueda}
     onChange={(e) =>
       buscarDescripcion(e.target.value)
     }
- 
-style={{
-
-  width: "100%",
-
-  padding: "18px",
-
-  borderRadius: "18px",
-
-  border:
-    "1px solid rgba(255,255,255,0.08)",
-
-  fontSize: "17px",
-
-  background:
-    "rgba(15,23,42,0.9)",
-
-  color: "#fff",
-
-  boxShadow:
-    "0 10px 30px rgba(0,0,0,0.25)",
-
-  outline: "none",
-
-  boxSizing: "border-box"
-}}
-
   />
 
 </div>
@@ -959,31 +947,14 @@ style={{
 }}
 >
 
-  {resultados.map((item, index) => (
+ {resultados.map((item, index) => (
     <div
       key={index}
-      
-style={{
-
-  border:
-    "1px solid rgba(255,255,255,0.08)",
-
-  borderRadius: "18px",
-
-  padding: "18px",
-
-  background:
-    "linear-gradient(145deg,#0f172a,#020617)",
-
-  color: "#fff",
-
-  boxShadow:
-    "0 10px 25px rgba(0,0,0,0.35)",
-
-  transition: "0.25s"
-}}
+      className="card-pro"
+      style={{
+        padding: "18px"
+      }}
     >
-
       <div>
         <strong>{item.sku}</strong>
       </div>
@@ -1172,58 +1143,37 @@ ws["!autofilter"] = {
 
           <h3>➕ Nuevo Cíclico</h3>
 
-         <input
+<input
+  className="input-pro"
   placeholder="📝 Título del cíclico"
   value={titulo}
-
   onChange={(e) =>
     setTitulo(e.target.value)
   }
-
-  style={{
-    width: "100%",
-    padding: "16px",
-    borderRadius: "14px",
-    border: "2px solid #334155",
-    background: "#0f172a",
-    color: "#fff",
-    fontSize: "18px",
-    outline: "none",
-    boxSizing: "border-box"
-  }}
 />
 
-          <br /><br />
+<br /><br />
 
-          <input
+<input
+  className="input-pro"
   type="date"
   value={fecha}
-
   onChange={(e) =>
     setFecha(e.target.value)
   }
-
-  style={{
-    width: "100%",
-    padding: "16px",
-    borderRadius: "14px",
-    border: "2px solid #334155",
-    background: "#0f172a",
-    color: "#fff",
-    fontSize: "18px",
-    outline: "none",
-    boxSizing: "border-box"
-  }}
 />
 
-          <br /><br />
+<br /><br />
 
-          <button
+         <button
   className="btn-pro"
   onClick={crearCiclico}
+  disabled={loading}
 >
-            🚀 Iniciar Cíclico
-          </button>
+  {loading
+    ? "⏳ Creando..."
+    : "🚀 Iniciar Cíclico"}
+</button>
 
           <button
   className="btn-pro btn-secondary"
@@ -1260,67 +1210,31 @@ ws["!autofilter"] = {
           {ciclicoActivo.estado === "Abierto" && (
             <>
 
-              <input
-ref={skuInputRef}
+<input
+  className="input-pro"
   placeholder="🔍 Escanea o escribe SKU"
   value={sku}
   onChange={(e) => setSku(e.target.value)}
-
   onKeyDown={(e) => {
 
     if (e.key === "Enter") {
-
       buscarParaCiclico();
     }
   }}
-
-  style={{
-    width: "100%",
-    padding: "16px",
-    borderRadius: "14px",
-    border: "2px solid #334155",
-    background: "#0f172a",
-    color: "#fff",
-    fontSize: "20px",
-    outline: "none",
-    boxSizing: "border-box"
-  }}
 />
-<br /><br />
+
+<div style={{ marginTop: "20px" }} />
 
 <input
+  className="input-pro"
   type="text"
   placeholder="🔍 Buscar descripción..."
   value={busqueda}
   onChange={(e) =>
     buscarDescripcion(e.target.value)
   }
- style={{
-
-  width: "100%",
-
-  padding: "18px",
-
-  borderRadius: "18px",
-
-  border:
-    "1px solid rgba(255,255,255,0.08)",
-
-  fontSize: "17px",
-
-  background:
-    "rgba(15,23,42,0.9)",
-
-  color: "#fff",
-
-  boxShadow:
-    "0 10px 30px rgba(0,0,0,0.25)",
-
-  outline: "none",
-
-  boxSizing: "border-box"
-}}
 />
+
 {resultados.length > 0 && (
 <div
   style={{
@@ -1386,26 +1300,11 @@ onClick={async () => {
   }
 }}
 
+className="card-pro"
+
 style={{
-
-  border:
-    "1px solid rgba(255,255,255,0.08)",
-
-  borderRadius: "18px",
-
   padding: "18px",
-
-  background:
-    "linear-gradient(145deg,#0f172a,#020617)",
-
-  color: "#fff",
-
-  cursor: "pointer",
-
-  boxShadow:
-    "0 10px 25px rgba(0,0,0,0.35)",
-
-  transition: "0.25s"
+  cursor: "pointer"
 }}
     >
 
@@ -1467,43 +1366,35 @@ style={{
 >
   🗑 Limpiar
 </button>
+<div style={{ marginTop: "25px" }} />
 
-                  <input
+<input
+  className="input-pro"
   type="number"
   placeholder="🔢 Conteo"
   value={conteo}
-
   onChange={(e) =>
     setConteo(e.target.value)
   }
-
   onKeyDown={(e) => {
 
     if (e.key === "Enter") {
-
       agregar();
     }
   }}
-
-  style={{
-    width: "100%",
-    padding: "16px",
-    borderRadius: "14px",
-    border: "2px solid #334155",
-    background: "#0f172a",
-    color: "#fff",
-    fontSize: "22px",
-    marginBottom: "12px",
-    boxSizing: "border-box"
-  }}
 />
 
-                  <button
+<div style={{ marginTop: "18px" }} />
+
+<button
   className="btn-pro"
   onClick={agregar}
+  disabled={loading}
 >
-                    Agregar
-                  </button>
+  {loading
+    ? "⏳ Guardando..."
+    : "Agregar"}
+</button>
 
                 </div>
               )}
@@ -1608,28 +1499,7 @@ style={{
   }}
 >
 
-  <table
-   style={{
-
-  width: "100%",
-
-  borderCollapse: "collapse",
-
-  minWidth: "1200px",
-
-  background:
-    "linear-gradient(145deg,#0f172a,#020617)",
-
-  color: "#fff",
-
-  borderRadius: "24px",
-
-  overflow: "hidden",
-
-  boxShadow:
-    "0 15px 40px rgba(0,0,0,0.35)"
-}}
-  >
+<table className="table-pro">
    
 <thead
   style={{
@@ -1679,7 +1549,7 @@ style={{
 
               
 <tr
-  key={idx}
+  key={i._id}
   style={{
 
     borderBottom: "1px solid #333",
@@ -1738,18 +1608,24 @@ style={{
 <td
   style={{
     padding: "12px",
+
     color:
-      i.ajuste < 0
+      (
+        Number(i.diferencia || 0) *
+        Number(i.costo || 0)
+      ) < 0
         ? "#ff4d4f"
         : "#52c41a",
+
     fontWeight: "bold"
   }}
 >
   $
-  {Number(i.ajuste || 0)
-    .toLocaleString()}
+  {(
+    Number(i.diferencia || 0) *
+    Number(i.costo || 0)
+  ).toLocaleString()}
 </td>
-
 <td style={{ padding: "12px" }}>
 
 <button
@@ -1767,29 +1643,29 @@ style={{
       nuevo === ""
     ) return;
 
-    try {
+  try {
 
-      await axios.put(
-        API + "/capturas/" + i._id,
-        {
-          conteo: Number(nuevo)
-        }
-      );
-
-      toast.success("Actualizado 🔥");
-
-      await cargarCapturas(
-        ciclicoActivo._id
-      );
-
-      await cargarCiclicos();
-
-    } catch (err) {
-
-      console.log(err);
-
-      toast.error("Error editando");
+  await axios.put(
+    API + "/capturas/" + i._id,
+    {
+      conteo: Number(nuevo)
     }
+  );
+
+  toast.success("Actualizado 🔥");
+
+  await cargarCapturas(
+    ciclicoActivo._id
+  );
+
+  await cargarCiclicos();
+
+} catch (err) {
+
+  console.log(err);
+
+  toast.error("Error editando");
+}
   }}
 
   style={{
@@ -1818,11 +1694,17 @@ style={{
 
       toast.success("Eliminado 🔥");
 
-      await cargarCapturas(
-        ciclicoActivo._id
-      );
+      const nuevasCapturas =
+  await axios.get(
+    API +
+    "/ciclicos/" +
+    ciclicoActivo._id +
+    "/capturas"
+  );
 
-      await cargarCiclicos();
+setCaptura(nuevasCapturas.data);
+
+await cargarCiclicos();
 
     } catch (err) {
 
@@ -1855,25 +1737,35 @@ style={{
 
           <br />
 
-          {ciclicoActivo.estado === "Abierto" && (
-            <button
-  className="btn-pro btn-danger"
-  onClick={cerrarCiclico}
+          <div
+  style={{
+    marginTop: "30px",
+    display: "flex",
+    gap: "12px",
+    flexWrap: "wrap"
+  }}
 >
-              ✅ Finalizar Cíclico
-            </button>
-          )}
 
-          <button
-  className="btn-pro btn-secondary"
-  style={{ marginLeft: "10px" }}
-            onClick={() => {
-              setModo("lista");
-              setItem(null);
-            }}
-          >
-            ← Volver
-          </button>
+  {ciclicoActivo.estado === "Abierto" && (
+    <button
+      className="btn-pro btn-danger"
+      onClick={cerrarCiclico}
+    >
+      ✅ Finalizar Cíclico
+    </button>
+  )}
+
+  <button
+    className="btn-pro btn-secondary"
+    onClick={() => {
+      setModo("lista");
+      setItem(null);
+    }}
+  >
+    ← Volver
+  </button>
+
+</div>
 
         </>
       )}
