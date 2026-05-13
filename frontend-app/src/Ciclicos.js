@@ -75,6 +75,8 @@ useEffect(() => {
 
   const crearCiclico = async () => {
 
+  setLoading(true);
+
     if (!titulo || !fecha) {
       toast.error("Completa título y fecha");
       return;
@@ -96,10 +98,16 @@ useEffect(() => {
 
       cargarCiclicos();
 
-    } catch (err) {
-      console.log(err);
-      toast.error("Error creando cíclico");
-    }
+   } catch (err) {
+
+  console.log(err);
+
+  toast.error("Error creando cíclico");
+
+} finally {
+
+  setLoading(false);
+}
   };
 // ================= SUBIR INVENTARIO =================
 
@@ -291,6 +299,8 @@ setResultados(res.data);
 
   const agregar = async () => {
 
+  setLoading(true);
+
     if (!item || conteo === "") return;
 
     try {
@@ -335,12 +345,16 @@ ajuste:
       setConteo("");
 skuInputRef.current?.focus();
 
-    } catch (err) {
+   } catch (err) {
 
-      console.log(err);
+  console.log(err);
 
-      toast.error("SKU ya capturado");
-    }
+  toast.error("SKU ya capturado");
+
+} finally {
+
+  setLoading(false);
+}
   };
 
   // ================= ABRIR CICLICO =================
