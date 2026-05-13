@@ -1172,27 +1172,51 @@ ws["!autofilter"] = {
 
           <h3>➕ Nuevo Cíclico</h3>
 
-<input
-  className="input-pro"
+         <input
   placeholder="📝 Título del cíclico"
   value={titulo}
+
   onChange={(e) =>
     setTitulo(e.target.value)
   }
+
+  style={{
+    width: "100%",
+    padding: "16px",
+    borderRadius: "14px",
+    border: "2px solid #334155",
+    background: "#0f172a",
+    color: "#fff",
+    fontSize: "18px",
+    outline: "none",
+    boxSizing: "border-box"
+  }}
 />
 
-<br /><br />
+          <br /><br />
 
-<input
-  className="input-pro"
+          <input
   type="date"
   value={fecha}
+
   onChange={(e) =>
     setFecha(e.target.value)
   }
+
+  style={{
+    width: "100%",
+    padding: "16px",
+    borderRadius: "14px",
+    border: "2px solid #334155",
+    background: "#0f172a",
+    color: "#fff",
+    fontSize: "18px",
+    outline: "none",
+    boxSizing: "border-box"
+  }}
 />
 
-<br /><br />
+          <br /><br />
 
           <button
   className="btn-pro"
@@ -1236,31 +1260,67 @@ ws["!autofilter"] = {
           {ciclicoActivo.estado === "Abierto" && (
             <>
 
-<input
-  className="input-pro"
+              <input
+ref={skuInputRef}
   placeholder="🔍 Escanea o escribe SKU"
   value={sku}
   onChange={(e) => setSku(e.target.value)}
+
   onKeyDown={(e) => {
 
     if (e.key === "Enter") {
+
       buscarParaCiclico();
     }
   }}
-/>
 
+  style={{
+    width: "100%",
+    padding: "16px",
+    borderRadius: "14px",
+    border: "2px solid #334155",
+    background: "#0f172a",
+    color: "#fff",
+    fontSize: "20px",
+    outline: "none",
+    boxSizing: "border-box"
+  }}
+/>
 <br /><br />
 
 <input
-  className="input-pro"
   type="text"
   placeholder="🔍 Buscar descripción..."
   value={busqueda}
   onChange={(e) =>
     buscarDescripcion(e.target.value)
   }
-/>
+ style={{
 
+  width: "100%",
+
+  padding: "18px",
+
+  borderRadius: "18px",
+
+  border:
+    "1px solid rgba(255,255,255,0.08)",
+
+  fontSize: "17px",
+
+  background:
+    "rgba(15,23,42,0.9)",
+
+  color: "#fff",
+
+  boxShadow:
+    "0 10px 30px rgba(0,0,0,0.25)",
+
+  outline: "none",
+
+  boxSizing: "border-box"
+}}
+/>
 {resultados.length > 0 && (
 <div
   style={{
@@ -1408,19 +1468,33 @@ style={{
   🗑 Limpiar
 </button>
 
-         <input
-  className="input-pro"
+                  <input
   type="number"
   placeholder="🔢 Conteo"
   value={conteo}
+
   onChange={(e) =>
     setConteo(e.target.value)
   }
+
   onKeyDown={(e) => {
 
     if (e.key === "Enter") {
+
       agregar();
     }
+  }}
+
+  style={{
+    width: "100%",
+    padding: "16px",
+    borderRadius: "14px",
+    border: "2px solid #334155",
+    background: "#0f172a",
+    color: "#fff",
+    fontSize: "22px",
+    marginBottom: "12px",
+    boxSizing: "border-box"
   }}
 />
 
@@ -1534,7 +1608,28 @@ style={{
   }}
 >
 
-<table className="table-pro">
+  <table
+   style={{
+
+  width: "100%",
+
+  borderCollapse: "collapse",
+
+  minWidth: "1200px",
+
+  background:
+    "linear-gradient(145deg,#0f172a,#020617)",
+
+  color: "#fff",
+
+  borderRadius: "24px",
+
+  overflow: "hidden",
+
+  boxShadow:
+    "0 15px 40px rgba(0,0,0,0.35)"
+}}
+  >
    
 <thead
   style={{
