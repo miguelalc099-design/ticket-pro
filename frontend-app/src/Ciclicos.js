@@ -1688,32 +1688,30 @@ await axios.put(
 
 toast.success("Actualizado 🔥");
 
-setCaptura(prev =>
+const nuevasCapturas = [...captura];
 
-  prev.map(c => {
-
-    if (c._id !== i._id) {
-      return c;
-    }
-
-    const nuevoConteo =
-      Number(nuevo);
-
-    const nuevaDiferencia =
-      nuevoConteo -
-      Number(c.sistema || 0);
-
-    return {
-
-      ...c,
-
-      conteo: nuevoConteo,
-
-      diferencia: nuevaDiferencia
-    };
-  })
+const index = nuevasCapturas.findIndex(
+  c => c._id === i._id
 );
 
+if (index !== -1) {
+
+  nuevasCapturas[index] = {
+
+    ...nuevasCapturas[index],
+
+    conteo: Number(nuevo),
+
+    diferencia:
+      Number(nuevo) -
+      Number(
+        nuevasCapturas[index]
+          .sistema || 0
+      )
+  };
+}
+
+setCaptura(nuevasCapturas);
 await cargarCiclicos();
 } catch (err) {
 
