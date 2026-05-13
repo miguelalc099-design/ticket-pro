@@ -1176,24 +1176,10 @@ ws["!autofilter"] = {
   className="input-pro"
   placeholder="📝 Título del cíclico"
   value={titulo}
-
   onChange={(e) =>
     setTitulo(e.target.value)
   }
-
-  style={{
-    width: "100%",
-    padding: "16px",
-    borderRadius: "14px",
-    border: "2px solid #334155",
-    background: "#0f172a",
-    color: "#fff",
-    fontSize: "18px",
-    outline: "none",
-    boxSizing: "border-box"
-  }}
 />
-
           <br /><br />
 
        <input
@@ -1205,18 +1191,6 @@ ws["!autofilter"] = {
     setFecha(e.target.value)
   }
 
-  style={{
-    width: "100%",
-    padding: "16px",
-    borderRadius: "14px",
-    border: "2px solid #334155",
-    background: "#0f172a",
-    color: "#fff",
-    fontSize: "18px",
-    outline: "none",
-    boxSizing: "border-box"
-  }}
-/>
 
           <br /><br />
 
@@ -1275,19 +1249,6 @@ ws["!autofilter"] = {
       buscarParaCiclico();
     }
   }}
-
-  style={{
-    width: "100%",
-    padding: "16px",
-    borderRadius: "14px",
-    border: "2px solid #334155",
-    background: "#0f172a",
-    color: "#fff",
-    fontSize: "20px",
-    outline: "none",
-    boxSizing: "border-box"
-  }}
-/>
 <br /><br />
 
 <input
@@ -1297,33 +1258,7 @@ ws["!autofilter"] = {
   onChange={(e) =>
     buscarDescripcion(e.target.value)
   }
- style={{
-
-  width: "100%",
-
-  padding: "18px",
-
-  borderRadius: "18px",
-
-  border:
-    "1px solid rgba(255,255,255,0.08)",
-
-  fontSize: "17px",
-
-  background:
-    "rgba(15,23,42,0.9)",
-
-  color: "#fff",
-
-  boxShadow:
-    "0 10px 30px rgba(0,0,0,0.25)",
-
-  outline: "none",
-
-  boxSizing: "border-box"
-}}
-/>
-{resultados.length > 0 && (
+ {resultados.length > 0 && (
 <div
   style={{
   display: "flex",
@@ -1487,19 +1422,6 @@ style={{
       agregar();
     }
   }}
-
-  style={{
-    width: "100%",
-    padding: "16px",
-    borderRadius: "14px",
-    border: "2px solid #334155",
-    background: "#0f172a",
-    color: "#fff",
-    fontSize: "22px",
-    marginBottom: "12px",
-    boxSizing: "border-box"
-  }}
-/>
 
                   <button
   className="btn-pro"
