@@ -1172,15 +1172,16 @@ ws["!autofilter"] = {
 
           <h3>➕ Nuevo Cíclico</h3>
 
-        <input
+<input
   className="input-pro"
-  placeholder="📝 Título del cíclico"
-  value={titulo}
+  type="date"
+  value={fecha}
   onChange={(e) =>
-    setTitulo(e.target.value)
+    setFecha(e.target.value)
   }
 />
-          <br /><br />
+
+<br /><br />
 
        <input
   className="input-pro"
@@ -1241,14 +1242,14 @@ ws["!autofilter"] = {
   placeholder="🔍 Escanea o escribe SKU"
   value={sku}
   onChange={(e) => setSku(e.target.value)}
-
   onKeyDown={(e) => {
 
     if (e.key === "Enter") {
-
       buscarParaCiclico();
     }
   }}
+/>
+
 <br /><br />
 
 <input
@@ -1405,23 +1406,21 @@ style={{
   🗑 Limpiar
 </button>
 
-             <input
+         <input
   className="input-pro"
   type="number"
   placeholder="🔢 Conteo"
   value={conteo}
-
   onChange={(e) =>
     setConteo(e.target.value)
   }
-
   onKeyDown={(e) => {
 
     if (e.key === "Enter") {
-
       agregar();
     }
   }}
+/>
 
                   <button
   className="btn-pro"
@@ -1533,8 +1532,7 @@ style={{
   }}
 >
 
- <table className="table-pro">
-     >
+<table className="table-pro">
    
 <thead
   style={{
