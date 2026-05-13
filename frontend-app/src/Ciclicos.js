@@ -1172,7 +1172,8 @@ ws["!autofilter"] = {
 
           <h3>➕ Nuevo Cíclico</h3>
 
-         <input
+        <input
+  className="input-pro"
   placeholder="📝 Título del cíclico"
   value={titulo}
 
@@ -1195,7 +1196,8 @@ ws["!autofilter"] = {
 
           <br /><br />
 
-          <input
+       <input
+  className="input-pro"
   type="date"
   value={fecha}
 
@@ -1260,8 +1262,8 @@ ws["!autofilter"] = {
           {ciclicoActivo.estado === "Abierto" && (
             <>
 
-              <input
-ref={skuInputRef}
+<input
+  className="input-pro"
   placeholder="🔍 Escanea o escribe SKU"
   value={sku}
   onChange={(e) => setSku(e.target.value)}
@@ -1468,7 +1470,8 @@ style={{
   🗑 Limpiar
 </button>
 
-                  <input
+             <input
+  className="input-pro"
   type="number"
   placeholder="🔢 Conteo"
   value={conteo}
@@ -1608,28 +1611,8 @@ style={{
   }}
 >
 
-  <table
-   style={{
-
-  width: "100%",
-
-  borderCollapse: "collapse",
-
-  minWidth: "1200px",
-
-  background:
-    "linear-gradient(145deg,#0f172a,#020617)",
-
-  color: "#fff",
-
-  borderRadius: "24px",
-
-  overflow: "hidden",
-
-  boxShadow:
-    "0 15px 40px rgba(0,0,0,0.35)"
-}}
-  >
+ <table className="table-pro">
+     >
    
 <thead
   style={{
