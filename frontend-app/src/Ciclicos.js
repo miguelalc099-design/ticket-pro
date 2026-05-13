@@ -1648,34 +1648,9 @@ style={{
 
   toast.success("Actualizado 🔥");
 
-  const nuevasCapturas =
-  captura.map(c =>
-
-    c._id === i._id
-
-      ? {
-          ...c,
-
-          conteo: Number(nuevo),
-
-          diferencia:
-            Number(nuevo) -
-            Number(c.sistema || 0),
-
-          ajuste:
-
-            (
-              Number(nuevo) -
-              Number(c.sistema || 0)
-            )
-
-            * Number(c.costo || 0)
-        }
-
-      : c
-  );
-
-setCaptura([...nuevasCapturas]);
+await cargarCapturas(
+  ciclicoActivo._id
+);
 
 await cargarCiclicos();
 
