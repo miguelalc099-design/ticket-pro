@@ -490,7 +490,53 @@ setLoading(false);
 }
 };
   // ================= FILTROS TABLA =================
+const {
+  totalSKUs,
+  totalDiferencias,
+  sobrantes,
+  faltantes,
+  ajusteTotal
+} = calcularResumen(captura);
+const guardarEdicion = async () => {
 
+  try {
+
+    await actualizarCapturaService(
+      editarItem._id,
+      {
+        conteo: Number(
+          nuevoConteoEdit || 0
+        )
+      }
+    );
+
+    toast.success(
+      "Actualizado 🔥"
+    );
+
+    await cargarCapturas(
+      ciclicoActivo._id
+    );
+
+    await cargarCiclicos();
+
+    setEditarModal(false);
+
+    setEditarItem(null);
+
+    setNuevoConteoEdit("");
+
+    skuInputRef.current?.focus();
+
+  } catch (err) {
+
+    console.log(err);
+
+    toast.error(
+      "Error actualizando"
+    );
+  }
+};
 const capturaFiltrada = captura.filter(i => {
 
   // TODOS
