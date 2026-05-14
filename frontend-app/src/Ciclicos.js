@@ -652,10 +652,7 @@ const capturaFiltrada = captura.filter(i => {
           }}
         >
           Control inteligente de inventario
-style={{
-            color: "#94a3b8",
-            marginTop: "4px"
-          }}
+
         </div>
 
       </div>
