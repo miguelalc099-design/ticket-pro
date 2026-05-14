@@ -12,7 +12,12 @@ import TablaCapturas from "./components/ciclicos/TablaCapturas";
 import KPIsResumen from "./components/ciclicos/KPIsResumen";
 import {
   obtenerCiclicos,
-  obtenerCapturas
+  obtenerCapturas,
+  crearCiclicoService,
+  cerrarCiclicoService,
+  agregarCapturaService,
+  actualizarCapturaService,
+  eliminarCapturaService
 } from "./services/ciclicosService";
 const API = "https://ticket-pro-backend.onrender.com";
 
