@@ -636,13 +636,13 @@ const capturaFiltrada = captura.filter(i => {
     <div className="ciclico-header">
 
       <div className="ciclico-icon">
-        📦
+        
       </div>
 
       <div>
 
         <h1 className="ciclico-title">
-          Módulo Cíclicos
+          📦 Módulo Cíclicos
         </h1>
 
         <div
