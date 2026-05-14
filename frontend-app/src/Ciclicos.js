@@ -108,13 +108,14 @@ setLoading(false);
 
     try {
 
-      const res = await axios.post(API + "/ciclicos", {
-        titulo,
-        fecha,
-        creadoPor: user.username
-      });
+      const data =
+  await crearCiclicoService({
+    titulo,
+    fecha,
+    creadoPor: user.username
+  });
 
-      setCiclicoActivo(res.data);
+setCiclicoActivo(data);
 
       setCaptura([]);
 
@@ -374,8 +375,8 @@ Number(item.existencia || 0))
 
       };
 
-      await axios.post(
-  API + "/ciclicos/" + ciclicoActivo._id + "/captura",
+   await agregarCapturaService(
+  ciclicoActivo._id,
   nuevo
 );
 
@@ -459,14 +460,12 @@ setLoading(true);
       );
     }
 
-    await axios.put(
-
-      API + "/capturas/" + existente._id,
-
-      {
-        conteo: nuevoConteo
-      }
-    );
+   await actualizarCapturaService(
+  existente._id,
+  {
+    conteo: nuevoConteo
+  }
+);
 
     toast.success(
       "SKU actualizado 🔥"
@@ -514,16 +513,14 @@ const guardarEdicion = async () => {
 
     setLoading(true);
 
-    await axios.put(
-
-      API + "/capturas/" + editarItem._id,
-
-      {
-        conteo: Number(
-          nuevoConteoEdit || 0
-        )
-      }
-    );
+   await actualizarCapturaService(
+  editarItem._id,
+  {
+    conteo: Number(
+      nuevoConteoEdit || 0
+    )
+  }
+);
 
     toast.success(
       "Conteo actualizado 🔥"
@@ -572,8 +569,8 @@ skuInputRef.current?.focus();
 
   try {
 
-    await axios.put(
-  API + "/ciclicos/" + ciclicoActivo._id + "/cerrar"
+   await cerrarCiclicoService(
+  ciclicoActivo._id
 );
 
     toast.success("Cíclico cerrado");
