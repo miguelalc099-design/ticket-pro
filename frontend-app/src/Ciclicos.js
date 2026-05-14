@@ -10,7 +10,10 @@ import ModalDuplicado from "./components/ciclicos/ModalDuplicado";
 import ModalEditar from "./components/ciclicos/ModalEditar";
 import TablaCapturas from "./components/ciclicos/TablaCapturas";
 import KPIsResumen from "./components/ciclicos/KPIsResumen";
-
+import {
+  obtenerCiclicos,
+  obtenerCapturas
+} from "./services/ciclicosService";
 const API = "https://ticket-pro-backend.onrender.com";
 
 function Ciclicos({ user }) {
@@ -56,32 +59,35 @@ const [nuevoConteoEdit, setNuevoConteoEdit] =
   // ================= CARGAR CICLICOS =================
 
 const cargarCiclicos = async () => {
-  try {
-    const res = await axios.get(API + "/ciclicos");
 
-    setCiclicos(res.data || []);
+  try {
+
+    const data =
+      await obtenerCiclicos();
+
+    setCiclicos(data || []);
 
   } catch (err) {
+
     console.log(err);
   }
 };
 
   // ================= CARGAR CAPTURAS =================
+const cargarCapturas = async (id) => {
 
-  const cargarCapturas = async (id) => {
-    try {
+  try {
 
-      const res = await axios.get(
-  API + "/ciclicos/" + id + "/capturas"
-);
+    const data =
+      await obtenerCapturas(id);
 
-      setCaptura(res.data || []);
+    setCaptura(data || []);
 
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  } catch (err) {
 
+    console.log(err);
+  }
+};
   // ================= INIT =================
 
 useEffect(() => {
