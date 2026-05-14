@@ -19,7 +19,11 @@ import {
   actualizarCapturaService,
   eliminarCapturaService
 } from "./services/ciclicosService";
+import {
+  calcularResumen
+} from "./utils/calcularResumen";
 const API = "https://ticket-pro-backend.onrender.com";
+
 
 function Ciclicos({ user }) {
 
@@ -592,68 +596,15 @@ skuInputRef.current?.focus();
     console.log(err);
   }
 };
-const obtenerDiferencia = (i) => {
 
-  return (
+const {
+  totalSKUs,
+  totalDiferencias,
+  sobrantes,
+  faltantes,
+  ajusteTotal
+} = calcularResumen(captura);
 
-    Number(i.conteo || 0) -
-
-    Number(i.sistema || 0)
-  );
-};
-
-// ================= RESUMEN EJECUTIVO =================
-
-const totalSKUs = captura.length;
-
-const totalDiferencias = captura.filter(
-  i => obtenerDiferencia(i) !== 0
-).length;
-
-const sobrantes = captura
-  .filter(i =>
-    (
-      obtenerDiferencia(i) *
-      Number(i.costo || 0)
-    ) > 0
-  )
-  .reduce(
-    (acc, i) =>
-      acc +
-      (
-        obtenerDiferencia(i) *
-        Number(i.costo || 0)
-      ),
-    0
-  );
-
-const faltantes = captura
-  .filter(i =>
-    (
-      obtenerDiferencia(i) *
-      Number(i.costo || 0)
-    ) < 0
-  )
-  .reduce(
-    (acc, i) =>
-      acc +
-      (
-        obtenerDiferencia(i) *
-        Number(i.costo || 0)
-      ),
-    0
-  );
-
-const ajusteTotal = captura
-  .reduce(
-    (acc, i) =>
-      acc +
-      (
-        obtenerDiferencia(i) *
-        Number(i.costo || 0)
-      ),
-    0
-  );
 // ================= FILTROS TABLA =================
 
 const capturaFiltrada = captura.filter(i => {
@@ -1657,7 +1608,6 @@ ref={conteoInputRef}
     ? "⏳ Guardando..."
     : "Agregar"}
 </button>
-
                 </div>
               )}
 
@@ -1692,7 +1642,6 @@ ref={conteoInputRef}
 />
 
 )}
-
           <br />
 
           <div
@@ -1741,7 +1690,6 @@ ref={conteoInputRef}
   setEditarItem={setEditarItem}
   skuInputRef={skuInputRef}
 />
-
 <ModalDuplicado
   duplicadoModal={duplicadoModal}
   duplicadoData={duplicadoData}
