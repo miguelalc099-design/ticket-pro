@@ -645,15 +645,24 @@ const capturaFiltrada = captura.filter(i => {
           📦 Módulo Cíclicos
         </h1>
 
-        <div
-          style={{
-            color: "#94a3b8",
-            marginTop: "8px"
-          }}
-        >
-          Control inteligente de inventario
+      <p
+  style={{
 
-        </div>
+    color: "#94a3b8",
+
+    marginTop: "14px",
+
+    fontSize: "15px",
+
+    letterSpacing: "0.5px",
+
+    lineHeight: "1.6",
+
+    marginBottom: 0
+  }}
+>
+  Control inteligente de inventario
+</p>
 
       </div>
 
