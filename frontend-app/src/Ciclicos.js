@@ -9,6 +9,7 @@ import toast, { Toaster } from "react-hot-toast";
 import ModalDuplicado from "./components/ciclicos/ModalDuplicado";
 import ModalEditar from "./components/ciclicos/ModalEditar";
 import TablaCapturas from "./components/ciclicos/TablaCapturas";
+import KPIsResumen from "./components/ciclicos/KPIsResumen";
 
 const API = "https://ticket-pro-backend.onrender.com";
 
@@ -1654,95 +1655,19 @@ ref={conteoInputRef}
 
             </>
           )}
-{/* ================= RESUMEN ================= */}
 {captura.length > 0 && (
-<>
-<div style={{ marginTop: "25px" }}>
-<div className="kpis">
 
-  <div className="kpi blue">
-    <h3>{totalSKUs}</h3>
-    <p>Total SKUs</p>
-  </div>
+<KPIsResumen
+  totalSKUs={totalSKUs}
+  totalDiferencias={totalDiferencias}
+  sobrantes={sobrantes}
+  faltantes={faltantes}
+  ajusteTotal={ajusteTotal}
+  setFiltroTabla={setFiltroTabla}
+/>
 
-  <div className="kpi yellow">
-    <h3>{totalDiferencias}</h3>
-    <p>Diferencias</p>
-  </div>
-
-  <div className="kpi green">
-    <h3>
-      $
-      {sobrantes.toLocaleString()}
-    </h3>
-
-    <p>Sobrantes</p>
-  </div>
-
-  <div className="kpi red">
-    <h3>
-      $
-      {Math.abs(faltantes)
-        .toLocaleString()}
-    </h3>
-
-    <p>Faltantes</p>
-  </div>
-
-  <div className="kpi orange">
-    <h3>
-      $
-      {ajusteTotal.toLocaleString()}
-    </h3>
-
-    <p>Ajuste Total</p>
-  </div>
-
-</div>
-{/* ================= FILTROS ================= */}
-
-<div
-  style={{
-    display: "flex",
-    gap: "10px",
-    marginBottom: "15px",
-    flexWrap: "wrap"
-  }}
->
-
-  <button
-    className="btn-pro btn-secondary"
-    onClick={() => setFiltroTabla("todos")}
-  >
-    Todos
-  </button>
-
-  <button
-    className="btn-pro btn-secondary"
-    onClick={() => setFiltroTabla("diferencias")}
-  >
-    Diferencias
-  </button>
-
-  <button
-    className="btn-pro btn-secondary"
-    onClick={() => setFiltroTabla("sobrantes")}
-  >
-    Sobrantes
-  </button>
-
-  <button
-    className="btn-pro btn-secondary"
-    onClick={() => setFiltroTabla("faltantes")}
-  >
-    Faltantes
-  </button>
-
-</div>
-</div>
-
-</>
 )}
+
 {captura.length > 0 && (
 
 <TablaCapturas
