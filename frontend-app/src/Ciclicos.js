@@ -25,29 +25,20 @@ import {
 import {
   exportarExcelCiclico
 } from "./utils/exportExcel";
+import useCiclicos from "./hooks/useCiclicos";
+import ListaCiclicos from "./components/ciclicos/views/ListaCiclicos";
 const API = "https://ticket-pro-backend.onrender.com";
 
 
 function Ciclicos({ user }) {
 
   // ================= ESTADOS =================
-
-  const [modo, setModo] = useState("lista");
-
   const [sku, setSku] = useState("");
   const [item, setItem] = useState(null);
-
-  const [captura, setCaptura] = useState([]);
   const [conteo, setConteo] = useState("");
-
-  const [ciclicos, setCiclicos] = useState([]);
-
   const [titulo, setTitulo] = useState("");
   const [fecha, setFecha] = useState("");
-
-  const [ciclicoActivo, setCiclicoActivo] = useState(null);
 const [busqueda, setBusqueda] = useState("");
-
 const [resultados, setResultados] = useState([]);
 const [filtroTabla, setFiltroTabla] =
   useState("todos");
@@ -57,55 +48,35 @@ const skuInputRef = useRef(null);
 const [loading, setLoading] = useState(false);
 const [duplicadoModal, setDuplicadoModal] =
   useState(false);
-
 const [duplicadoData, setDuplicadoData] =
   useState(null);
 const [editarModal, setEditarModal] =
   useState(false);
-
 const [editarItem, setEditarItem] =
   useState(null);
-
 const [nuevoConteoEdit, setNuevoConteoEdit] =
   useState("");
-  // ================= CARGAR CICLICOS =================
 
-const cargarCiclicos = async () => {
+const {
 
-  try {
+  modo,
+  setModo,
 
-    const data =
-      await obtenerCiclicos();
+  captura,
+  setCaptura,
 
-    setCiclicos(data || []);
+  ciclicos,
 
-  } catch (err) {
+  ciclicoActivo,
+  setCiclicoActivo,
 
-    console.log(err);
-  }
-};
+  cargarCiclicos,
+  cargarCapturas,
 
-  // ================= CARGAR CAPTURAS =================
-const cargarCapturas = async (id) => {
+  abrirCiclico,
+  cerrarCiclico
 
-  try {
-
-    const data =
-      await obtenerCapturas(id);
-
-    setCaptura(data || []);
-
-  } catch (err) {
-
-    console.log(err);
-  }
-};
-  // ================= INIT =================
-
-useEffect(() => {
-  cargarCiclicos();
-}, []);
-
+} = useCiclicos();
   // ================= CREAR CICLICO =================
 
   const crearCiclico = async () => {
@@ -518,97 +489,7 @@ setLoading(false);
   );
 }
 };
-  // ================= ABRIR CICLICO =================
-const guardarEdicion = async () => {
-
-  try {
-
-    setLoading(true);
-
-   await actualizarCapturaService(
-  editarItem._id,
-  {
-    conteo: Number(
-      nuevoConteoEdit || 0
-    )
-  }
-);
-
-    toast.success(
-      "Conteo actualizado 🔥"
-    );
-
-    await cargarCapturas(
-      ciclicoActivo._id
-    );
-
-    await cargarCiclicos();
-
-    setEditarModal(false);
-
-    setEditarItem(null);
-
-    setNuevoConteoEdit("");
-skuInputRef.current?.focus();
-
-  } catch (err) {
-
-    console.log(err);
-
-    toast.error(
-      "Error actualizando"
-    );
-
-  } finally {
-
-    setLoading(false);
-  }
-};
-  const abrirCiclico = async (c) => {
-
-    setCiclicoActivo(c);
-
-    await cargarCapturas(c._id);
-
-    setModo("captura");
-  };
-
-  // ================= CERRAR CICLICO =================
-
-  const cerrarCiclico = async () => {
-
-  if (!ciclicoActivo) return;
-
-  try {
-
-   await cerrarCiclicoService(
-  ciclicoActivo._id
-);
-
-    toast.success("Cíclico cerrado");
-
-    await cargarCiclicos();
-
-    setModo("lista");
-
-    setCaptura([]);
-
-    setCiclicoActivo(null);
-
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-const {
-  totalSKUs,
-  totalDiferencias,
-  sobrantes,
-  faltantes,
-  ajusteTotal
-} = calcularResumen(captura);
-
-// ================= FILTROS TABLA =================
+  // ================= FILTROS TABLA =================
 
 const capturaFiltrada = captura.filter(i => {
 
@@ -693,573 +574,31 @@ const capturaFiltrada = captura.filter(i => {
 </div>
 <div style={{ marginBottom: "45px" }} />
 
-      {/* ================= LISTA ================= */}
+{modo === "lista" && (
 
-      {modo === "lista" && (
-        <>
-{/* HEADER */}
+<ListaCiclicos
 
-  <div
-    style={{
-      display: "flex",
-      alignItems: "center",
-      gap: "18px",
-      marginBottom: "35px"
-    }}
-  >
+  busqueda={busqueda}
+  buscarDescripcion={buscarDescripcion}
+  resultados={resultados}
 
-    <div
-      style={{
-        width: "70px",
-        height: "70px",
-        borderRadius: "22px",
+  subirExcel={subirExcel}
+  subirCatalogo={subirCatalogo}
 
-        background:
-          "linear-gradient(145deg,#2563eb,#7c3aed)",
+  setModo={setModo}
 
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
+  ciclicos={ciclicos}
+  abrirCiclico={abrirCiclico}
 
-        fontSize: "34px",
+  exportarExcelCiclico={
+    exportarExcelCiclico
+  }
 
-        boxShadow:
-          "0 10px 25px rgba(59,130,246,0.35)"
-      }}
-    >
-      🛠
-    </div>
+  toast={toast}
 
-    <div>
+/>
 
-      <h2
-        style={{
-          margin: 0,
-          fontSize: "34px",
-          color: "#fff"
-        }}
-      >
-        Herramientas
-      </h2>
-
-      <p
-        style={{
-          marginTop: "6px",
-          color: "#94a3b8",
-          fontSize: "16px"
-        }}
-      >
-        Administra inventario y catálogo
-      </p>
-
-    </div>
-
-  </div>
-
-  {/* INVENTARIO */}
-
-  <div
-    style={{
-      display: "grid",
-
-      gridTemplateColumns:
-  "repeat(auto-fit, minmax(320px, 1fr))",
-
-      gap: "25px",
-
-      background:
-        "rgba(15,23,42,0.7)",
-
-      border:
-        "1px solid #1e293b",
-
-      borderRadius: "24px",
-
-      padding: "25px",
-
-      marginBottom: "25px"
-    }}
-  >
-
-    {/* INFO */}
-
-    <div>
-
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "15px",
-          marginBottom: "20px"
-        }}
-      >
-
-        <div
-          style={{
-            width: "60px",
-            height: "60px",
-            borderRadius: "18px",
-
-            background:
-              "linear-gradient(145deg,#2563eb,#1d4ed8)",
-
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-
-            fontSize: "28px"
-          }}
-        >
-          📥
-        </div>
-
-        <div>
-
-          <h3
-            style={{
-              margin: 0,
-              color: "#fff",
-              fontSize: "28px"
-            }}
-          >
-            Actualizar Inventario
-          </h3>
-
-          <p
-            style={{
-              marginTop: "8px",
-              color: "#94a3b8"
-            }}
-          >
-            Carga existencias y costos
-          </p>
-
-        </div>
-
-      </div>
-
-      <div
-        style={{
-          background:
-            "rgba(37,99,235,0.12)",
-
-          border:
-            "1px solid rgba(59,130,246,0.25)",
-
-          borderRadius: "14px",
-
-          padding: "14px",
-
-          color: "#93c5fd",
-
-          fontSize: "15px"
-        }}
-      >
-        ℹ Formatos soportados:
-        .xlsx / .xls
-      </div>
-
-    </div>
-
-    {/* BOTON */}
-
-    <div
-      style={{
-        border:
-          "2px dashed rgba(59,130,246,0.5)",
-
-        borderRadius: "24px",
-
-        display: "flex",
-
-        flexDirection: "column",
-
-        alignItems: "center",
-
-        justifyContent: "center",
-
-        padding: "30px"
-      }}
-    >
-
-      <div
-        style={{
-          fontSize: "55px",
-          marginBottom: "15px"
-        }}
-      >
-        ☁
-      </div>
-
-      <p
-        style={{
-          color: "#fff",
-          fontSize: "20px",
-          fontWeight: "bold",
-          marginBottom: "10px"
-        }}
-      >
-        Selecciona tu archivo
-      </p>
-
-     <label
-  style={{
-    background:
-      "linear-gradient(145deg,#2563eb,#1d4ed8)",
-
-    color: "#fff",
-
-    padding: "14px 28px",
-
-    borderRadius: "14px",
-
-    cursor: "pointer",
-
-    fontWeight: "bold",
-
-    fontSize: "17px",
-
-    boxShadow:
-      "0 10px 20px rgba(37,99,235,0.35)",
-
-    transition: "0.2s"
-  }}
->
-  ⬆ Seleccionar archivo
-
-  <input
-    type="file"
-    onChange={subirExcel}
-
-    style={{
-      display: "none"
-    }}
-  />
-</label>
-
-    </div>
-
-  </div>
-
-  {/* CATALOGO */}
-
-  <div
-    style={{
-      display: "grid",
-
-      gridTemplateColumns:
-  "repeat(auto-fit, minmax(320px, 1fr))",
-
-      gap: "25px",
-
-      background:
-        "rgba(15,23,42,0.7)",
-
-      border:
-        "1px solid #1e293b",
-
-      borderRadius: "24px",
-
-      padding: "25px"
-    }}
-  >
-
-    {/* INFO */}
-
-    <div>
-
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "15px",
-          marginBottom: "20px"
-        }}
-      >
-
-        <div
-          style={{
-            width: "60px",
-            height: "60px",
-            borderRadius: "18px",
-
-            background:
-              "linear-gradient(145deg,#9333ea,#7e22ce)",
-
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-
-            fontSize: "28px"
-          }}
-        >
-          📋
-        </div>
-
-        <div>
-
-          <h3
-            style={{
-              margin: 0,
-              color: "#fff",
-              fontSize: "28px"
-            }}
-          >
-            Actualizar Catálogo
-          </h3>
-
-          <p
-            style={{
-              marginTop: "8px",
-              color: "#94a3b8"
-            }}
-          >
-            Carga ubicaciones y artículos
-          </p>
-
-        </div>
-
-      </div>
-
-      <div
-        style={{
-          background:
-            "rgba(147,51,234,0.12)",
-
-          border:
-            "1px solid rgba(168,85,247,0.25)",
-
-          borderRadius: "14px",
-
-          padding: "14px",
-
-          color: "#d8b4fe",
-
-          fontSize: "15px"
-        }}
-      >
-        ℹ Formatos soportados:
-        .xlsx / .xls
-      </div>
-
-    </div>
-
-    {/* BOTON */}
-
-    <div
-      style={{
-        border:
-          "2px dashed rgba(168,85,247,0.45)",
-
-        borderRadius: "24px",
-
-        display: "flex",
-
-        flexDirection: "column",
-
-        alignItems: "center",
-
-        justifyContent: "center",
-
-        padding: "30px"
-      }}
-    >
-
-      <div
-        style={{
-          fontSize: "55px",
-          marginBottom: "15px"
-        }}
-      >
-        ☁
-      </div>
-
-      <p
-        style={{
-          color: "#fff",
-          fontSize: "20px",
-          fontWeight: "bold",
-          marginBottom: "10px"
-        }}
-      >
-        Selecciona tu archivo
-      </p>
-
-      <label
-  style={{
-    background:
-      "linear-gradient(145deg,#9333ea,#7e22ce)",
-
-    color: "#fff",
-
-    padding: "14px 28px",
-
-    borderRadius: "14px",
-
-    cursor: "pointer",
-
-    fontWeight: "bold",
-
-    fontSize: "17px",
-
-    boxShadow:
-      "0 10px 20px rgba(147,51,234,0.35)",
-
-    transition: "0.2s"
-  }}
->
-  ⬆ Seleccionar archivo
-
-  <input
-    type="file"
-    onChange={subirCatalogo}
-
-    style={{
-      display: "none"
-    }}
-  />
-</label>
-
-    </div>
-
-  </div>
-
-<div style={{ marginBottom: "20px" }}>
-
-  <input
-    className="input-pro"
-    type="text"
-    placeholder="🔍 Buscar SKU o descripción..."
-    value={busqueda}
-    onChange={(e) =>
-      buscarDescripcion(e.target.value)
-    }
-  />
-
-</div>
-
-{resultados.length > 0 && (
-
-<div
-  style={{
-  display: "flex",
-  flexDirection: "column",
-  gap: "10px",
-  marginTop: "15px",
-  marginBottom: "35px",
-  position: "relative",
-  zIndex: 20
-}}
->
-
- {resultados.map((item, index) => (
-    <div
-      key={index}
-      className="card-pro"
-      style={{
-        padding: "18px"
-      }}
-    >
-      <div>
-        <strong>{item.sku}</strong>
-      </div>
-
-      <div>
-        {item.articulo}
-      </div>
-
-      <div>
-        📍 {item.ubicacion || "Sin ubicación"}
-      </div>
-
-      <div>
-        📦 {item.existencia}
-      </div>
-
-    </div>
-  ))}
-
-</div>
 )}
-         <button
-  className="btn-pro"
-  onClick={() => setModo("nuevo")}
->
-            ➕ Nuevo Cíclico
-          </button>
-
-          <br /><br />
-
-          {ciclicos.length === 0 && (
-            <p>No hay cíclicos</p>
-          )}
-
-          {ciclicos.map((c) => (
-
-            <div
-  key={c._id}
-  className="card-pro"
-  style={{
-    padding: "28px",
-    marginBottom: "20px"
-  }}
->
-
-              <h3>{c.folio}</h3>
-
-              <p><b>Título:</b> {c.titulo}</p>
-
-              <p><b>Fecha:</b> {c.fecha}</p>
-<p>
-  <b>Creado por:</b> {c.creadoPor || "N/A"}
-</p>
-
-              <p><b>Estado:</b> {c.estado}</p>
-
-              <p>
-                <b>SKUs:</b> {c.totalCapturados}
-              </p>
-
-              <p>
-                <b>Diferencias:</b> {c.diferencias}
-              </p>
-
-             <button
-  className="btn-pro"
-  onClick={() => abrirCiclico(c)}
->
-                {c.estado === "Abierto"
-                  ? "▶ Continuar"
-                  : "👁 Ver"}
-              </button>
-<button
-  className="btn-pro btn-secondary"
-  style={{ marginLeft: "10px" }}
-
-  onClick={async () => {
-
-    try {
-
-      await exportarExcelCiclico(c);
-
-    } catch (err) {
-
-      console.log(err);
-
-      toast.error(
-        "Error exportando"
-      );
-    }
-  }}
->
-  📥 Excel
-</button>
-
-            </div>
-          ))}
-
-        </>
-      )}
 
       {/* ================= NUEVO ================= */}
 
