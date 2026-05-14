@@ -671,6 +671,7 @@ const capturaFiltrada = captura.filter(i => {
   </div>
 
 </div>
+<div style={{ marginBottom: "45px" }} />
 
       {/* ================= LISTA ================= */}
 
