@@ -719,7 +719,7 @@ const capturaFiltrada = captura.filter(i => {
     marginBottom: 0
   }}
 >
-  Control inteligente de inventario
+  Control de inventario ciclicos para Ticho y Adriel
 </p>
 
       </div>
