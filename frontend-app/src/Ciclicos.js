@@ -55,11 +55,11 @@ const {
 
   const crearCiclico = async () => {
 
-  setLoading(true);
+
 
     if (!titulo || !fecha) {
       toast.error("Completa título y fecha");
-setLoading(false);
+
       return;
     }
 
@@ -88,7 +88,6 @@ setCiclicoActivo(data);
 
 } finally {
 
-  setLoading(false);
 }
   };
 // ================= SUBIR INVENTARIO =================
