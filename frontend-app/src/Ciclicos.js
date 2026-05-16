@@ -1,23 +1,13 @@
 import {
-  useState,
-  useEffect,
-  useRef
+  useState
 } from "react";
 import axios from "axios";
 import * as XLSX from "xlsx";
 import toast, { Toaster } from "react-hot-toast";
 import ModalDuplicado from "./components/ciclicos/ModalDuplicado";
 import ModalEditar from "./components/ciclicos/ModalEditar";
-import TablaCapturas from "./components/ciclicos/TablaCapturas";
-import KPIsResumen from "./components/ciclicos/KPIsResumen";
 import {
-  obtenerCiclicos,
-  obtenerCapturas,
-  crearCiclicoService,
-  cerrarCiclicoService,
-  agregarCapturaService,
-  actualizarCapturaService,
-  eliminarCapturaService
+  crearCiclicoService
 } from "./services/ciclicosService";
 import {
   calcularResumen
@@ -28,36 +18,19 @@ import {
 import useCiclicos from "./hooks/useCiclicos";
 import ListaCiclicos from "./components/ciclicos/views/ListaCiclicos";
 import CapturaCiclico from "./components/ciclicos/views/CapturaCiclico";
+import useCapturaCiclico from "./hooks/useCapturaCiclico";
+import NuevoCiclico from "./components/ciclicos/views/NuevoCiclico";
 const API = "https://ticket-pro-backend.onrender.com";
 
 
 function Ciclicos({ user }) {
 
   // ================= ESTADOS =================
-  const [sku, setSku] = useState("");
-  const [item, setItem] = useState(null);
-  const [conteo, setConteo] = useState("");
-  const [titulo, setTitulo] = useState("");
-  const [fecha, setFecha] = useState("");
-const [busqueda, setBusqueda] = useState("");
-const [resultados, setResultados] = useState([]);
 const [filtroTabla, setFiltroTabla] =
   useState("todos");
-const busquedaRef = useRef("");
-const conteoInputRef = useRef(null);
-const skuInputRef = useRef(null);
-const [loading, setLoading] = useState(false);
-const [duplicadoModal, setDuplicadoModal] =
-  useState(false);
-const [duplicadoData, setDuplicadoData] =
-  useState(null);
-const [editarModal, setEditarModal] =
-  useState(false);
-const [editarItem, setEditarItem] =
-  useState(null);
-const [nuevoConteoEdit, setNuevoConteoEdit] =
-  useState("");
-
+  const [fecha, setFecha] = useState("");
+const [titulo, setTitulo] = useState("");  
+  
 const {
 
   modo,
@@ -199,297 +172,60 @@ const subirCatalogo = async (e) => {
     toast.error("Error subiendo catálogo");
   }
 };
-// ================= BUSCAR SKU =================
 
-const buscarParaCiclico = async () => {
+const {
 
-  if (!sku) return;
+  sku,
+  setSku,
 
-  const codigo = String(sku).trim();
+  item,
+  setItem,
 
-  try {
+  conteo,
+  setConteo,
 
-    // 🔥 INVENTARIO
-    const inv = await axios.get(
-      API + "/inventario/" + codigo
-    );
+  busqueda,
+  setBusqueda,
 
-    // 🔥 CATALOGO
-    const cat = await axios.get(
-      API + "/catalogo/" + codigo
-    );
+  resultados,
+  setResultados,
 
-    // 🔥 NO EXISTE
-   if (!inv.data && !cat.data) {
+  loading,
 
-  toast.error("SKU no existe");
+  duplicadoModal,
+  setDuplicadoModal,
 
-  setSku("");
+  duplicadoData,
+  setDuplicadoData,
 
-  skuInputRef.current?.focus();
+  editarModal,
+  setEditarModal,
 
-  return;
-}
+  editarItem,
+  setEditarItem,
 
-setItem({
+  nuevoConteoEdit,
+  setNuevoConteoEdit,
 
-  sku: codigo,
+  buscarParaCiclico,
+  buscarDescripcion,
 
-  // 🔥 INVENTARIO SI EXISTE
-  // 🔥 SI NO, USA CATALOGO
-  articulo:
+  agregar,
 
-    inv.data?.articulo ||
+  manejarDuplicado,
 
-    cat.data?.articulo ||
+  guardarEdicion,
 
-    "Sin descripción",
+  conteoInputRef,
+  skuInputRef
 
-  // 🔥 SOLO INVENTARIO TIJUANA
-  existencia:
+} = useCapturaCiclico({
 
-    inv.data?.existencia || 0,
+  ciclicoActivo,
 
-  // 🔥 SOLO INVENTARIO
-  costo:
-
-    inv.data?.costo || 0,
-
-  // 🔥 SOLO CATALOGO
-  ubicacion:
-
-    cat.data?.ubicacion || "N/A"
+  cargarCapturas,
+  cargarCiclicos
 });
-setTimeout(() => {
-
-  conteoInputRef.current?.focus();
-
-}, 100);
-
-  } catch (err) {
-
-    console.log(err);
-
-   toast.error("Error conexión");
-  }
-};  
-
-
-// ================= BUSQUEDA INTELIGENTE =================
-
-const buscarDescripcion = async (texto) => {
-
-  setBusqueda(texto);
-busquedaRef.current = texto;
-
-  // 🔥 MUY CORTO
- if (texto.trim().length < 2) {
-
-  setResultados([]);
-
-  return;
-}
-
-  try {
-
-
-
-const res = await axios.get(
-  API + "/buscar?q=" + texto
-);
-
-// 🔥 SI EL INPUT YA CAMBIÓ
-// IGNORA RESPUESTA VIEJA
-
-
-if (busquedaRef.current !== texto) {
-  return;
-}
-
-setResultados(res.data);
-  } catch (err) {
-
-    console.log(err);
-  }
-};
-
-  // ================= AGREGAR =================
-
-  const agregar = async () => {
-
-  setLoading(true);
-
-    if (!item) {
-
-  setLoading(false);
-
-  return;
-}
-
-const conteoFinal =
-
-  conteo === ""
-    ? 0
-    : Number(conteo);
-
-    try {
-
-      const nuevo = {
-        sku: item.sku,
-        articulo: item.articulo,
-
-        sistema: item.existencia || 0,
-
-conteo: conteoFinal,
-
-diferencia:
-  conteoFinal -
-  Number(item.existencia || 0),
-
-        ubicacion: item.ubicacion || "-",
-
-costo: item.costo || 0,
-
-ajuste:
-
-(conteoFinal -
-Number(item.existencia || 0))
-
-  * Number(item.costo || 0),
-
-      };
-
-   await agregarCapturaService(
-  ciclicoActivo._id,
-  nuevo
-);
-
-await cargarCapturas(
-  ciclicoActivo._id
-);
-
-await cargarCiclicos();
-
-setSku("");
-
-setItem(null);
-
-setConteo("");
-
-setDuplicadoModal(false);
-
-setDuplicadoData(null);
-
-skuInputRef.current?.focus();
-
-setLoading(false);
- } catch (err) {
-
-  console.log(err);
-
-  // 🔥 DUPLICADO
-setLoading(false);
- if (
-  err.response?.status === 409
-) {
-
-  const existente =
-    err.response.data.captura;
-
-  setDuplicadoData({
-
-    existente,
-
-    conteoNuevo: conteoFinal
-  });
-
-  setDuplicadoModal(true);
-
-  return;
-}
-
-toast.error("Error agregando");
-}
-  };
-const manejarDuplicado = async (
-
-  tipo
-) => {
-setLoading(true);
-  try {
-
-    const existente =
-      duplicadoData.existente;
-
-    let nuevoConteo =
-      existente.conteo;
-
-    // 🔥 SUMAR
-    if (tipo === "sumar") {
-
-      nuevoConteo =
-
-        Number(existente.conteo || 0) +
-
-        Number(
-          duplicadoData.conteoNuevo || 0
-        );
-    }
-
-    // 🔥 REEMPLAZAR
-    if (tipo === "reemplazar") {
-
-      nuevoConteo = Number(
-        duplicadoData.conteoNuevo || 0
-      );
-    }
-
-   await actualizarCapturaService(
-  existente._id,
-  {
-    conteo: nuevoConteo
-  }
-);
-
-    toast.success(
-      "SKU actualizado 🔥"
-    );
-
-await cargarCapturas(
-  ciclicoActivo._id
-);
-
-await cargarCiclicos();
-
-setSku("");
-
-setItem(null);
-
-setConteo("");
-
-setDuplicadoModal(false);
-
-setDuplicadoData(null);
-
-skuInputRef.current?.focus();
-
-setLoading(false);
-
- } catch (err) {
-
-  console.log(err);
-
-  setDuplicadoModal(false);
-
-  setDuplicadoData(null);
-
-  setLoading(false);
-
-  toast.error(
-    "Error actualizando"
-  );
-}
-};
   // ================= FILTROS TABLA =================
 const {
   totalSKUs,
@@ -498,46 +234,6 @@ const {
   faltantes,
   ajusteTotal
 } = calcularResumen(captura);
-const guardarEdicion = async () => {
-
-  try {
-
-    await actualizarCapturaService(
-      editarItem._id,
-      {
-        conteo: Number(
-          nuevoConteoEdit || 0
-        )
-      }
-    );
-
-    toast.success(
-      "Actualizado 🔥"
-    );
-
-    await cargarCapturas(
-      ciclicoActivo._id
-    );
-
-    await cargarCiclicos();
-
-    setEditarModal(false);
-
-    setEditarItem(null);
-
-    setNuevoConteoEdit("");
-
-    skuInputRef.current?.focus();
-
-  } catch (err) {
-
-    console.log(err);
-
-    toast.error(
-      "Error actualizando"
-    );
-  }
-};
 const capturaFiltrada = captura.filter(i => {
 
   // TODOS
@@ -611,179 +307,106 @@ const capturaFiltrada = captura.filter(i => {
 >
   Control de inventario ciclicos para Ticho y Adriel
 </p>
-
       </div>
-
     </div>
-
   </div>
-
 </div>
 <div style={{ marginBottom: "45px" }} />
-
 {modo === "lista" && (
-
 <ListaCiclicos
-
   busqueda={busqueda}
   buscarDescripcion={buscarDescripcion}
   resultados={resultados}
-
   subirExcel={subirExcel}
   subirCatalogo={subirCatalogo}
-
   setModo={setModo}
-
   ciclicos={ciclicos}
   abrirCiclico={abrirCiclico}
-
   exportarExcelCiclico={
     exportarExcelCiclico
   }
-
   toast={toast}
+/>
+)}
+      {/* ================= NUEVO ================= */}
+      {modo === "nuevo" && (
+
+<NuevoCiclico
+
+  titulo={titulo}
+  setTitulo={setTitulo}
+
+  fecha={fecha}
+  setFecha={setFecha}
+
+  crearCiclico={crearCiclico}
+
+  loading={loading}
+
+  setModo={setModo}
 
 />
 
 )}
-
-      {/* ================= NUEVO ================= */}
-
-      {modo === "nuevo" && (
-        <>
-
-          <h3>➕ Nuevo Cíclico</h3>
-
-<input
-  className="input-pro"
-  placeholder="📝 Título del cíclico"
-  value={titulo}
-  onChange={(e) =>
-    setTitulo(e.target.value)
-  }
-/>
-
-<br /><br />
-
-<input
-  className="input-pro"
-  type="date"
-  value={fecha}
-  onChange={(e) =>
-    setFecha(e.target.value)
-  }
-/>
-
-<br /><br />
-
-         <button
-  className="btn-pro"
-  onClick={crearCiclico}
-  disabled={loading}
->
-  {loading
-    ? "⏳ Creando..."
-    : "🚀 Iniciar Cíclico"}
-</button>
-
-          <button
-  className="btn-pro btn-secondary"
-  style={{ marginLeft: "10px" }}
-
-            onClick={() => setModo("lista")}
-          >
-            Cancelar
-          </button>
-
-        </>
-      )}
-
       {/* ================= CAPTURA ================= */}
-
       {modo === "captura" && ciclicoActivo && (
-
 <CapturaCiclico
-
   ciclicoActivo={ciclicoActivo}
-
   sku={sku}
   setSku={setSku}
-
   busqueda={busqueda}
   buscarDescripcion={buscarDescripcion}
-
   resultados={resultados}
   setResultados={setResultados}
   setBusqueda={setBusqueda}
-
   buscarParaCiclico={
     buscarParaCiclico
   }
 
   item={item}
   setItem={setItem}
-
   conteo={conteo}
   setConteo={setConteo}
-
   agregar={agregar}
-
   loading={loading}
-
   conteoInputRef={conteoInputRef}
   skuInputRef={skuInputRef}
-
   captura={captura}
-
   totalSKUs={totalSKUs}
   totalDiferencias={
     totalDiferencias
   }
-
   sobrantes={sobrantes}
-
   faltantes={faltantes}
-
   ajusteTotal={ajusteTotal}
-
   setFiltroTabla={
     setFiltroTabla
   }
-
   capturaFiltrada={
     capturaFiltrada
   }
-
   setEditarItem={
     setEditarItem
   }
-
   setNuevoConteoEdit={
     setNuevoConteoEdit
   }
-
   setEditarModal={
     setEditarModal
   }
-
   toast={toast}
   axios={axios}
   API={API}
-
   setCaptura={setCaptura}
   cargarCiclicos={cargarCiclicos}
-
   cerrarCiclico={cerrarCiclico}
   setModo={setModo}
-
   setDuplicadoModal={
     setDuplicadoModal
   }
-
   setDuplicadoData={
     setDuplicadoData
   }
-
 />
 
 )}
@@ -812,8 +435,6 @@ const capturaFiltrada = captura.filter(i => {
   skuInputRef={skuInputRef}
 />
     </div>
-
 );
 }
-
 export default Ciclicos;
