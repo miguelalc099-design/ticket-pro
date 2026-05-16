@@ -85,9 +85,6 @@ setCiclicoActivo(data);
   console.log(err);
 
   toast.error("Error creando cíclico");
-
-} finally {
-
 }
   };
 // ================= SUBIR INVENTARIO =================
