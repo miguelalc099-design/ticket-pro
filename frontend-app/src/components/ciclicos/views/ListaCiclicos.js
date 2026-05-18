@@ -1,6 +1,7 @@
 function ListaCiclicos({
-filtroArea,
-setFiltroArea,
+  filtroArea,
+  setFiltroArea,
+
   busqueda,
   buscarDescripcion,
   resultados,
@@ -17,7 +18,9 @@ setFiltroArea,
   toast
 
 }) {
+
 const ciclicosFiltrados =
+
   filtroArea === "todos"
 
     ? ciclicos
@@ -25,6 +28,7 @@ const ciclicosFiltrados =
     : ciclicos.filter(
         c => c.area === filtroArea
       );
+
 const almacen =
   ciclicos.filter(
     c => c.area === "almacen"
@@ -54,106 +58,9 @@ const llantasCerrados =
   llantas.filter(
     c => c.estado === "Cerrado"
   ).length;
-  return (
+
+return (
 <>
-<div
-  style={{
-    display: "grid",
-    gridTemplateColumns:
-      "repeat(auto-fit,minmax(240px,1fr))",
-
-    gap: "20px",
-
-    marginTop: "25px",
-    marginBottom: "30px"
-  }}
->
-
-{/* ALMACEN */}
-
-<div
-  className="card-pro"
-  style={{
-    padding: "25px",
-    border:
-      "1px solid rgba(255,255,255,0.08)"
-  }}
->
-
-<div
-  style={{
-    fontSize: "42px",
-    marginBottom: "10px"
-  }}
->
-  📦
-</div>
-
-<h3>Almacén</h3>
-
-<p>
-  🟢 Abiertos:
-  {" "}
-  {almacenAbiertos}
-</p>
-
-<p>
-  🔴 Cerrados:
-  {" "}
-  {almacenCerrados}
-</p>
-
-<p>
-  📋 Total:
-  {" "}
-  {almacen.length}
-</p>
-
-</div>
-
-{/* LLANTAS */}
-
-<div
-  className="card-pro"
-  style={{
-    padding: "25px",
-    border:
-      "1px solid rgba(255,255,255,0.08)"
-  }}
->
-
-<div
-  style={{
-    fontSize: "42px",
-    marginBottom: "10px"
-  }}
->
-  🛞
-</div>
-
-<h3>Llantas</h3>
-
-<p>
-  🟢 Abiertos:
-  {" "}
-  {llantasAbiertos}
-</p>
-
-<p>
-  🔴 Cerrados:
-  {" "}
-  {llantasCerrados}
-</p>
-
-<p>
-  📋 Total:
-  {" "}
-  {llantas.length}
-</p>
-
-</div>
-
-</div>
 
 {/* HEADER */}
 
@@ -412,7 +319,9 @@ const llantasCerrados =
 
     borderRadius: "24px",
 
-    padding: "25px"
+    padding: "25px",
+
+    marginBottom: "25px"
   }}
 >
 
@@ -570,6 +479,8 @@ const llantasCerrados =
 
 </div>
 
+{/* BUSQUEDA */}
+
 <div style={{ marginBottom: "20px" }}>
 
 <input
@@ -630,6 +541,102 @@ const llantasCerrados =
 
 </div>
 )}
+
+{/* DASHBOARD */}
+
+<div
+  style={{
+    display: "grid",
+    gridTemplateColumns:
+      "repeat(auto-fit,minmax(240px,1fr))",
+
+    gap: "20px",
+
+    marginTop: "25px",
+    marginBottom: "30px"
+  }}
+>
+
+<div
+  className="card-pro"
+  style={{
+    padding: "25px"
+  }}
+>
+
+<div
+  style={{
+    fontSize: "42px",
+    marginBottom: "10px"
+  }}
+>
+  📦
+</div>
+
+<h3>Almacén</h3>
+
+<p>
+  🟢 Abiertos:
+  {" "}
+  {almacenAbiertos}
+</p>
+
+<p>
+  🔴 Cerrados:
+  {" "}
+  {almacenCerrados}
+</p>
+
+<p>
+  📋 Total:
+  {" "}
+  {almacen.length}
+</p>
+
+</div>
+
+<div
+  className="card-pro"
+  style={{
+    padding: "25px"
+  }}
+>
+
+<div
+  style={{
+    fontSize: "42px",
+    marginBottom: "10px"
+  }}
+>
+  🛞
+</div>
+
+<h3>Llantas</h3>
+
+<p>
+  🟢 Abiertos:
+  {" "}
+  {llantasAbiertos}
+</p>
+
+<p>
+  🔴 Cerrados:
+  {" "}
+  {llantasCerrados}
+</p>
+
+<p>
+  📋 Total:
+  {" "}
+  {llantas.length}
+</p>
+
+</div>
+
+</div>
+
+{/* FILTROS */}
+
 <div
   style={{
     display: "flex",
@@ -670,6 +677,7 @@ const llantasCerrados =
 </button>
 
 </div>
+
 <button
   className="btn-pro"
   onClick={() => setModo("nuevo")}
@@ -683,6 +691,8 @@ const llantasCerrados =
   <p>No hay cíclicos</p>
 )}
 
+{/* LISTA */}
+
 {ciclicosFiltrados.map((c) => (
 
 <div
@@ -694,42 +704,138 @@ const llantasCerrados =
   }}
 >
 
-<h3>{c.folio}</h3>
+<div
+  style={{
+    display: "flex",
+    justifyContent:
+      "space-between",
 
-<p><b>Título:</b> {c.titulo}</p>
+    alignItems: "flex-start",
+
+    marginBottom: "15px"
+  }}
+>
+
+<div>
+
+<h3
+  style={{
+    marginBottom: "6px"
+  }}
+>
+  {c.folio}
+</h3>
+
+<p
+  style={{
+    color: "#94a3b8",
+    margin: 0
+  }}
+>
+  {c.titulo}
+</p>
+
+</div>
+
+<div
+  style={{
+    display: "flex",
+    flexDirection: "column",
+    gap: "6px",
+    alignItems: "flex-end"
+  }}
+>
+
+<div
+  style={{
+    background:
+      c.estado === "Abierto"
+
+      ? "rgba(34,197,94,0.15)"
+
+      : "rgba(239,68,68,0.15)",
+
+    color:
+      c.estado === "Abierto"
+
+      ? "#22c55e"
+
+      : "#ef4444",
+
+    padding: "6px 12px",
+
+    borderRadius: "999px",
+
+    fontSize: "13px",
+
+    fontWeight: "bold"
+  }}
+>
+  {c.estado}
+</div>
+
+<div
+  style={{
+    background:
+      "rgba(59,130,246,0.15)",
+
+    color: "#3b82f6",
+
+    padding: "6px 12px",
+
+    borderRadius: "999px",
+
+    fontSize: "13px",
+
+    fontWeight: "bold"
+  }}
+>
+  {c.tipo}
+</div>
+
+</div>
+
+</div>
+
+<div
+  style={{
+    display: "grid",
+    gap: "10px",
+
+    marginTop: "15px"
+  }}
+>
+
 <p>
-  <b>Tipo:</b>
-  {" "}
-  {c.tipo || "ciclico"}
+  📅 {c.fecha}
 </p>
 
 <p>
-  <b>Área:</b>
-  {" "}
-  {c.area || "almacen"}
-</p>
-
-<p><b>Fecha:</b> {c.fecha}</p>
-
-<p>
-  <b>Creado por:</b>
-  {" "}
-  {c.creadoPor || "N/A"}
-</p>
-
-<p><b>Estado:</b> {c.estado}</p>
-
-<p>
-  <b>SKUs:</b>
-  {" "}
-  {c.totalCapturados}
+  👤 {c.creadoPor}
 </p>
 
 <p>
-  <b>Diferencias:</b>
-  {" "}
-  {c.diferencias}
+  📦 {c.totalCapturados} capturas
 </p>
+
+<p>
+  ⚠ {c.diferencias} diferencias
+</p>
+
+<p>
+  🏢 {c.area}
+</p>
+
+</div>
+
+<div
+  style={{
+    marginTop: "20px",
+    display: "flex",
+    gap: "10px",
+    flexWrap: "wrap"
+  }}
+>
 
 <button
   className="btn-pro"
@@ -742,7 +848,6 @@ const llantasCerrados =
 
 <button
   className="btn-pro btn-secondary"
-  style={{ marginLeft: "10px" }}
 
   onClick={async () => {
 
@@ -765,10 +870,12 @@ const llantasCerrados =
 
 </div>
 
+</div>
+
 ))}
 
 </>
-  );
+);
 }
 
 export default ListaCiclicos;
