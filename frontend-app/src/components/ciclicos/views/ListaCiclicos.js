@@ -629,7 +629,6 @@ return (
 </div>
 
 </div>
-
 {/* FILTROS */}
 <select
   className="input-pro"
