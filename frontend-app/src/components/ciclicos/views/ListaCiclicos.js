@@ -697,58 +697,58 @@ return (
 
 <div
   key={c._id}
+
   className="card-pro"
+
   style={{
-    padding: "28px",
-    marginBottom: "20px"
+
+    padding: "18px 22px",
+
+    marginBottom: "12px",
+
+    display: "flex",
+
+    justifyContent: "space-between",
+
+    alignItems: "center",
+
+    gap: "20px",
+
+    flexWrap: "wrap"
+  }}
+>
+
+{/* IZQUIERDA */}
+
+<div
+  style={{
+    flex: 1,
+    minWidth: "260px"
   }}
 >
 
 <div
   style={{
     display: "flex",
-    justifyContent:
-      "space-between",
-
-    alignItems: "flex-start",
-
-    marginBottom: "15px"
+    alignItems: "center",
+    gap: "12px",
+    flexWrap: "wrap"
   }}
 >
 
-<div>
-
 <h3
   style={{
-    marginBottom: "6px"
+    margin: 0,
+    fontSize: "22px"
   }}
 >
   {c.folio}
 </h3>
 
-<p
-  style={{
-    color: "#94a3b8",
-    margin: 0
-  }}
->
-  {c.titulo}
-</p>
-
-</div>
-
-<div
-  style={{
-    display: "flex",
-    flexDirection: "column",
-    gap: "6px",
-    alignItems: "flex-end"
-  }}
->
-
 <div
   style={{
     background:
+
       c.estado === "Abierto"
 
       ? "rgba(34,197,94,0.15)"
@@ -756,17 +756,18 @@ return (
       : "rgba(239,68,68,0.15)",
 
     color:
+
       c.estado === "Abierto"
 
       ? "#22c55e"
 
       : "#ef4444",
 
-    padding: "6px 12px",
+    padding: "4px 12px",
 
     borderRadius: "999px",
 
-    fontSize: "13px",
+    fontSize: "12px",
 
     fontWeight: "bold"
   }}
@@ -781,11 +782,11 @@ return (
 
     color: "#3b82f6",
 
-    padding: "6px 12px",
+    padding: "4px 12px",
 
     borderRadius: "999px",
 
-    fontSize: "13px",
+    fontSize: "12px",
 
     fontWeight: "bold"
   }}
@@ -795,42 +796,56 @@ return (
 
 </div>
 
-</div>
+<p
+  style={{
+    color: "#94a3b8",
+    marginTop: "8px",
+    marginBottom: "12px"
+  }}
+>
+  {c.titulo}
+</p>
 
 <div
   style={{
-    display: "grid",
-    gap: "10px",
+    display: "flex",
+    gap: "18px",
+    flexWrap: "wrap",
 
-    marginTop: "15px"
+    color: "#cbd5e1",
+
+    fontSize: "14px"
   }}
 >
 
-<p>
+<span>
   📅 {c.fecha}
-</p>
+</span>
 
-<p>
+<span>
   👤 {c.creadoPor}
-</p>
+</span>
 
-<p>
-  📦 {c.totalCapturados} capturas
-</p>
-
-<p>
-  ⚠ {c.diferencias} diferencias
-</p>
-
-<p>
+<span>
   🏢 {c.area}
-</p>
+</span>
+
+<span>
+  📦 {c.totalCapturados}
+</span>
+
+<span>
+  ⚠ {c.diferencias}
+</span>
 
 </div>
 
+</div>
+
+{/* DERECHA */}
+
 <div
   style={{
-    marginTop: "20px",
     display: "flex",
     gap: "10px",
     flexWrap: "wrap"
@@ -839,10 +854,15 @@ return (
 
 <button
   className="btn-pro"
-  onClick={() => abrirCiclico(c)}
+
+  onClick={() =>
+    abrirCiclico(c)
+  }
 >
   {c.estado === "Abierto"
+
     ? "▶ Continuar"
+
     : "👁 Ver"}
 </button>
 
