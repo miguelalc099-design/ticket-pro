@@ -1,5 +1,6 @@
 function ListaCiclicos({
-
+filtroArea,
+setFiltroArea,
   busqueda,
   buscarDescripcion,
   resultados,
@@ -16,7 +17,14 @@ function ListaCiclicos({
   toast
 
 }) {
+const ciclicosFiltrados =
+  filtroArea === "todos"
 
+    ? ciclicos
+
+    : ciclicos.filter(
+        c => c.area === filtroArea
+      );
   return (
 <>
 
@@ -495,7 +503,46 @@ function ListaCiclicos({
 
 </div>
 )}
+<div
+  style={{
+    display: "flex",
+    gap: "10px",
+    marginBottom: "25px",
+    flexWrap: "wrap"
+  }}
+>
 
+<button
+  className="btn-pro btn-secondary"
+
+  onClick={() =>
+    setFiltroArea("todos")
+  }
+>
+  📋 Todos
+</button>
+
+<button
+  className="btn-pro btn-secondary"
+
+  onClick={() =>
+    setFiltroArea("almacen")
+  }
+>
+  📦 Almacén
+</button>
+
+<button
+  className="btn-pro btn-secondary"
+
+  onClick={() =>
+    setFiltroArea("llantas")
+  }
+>
+  🛞 Llantas
+</button>
+
+</div>
 <button
   className="btn-pro"
   onClick={() => setModo("nuevo")}
@@ -509,7 +556,7 @@ function ListaCiclicos({
   <p>No hay cíclicos</p>
 )}
 
-{ciclicos.map((c) => (
+{ciclicosFiltrados.map((c) => (
 
 <div
   key={c._id}

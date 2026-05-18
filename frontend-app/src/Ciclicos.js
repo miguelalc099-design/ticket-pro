@@ -28,6 +28,8 @@ function Ciclicos({ user }) {
   // ================= ESTADOS =================
 const [filtroTabla, setFiltroTabla] =
   useState("todos");
+const [filtroArea, setFiltroArea] =
+  useState("todos");
   const [fecha, setFecha] = useState("");
 const [titulo, setTitulo] = useState("");  
 const [tipo, setTipo] =
@@ -322,6 +324,8 @@ const capturaFiltrada = captura.filter(i => {
 <div style={{ marginBottom: "45px" }} />
 {modo === "lista" && (
 <ListaCiclicos
+filtroArea={filtroArea}
+setFiltroArea={setFiltroArea}
   busqueda={busqueda}
   buscarDescripcion={buscarDescripcion}
   resultados={resultados}
