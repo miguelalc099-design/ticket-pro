@@ -30,6 +30,11 @@ const [filtroTabla, setFiltroTabla] =
   useState("todos");
   const [fecha, setFecha] = useState("");
 const [titulo, setTitulo] = useState("");  
+const [tipo, setTipo] =
+  useState("ciclico");
+
+const [area, setArea] =
+  useState("almacen");
   
 const {
 
@@ -66,11 +71,18 @@ const {
     try {
 
       const data =
-  await crearCiclicoService({
-    titulo,
-    fecha,
-    creadoPor: user.username
-  });
+await crearCiclicoService({
+
+  titulo,
+
+  tipo,
+
+  area,
+
+  fecha,
+
+  creadoPor: user.username
+});
 
 setCiclicoActivo(data);
 
@@ -328,7 +340,11 @@ const capturaFiltrada = captura.filter(i => {
       {modo === "nuevo" && (
 
 <NuevoCiclico
+tipo={tipo}
+setTipo={setTipo}
 
+area={area}
+setArea={setArea}
   titulo={titulo}
   setTitulo={setTitulo}
 

@@ -2,6 +2,11 @@ function NuevoCiclico({
 
   titulo,
   setTitulo,
+tipo,
+setTipo,
+
+area,
+setArea,
 
   fecha,
   setFecha,
@@ -28,7 +33,47 @@ function NuevoCiclico({
     setTitulo(e.target.value)
   }
 />
+<br /><br />
 
+<select
+  className="input-pro"
+  value={tipo}
+
+  onChange={(e) =>
+    setTipo(e.target.value)
+  }
+>
+
+<option value="ciclico">
+  Cíclico
+</option>
+
+<option value="inventario">
+  Inventario
+</option>
+
+</select>
+
+<br /><br />
+
+<select
+  className="input-pro"
+  value={area}
+
+  onChange={(e) =>
+    setArea(e.target.value)
+  }
+>
+
+<option value="almacen">
+  Almacén
+</option>
+
+<option value="llantas">
+  Llantas
+</option>
+
+</select>
 <br /><br />
 
 <input
