@@ -570,6 +570,17 @@ const ciclicosFiltrados =
 <h3>{c.folio}</h3>
 
 <p><b>Título:</b> {c.titulo}</p>
+<p>
+  <b>Tipo:</b>
+  {" "}
+  {c.tipo || "ciclico"}
+</p>
+
+<p>
+  <b>Área:</b>
+  {" "}
+  {c.area || "almacen"}
+</p>
 
 <p><b>Fecha:</b> {c.fecha}</p>
 
