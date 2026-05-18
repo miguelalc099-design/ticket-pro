@@ -27,7 +27,7 @@ function ListaCiclicos({
 
 const [paginaActual, setPaginaActual] = useState(1);
 
-const itemsPorPagina = 10;
+const itemsPorPagina = 5;
 
 const obtenerMes = (fecha) => {
 
