@@ -73,8 +73,21 @@ const Inventario = mongoose.model("Inventario", inventarioSchema);
 
 // 🔥 CICLICOS
 const ciclicoSchema = new mongoose.Schema({
+
   folio: String,
+
   titulo: String,
+
+  tipo: {
+    type: String,
+    default: "ciclico"
+  },
+
+  area: {
+    type: String,
+    default: "almacen"
+  },
+
   fecha: String,
 
   estado: {
@@ -677,11 +690,19 @@ app.post("/ciclicos", async (req, res) => {
     const total = await Ciclico.countDocuments();
 
     const nuevo = new Ciclico({
-      folio: `CIC-${String(total + 1).padStart(4, "0")}`,
-      titulo: req.body.titulo,
-      fecha: req.body.fecha,
-      creadoPor: req.body.creadoPor
-    });
+
+  folio: `CIC-${String(total + 1).padStart(4, "0")}`,
+
+  titulo: req.body.titulo,
+
+  tipo: req.body.tipo,
+
+  area: req.body.area,
+
+  fecha: req.body.fecha,
+
+  creadoPor: req.body.creadoPor
+});
 
     await nuevo.save();
 
