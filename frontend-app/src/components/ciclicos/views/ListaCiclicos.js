@@ -678,73 +678,35 @@ return (
   }}
 >
 
-<select
+<input
+  type="month"
+
   className="input-pro"
 
-  value={filtroMes}
-
-  onChange={(e) =>
-    setFiltroMes(e.target.value)
+  value={
+    filtroMes === "todos"
+      ? ""
+      : filtroMes
   }
+
+  onChange={(e) => {
+
+    if (!e.target.value) {
+
+      setFiltroMes("todos");
+
+      return;
+    }
+
+    setFiltroMes(
+      e.target.value
+    );
+  }}
 
   style={{
     maxWidth: "260px"
   }}
->
-
-<option value="todos">
-  📅 Todos los meses
-</option>
-
-<option value="2026-01">
-  Enero 2026
-</option>
-
-<option value="2026-02">
-  Febrero 2026
-</option>
-
-<option value="2026-03">
-  Marzo 2026
-</option>
-
-<option value="2026-04">
-  Abril 2026
-</option>
-
-<option value="2026-05">
-  Mayo 2026
-</option>
-
-<option value="2026-06">
-  Junio 2026
-</option>
-
-<option value="2026-07">
-  Julio 2026
-</option>
-
-<option value="2026-08">
-  Agosto 2026
-</option>
-
-<option value="2026-09">
-  Septiembre 2026
-</option>
-
-<option value="2026-10">
-  Octubre 2026
-</option>
-
-<option value="2026-11">
-  Noviembre 2026
-</option>
-
-<option value="2026-12">
-  Diciembre 2026
-</option>
-
-</select>
+/>
 
 <button
   className="btn-pro btn-secondary"
