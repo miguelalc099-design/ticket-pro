@@ -1,3 +1,6 @@
+import React, { useState } from "react";
+import Pagination from "../components/Pagination";
+
 function ListaCiclicos({
   filtroArea,
   setFiltroArea,
@@ -21,6 +24,10 @@ function ListaCiclicos({
 
   toast
 }) {
+
+const [paginaActual, setPaginaActual] = useState(1);
+
+const itemsPorPagina = 10;
 
 const obtenerMes = (fecha) => {
 
@@ -84,6 +91,23 @@ const llantasCerrados =
   llantas.filter(
     c => c.estado === "Cerrado"
   ).length;
+
+const indiceInicial =
+  (paginaActual - 1) * itemsPorPagina;
+
+const indiceFinal =
+  indiceInicial + itemsPorPagina;
+
+const ciclicosPaginados =
+  ciclicosFiltrados.slice(
+    indiceInicial,
+    indiceFinal
+  );
+
+const totalPaginas = Math.ceil(
+  ciclicosFiltrados.length /
+  itemsPorPagina
+);
 
 return (
 <>
@@ -694,6 +718,7 @@ return (
     if (!e.target.value) {
 
       setFiltroMes("todos");
+      setPaginaActual(1);
 
       return;
     }
@@ -701,6 +726,8 @@ return (
     setFiltroMes(
       e.target.value
     );
+
+    setPaginaActual(1);
   }}
 
   style={{
@@ -711,9 +738,10 @@ return (
 <button
   className="btn-pro btn-secondary"
 
-  onClick={() =>
-    setFiltroArea("todos")
-  }
+  onClick={() => {
+    setFiltroArea("todos");
+    setPaginaActual(1);
+  }}
 >
   📋 Todos
 </button>
@@ -721,9 +749,10 @@ return (
 <button
   className="btn-pro btn-secondary"
 
-  onClick={() =>
-    setFiltroArea("almacen")
-  }
+  onClick={() => {
+    setFiltroArea("almacen");
+    setPaginaActual(1);
+  }}
 >
   📦 Almacén
 </button>
@@ -731,9 +760,10 @@ return (
 <button
   className="btn-pro btn-secondary"
 
-  onClick={() =>
-    setFiltroArea("llantas")
-  }
+  onClick={() => {
+    setFiltroArea("llantas");
+    setPaginaActual(1);
+  }}
 >
   🛞 Llantas
 </button>
@@ -756,7 +786,7 @@ return (
   <p>No hay cíclicos</p>
 )}
 
-{ciclicosFiltrados.map((c) => (
+{ciclicosPaginados.map((c) => (
 
 <div
   key={c._id}
@@ -952,6 +982,12 @@ return (
 </div>
 
 ))}
+
+<Pagination
+  paginaActual={paginaActual}
+  totalPaginas={totalPaginas}
+  setPaginaActual={setPaginaActual}
+/>
 
 </>
 );
