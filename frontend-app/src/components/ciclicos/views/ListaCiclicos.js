@@ -53,6 +53,10 @@ const ciclicosFiltrados = ciclicos.filter(c => {
     cumpleMes
   );
 });
+
+return (
+<>
+
 {/* HEADER */}
 
 <div
