@@ -25,8 +25,135 @@ const ciclicosFiltrados =
     : ciclicos.filter(
         c => c.area === filtroArea
       );
+const almacen =
+  ciclicos.filter(
+    c => c.area === "almacen"
+  );
+
+const llantas =
+  ciclicos.filter(
+    c => c.area === "llantas"
+  );
+
+const almacenAbiertos =
+  almacen.filter(
+    c => c.estado === "Abierto"
+  ).length;
+
+const llantasAbiertos =
+  llantas.filter(
+    c => c.estado === "Abierto"
+  ).length;
+
+const almacenCerrados =
+  almacen.filter(
+    c => c.estado === "Cerrado"
+  ).length;
+
+const llantasCerrados =
+  llantas.filter(
+    c => c.estado === "Cerrado"
+  ).length;
   return (
 <>
+<div
+  style={{
+    display: "grid",
+    gridTemplateColumns:
+      "repeat(auto-fit,minmax(240px,1fr))",
+
+    gap: "20px",
+
+    marginTop: "25px",
+    marginBottom: "30px"
+  }}
+>
+
+{/* ALMACEN */}
+
+<div
+  className="card-pro"
+  style={{
+    padding: "25px",
+    border:
+      "1px solid rgba(255,255,255,0.08)"
+  }}
+>
+
+<div
+  style={{
+    fontSize: "42px",
+    marginBottom: "10px"
+  }}
+>
+  📦
+</div>
+
+<h3>Almacén</h3>
+
+<p>
+  🟢 Abiertos:
+  {" "}
+  {almacenAbiertos}
+</p>
+
+<p>
+  🔴 Cerrados:
+  {" "}
+  {almacenCerrados}
+</p>
+
+<p>
+  📋 Total:
+  {" "}
+  {almacen.length}
+</p>
+
+</div>
+
+{/* LLANTAS */}
+
+<div
+  className="card-pro"
+  style={{
+    padding: "25px",
+    border:
+      "1px solid rgba(255,255,255,0.08)"
+  }}
+>
+
+<div
+  style={{
+    fontSize: "42px",
+    marginBottom: "10px"
+  }}
+>
+  🛞
+</div>
+
+<h3>Llantas</h3>
+
+<p>
+  🟢 Abiertos:
+  {" "}
+  {llantasAbiertos}
+</p>
+
+<p>
+  🔴 Cerrados:
+  {" "}
+  {llantasCerrados}
+</p>
+
+<p>
+  📋 Total:
+  {" "}
+  {llantas.length}
+</p>
+
+</div>
+
+</div>
 
 {/* HEADER */}
 
