@@ -30,6 +30,8 @@ const [filtroTabla, setFiltroTabla] =
   useState("todos");
 const [filtroArea, setFiltroArea] =
   useState("todos");
+const [filtroMes, setFiltroMes] =
+  useState("todos");
   const [fecha, setFecha] = useState("");
 const [titulo, setTitulo] = useState("");  
 const [tipo, setTipo] =
@@ -324,6 +326,8 @@ const capturaFiltrada = captura.filter(i => {
 <div style={{ marginBottom: "45px" }} />
 {modo === "lista" && (
 <ListaCiclicos
+filtroMes={filtroMes}
+setFiltroMes={setFiltroMes}
 filtroArea={filtroArea}
 setFiltroArea={setFiltroArea}
   busqueda={busqueda}
