@@ -15,13 +15,14 @@ function ListaCiclicos({
   abrirCiclico,
 
   exportarExcelCiclico,
-filtroMes,
-setFiltroMes,
-  toast
 
+  filtroMes,
+  setFiltroMes,
+
+  toast
 }) {
 
-  const obtenerMes = (fecha) => {
+const obtenerMes = (fecha) => {
 
   if (!fecha) return "";
 
@@ -54,6 +55,36 @@ const ciclicosFiltrados = ciclicos.filter(c => {
   );
 });
 
+const almacen =
+  ciclicos.filter(
+    c => c.area === "almacen"
+  );
+
+const llantas =
+  ciclicos.filter(
+    c => c.area === "llantas"
+  );
+
+const almacenAbiertos =
+  almacen.filter(
+    c => c.estado === "Abierto"
+  ).length;
+
+const llantasAbiertos =
+  llantas.filter(
+    c => c.estado === "Abierto"
+  ).length;
+
+const almacenCerrados =
+  almacen.filter(
+    c => c.estado === "Cerrado"
+  ).length;
+
+const llantasCerrados =
+  llantas.filter(
+    c => c.estado === "Cerrado"
+  ).length;
+
 return (
 <>
 
@@ -68,51 +99,51 @@ return (
   }}
 >
 
-  <div
-    style={{
-      width: "70px",
-      height: "70px",
-      borderRadius: "22px",
+<div
+  style={{
+    width: "70px",
+    height: "70px",
+    borderRadius: "22px",
 
-      background:
-        "linear-gradient(145deg,#2563eb,#7c3aed)",
+    background:
+      "linear-gradient(145deg,#2563eb,#7c3aed)",
 
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
 
-      fontSize: "34px",
+    fontSize: "34px",
 
-      boxShadow:
-        "0 10px 25px rgba(59,130,246,0.35)"
-    }}
-  >
-    🛠
-  </div>
+    boxShadow:
+      "0 10px 25px rgba(59,130,246,0.35)"
+  }}
+>
+  🛠
+</div>
 
-  <div>
+<div>
 
-    <h2
-      style={{
-        margin: 0,
-        fontSize: "34px",
-        color: "#fff"
-      }}
-    >
-      Herramientas
-    </h2>
+<h2
+  style={{
+    margin: 0,
+    fontSize: "34px",
+    color: "#fff"
+  }}
+>
+  Herramientas
+</h2>
 
-    <p
-      style={{
-        marginTop: "6px",
-        color: "#94a3b8",
-        fontSize: "16px"
-      }}
-    >
-      Administra inventario y catálogo
-    </p>
+<p
+  style={{
+    marginTop: "6px",
+    color: "#94a3b8",
+    fontSize: "16px"
+  }}
+>
+  Administra inventario y catálogo
+</p>
 
-  </div>
+</div>
 
 </div>
 
@@ -281,14 +312,15 @@ return (
 >
   ⬆ Seleccionar archivo
 
-  <input
-    type="file"
-    onChange={subirExcel}
+<input
+  type="file"
+  onChange={subirExcel}
 
-    style={{
-      display: "none"
-    }}
-  />
+  style={{
+    display: "none"
+  }}
+/>
+
 </label>
 
 </div>
@@ -460,14 +492,15 @@ return (
 >
   ⬆ Seleccionar archivo
 
-  <input
-    type="file"
-    onChange={subirCatalogo}
+<input
+  type="file"
+  onChange={subirCatalogo}
 
-    style={{
-      display: "none"
-    }}
-  />
+  style={{
+    display: "none"
+  }}
+/>
+
 </label>
 
 </div>
@@ -483,6 +516,7 @@ return (
   type="text"
   placeholder="🔍 Buscar SKU o descripción..."
   value={busqueda}
+
   onChange={(e) =>
     buscarDescripcion(e.target.value)
   }
@@ -498,9 +532,7 @@ return (
     flexDirection: "column",
     gap: "10px",
     marginTop: "15px",
-    marginBottom: "35px",
-    position: "relative",
-    zIndex: 20
+    marginBottom: "35px"
   }}
 >
 
@@ -509,6 +541,7 @@ return (
 <div
   key={index}
   className="card-pro"
+
   style={{
     padding: "18px"
   }}
@@ -542,6 +575,7 @@ return (
 <div
   style={{
     display: "grid",
+
     gridTemplateColumns:
       "repeat(auto-fit,minmax(240px,1fr))",
 
@@ -554,6 +588,7 @@ return (
 
 <div
   className="card-pro"
+
   style={{
     padding: "25px"
   }}
@@ -592,6 +627,7 @@ return (
 
 <div
   className="card-pro"
+
   style={{
     padding: "25px"
   }}
@@ -629,7 +665,19 @@ return (
 </div>
 
 </div>
+
 {/* FILTROS */}
+
+<div
+  style={{
+    display: "flex",
+    gap: "12px",
+    alignItems: "center",
+    flexWrap: "wrap",
+    marginBottom: "25px"
+  }}
+>
+
 <select
   className="input-pro"
 
@@ -640,7 +688,6 @@ return (
   }
 
   style={{
-    marginBottom: "20px",
     maxWidth: "260px"
   }}
 >
@@ -698,14 +745,6 @@ return (
 </option>
 
 </select>
-<div
-  style={{
-    display: "flex",
-    gap: "10px",
-    marginBottom: "25px",
-    flexWrap: "wrap"
-  }}
->
 
 <button
   className="btn-pro btn-secondary"
@@ -737,22 +776,23 @@ return (
   🛞 Llantas
 </button>
 
-</div>
-
 <button
   className="btn-pro"
-  onClick={() => setModo("nuevo")}
+
+  onClick={() =>
+    setModo("nuevo")
+  }
 >
   ➕ Nuevo Cíclico
 </button>
 
-<br /><br />
+</div>
+
+{/* LISTA */}
 
 {ciclicos.length === 0 && (
   <p>No hay cíclicos</p>
 )}
-
-{/* LISTA */}
 
 {ciclicosFiltrados.map((c) => (
 
@@ -762,14 +802,14 @@ return (
   className="card-pro"
 
   style={{
-
     padding: "18px 22px",
 
     marginBottom: "12px",
 
     display: "flex",
 
-    justifyContent: "space-between",
+    justifyContent:
+      "space-between",
 
     alignItems: "center",
 
@@ -778,8 +818,6 @@ return (
     flexWrap: "wrap"
   }}
 >
-
-{/* IZQUIERDA */}
 
 <div
   style={{
@@ -902,8 +940,6 @@ return (
 </div>
 
 </div>
-
-{/* DERECHA */}
 
 <div
   style={{
