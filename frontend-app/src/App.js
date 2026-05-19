@@ -430,11 +430,20 @@ pushNotif("🎫 Ticket creado");
         )}
 {view === "tickets" && hasPermission("tickets") && (
   <div className="card">
-    {loading ? <p>Cargando...</p> : ticketsFiltrados.map((t) => (
-      <TicketItem key={t._id} t={t} />
-    ))}
+    {loading ? (
+      <p>Cargando...</p>
+    ) : (
+      ticketsFiltrados.map((t) => (
+        <TicketItem
+          key={t._id}
+          t={t}
+        />
+      ))
+    )}
   </div>
 )}
+
+</div>
 
 <ToastContainer
   position="top-right"
