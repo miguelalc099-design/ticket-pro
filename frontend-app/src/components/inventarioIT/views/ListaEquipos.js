@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import EquipoCard from "../components/EquipoCard";
 import ModalDetalleEquipo
 from "../components/ModalDetalleEquipo";
+import ModalEditarEquipo
+from "../components/ModalEditarEquipo";
 
 const API =
   "https://ticket-pro-backend.onrender.com";
@@ -22,6 +24,14 @@ const [equipoSeleccionado,
 const [openDetalle,
   setOpenDetalle] =
   useState(false);
+const [openEditar,
+  setOpenEditar] =
+  useState(false);
+
+const [equipoEditar,
+  setEquipoEditar] =
+  useState(null);
+
 const obtenerEquipos =
   async () => {
 
@@ -258,6 +268,15 @@ return (
     setOpenDetalle(true);
 
   }}
+onEditar={() => {
+
+  setEquipoEditar(
+    equipo
+  );
+
+  setOpenEditar(true);
+
+}}
 
 />
 ))}
@@ -273,6 +292,19 @@ return (
 
   onClose={() =>
     setOpenDetalle(false)
+  }
+
+/>
+
+)}
+{openEditar && (
+
+<ModalEditarEquipo
+
+  equipo={equipoEditar}
+
+  onClose={() =>
+    setOpenEditar(false)
   }
 
 />
