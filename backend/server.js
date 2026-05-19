@@ -140,6 +140,131 @@ const capturaSchema = new mongoose.Schema({
 });
 
 const CapturaCiclico = mongoose.model("CapturaCiclico", capturaSchema);
+
+// 🔥 INVENTARIO IT
+
+const monitorSchema =
+  new mongoose.Schema({
+
+  idMonitor: {
+    type: String,
+    default: "N/A"
+  },
+
+  tipoMonitor: {
+    type: String,
+
+    enum: [
+      "empresa",
+      "prestado"
+    ],
+
+    default: "empresa"
+  }
+
+});
+
+const equipoITSchema =
+  new mongoose.Schema({
+
+  nombreEquipo: {
+    type: String,
+    required: true
+  },
+
+  usuarioAsignado: {
+    type: String,
+    required: true
+  },
+
+  tipoEquipo: {
+    type: String,
+
+    enum: [
+      "laptop",
+      "desktop"
+    ],
+
+    required: true
+  },
+
+  windows: {
+    type: String,
+    required: true
+  },
+
+  antivirus: {
+    type: String,
+    default: ""
+  },
+
+  estadoAntivirus: {
+    type: String,
+
+    enum: [
+      "activo",
+      "pendiente",
+      "inactivo"
+    ],
+
+    default: "activo"
+  },
+
+  passwordWindows: {
+    type: String,
+    default: ""
+  },
+
+  passwordCorreo: {
+    type: String,
+    default: ""
+  },
+
+  mfa: {
+    type: Boolean,
+    default: false
+  },
+
+  monitores: [
+    monitorSchema
+  ],
+
+  observaciones: {
+    type: String,
+    default: ""
+  },
+
+  estadoSeguridad: {
+    type: String,
+
+    enum: [
+      "seguro",
+      "alerta",
+      "riesgo"
+    ],
+
+    default: "seguro"
+  },
+
+  fechaCambioPassword: {
+    type: Date,
+    default: Date.now
+  },
+
+  creadoPor: {
+    type: String,
+    default: ""
+  }
+
+}, {
+  timestamps: true
+});
+
+const EquipoIT =
+  mongoose.model(
+    "EquipoIT",
+    equipoITSchema
+  );
 // 🔥 LOGIN SIMPLE
 
 app.post("/login", async (req, res) => {
@@ -969,6 +1094,95 @@ app.put("/ciclicos/:id/cerrar", async (req, res) => {
   }
 });
 
+// 🔥 OBTENER EQUIPOS IT
+
+app.get("/it/equipos", async (req, res) => {
+
+  try {
+
+    const equipos =
+      await EquipoIT.find()
+      .sort({ createdAt: -1 });
+
+    res.json(equipos);
+
+  } catch (err) {
+
+    console.log(err);
+
+    res.status(500)
+      .send("Error obteniendo equipos");
+  }
+});
+
+// 🔥 CREAR EQUIPO IT
+
+app.post("/it/equipos", async (req, res) => {
+
+  try {
+
+    const nuevo =
+      new EquipoIT(req.body);
+
+    await nuevo.save();
+
+    res.json(nuevo);
+
+  } catch (err) {
+
+    console.log(err);
+
+    res.status(500)
+      .send("Error creando equipo");
+  }
+});
+
+// 🔥 EDITAR EQUIPO IT
+
+app.put("/it/equipos/:id", async (req, res) => {
+
+  try {
+
+    await EquipoIT.findByIdAndUpdate(
+      req.params.id,
+      req.body
+    );
+
+    res.json({
+      ok: true
+    });
+
+  } catch (err) {
+
+    console.log(err);
+
+    res.status(500)
+      .send("Error actualizando equipo");
+  }
+});
+
+// 🔥 ELIMINAR EQUIPO IT
+
+app.delete("/it/equipos/:id", async (req, res) => {
+
+  try {
+
+    await EquipoIT.findByIdAndDelete(
+      req.params.id
+    );
+
+    res.json({
+      ok: true
+    });
+
+  } catch (err) {
+
+    console.log(err);
+
+    res.status(500)
+      .send("Error eliminando equipo");
+  }
+});
 const PORT = process.env.PORT || 10000;
 
 app.listen(PORT, () => {
