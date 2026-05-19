@@ -7,6 +7,11 @@ import AdminPanel from "./AdminPanel";
 import KanbanBoard from "./KanbanBoard";
 import Ciclicos from "./Ciclicos";
 import InventarioIT from "./components/inventarioIT/InventarioIT";
+import {
+  ToastContainer
+} from "react-toastify";
+
+import "react-toastify/dist/ReactToastify.css";
 
 const API = "https://ticket-pro-backend.onrender.com";
 
@@ -424,16 +429,21 @@ pushNotif("🎫 Ticket creado");
           </div>
         )}
 {view === "tickets" && hasPermission("tickets") && (
-          <div className="card">
-            {loading ? <p>Cargando...</p> : ticketsFiltrados.map((t) => (
-              <TicketItem key={t._id} t={t} />
-            ))}
-          </div>
-        )}
+  <div className="card">
+    {loading ? <p>Cargando...</p> : ticketsFiltrados.map((t) => (
+      <TicketItem key={t._id} t={t} />
+    ))}
+  </div>
+)}
 
-      </div>
-    </div>
-  );
+<ToastContainer
+  position="top-right"
+  autoClose={2500}
+  theme="dark"
+/>
+
+</div>
+);
 }
 
 export default App;

@@ -114,6 +114,40 @@ const guardarEquipo =
     toast.success(
   "Equipo registrado correctamente"
 );
+setNombreEquipo("");
+
+setUsuarioAsignado("");
+
+setWindows(
+  "Windows 11 Pro"
+);
+
+setAntivirus("");
+
+setPasswordWindows("");
+
+setPasswordCorreo("");
+
+setEstadoAntivirus(
+  "activo"
+);
+
+setMfa(true);
+
+setObservaciones("");
+
+setTipoEquipo(
+  "laptop"
+);
+
+setCantidadMonitores(1);
+
+setMonitores([
+  {
+    idMonitor: "",
+    tipoMonitor: "empresa"
+  }
+]);
 
   } catch (err) {
 
