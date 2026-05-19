@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 function NuevoEquipo() {
 
@@ -110,17 +111,17 @@ const guardarEquipo =
 
     console.log(data);
 
-    alert(
-      "✅ Equipo guardado"
-    );
+    toast.success(
+  "Equipo registrado correctamente"
+);
 
   } catch (err) {
 
     console.log(err);
 
-    alert(
-      "❌ Error guardando"
-    );
+   toast.error(
+  "Error guardando equipo"
+);
   }
 };
 
