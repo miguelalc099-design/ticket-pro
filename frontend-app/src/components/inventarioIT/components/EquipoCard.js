@@ -1,4 +1,30 @@
-function EquipoCard() {
+function EquipoCard({
+
+  nombreEquipo,
+
+  usuarioAsignado,
+
+  windows,
+
+  antivirus,
+
+  tipoEquipo,
+
+  monitores,
+
+  estadoSeguridad
+
+}) {
+
+const colorEstado = {
+
+  seguro: "#22c55e",
+
+  alerta: "#f59e0b",
+
+  riesgo: "#ef4444"
+
+};
 
 return (
 
@@ -23,11 +49,7 @@ return (
       "linear-gradient(145deg, rgba(15,23,42,0.92), rgba(15,23,42,0.78))",
 
     border:
-      "1px solid rgba(51,65,85,0.7)",
-
-    transition: "0.25s",
-
-    cursor: "pointer"
+      "1px solid rgba(51,65,85,0.7)"
   }}
 >
 
@@ -42,8 +64,6 @@ return (
   }}
 >
 
-{/* ICON */}
-
 <div
   style={{
     width: "72px",
@@ -52,7 +72,11 @@ return (
     borderRadius: "22px",
 
     background:
-      "linear-gradient(145deg,#2563eb,#7c3aed)",
+      tipoEquipo === "desktop"
+
+      ? "linear-gradient(145deg,#2563eb,#7c3aed)"
+
+      : "linear-gradient(145deg,#0f766e,#14b8a6)",
 
     display: "flex",
     alignItems: "center",
@@ -64,10 +88,10 @@ return (
       "0 10px 25px rgba(59,130,246,0.35)"
   }}
 >
-  💻
+  {tipoEquipo === "desktop"
+    ? "🖥"
+    : "💻"}
 </div>
-
-{/* INFO */}
 
 <div
   style={{
@@ -86,7 +110,7 @@ return (
     fontSize: "24px"
   }}
 >
-  PC-ADMON-01
+  {nombreEquipo}
 </h2>
 
 <p
@@ -96,7 +120,7 @@ return (
     marginBottom: 0
   }}
 >
-  Miguel Alcalá
+  {usuarioAsignado}
 </p>
 
 </div>
@@ -127,7 +151,7 @@ return (
     fontWeight: "600"
   }}
 >
-  Windows 11 Pro
+  {windows}
 </div>
 
 <div
@@ -146,7 +170,7 @@ return (
     fontWeight: "600"
   }}
 >
-  Defender
+  {antivirus || "Sin antivirus"}
 </div>
 
 <div
@@ -165,8 +189,10 @@ return (
     fontWeight: "600"
   }}
 >
-  Desktop
+  {tipoEquipo}
 </div>
+
+{tipoEquipo === "desktop" && (
 
 <div
   style={{
@@ -184,8 +210,11 @@ return (
     fontWeight: "600"
   }}
 >
-  2 Monitores
+  {monitores?.length || 0}
+  {" "}Monitores
 </div>
+
+)}
 
 </div>
 
@@ -202,16 +231,19 @@ return (
   }}
 >
 
-<div>
-  🔐 Password segura
+<div
+  style={{
+    color:
+      colorEstado[
+        estadoSeguridad
+      ]
+  }}
+>
+  ● {estadoSeguridad}
 </div>
 
 <div>
-  🛡 Antivirus activo
-</div>
-
-<div>
-  ⚡ Último acceso: hoy
+  🛡 Seguridad IT
 </div>
 
 </div>
@@ -220,7 +252,7 @@ return (
 
 </div>
 
-{/* DERECHA */}
+{/* BOTONES */}
 
 <div
   style={{
