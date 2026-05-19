@@ -2,12 +2,127 @@ import { useState } from "react";
 
 function NuevoEquipo() {
 
+const API =
+  "https://ticket-pro-backend.onrender.com";
+
 const [tipoEquipo, setTipoEquipo] =
   useState("laptop");
 
 const [cantidadMonitores,
   setCantidadMonitores] =
   useState(1);
+
+const [nombreEquipo,
+  setNombreEquipo] =
+  useState("");
+
+const [usuarioAsignado,
+  setUsuarioAsignado] =
+  useState("");
+
+const [windows,
+  setWindows] =
+  useState("Windows 11 Pro");
+
+const [antivirus,
+  setAntivirus] =
+  useState("");
+
+const [passwordWindows,
+  setPasswordWindows] =
+  useState("");
+
+const [passwordCorreo,
+  setPasswordCorreo] =
+  useState("");
+
+const [estadoAntivirus,
+  setEstadoAntivirus] =
+  useState("activo");
+
+const [mfa, setMfa] =
+  useState(true);
+
+const [observaciones,
+  setObservaciones] =
+  useState("");
+
+const [monitores,
+  setMonitores] =
+  useState([
+    {
+      idMonitor: "",
+      tipoMonitor: "empresa"
+    }
+  ]);
+
+const guardarEquipo =
+  async () => {
+
+  try {
+
+    const body = {
+
+      nombreEquipo,
+
+      usuarioAsignado,
+
+      tipoEquipo,
+
+      windows,
+
+      antivirus,
+
+      passwordWindows,
+
+      passwordCorreo,
+
+      estadoAntivirus,
+
+      mfa,
+
+      observaciones,
+
+      monitores:
+        tipoEquipo === "desktop"
+        ? monitores
+        : []
+    };
+
+    const res = await fetch(
+      `${API}/it/equipos`,
+      {
+
+        method: "POST",
+
+        headers: {
+          "Content-Type":
+            "application/json"
+        },
+
+        body:
+          JSON.stringify(body)
+      }
+    );
+
+    const data =
+      await res.json();
+
+    console.log(data);
+
+    alert(
+      "✅ Equipo guardado"
+    );
+
+  } catch (err) {
+
+    console.log(err);
+
+    alert(
+      "❌ Error guardando"
+    );
+  }
+};
 
 return (
 
@@ -218,7 +333,16 @@ return (
 
 <input
   className="input-pro"
+
   placeholder="PC-ADMON-01"
+
+  value={nombreEquipo}
+
+  onChange={(e) =>
+    setNombreEquipo(
+      e.target.value
+    )
+  }
 />
 
 </div>
@@ -231,7 +355,16 @@ return (
 
 <input
   className="input-pro"
+
   placeholder="Miguel Alcalá"
+
+  value={usuarioAsignado}
+
+  onChange={(e) =>
+    setUsuarioAsignado(
+      e.target.value
+    )
+  }
 />
 
 </div>
@@ -272,7 +405,17 @@ return (
   Windows instalado
 </label>
 
-<select className="input-pro">
+<select
+  className="input-pro"
+
+  value={windows}
+
+  onChange={(e) =>
+    setWindows(
+      e.target.value
+    )
+  }
+>
 
 <option>
   Windows 11 Pro
@@ -298,7 +441,16 @@ return (
 
 <input
   className="input-pro"
+
   placeholder="Microsoft Defender"
+
+  value={antivirus}
+
+  onChange={(e) =>
+    setAntivirus(
+      e.target.value
+    )
+  }
 />
 
 </div>
@@ -396,6 +548,14 @@ return (
   className="input-pro"
 
   placeholder="••••••••••"
+
+  value={passwordWindows}
+
+  onChange={(e) =>
+    setPasswordWindows(
+      e.target.value
+    )
+  }
 />
 
 <div
@@ -434,6 +594,14 @@ return (
   className="input-pro"
 
   placeholder="••••••••••"
+
+  value={passwordCorreo}
+
+  onChange={(e) =>
+    setPasswordCorreo(
+      e.target.value
+    )
+  }
 />
 
 <div
@@ -460,17 +628,27 @@ return (
   Estado Antivirus
 </label>
 
-<select className="input-pro">
+<select
+  className="input-pro"
 
-<option>
+  value={estadoAntivirus}
+
+  onChange={(e) =>
+    setEstadoAntivirus(
+      e.target.value
+    )
+  }
+>
+
+<option value="activo">
   ✅ Activo
 </option>
 
-<option>
+<option value="pendiente">
   ⚠ Pendiente
 </option>
 
-<option>
+<option value="inactivo">
   ❌ Inactivo
 </option>
 
@@ -484,13 +662,23 @@ return (
   MFA
 </label>
 
-<select className="input-pro">
+<select
+  className="input-pro"
 
-<option>
+  value={mfa ? "si" : "no"}
+
+  onChange={(e) =>
+    setMfa(
+      e.target.value === "si"
+    )
+  }
+>
+
+<option value="si">
   ✅ Configurado
 </option>
 
-<option>
+<option value="no">
   ❌ No configurado
 </option>
 
@@ -586,11 +774,24 @@ return (
 
   value={cantidadMonitores}
 
-  onChange={(e) =>
+  onChange={(e) => {
+
+    const cantidad =
+      Number(e.target.value);
+
     setCantidadMonitores(
-      Number(e.target.value)
-    )
-  }
+      cantidad
+    );
+
+    setMonitores(
+      Array.from({
+        length: cantidad
+      }).map(() => ({
+        idMonitor: "",
+        tipoMonitor: "empresa"
+      }))
+    );
+  }}
 >
 
 <option value={1}>1</option>
@@ -601,9 +802,7 @@ return (
 
 </div>
 
-{Array.from({
-  length: cantidadMonitores
-}).map((_, index) => (
+{monitores.map((monitor, index) => (
 
 <div
   key={index}
@@ -642,15 +841,45 @@ return (
   className="input-pro"
 
   placeholder="ID Monitor o N/A"
+
+  value={monitor.idMonitor}
+
+  onChange={(e) => {
+
+    const copia =
+      [...monitores];
+
+    copia[index]
+      .idMonitor =
+      e.target.value;
+
+    setMonitores(copia);
+  }}
 />
 
-<select className="input-pro">
+<select
+  className="input-pro"
 
-<option>
+  value={monitor.tipoMonitor}
+
+  onChange={(e) => {
+
+    const copia =
+      [...monitores];
+
+    copia[index]
+      .tipoMonitor =
+      e.target.value;
+
+    setMonitores(copia);
+  }}
+>
+
+<option value="empresa">
   Empresa
 </option>
 
-<option>
+<option value="prestado">
   Prestado empleado
 </option>
 
@@ -762,6 +991,14 @@ return (
 
   rows={7}
 
+  value={observaciones}
+
+  onChange={(e) =>
+    setObservaciones(
+      e.target.value
+    )
+  }
+
   placeholder="Detalles técnicos, observaciones, incidencias, cambios realizados..."
 />
 
@@ -787,6 +1024,8 @@ return (
 
 <button
   className="btn-pro"
+
+  onClick={guardarEquipo}
 
   style={{
     padding: "14px 26px",
