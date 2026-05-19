@@ -12,7 +12,9 @@ function EquipoCard({
 
   monitores,
 
-  estadoSeguridad
+  estadoSeguridad,
+
+  onEditar
 
 }) {
 
@@ -276,6 +278,8 @@ return (
 
 <button
   className="btn-pro"
+
+  onClick={onEditar}
 >
   ✏ Editar
 </button>
