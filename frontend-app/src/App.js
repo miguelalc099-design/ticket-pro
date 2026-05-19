@@ -6,6 +6,7 @@ import Dashboard from "./Dashboard";
 import AdminPanel from "./AdminPanel";
 import KanbanBoard from "./KanbanBoard";
 import Ciclicos from "./Ciclicos";
+import InventarioIT from "./components/inventarioIT/InventarioIT";
 
 const API = "https://ticket-pro-backend.onrender.com";
 
@@ -340,6 +341,11 @@ pushNotif("🎫 Ticket creado");
       Ciclicos
     </button>
   )}
+{hasPermission("ciclicos") && (
+  <button onClick={() => setView("inventarioIT")}>
+    💻 Inventario IT
+  </button>
+)}
 </div>
 
         <button className="logout-btn" onClick={logout}>
@@ -358,6 +364,9 @@ pushNotif("🎫 Ticket creado");
 )}
 {view === "ciclicos" && hasPermission("ciclicos") && (
  <Ciclicos user={user} />
+)}
+{view === "inventarioIT" && hasPermission("ciclicos") && (
+  <InventarioIT />
 )}
 
 {view === "kanban" && hasPermission("kanban") && (
