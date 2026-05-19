@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import NuevoEquipo from "./views/NuevoEquipo";
-
+import ListaEquipos from "./views/ListaEquipos";
 function InventarioIT() {
 
 const [vista, setVista] =
@@ -251,20 +251,9 @@ return (
 )}
 
 {vista === "equipos" && (
-
-<div className="card-pro">
-
-<h2>
-  💻 Equipos Registrados
-</h2>
-
-<p style={{ color: "#94a3b8" }}>
-  Próximamente listado enterprise.
-</p>
-
-</div>
-
+  <ListaEquipos />
 )}
+
 
 {vista === "nuevo" && (
   <NuevoEquipo />
