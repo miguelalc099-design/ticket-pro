@@ -14,10 +14,11 @@ function EquipoCard({
 
   estadoSeguridad,
 
-  onEditar
+  onEditar,
+
+  onVer
 
 }) {
-
 const colorEstado = {
 
   seguro: "#22c55e",
@@ -266,6 +267,8 @@ return (
 
 <button
   className="btn-pro btn-secondary"
+
+  onClick={onVer}
 >
   👁 Ver
 </button>

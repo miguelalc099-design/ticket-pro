@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 
 import EquipoCard from "../components/EquipoCard";
+import ModalDetalleEquipo
+from "../components/ModalDetalleEquipo";
 
 const API =
   "https://ticket-pro-backend.onrender.com";
@@ -13,6 +15,13 @@ const [equipos, setEquipos] =
 const [loading, setLoading] =
   useState(true);
 
+const [equipoSeleccionado,
+  setEquipoSeleccionado] =
+  useState(null);
+
+const [openDetalle,
+  setOpenDetalle] =
+  useState(false);
 const obtenerEquipos =
   async () => {
 
@@ -239,12 +248,36 @@ return (
   estadoSeguridad={
     equipo.estadoSeguridad
   }
-/>
 
+  onVer={() => {
+
+    setEquipoSeleccionado(
+      equipo
+    );
+
+    setOpenDetalle(true);
+
+  }}
+
+/>
 ))}
 
 </div>
+{openDetalle && (
 
+<ModalDetalleEquipo
+
+  equipo={
+    equipoSeleccionado
+  }
+
+  onClose={() =>
+    setOpenDetalle(false)
+  }
+
+/>
+
+)}
 </div>
 
 );
