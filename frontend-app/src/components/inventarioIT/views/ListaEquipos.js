@@ -1,6 +1,47 @@
+import { useEffect, useState } from "react";
+
 import EquipoCard from "../components/EquipoCard";
 
+const API =
+  "https://ticket-pro-backend.onrender.com";
+
 function ListaEquipos() {
+
+const [equipos, setEquipos] =
+  useState([]);
+
+const [loading, setLoading] =
+  useState(true);
+
+const obtenerEquipos =
+  async () => {
+
+  try {
+
+    const res = await fetch(
+      `${API}/it/equipos`
+    );
+
+    const data =
+      await res.json();
+
+    setEquipos(data);
+
+  } catch (err) {
+
+    console.log(err);
+
+  } finally {
+
+    setLoading(false);
+  }
+};
+
+useEffect(() => {
+
+  obtenerEquipos();
+
+}, []);
 
 return (
 
@@ -46,8 +87,6 @@ return (
 </p>
 
 </div>
-
-{/* ACTIONS */}
 
 <div
   style={{
@@ -150,9 +189,59 @@ return (
   }}
 >
 
-<EquipoCard />
-<EquipoCard />
-<EquipoCard />
+{loading && (
+
+<div className="card-pro">
+  Cargando equipos...
+</div>
+
+)}
+
+{!loading &&
+ equipos.length === 0 && (
+
+<div className="card-pro">
+  No hay equipos registrados.
+</div>
+
+)}
+
+{equipos.map((equipo) => (
+
+<EquipoCard
+
+  key={equipo._id}
+
+  nombreEquipo={
+    equipo.nombreEquipo
+  }
+
+  usuarioAsignado={
+    equipo.usuarioAsignado
+  }
+
+  windows={
+    equipo.windows
+  }
+
+  antivirus={
+    equipo.antivirus
+  }
+
+  tipoEquipo={
+    equipo.tipoEquipo
+  }
+
+  monitores={
+    equipo.monitores
+  }
+
+  estadoSeguridad={
+    equipo.estadoSeguridad
+  }
+/>
+
+))}
 
 </div>
 
