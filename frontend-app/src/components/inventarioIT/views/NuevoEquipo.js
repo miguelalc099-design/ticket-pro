@@ -540,7 +540,6 @@ return (
 </div>
 
 </div>
-
 {/* SEGURIDAD */}
 
 <div
@@ -612,17 +611,13 @@ return (
   }}
 >
 
+{/* PASSWORD WINDOWS */}
+
 <div>
 
 <label className="label-pro">
   Password Windows
 </label>
-
-<div
-  style={{
-    position: "relative"
-  }}
->
 
 <input
   type="password"
@@ -640,35 +635,15 @@ return (
   }
 />
 
-<div
-  style={{
-    position: "absolute",
-    right: "18px",
-    top: "50%",
-    transform: "translateY(-50%)",
-
-    color: "#94a3b8",
-    fontSize: "18px"
-  }}
->
-  👁
 </div>
 
-</div>
-
-</div>
+{/* PASSWORD CORREO */}
 
 <div>
 
 <label className="label-pro">
   Password Correo
 </label>
-
-<div
-  style={{
-    position: "relative"
-  }}
->
 
 <input
   type="password"
@@ -688,19 +663,87 @@ return (
 
 <div
   style={{
-    position: "absolute",
-    right: "18px",
-    top: "50%",
-    transform: "translateY(-50%)",
-
-    color: "#94a3b8",
-    fontSize: "18px"
+    display: "flex",
+    alignItems: "center",
+    gap: "10px",
+    marginTop: "12px"
   }}
 >
-  👁
+
+<input
+  type="checkbox"
+
+  checked={
+    passwordCorreoNoAplica
+  }
+
+  onChange={(e) =>
+    setPasswordCorreoNoAplica(
+      e.target.checked
+    )
+  }
+/>
+
+<label
+  style={{
+    color: "#94a3b8",
+    fontSize: "14px"
+  }}
+>
+  No aplica correo corporativo
+</label>
+
 </div>
 
 </div>
+
+{/* ANTIVIRUS */}
+
+<div>
+
+<label className="label-pro">
+  Fecha expiración antivirus
+</label>
+
+<input
+  type="date"
+
+  className="input-pro"
+
+  value={
+    fechaExpiracionAntivirus
+  }
+
+  onChange={(e) =>
+    setFechaExpiracionAntivirus(
+      e.target.value
+    )
+  }
+/>
+
+</div>
+
+<div>
+
+<label className="label-pro">
+  Días alerta antivirus
+</label>
+
+<input
+  type="number"
+
+  className="input-pro"
+
+  value={
+    diasAlertaAntivirus
+  }
+
+  onChange={(e) =>
+    setDiasAlertaAntivirus(
+      Number(e.target.value)
+    )
+  }
+/>
 
 </div>
 
@@ -738,6 +781,8 @@ return (
 
 </div>
 
+{/* MFA */}
+
 <div>
 
 <label className="label-pro">
@@ -765,6 +810,56 @@ return (
 </option>
 
 </select>
+
+</div>
+
+{/* PASSWORD FECHAS */}
+
+<div>
+
+<label className="label-pro">
+  Fecha cambio password
+</label>
+
+<input
+  type="date"
+
+  className="input-pro"
+
+  value={
+    fechaCambioPasswordWindows
+  }
+
+  onChange={(e) =>
+    setFechaCambioPasswordWindows(
+      e.target.value
+    )
+  }
+/>
+
+</div>
+
+<div>
+
+<label className="label-pro">
+  Días recordatorio password
+</label>
+
+<input
+  type="number"
+
+  className="input-pro"
+
+  value={
+    diasRecordatorioPassword
+  }
+
+  onChange={(e) =>
+    setDiasRecordatorioPassword(
+      Number(e.target.value)
+    )
+  }
+/>
 
 </div>
 
