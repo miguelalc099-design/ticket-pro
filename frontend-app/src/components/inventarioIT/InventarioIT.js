@@ -268,6 +268,7 @@ return (
 >
   📊 Dashboard
 </button>
+
 <button
   className={
     vista === "equipos"
@@ -299,6 +300,8 @@ return (
 >
   ⚠ Alertas
 </button>
+
+</div>
 
   className={
     vista === "alertas"
