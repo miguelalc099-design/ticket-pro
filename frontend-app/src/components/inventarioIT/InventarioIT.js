@@ -6,7 +6,7 @@ import ListaEquipos from "./views/ListaEquipos";
 function InventarioIT() {
 
 const [vista, setVista] =
-  useState("nuevo");
+  useState("equipos")
 const API =
   "https://ticket-pro-backend.onrender.com";
 
