@@ -338,14 +338,15 @@ app.post("/users", async (req, res) => {
       username,
       password: hashedPassword,
       role: "user",
-      permisos: {
-        dashboard: true,
-        tickets: true,
-        ciclicos: true,
-        create: true,
-        kanban: false,
-        users: false	
-      }
+     permisos: {
+  dashboard: true,
+  tickets: true,
+  ciclicos: true,
+  create: true,
+  kanban: false,
+  users: false,
+  inventarioIT: false
+}
     });
 
     await user.save();
