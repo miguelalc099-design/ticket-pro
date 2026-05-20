@@ -239,6 +239,11 @@ fechaCambioPasswordWindows: {
   default: Date.now
 },
 
+fechaExpiracionPasswordWindows: {
+  type: Date,
+  default: null
+},
+
 diasRecordatorioPassword: {
   type: Number,
   default: 90
