@@ -339,4 +339,230 @@ return (
   }}
 >
   {equipo?.nombreEquipo}
-</
+</p>
+
+<div
+  style={{
+    display: "grid",
+    gap: "20px",
+    marginTop: "30px"
+  }}
+>
+
+<div>
+
+<label className="label-pro">
+  Nueva fecha antivirus
+</label>
+
+<input
+  type="date"
+
+  className="input-pro"
+
+  value={
+    fechaExpiracionAntivirus
+  }
+
+  onChange={(e) =>
+    setFechaExpiracionAntivirus(
+      e.target.value
+    )
+  }
+/>
+
+</div>
+
+<div>
+
+<label className="label-pro">
+  Nueva fecha expiración password
+</label>
+
+<input
+  type="date"
+
+  className="input-pro"
+
+  value={
+    fechaExpiracionPasswordWindows
+  }
+
+  onChange={(e) =>
+    setFechaExpiracionPasswordWindows(
+      e.target.value
+    )
+  }
+/>
+
+</div>
+
+<div>
+
+<label className="label-pro">
+  MFA
+</label>
+
+<select
+  className="input-pro"
+
+  value={mfa ? "si" : "no"}
+
+  onChange={(e) =>
+    setMfa(
+      e.target.value === "si"
+    )
+  }
+>
+
+<option value="si">
+  Activo
+</option>
+
+<option value="no">
+  Desactivado
+</option>
+
+</select>
+
+</div>
+
+<div>
+
+<label className="label-pro">
+  Nueva password Windows
+</label>
+
+<input
+  type="password"
+
+  className="input-pro"
+
+  value={
+    nuevaPasswordWindows
+  }
+
+  onChange={(e) =>
+    setNuevaPasswordWindows(
+      e.target.value
+    )
+  }
+/>
+
+</div>
+
+<div>
+
+<label className="label-pro">
+  Confirmar password Windows
+</label>
+
+<input
+  type="password"
+
+  className="input-pro"
+
+  value={
+    confirmarPasswordWindows
+  }
+
+  onChange={(e) =>
+    setConfirmarPasswordWindows(
+      e.target.value
+    )
+  }
+/>
+
+</div>
+
+<div>
+
+<label className="label-pro">
+  Nueva password Correo
+</label>
+
+<input
+  type="password"
+
+  className="input-pro"
+
+  value={
+    nuevaPasswordCorreo
+  }
+
+  onChange={(e) =>
+    setNuevaPasswordCorreo(
+      e.target.value
+    )
+  }
+/>
+
+</div>
+
+<div>
+
+<label className="label-pro">
+  Confirmar password Correo
+</label>
+
+<input
+  type="password"
+
+  className="input-pro"
+
+  value={
+    confirmarPasswordCorreo
+  }
+
+  onChange={(e) =>
+    setConfirmarPasswordCorreo(
+      e.target.value
+    )
+  }
+/>
+
+</div>
+
+<div>
+
+<label className="label-pro">
+  Observaciones
+</label>
+
+<textarea
+  className="input-pro"
+
+  rows={3}
+
+  value={observaciones}
+
+  onChange={(e) =>
+    setObservaciones(
+      e.target.value
+    )
+  }
+
+  placeholder="Detalles de actualización..."
+/>
+
+</div>
+
+<button
+  className="btn-pro"
+
+  onClick={guardar}
+>
+  💾 Guardar Resolución
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+);
+
+}
+
+export default ModalResolverSeguridad;
