@@ -392,7 +392,15 @@ diasRestantesAntivirus > 0 && (
 </div>
 
 )}
+{!equipo?.mfa && (
 
+<div
+  style={{
+    color: "#ef4444",
+    fontSize: "14px",
+    fontWeight: "700"
+  }}
+>
   🔴 MFA desactivado
 </div>
 
