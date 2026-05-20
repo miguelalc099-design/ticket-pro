@@ -282,24 +282,6 @@ return (
     setVista("equipos")
   }
 >
-  💻 Equipos
-</button>
-
-<button
-  className={
-    vista === "nuevo"
-
-    ? "btn-pro"
-
-    : "btn-pro btn-secondary"
-  }
-
-  onClick={() =>
-    setVista("nuevo")
-  }
->
-  ➕ Nuevo Equipo
-</button>
 
 <button
   className={
@@ -338,16 +320,32 @@ return (
 )}
 
 {vista === "equipos" && (
-  <ListaEquipos
+ <ListaEquipos
+
   recargarDashboard={
     obtenerEquipos
   }
+
+  irNuevoEquipo={() =>
+    setVista("nuevo")
+  }
+
 />
 )}
 
 
 {vista === "nuevo" && (
-  <NuevoEquipo />
+  <NuevoEquipo
+
+  volverEquipos={() =>
+    setVista("equipos")
+  }
+
+  recargarEquipos={
+    obtenerEquipos
+  }
+
+/>
 )}
 
 {vista === "alertas" && (

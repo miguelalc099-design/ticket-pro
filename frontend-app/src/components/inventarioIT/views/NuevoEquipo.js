@@ -1,7 +1,13 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 
-function NuevoEquipo() {
+function NuevoEquipo({
+
+  volverEquipos,
+
+  recargarEquipos
+
+}) {
 
 const API =
   "https://ticket-pro-backend.onrender.com";
@@ -150,6 +156,9 @@ diasRecordatorioPassword,
     toast.success(
   "Equipo registrado correctamente"
 );
+recargarEquipos();
+
+volverEquipos();
 setNombreEquipo("");
 
 setUsuarioAsignado("");
@@ -1228,6 +1237,8 @@ return (
 
 <button
   className="btn-pro btn-secondary"
+
+  onClick={volverEquipos}
 >
   Cancelar
 </button>

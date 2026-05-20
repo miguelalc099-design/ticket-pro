@@ -13,7 +13,9 @@ const API =
 
 function ListaEquipos({
 
-  recargarDashboard
+  recargarDashboard,
+
+  irNuevoEquipo
 
 }) {
 
@@ -355,13 +357,9 @@ return (
 >
 
 <button
-  className="btn-pro btn-secondary"
->
-  🔍 Filtrar
-</button>
-
-<button
   className="btn-pro"
+
+  onClick={irNuevoEquipo}
 >
   ➕ Nuevo Equipo
 </button>
