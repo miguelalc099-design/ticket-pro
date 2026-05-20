@@ -340,15 +340,213 @@ return (
 
 {vista === "alertas" && (
 
-<div className="card-pro">
+<div
+  style={{
+    display: "flex",
+    flexDirection: "column",
+    gap: "18px"
+  }}
+>
 
-<h2>
-  ⚠ Alertas IT
+<h2
+  style={{
+    color: "#fff",
+    marginTop: 0
+  }}
+>
+  ⚠ Centro de Alertas IT
 </h2>
 
-<p style={{ color: "#94a3b8" }}>
-  Próximamente alertas automáticas.
+{equipos.map((e) => {
+
+  const hoy = new Date();
+
+  const fechaAntivirus =
+    new Date(
+      e.fechaExpiracionAntivirus
+    );
+
+  const fechaPassword =
+    new Date(
+      e.fechaCambioPasswordWindows
+    );
+
+  const diasAntivirus =
+    Math.ceil(
+      (
+        fechaAntivirus - hoy
+      ) /
+      (1000 * 60 * 60 * 24)
+    );
+
+  const diasPassword =
+    Math.ceil(
+      (
+        hoy - fechaPassword
+      ) /
+      (1000 * 60 * 60 * 24)
+    );
+
+  const alertas = [];
+
+  // 🔴 ANTIVIRUS VENCIDO
+
+  if (diasAntivirus <= 0) {
+
+    alertas.push({
+      color: "#ef4444",
+      titulo:
+        "Antivirus vencido",
+      descripcion:
+        "El equipo requiere renovación inmediata del antivirus."
+    });
+
+  }
+
+  // 🟡 ANTIVIRUS POR VENCER
+
+  else if (
+
+    diasAntivirus <=
+      e.diasAlertaAntivirus
+
+  ) {
+
+    alertas.push({
+      color: "#f59e0b",
+      titulo:
+        "Licencia antivirus próxima a vencer",
+      descripcion:
+        `Faltan ${diasAntivirus} días para vencimiento.`
+    });
+
+  }
+
+  // 🟡 PASSWORD
+
+  if (
+
+    diasPassword >=
+      e.diasRecordatorioPassword
+
+  ) {
+
+    alertas.push({
+      color: "#f59e0b",
+      titulo:
+        "Cambio de password requerido",
+      descripcion:
+        "La contraseña excedió el tiempo recomendado."
+    });
+
+  }
+
+  // 🔴 MFA
+
+  if (!e.mfa) {
+
+    alertas.push({
+      color: "#ef4444",
+      titulo:
+        "MFA desactivado",
+      descripcion:
+        "El equipo no tiene autenticación multifactor."
+    });
+
+  }
+
+  if (alertas.length === 0)
+    return null;
+
+  return (
+
+<div
+  key={e._id}
+
+  className="card-pro"
+
+  style={{
+    padding: "24px",
+
+    border:
+      "1px solid rgba(51,65,85,0.7)"
+  }}
+>
+
+<h2
+  style={{
+    color: "#fff",
+    marginTop: 0
+  }}
+>
+  💻 {e.nombreEquipo}
+</h2>
+
+<p
+  style={{
+    color: "#94a3b8"
+  }}
+>
+  👤 {e.usuarioAsignado}
 </p>
+
+<div
+  style={{
+    display: "grid",
+    gap: "14px",
+    marginTop: "20px"
+  }}
+>
+
+{alertas.map((a, index) => (
+
+<div
+  key={index}
+
+  style={{
+    padding: "18px",
+
+    borderRadius: "16px",
+
+    background:
+      `${a.color}15`,
+
+    border:
+      `1px solid ${a.color}40`
+  }}
+>
+
+<div
+  style={{
+    color: a.color,
+    fontWeight: "700",
+    fontSize: "16px"
+  }}
+>
+  ⚠ {a.titulo}
+</div>
+
+<p
+  style={{
+    color: "#cbd5e1",
+    marginBottom: 0,
+    marginTop: "8px"
+  }}
+>
+  {a.descripcion}
+</p>
+
+</div>
+
+))}
+
+</div>
+
+</div>
+
+);
+
+})}
 
 </div>
 
