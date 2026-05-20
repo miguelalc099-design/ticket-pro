@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import NuevoEquipo from "./views/NuevoEquipo";
 import ListaEquipos from "./views/ListaEquipos";
@@ -6,6 +6,85 @@ function InventarioIT() {
 
 const [vista, setVista] =
   useState("nuevo");
+const API =
+  "https://ticket-pro-backend.onrender.com";
+
+const [equipos, setEquipos] =
+  useState([]);
+const obtenerEquipos =
+  async () => {
+
+  try {
+
+    const res = await fetch(
+      `${API}/it/equipos`
+    );
+
+    const data =
+      await res.json();
+
+    setEquipos(data);
+
+  } catch (err) {
+
+    console.log(err);
+
+  }
+
+};
+useEffect(() => {
+
+  obtenerEquipos();
+
+}, []);
+
+const totalEquipos =
+  equipos.length;
+
+const totalAlertas =
+  equipos.filter((e) => {
+
+    const hoy = new Date();
+
+    const fechaAntivirus =
+      new Date(
+        e.fechaExpiracionAntivirus
+      );
+
+    const fechaPassword =
+      new Date(
+        e.fechaCambioPasswordWindows
+      );
+
+    const diasAntivirus =
+      Math.ceil(
+        (
+          fechaAntivirus - hoy
+        ) /
+        (1000 * 60 * 60 * 24)
+      );
+
+    const diasPassword =
+      Math.ceil(
+        (
+          hoy - fechaPassword
+        ) /
+        (1000 * 60 * 60 * 24)
+      );
+
+    return (
+
+      diasAntivirus <=
+        e.diasAlertaAntivirus ||
+
+      diasPassword >=
+        e.diasRecordatorioPassword ||
+
+      !e.mfa
+
+    );
+
+  }).length;
 
 return (
 
@@ -107,7 +186,7 @@ return (
     fontWeight: "700"
   }}
 >
-  0
+  {totalEquipos}
 </div>
 
 </div>
@@ -144,7 +223,7 @@ return (
     fontWeight: "700"
   }}
 >
-  0
+  {totalAlertas}
 </div>
 
 </div>
