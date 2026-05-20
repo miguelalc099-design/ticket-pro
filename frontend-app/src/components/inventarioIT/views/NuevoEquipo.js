@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
-
+import { useEffect, useState } from "react";
 function NuevoEquipo({
 
   volverEquipos,
@@ -67,7 +67,46 @@ const [
 
 const [diasRecordatorioPassword,
   setDiasRecordatorioPassword] =
-  useState(90);
+  useState(5);
+useEffect(() => {
+
+  if (!fechaCambioPasswordWindows)
+    return;
+
+  const fecha =
+    new Date(
+      fechaCambioPasswordWindows
+    );
+
+  fecha.setDate(
+    fecha.getDate() +
+    diasRecordatorioPassword
+  );
+
+  const yyyy =
+    fecha.getFullYear();
+
+  const mm =
+    String(
+      fecha.getMonth() + 1
+    ).padStart(2, "0");
+
+  const dd =
+    String(
+      fecha.getDate()
+    ).padStart(2, "0");
+
+  setFechaExpiracionPasswordWindows(
+    `${yyyy}-${mm}-${dd}`
+  );
+
+}, [
+
+  fechaCambioPasswordWindows,
+
+  diasRecordatorioPassword
+
+]);
 
 const [estadoAntivirus,
   setEstadoAntivirus] =
@@ -347,10 +386,10 @@ return (
   style={{
     display: "grid",
 
-   gridTemplateColumns:
-  "repeat(auto-fit,minmax(380px,1fr))",
+    gridTemplateColumns:
+      "repeat(auto-fit,minmax(520px,1fr))",
 
-    gap: "28px",
+    gap: "24px",
 
     alignItems: "start"
   }}
@@ -866,7 +905,7 @@ return (
 
 <input
   type="date"
-
+disabled
   className="input-pro"
 
   value={
@@ -1135,8 +1174,7 @@ return (
     fontSize: "15px"
   }}
 >
-  💻 Las laptops no requieren configuración
-  de monitores corporativos.
+ 💻 Laptop corporativa sin monitores externos configurados.
 </div>
 
 )}
@@ -1150,7 +1188,7 @@ return (
   className="card-pro"
 
   style={{
-    padding: "22px",
+   padding: "18px",
 
     border:
       "1px solid rgba(59,130,246,0.25)",
