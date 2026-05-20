@@ -28,6 +28,19 @@ const [
 
 const [
 
+  fechaExpiracionPasswordWindows,
+
+  setFechaExpiracionPasswordWindows
+
+] = useState(
+
+  equipo?.fechaExpiracionPasswordWindows
+    ?.split("T")[0] || ""
+
+);
+
+const [
+
   mfa,
 
   setMfa
@@ -82,108 +95,115 @@ const guardar =
   async () => {
 
   try {
-// 🔐 VALIDAR PASSWORD WINDOWS
 
-if (
+    // 🔐 VALIDAR PASSWORD WINDOWS
 
-  nuevaPasswordWindows &&
+    if (
 
-  nuevaPasswordWindows !==
-    confirmarPasswordWindows
+      nuevaPasswordWindows &&
 
-) {
+      nuevaPasswordWindows !==
+        confirmarPasswordWindows
 
-  alert(
-    "Las passwords Windows no coinciden"
-  );
+    ) {
 
-  return;
+      alert(
+        "Las passwords Windows no coinciden"
+      );
 
-}
+      return;
 
-if (
+    }
 
-  nuevaPasswordWindows &&
+    if (
 
-  nuevaPasswordWindows ===
-    equipo.passwordWindows
+      nuevaPasswordWindows &&
 
-) {
+      nuevaPasswordWindows ===
+        equipo.passwordWindows
 
-  alert(
-    "La nueva password Windows no puede ser igual a la anterior"
-  );
+    ) {
 
-  return;
+      alert(
+        "La nueva password Windows no puede ser igual a la anterior"
+      );
 
-}
+      return;
 
-// 🔐 VALIDAR PASSWORD CORREO
+    }
 
-if (
+    // 🔐 VALIDAR PASSWORD CORREO
 
-  nuevaPasswordCorreo &&
+    if (
 
-  nuevaPasswordCorreo !==
-    confirmarPasswordCorreo
+      nuevaPasswordCorreo &&
 
-) {
+      nuevaPasswordCorreo !==
+        confirmarPasswordCorreo
 
-  alert(
-    "Las passwords correo no coinciden"
-  );
+    ) {
 
-  return;
+      alert(
+        "Las passwords correo no coinciden"
+      );
 
-}
+      return;
 
-if (
+    }
 
-  nuevaPasswordCorreo &&
+    if (
 
-  nuevaPasswordCorreo ===
-    equipo.passwordCorreo
+      nuevaPasswordCorreo &&
 
-) {
+      nuevaPasswordCorreo ===
+        equipo.passwordCorreo
 
-  alert(
-    "La nueva password correo no puede ser igual a la anterior"
-  );
+    ) {
 
-  return;
+      alert(
+        "La nueva password correo no puede ser igual a la anterior"
+      );
 
-}
+      return;
+
+    }
+
     const body = {
 
       fechaExpiracionAntivirus,
+
+      fechaExpiracionPasswordWindows,
 
       mfa,
 
       observaciones
 
     };
-// 🔐 WINDOWS
 
-if (nuevaPasswordWindows) {
+    // 🔐 WINDOWS
 
-  body.passwordWindows =
-    nuevaPasswordWindows;
+    if (nuevaPasswordWindows) {
 
-  body.fechaCambioPasswordWindows =
-    new Date();
+      body.passwordWindows =
+        nuevaPasswordWindows;
 
-}
+      body.fechaCambioPasswordWindows =
+        new Date();
 
-// 🔐 CORREO
+      body.fechaExpiracionPasswordWindows =
+        fechaExpiracionPasswordWindows;
 
-if (nuevaPasswordCorreo) {
+    }
 
-  body.passwordCorreo =
-    nuevaPasswordCorreo;
+    // 🔐 CORREO
 
-}
+    if (nuevaPasswordCorreo) {
 
-   
+      body.passwordCorreo =
+        nuevaPasswordCorreo;
+
+    }
+
     await fetch(
 
       `${API}/it/equipos/${equipo._id}`,
@@ -223,56 +243,58 @@ return (
 <div
   style={{
 
-  position: "fixed",
+    position: "fixed",
 
-  inset: 0,
+    inset: 0,
 
-  background:
-    "rgba(2,6,23,0.85)",
+    background:
+      "rgba(2,6,23,0.85)",
 
-  backdropFilter:
-    "blur(8px)",
+    backdropFilter:
+      "blur(8px)",
 
-  display: "flex",
+    display: "flex",
 
-  justifyContent:
-    "center",
+    justifyContent:
+      "center",
 
-  alignItems:
-    "flex-start",
+    alignItems:
+      "flex-start",
 
-  overflowY: "auto",
+    overflowY: "auto",
 
-  padding: "30px 20px",
+    padding: "30px 20px",
 
-  zIndex: 9999
+    zIndex: 9999
 
-}}
+  }}
 >
 
 <div
   className="card-pro"
 
- style={{
+  style={{
 
-  width: "100%",
+    width: "100%",
 
-  maxWidth: "700px",
+    maxWidth: "700px",
 
-  maxHeight: "calc(100vh - 60px)",
-overflowY: "auto",
+    maxHeight:
+      "calc(100vh - 60px)",
 
-  padding: "30px",
+    overflowY: "auto",
 
-  position: "relative",
+    padding: "30px",
 
-  background:
-    "linear-gradient(145deg, rgba(15,23,42,0.96), rgba(15,23,42,0.88))",
+    position: "relative",
 
-  border:
-    "1px solid rgba(51,65,85,0.8)"
+    background:
+      "linear-gradient(145deg, rgba(15,23,42,0.96), rgba(15,23,42,0.88))",
 
-}}
+    border:
+      "1px solid rgba(51,65,85,0.8)"
+
+  }}
 >
 
 <button
@@ -317,252 +339,4 @@ overflowY: "auto",
   }}
 >
   {equipo?.nombreEquipo}
-</p>
-
-<div
-  style={{
-    display: "grid",
-    gap: "20px",
-    marginTop: "30px"
-  }}
->
-
-<div>
-
-<label className="label-pro">
-  Nueva fecha antivirus
-</label>
-
-<input
-  type="date"
-
-  className="input-pro"
-
-  value={
-    fechaExpiracionAntivirus
-  }
-
-  onChange={(e) =>
-    setFechaExpiracionAntivirus(
-      e.target.value
-    )
-  }
-/>
-
-</div>
-
-<div>
-
-<label className="label-pro">
-  MFA
-</label>
-
-<select
-  className="input-pro"
-
-  value={mfa ? "si" : "no"}
-
-  onChange={(e) =>
-    setMfa(
-      e.target.value === "si"
-    )
-  }
->
-
-<option value="si">
-  Activo
-</option>
-
-<option value="no">
-  Desactivado
-</option>
-
-</select>
-
-</div>
-
-{/* PASSWORD WINDOWS */}
-
-<div>
-
-<label className="label-pro">
-  Nueva password Windows
-</label>
-
-<input
-  type="password"
-
-  className="input-pro"
-
-  value={
-    nuevaPasswordWindows
-  }
-
-  onChange={(e) =>
-    setNuevaPasswordWindows(
-      e.target.value
-    )
-  }
-/>
-
-</div>
-
-<div>
-
-<label className="label-pro">
-  Confirmar password Windows
-</label>
-
-<input
-  type="password"
-
-  className="input-pro"
-
-  value={
-    confirmarPasswordWindows
-  }
-
-  onChange={(e) =>
-    setConfirmarPasswordWindows(
-      e.target.value
-    )
-  }
-/>
-
-</div>
-
-{/* PASSWORD CORREO */}
-
-<div>
-
-<label className="label-pro">
-  Nueva password Correo
-</label>
-
-<input
-  type="password"
-
-  className="input-pro"
-
-  value={
-    nuevaPasswordCorreo
-  }
-
-  onChange={(e) =>
-    setNuevaPasswordCorreo(
-      e.target.value
-    )
-  }
-/>
-
-</div>
-
-<div>
-
-<label className="label-pro">
-  Confirmar password Correo
-</label>
-
-<input
-  type="password"
-
-  className="input-pro"
-
-  value={
-    confirmarPasswordCorreo
-  }
-
-  onChange={(e) =>
-    setConfirmarPasswordCorreo(
-      e.target.value
-    )
-  }
-/>
-
-</div>
-
-<div>
-
-<label className="label-pro">
-  Observaciones
-</label>
-
-<textarea
-  className="input-pro"
-
-  rows={3}
-
-  value={observaciones}
-
-  onChange={(e) =>
-    setObservaciones(
-      e.target.value
-    )
-  }
-
-  placeholder="Detalles de actualización..."
-/>
-
-</div>
-<div
-  style={{
-    padding: "18px",
-    borderRadius: "16px",
-
-    background:
-      "rgba(59,130,246,0.12)",
-
-    border:
-      "1px solid rgba(59,130,246,0.25)",
-
-    color: "#93c5fd",
-
-    fontSize: "14px",
-
-    lineHeight: "1.6"
-  }}
->
-  🔐 Resolver seguridad actualizará:
-
-  <ul
-    style={{
-      marginTop: "12px"
-    }}
-  >
-    <li>
-      Renovación antivirus
-    </li>
-
-    <li>
-      Activación MFA
-    </li>
-
-    <li>
-      Cambio de passwords
-    </li>
-
-    <li>
-      Fecha de seguridad
-      del equipo
-    </li>
-  </ul>
-</div>
-<button
-  className="btn-pro"
-
-  onClick={guardar}
->
-  💾 Guardar Resolución
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-);
-
-}
-
-export default ModalResolverSeguridad;
+</

@@ -405,7 +405,15 @@ return (
 
   if (diasAntivirus <= 0) {
 
-   
+    alertas.push({
+      color: "#ef4444",
+      titulo:
+        "Antivirus vencido",
+      descripcion:
+        "El equipo requiere renovación inmediata del antivirus."
+    });
+
+  }
 
   // 🟡 ANTIVIRUS POR VENCER
 
@@ -426,43 +434,35 @@ return (
 
   }
 
-  // 🟡 PASSWORD
+  // 🔴 PASSWORD VENCIDO
 
- if (diasPassword <= 0) {
+  if (diasPassword <= 0) {
 
-  alertas.push({
-    color: "#ef4444",
-    titulo:
-      "Password vencido",
-    descripcion:
-      "La contraseña expiró y requiere cambio inmediato."
-  });
+    alertas.push({
+      color: "#ef4444",
+      titulo:
+        "Password vencido",
+      descripcion:
+        "La contraseña expiró y requiere cambio inmediato."
+    });
 
-}
+  }
 
-else if (
+  // 🟡 PASSWORD POR VENCER
 
-  diasPassword <=
-    e.diasRecordatorioPassword
+  else if (
 
-) {
+    diasPassword <=
+      e.diasRecordatorioPassword
 
-  alertas.push({
-    color: "#f59e0b",
-    titulo:
-      "Password próximo a vencer",
-    descripcion:
-      `La contraseña vence en ${diasPassword} días.`
-  });
-
-}
+  ) {
 
     alertas.push({
       color: "#f59e0b",
       titulo:
-        "Cambio de password requerido",
+        "Password próximo a vencer",
       descripcion:
-        "La contraseña excedió el tiempo recomendado."
+        `La contraseña vence en ${diasPassword} días.`
     });
 
   }
