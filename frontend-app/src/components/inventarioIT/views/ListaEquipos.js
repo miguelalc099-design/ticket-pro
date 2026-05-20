@@ -10,7 +10,11 @@ from "../components/ModalSeguridadEquipo";
 const API =
   "https://ticket-pro-backend.onrender.com";
 
-function ListaEquipos() {
+function ListaEquipos({
+
+  recargarDashboard
+
+}) {
 
 const [equipos, setEquipos] =
   useState([]);
@@ -710,9 +714,13 @@ onEditar={() => {
     setOpenEditar(false)
   }
 
-  recargarEquipos={
-    obtenerEquipos
-  }
+recargarEquipos={() => {
+
+  obtenerEquipos();
+
+  recargarDashboard();
+
+}}
 
 />
 

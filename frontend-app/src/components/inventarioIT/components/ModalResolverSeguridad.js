@@ -259,9 +259,8 @@ return (
 
   maxWidth: "700px",
 
-  maxHeight: "90vh",
-
-  overflowY: "auto",
+  maxHeight: "calc(100vh - 60px)",
+overflowY: "auto",
 
   padding: "30px",
 

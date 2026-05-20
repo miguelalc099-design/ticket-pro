@@ -338,7 +338,11 @@ return (
 )}
 
 {vista === "equipos" && (
-  <ListaEquipos />
+  <ListaEquipos
+  recargarDashboard={
+    obtenerEquipos
+  }
+/>
 )}
 
 

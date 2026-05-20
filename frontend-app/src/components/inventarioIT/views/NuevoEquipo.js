@@ -51,6 +51,13 @@ const [diasAlertaAntivirus,
 const [fechaCambioPasswordWindows,
   setFechaCambioPasswordWindows] =
   useState("");
+const [
+
+  fechaExpiracionPasswordWindows,
+
+  setFechaExpiracionPasswordWindows
+
+] = useState("");
 
 const [diasRecordatorioPassword,
   setDiasRecordatorioPassword] =
@@ -101,6 +108,7 @@ fechaExpiracionAntivirus,
 diasAlertaAntivirus,
 
 fechaCambioPasswordWindows,
+fechaExpiracionPasswordWindows,
 
 diasRecordatorioPassword,
 
@@ -168,6 +176,9 @@ setDiasAlertaAntivirus(
 );
 
 setFechaCambioPasswordWindows(
+  ""
+);
+setFechaExpiracionPasswordWindows(
   ""
 );
 
@@ -838,9 +849,29 @@ return (
 />
 
 </div>
-
 <div>
 
+<label className="label-pro">
+  Fecha expiración password
+</label>
+
+<input
+  type="date"
+
+  className="input-pro"
+
+  value={
+    fechaExpiracionPasswordWindows
+  }
+
+  onChange={(e) =>
+    setFechaExpiracionPasswordWindows(
+      e.target.value
+    )
+  }
+/>
+
+</div>
 <label className="label-pro">
   Días recordatorio password
 </label>
