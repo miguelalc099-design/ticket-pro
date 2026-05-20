@@ -38,7 +38,7 @@ const fechaAntivirus =
 
 const fechaPassword =
   new Date(
-    equipo?.fechaCambioPasswordWindows
+    equipo?.fechaExpiracionPasswordWindows
   );
 
 const diasRestantesAntivirus =
@@ -52,17 +52,20 @@ const diasRestantesAntivirus =
 const diasPassword =
   Math.ceil(
     (
-      hoy - fechaPassword
+      fechaPassword - hoy
     ) /
     (1000 * 60 * 60 * 24)
   );
+
 let estadoCalculado =
   "seguro";
 
 if (
   diasRestantesAntivirus <= 0 ||
+  diasPassword <= 0 ||
   !equipo?.mfa
-) {
+) 
+{
 
   estadoCalculado =
     "riesgo";
@@ -72,8 +75,8 @@ if (
   diasRestantesAntivirus <=
     equipo?.diasAlertaAntivirus ||
 
-  diasPassword >=
-    equipo?.diasRecordatorioPassword
+  diasPassword <=
+  equipo?.diasRecordatorioPassword
 
 ) {
 
@@ -360,21 +363,7 @@ diasRestantesAntivirus > 0 && (
 
 )}
 
-{diasPassword >=
-  equipo?.diasRecordatorioPassword && (
-
-<div
-  style={{
-    color: "#f59e0b",
-    fontSize: "14px"
-  }}
->
-  ⚠ Cambio password requerido
-</div>
-
-)}
-
-{!equipo?.mfa && (
+{diasPassword <= 0 && (
 
 <div
   style={{
@@ -383,6 +372,27 @@ diasRestantesAntivirus > 0 && (
     fontWeight: "700"
   }}
 >
+  🔴 Password vencido
+</div>
+
+)}
+
+{diasPassword > 0 &&
+ diasPassword <=
+  equipo?.diasRecordatorioPassword && (
+
+<div
+  style={{
+    color: "#f59e0b",
+    fontSize: "14px"
+  }}
+>
+  ⚠ Password vence en{" "}
+  {diasPassword} días
+</div>
+
+)}
+
   🔴 MFA desactivado
 </div>
 
