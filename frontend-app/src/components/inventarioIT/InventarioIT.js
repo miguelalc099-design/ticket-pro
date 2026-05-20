@@ -303,23 +303,6 @@ return (
 
 </div>
 
-  className={
-    vista === "alertas"
-
-    ? "btn-pro"
-
-    : "btn-pro btn-secondary"
-  }
-
-  onClick={() =>
-    setVista("alertas")
-  }
->
-  ⚠ Alertas
-</button>
-
-</div>
-
 {/* VISTAS */}
 
 {vista === "dashboard" && (
