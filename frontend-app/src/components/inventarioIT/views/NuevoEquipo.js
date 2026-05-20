@@ -872,6 +872,9 @@ return (
 />
 
 </div>
+
+<div>
+
 <label className="label-pro">
   Días recordatorio password
 </label>
@@ -893,7 +896,6 @@ return (
 />
 
 </div>
-
 </div>
 
 </div>
