@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-
+import ModalResolverSeguridad
+from "./components/ModalResolverSeguridad";
 import NuevoEquipo from "./views/NuevoEquipo";
 import ListaEquipos from "./views/ListaEquipos";
 function InventarioIT() {
@@ -11,6 +12,13 @@ const API =
 
 const [equipos, setEquipos] =
   useState([]);
+const [openResolver,
+  setOpenResolver] =
+  useState(false);
+
+const [equipoResolver,
+  setEquipoResolver] =
+  useState(null);
 const obtenerEquipos =
   async () => {
 
@@ -541,7 +549,60 @@ return (
 ))}
 
 </div>
+<div
+  style={{
+    display: "flex",
+    gap: "12px",
+    marginTop: "24px",
+    flexWrap: "wrap"
+  }}
+>
 
+<button
+  className="btn-pro btn-secondary"
+
+  onClick={() => {
+
+    setVista("equipos");
+
+  }}
+>
+  👁 Ver Equipo
+</button>
+
+<button
+  className="btn-pro"
+
+  onClick={() => {
+
+    setVista("equipos");
+
+  }}
+>
+  ✏ Editar
+</button>
+
+<button
+  className="btn-pro btn-secondary"
+
+onClick={() => {
+
+  setEquipoResolver(e);
+
+  setOpenResolver(true);
+
+}}
+  style={{
+    border:
+      "1px solid rgba(34,197,94,0.4)",
+
+    color: "#22c55e"
+  }}
+>
+  ✅ Resolver
+</button>
+
+</div>
 </div>
 
 );
@@ -551,7 +612,23 @@ return (
 </div>
 
 )}
+{openResolver && (
 
+<ModalResolverSeguridad
+
+  equipo={equipoResolver}
+
+  onClose={() =>
+    setOpenResolver(false)
+  }
+
+  recargarEquipos={
+    obtenerEquipos
+  }
+
+/>
+
+)}
 </div>
 
 );
