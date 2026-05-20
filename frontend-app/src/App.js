@@ -346,11 +346,12 @@ pushNotif("🎫 Ticket creado");
       Ciclicos
     </button>
   )}
-{hasPermission("ciclicos") && (
+{hasPermission("inventarioIT") && (
   <button onClick={() => setView("inventarioIT")}>
     💻 Inventario IT
   </button>
 )}
+
 </div>
 
         <button className="logout-btn" onClick={logout}>
@@ -370,7 +371,8 @@ pushNotif("🎫 Ticket creado");
 {view === "ciclicos" && hasPermission("ciclicos") && (
  <Ciclicos user={user} />
 )}
-{view === "inventarioIT" && hasPermission("ciclicos") && (
+{view === "inventarioIT" &&
+ hasPermission("inventarioIT") && (
   <InventarioIT />
 )}
 
