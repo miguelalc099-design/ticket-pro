@@ -476,7 +476,7 @@ return (
 <textarea
   className="input-pro"
 
-  rows={5}
+  rows={3}
 
   value={observaciones}
 
@@ -490,7 +490,49 @@ return (
 />
 
 </div>
+<div
+  style={{
+    padding: "18px",
+    borderRadius: "16px",
 
+    background:
+      "rgba(59,130,246,0.12)",
+
+    border:
+      "1px solid rgba(59,130,246,0.25)",
+
+    color: "#93c5fd",
+
+    fontSize: "14px",
+
+    lineHeight: "1.6"
+  }}
+>
+  🔐 Resolver seguridad actualizará:
+
+  <ul
+    style={{
+      marginTop: "12px"
+    }}
+  >
+    <li>
+      Renovación antivirus
+    </li>
+
+    <li>
+      Activación MFA
+    </li>
+
+    <li>
+      Cambio de passwords
+    </li>
+
+    <li>
+      Fecha de seguridad
+      del equipo
+    </li>
+  </ul>
+</div>
 <button
   className="btn-pro"
 

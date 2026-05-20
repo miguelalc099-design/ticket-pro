@@ -106,13 +106,27 @@ return (
 
 <div
   className="card-pro"
+style={{
 
-  style={{
-    width: "100%",
-    maxWidth: "700px",
-    padding: "30px",
-    position: "relative"
-  }}
+  width: "100%",
+
+  maxWidth: "700px",
+
+  maxHeight: "90vh",
+
+  overflowY: "auto",
+
+  padding: "30px",
+
+  position: "relative",
+
+  background:
+    "linear-gradient(145deg, rgba(15,23,42,0.96), rgba(15,23,42,0.88))",
+
+  border:
+    "1px solid rgba(51,65,85,0.8)"
+
+}}
 >
 
 <button
