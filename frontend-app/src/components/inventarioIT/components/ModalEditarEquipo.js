@@ -7,7 +7,9 @@ function ModalEditarEquipo({
 
   equipo,
 
-  onClose
+  onClose,
+
+  recargarEquipos
 
 }) {
 
@@ -81,13 +83,13 @@ const guardarCambios =
 
     }
 
-    toast.success(
-      "Equipo actualizado"
-    );
+toast.success(
+  "Equipo actualizado"
+);
 
-    onClose();
+recargarEquipos();
 
-    window.location.reload();
+onClose();
 
   } catch (err) {
 
@@ -148,7 +150,7 @@ return (
   }}
 >
 
-{/* CERRAR */}
+{/* BOTON CERRAR */}
 
 <button
 
@@ -246,7 +248,7 @@ return (
   Windows
 </label>
 
-<input
+<select
   className="input-pro"
 
   value={windows}
@@ -256,7 +258,21 @@ return (
       e.target.value
     )
   }
-/>
+>
+
+<option>
+  Windows 11 Pro
+</option>
+
+<option>
+  Windows 10 Pro
+</option>
+
+<option>
+  Windows 11 Home
+</option>
+
+</select>
 
 </div>
 

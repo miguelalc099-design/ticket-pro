@@ -307,6 +307,10 @@ onEditar={() => {
     setOpenEditar(false)
   }
 
+  recargarEquipos={
+    obtenerEquipos
+  }
+
 />
 
 )}
