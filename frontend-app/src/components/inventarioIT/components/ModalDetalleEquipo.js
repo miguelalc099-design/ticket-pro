@@ -6,7 +6,58 @@ function ModalDetalleEquipo({
 
 }) {
 
-if (!equipo) return null;
+const hoy = new Date();
+
+const fechaAntivirus =
+  new Date(
+    equipo?.fechaExpiracionAntivirus
+  );
+
+const fechaPassword =
+  new Date(
+    equipo?.fechaCambioPasswordWindows
+  );
+
+const diasRestantesAntivirus =
+  Math.ceil(
+    (
+      fechaAntivirus - hoy
+    ) /
+    (1000 * 60 * 60 * 24)
+  );
+
+const diasPassword =
+  Math.ceil(
+    (
+      hoy - fechaPassword
+    ) /
+    (1000 * 60 * 60 * 24)
+  );
+
+let estadoCalculado =
+  "seguro";
+
+if (
+  diasRestantesAntivirus <= 0 ||
+  !equipo?.mfa
+) {
+
+  estadoCalculado =
+    "riesgo";
+
+} else if (
+
+  diasRestantesAntivirus <=
+    equipo?.diasAlertaAntivirus ||
+
+  diasPassword >=
+    equipo?.diasRecordatorioPassword
+
+) {
+
+  estadoCalculado =
+    "alerta";
+}
 
 const colorEstado = {
 
@@ -15,8 +66,9 @@ const colorEstado = {
   alerta: "#f59e0b",
 
   riesgo: "#ef4444"
-
 };
+
+if (!equipo) return null;
 
 return (
 
@@ -188,7 +240,121 @@ return (
     gap: "20px"
   }}
 >
+<div
+  className="card-pro"
 
+  style={{
+    padding: "22px",
+    marginTop: "20px",
+
+    border:
+      `1px solid ${
+        colorEstado[
+          estadoCalculado
+        ]
+      }40`
+  }}
+>
+
+<h2
+  style={{
+    marginTop: 0,
+    color:
+      colorEstado[
+        estadoCalculado
+      ]
+  }}
+>
+  🛡 Seguridad IT
+</h2>
+
+<div
+  style={{
+    display: "grid",
+    gap: "14px",
+    marginTop: "20px"
+  }}
+>
+
+<div>
+  Estado:
+  {" "}
+
+  <span
+    style={{
+      color:
+        colorEstado[
+          estadoCalculado
+        ],
+
+      fontWeight: "700"
+    }}
+  >
+    {estadoCalculado}
+  </span>
+</div>
+
+<div>
+  🔐 MFA:
+  {" "}
+
+  {
+    equipo?.mfa
+    ? "✅ Activo"
+    : "❌ Desactivado"
+  }
+</div>
+
+<div>
+  🛡 Antivirus:
+  {" "}
+
+  {
+    equipo?.antivirus ||
+    "No registrado"
+  }
+</div>
+
+<div>
+  📅 Expira:
+  {" "}
+
+  {
+    equipo?.fechaExpiracionAntivirus
+      ? new Date(
+          equipo.fechaExpiracionAntivirus
+        ).toLocaleDateString()
+      : "No definida"
+  }
+</div>
+
+<div>
+  🔑 Último cambio password:
+  {" "}
+
+  {
+    equipo?.fechaCambioPasswordWindows
+      ? new Date(
+          equipo.fechaCambioPasswordWindows
+        ).toLocaleDateString()
+      : "No definida"
+  }
+</div>
+
+<div>
+  📧 Correo corporativo:
+  {" "}
+
+  {
+    equipo?.passwordCorreoNoAplica
+      ? "No aplica"
+      : "Configurado"
+  }
+</div>
+
+</div>
+
+</div>
 {/* SISTEMA */}
 
 <div className="card-pro">
@@ -243,11 +409,11 @@ return (
   style={{
     color:
       colorEstado[
-        equipo.estadoSeguridad
+        estadoCalculado
       ]
   }}
 >
-  {equipo.estadoSeguridad}
+  {estadoCalculado}
 </span>
 
 </p>

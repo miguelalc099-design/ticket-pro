@@ -16,9 +16,8 @@ equipo,
   estadoSeguridad,
 
   onEditar,
-
-
-  onVer
+onVer,
+onSeguridad
 
 }) {
 const colorEstado = {
@@ -57,7 +56,30 @@ const diasPassword =
     ) /
     (1000 * 60 * 60 * 24)
   );
+let estadoCalculado =
+  "seguro";
 
+if (
+  diasRestantesAntivirus <= 0 ||
+  !equipo?.mfa
+) {
+
+  estadoCalculado =
+    "riesgo";
+
+} else if (
+
+  diasRestantesAntivirus <=
+    equipo?.diasAlertaAntivirus ||
+
+  diasPassword >=
+    equipo?.diasRecordatorioPassword
+
+) {
+
+  estadoCalculado =
+    "alerta";
+}
 return (
 
 <div
@@ -262,20 +284,119 @@ return (
     fontSize: "14px"
   }}
 >
+<div
+  style={{
+    display: "flex",
+    flexDirection: "column",
+    gap: "10px",
+    marginTop: "6px"
+  }}
+>
+
+{/* ESTADO GENERAL */}
 
 <div
   style={{
+    display: "flex",
+    alignItems: "center",
+    gap: "10px",
+
+    fontWeight: "700",
+
     color:
       colorEstado[
-        estadoSeguridad
+        estadoCalculado
       ]
   }}
 >
-  ● {estadoSeguridad}
-</div>
 
 <div>
-  🛡 Seguridad IT
+  ●
+</div>
+
+<div
+  style={{
+    textTransform:
+      "capitalize"
+  }}
+>
+  {estadoCalculado}
+</div>
+
+</div>
+
+{/* ALERTAS */}
+
+{diasRestantesAntivirus <=
+  equipo?.diasAlertaAntivirus &&
+
+diasRestantesAntivirus > 0 && (
+
+<div
+  style={{
+    color: "#f59e0b",
+    fontSize: "14px"
+  }}
+>
+  ⚠ Antivirus vence en{" "}
+  {
+    diasRestantesAntivirus
+  } días
+</div>
+
+)}
+
+{diasRestantesAntivirus <= 0 && (
+
+<div
+  style={{
+    color: "#ef4444",
+    fontSize: "14px",
+    fontWeight: "700"
+  }}
+>
+  🔴 Antivirus vencido
+</div>
+
+)}
+
+{diasPassword >=
+  equipo?.diasRecordatorioPassword && (
+
+<div
+  style={{
+    color: "#f59e0b",
+    fontSize: "14px"
+  }}
+>
+  ⚠ Cambio password requerido
+</div>
+
+)}
+
+{!equipo?.mfa && (
+
+<div
+  style={{
+    color: "#ef4444",
+    fontSize: "14px",
+    fontWeight: "700"
+  }}
+>
+  🔴 MFA desactivado
+</div>
+
+)}
+
+<div
+  style={{
+    color: "#94a3b8",
+    fontSize: "13px"
+  }}
+>
+  🛡 Seguridad IT Enterprise
+</div>
+
 </div>
 
 </div>
@@ -304,6 +425,8 @@ return (
 
 <button
   className="btn-pro btn-secondary"
+
+  onClick={onSeguridad}
 >
   🔐 Seguridad
 </button>
