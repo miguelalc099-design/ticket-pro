@@ -1,4 +1,5 @@
 function EquipoCard({
+equipo,
 
   nombreEquipo,
 
@@ -16,6 +17,7 @@ function EquipoCard({
 
   onEditar,
 
+
   onVer
 
 }) {
@@ -28,6 +30,33 @@ const colorEstado = {
   riesgo: "#ef4444"
 
 };
+const hoy = new Date();
+
+const fechaAntivirus =
+  new Date(
+    equipo?.fechaExpiracionAntivirus
+  );
+
+const fechaPassword =
+  new Date(
+    equipo?.fechaCambioPasswordWindows
+  );
+
+const diasRestantesAntivirus =
+  Math.ceil(
+    (
+      fechaAntivirus - hoy
+    ) /
+    (1000 * 60 * 60 * 24)
+  );
+
+const diasPassword =
+  Math.ceil(
+    (
+      hoy - fechaPassword
+    ) /
+    (1000 * 60 * 60 * 24)
+  );
 
 return (
 
