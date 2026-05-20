@@ -40,11 +40,35 @@ const [
 
 const [
 
-  passwordActualizado,
+  nuevaPasswordWindows,
 
-  setPasswordActualizado
+  setNuevaPasswordWindows
 
-] = useState(false);
+] = useState("");
+
+const [
+
+  confirmarPasswordWindows,
+
+  setConfirmarPasswordWindows
+
+] = useState("");
+
+const [
+
+  nuevaPasswordCorreo,
+
+  setNuevaPasswordCorreo
+
+] = useState("");
+
+const [
+
+  confirmarPasswordCorreo,
+
+  setConfirmarPasswordCorreo
+
+] = useState("");
 
 const [
 
@@ -58,7 +82,77 @@ const guardar =
   async () => {
 
   try {
+// 🔐 VALIDAR PASSWORD WINDOWS
 
+if (
+
+  nuevaPasswordWindows &&
+
+  nuevaPasswordWindows !==
+    confirmarPasswordWindows
+
+) {
+
+  alert(
+    "Las passwords Windows no coinciden"
+  );
+
+  return;
+
+}
+
+if (
+
+  nuevaPasswordWindows &&
+
+  nuevaPasswordWindows ===
+    equipo.passwordWindows
+
+) {
+
+  alert(
+    "La nueva password Windows no puede ser igual a la anterior"
+  );
+
+  return;
+
+}
+
+// 🔐 VALIDAR PASSWORD CORREO
+
+if (
+
+  nuevaPasswordCorreo &&
+
+  nuevaPasswordCorreo !==
+    confirmarPasswordCorreo
+
+) {
+
+  alert(
+    "Las passwords correo no coinciden"
+  );
+
+  return;
+
+}
+
+if (
+
+  nuevaPasswordCorreo &&
+
+  nuevaPasswordCorreo ===
+    equipo.passwordCorreo
+
+) {
+
+  alert(
+    "La nueva password correo no puede ser igual a la anterior"
+  );
+
+  return;
+
+}
     const body = {
 
       fechaExpiracionAntivirus,
@@ -68,15 +162,28 @@ const guardar =
       observaciones
 
     };
+// 🔐 WINDOWS
 
-    // 🔑 SOLO SI CAMBIASTE PASSWORD
-    if (passwordActualizado) {
+if (nuevaPasswordWindows) {
 
-      body.fechaCambioPasswordWindows =
-        new Date();
+  body.passwordWindows =
+    nuevaPasswordWindows;
 
-    }
+  body.fechaCambioPasswordWindows =
+    new Date();
 
+}
+
+// 🔐 CORREO
+
+if (nuevaPasswordCorreo) {
+
+  body.passwordCorreo =
+    nuevaPasswordCorreo;
+
+}
+
+   
     await fetch(
 
       `${API}/it/equipos/${equipo._id}`,
@@ -260,35 +367,103 @@ return (
 
 </div>
 
-<div
-  style={{
-    display: "flex",
-    alignItems: "center",
-    gap: "12px"
-  }}
->
+{/* PASSWORD WINDOWS */}
+
+<div>
+
+<label className="label-pro">
+  Nueva password Windows
+</label>
 
 <input
-  type="checkbox"
+  type="password"
 
-  checked={
-    passwordActualizado
+  className="input-pro"
+
+  value={
+    nuevaPasswordWindows
   }
 
   onChange={(e) =>
-    setPasswordActualizado(
-      e.target.checked
+    setNuevaPasswordWindows(
+      e.target.value
     )
   }
 />
 
-<label
-  style={{
-    color: "#cbd5e1"
-  }}
->
-  Ya actualicé el password
+</div>
+
+<div>
+
+<label className="label-pro">
+  Confirmar password Windows
 </label>
+
+<input
+  type="password"
+
+  className="input-pro"
+
+  value={
+    confirmarPasswordWindows
+  }
+
+  onChange={(e) =>
+    setConfirmarPasswordWindows(
+      e.target.value
+    )
+  }
+/>
+
+</div>
+
+{/* PASSWORD CORREO */}
+
+<div>
+
+<label className="label-pro">
+  Nueva password Correo
+</label>
+
+<input
+  type="password"
+
+  className="input-pro"
+
+  value={
+    nuevaPasswordCorreo
+  }
+
+  onChange={(e) =>
+    setNuevaPasswordCorreo(
+      e.target.value
+    )
+  }
+/>
+
+</div>
+
+<div>
+
+<label className="label-pro">
+  Confirmar password Correo
+</label>
+
+<input
+  type="password"
+
+  className="input-pro"
+
+  value={
+    confirmarPasswordCorreo
+  }
+
+  onChange={(e) =>
+    setConfirmarPasswordCorreo(
+      e.target.value
+    )
+  }
+/>
 
 </div>
 
