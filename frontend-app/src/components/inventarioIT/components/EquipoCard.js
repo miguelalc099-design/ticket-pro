@@ -50,6 +50,12 @@ const diasRestantesAntivirus =
   );
 
 const diasPassword =
+console.log(
+  "PASSWORD DEBUG:",
+  equipo.nombreEquipo,
+  equipo.fechaExpiracionPasswordWindows,
+  diasPassword
+);
   Math.ceil(
     (
       fechaPassword - hoy
