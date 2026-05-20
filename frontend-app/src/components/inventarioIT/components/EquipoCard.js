@@ -50,8 +50,6 @@ const diasRestantesAntivirus =
   );
 
 const diasPassword =
-const debugPassword =
-  equipo?.fechaExpiracionPasswordWindows;
   Math.ceil(
     (
       fechaPassword - hoy
@@ -414,17 +412,7 @@ diasRestantesAntivirus > 0 && (
     fontSize: "13px"
   }}
 >
-<div
-  style={{
-    color: "#fff",
-    fontSize: "12px"
-  }}
->
-  DEBUG:
-  {String(debugPassword)}
-  {" | "}
-  {String(diasPassword)}
-</div>
+
   🛡 Seguridad IT Enterprise
 </div>
 
