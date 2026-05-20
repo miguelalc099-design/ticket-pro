@@ -219,6 +219,30 @@ const equipoITSchema =
     type: String,
     default: ""
   },
+passwordCorreoNoAplica: {
+  type: Boolean,
+  default: false
+},
+
+fechaExpiracionAntivirus: {
+  type: Date,
+  default: null
+},
+
+diasAlertaAntivirus: {
+  type: Number,
+  default: 30
+},
+
+fechaCambioPasswordWindows: {
+  type: Date,
+  default: Date.now
+},
+
+diasRecordatorioPassword: {
+  type: Number,
+  default: 90
+},
 
   mfa: {
     type: Boolean,
