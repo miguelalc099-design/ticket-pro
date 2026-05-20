@@ -268,7 +268,6 @@ return (
 >
   📊 Dashboard
 </button>
-
 <button
   className={
     vista === "equipos"
@@ -282,8 +281,25 @@ return (
     setVista("equipos")
   }
 >
+  💻 Equipos
+</button>
 
 <button
+  className={
+    vista === "alertas"
+
+    ? "btn-pro"
+
+    : "btn-pro btn-secondary"
+  }
+
+  onClick={() =>
+    setVista("alertas")
+  }
+>
+  ⚠ Alertas
+</button>
+
   className={
     vista === "alertas"
 
