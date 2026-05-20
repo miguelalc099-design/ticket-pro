@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+
 function NuevoEquipo({
 
   volverEquipos,
