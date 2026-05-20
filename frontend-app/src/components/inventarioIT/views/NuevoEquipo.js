@@ -347,8 +347,8 @@ return (
   style={{
     display: "grid",
 
-    gridTemplateColumns:
-      "repeat(auto-fit,minmax(420px,1fr))",
+   gridTemplateColumns:
+  "repeat(auto-fit,minmax(380px,1fr))",
 
     gap: "28px",
 
@@ -911,6 +911,8 @@ return (
 
 {/* HARDWARE */}
 
+{tipoEquipo === "desktop" && (
+
 <div
   className="card-pro"
 
@@ -1141,13 +1143,42 @@ return (
 
 </div>
 
+)}
+{tipoEquipo === "laptop" && (
+
+<div
+  className="card-pro"
+
+  style={{
+    padding: "22px",
+
+    border:
+      "1px solid rgba(59,130,246,0.25)",
+
+    background:
+      "rgba(59,130,246,0.08)",
+
+    color: "#93c5fd",
+
+    fontSize: "15px",
+
+    lineHeight: "1.6"
+  }}
+>
+  💻 Equipo portátil detectado.
+  No requiere configuración de monitores corporativos.
+</div>
+
+)}
 {/* OBSERVACIONES */}
 
 <div
   className="card-pro"
 
   style={{
-    padding: "28px"
+    padding: "28px",
+
+    gridColumn: "1 / -1"
   }}
 >
 
