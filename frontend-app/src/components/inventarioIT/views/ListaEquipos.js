@@ -7,6 +7,7 @@ import ModalEditarEquipo
 from "../components/ModalEditarEquipo";
 import ModalSeguridadEquipo
 from "../components/ModalSeguridadEquipo";
+
 const API =
   "https://ticket-pro-backend.onrender.com";
 
@@ -29,9 +30,11 @@ const [equipoSeleccionado,
 const [openDetalle,
   setOpenDetalle] =
   useState(false);
+
 const [openEditar,
   setOpenEditar] =
   useState(false);
+
 const [openSeguridad,
   setOpenSeguridad] =
   useState(false);
@@ -92,7 +95,7 @@ const equiposSeguros =
 
     const fechaPassword =
       new Date(
-        e.fechaCambioPasswordWindows
+        e.fechaExpiracionPasswordWindows
       );
 
     const diasAntivirus =
@@ -106,20 +109,23 @@ const equiposSeguros =
     const diasPassword =
       Math.ceil(
         (
-          hoy - fechaPassword
+          fechaPassword - hoy
         ) /
         (1000 * 60 * 60 * 24)
       );
 
     return (
+
       diasAntivirus >
         e.diasAlertaAntivirus &&
 
-      diasPassword <
+      diasPassword >
         e.diasRecordatorioPassword &&
 
       e.mfa
+
     );
+
   }).length;
 
 const equiposRiesgo =
@@ -132,6 +138,11 @@ const equiposRiesgo =
         e.fechaExpiracionAntivirus
       );
 
+    const fechaPassword =
+      new Date(
+        e.fechaExpiracionPasswordWindows
+      );
+
     const diasAntivirus =
       Math.ceil(
         (
@@ -140,10 +151,24 @@ const equiposRiesgo =
         (1000 * 60 * 60 * 24)
       );
 
+    const diasPassword =
+      Math.ceil(
+        (
+          fechaPassword - hoy
+        ) /
+        (1000 * 60 * 60 * 24)
+      );
+
     return (
+
       diasAntivirus <= 0 ||
+
+      diasPassword <= 0 ||
+
       !e.mfa
+
     );
+
   }).length;
 
 const equiposAlerta =
@@ -207,7 +232,7 @@ const equiposFiltrados =
 
     const fechaPassword =
       new Date(
-        e.fechaCambioPasswordWindows
+        e.fechaExpiracionPasswordWindows
       );
 
     const diasAntivirus =
@@ -221,7 +246,7 @@ const equiposFiltrados =
     const diasPassword =
       Math.ceil(
         (
-          hoy - fechaPassword
+          fechaPassword - hoy
         ) /
         (1000 * 60 * 60 * 24)
       );
@@ -230,8 +255,13 @@ const equiposFiltrados =
       "seguro";
 
     if (
+
       diasAntivirus <= 0 ||
+
+      diasPassword <= 0 ||
+
       !e.mfa
+
     ) {
 
       estado = "riesgo";
@@ -241,7 +271,7 @@ const equiposFiltrados =
       diasAntivirus <=
         e.diasAlertaAntivirus ||
 
-      diasPassword >=
+      diasPassword <=
         e.diasRecordatorioPassword
 
     ) {
@@ -256,9 +286,11 @@ const equiposFiltrados =
         filtroEstado;
 
     return (
+
       matchBusqueda &&
       matchTipo &&
       matchEstado
+
     );
 
   });
@@ -338,7 +370,6 @@ return (
 
 </div>
 
-{/* SEARCH */}
 {/* DASHBOARD */}
 
 <div
@@ -502,6 +533,7 @@ return (
 </div>
 
 </div>
+
 <div
   className="card-pro"
 
@@ -561,6 +593,7 @@ return (
 </option>
 
 </select>
+
 <select
 
   className="input-pro"
@@ -626,18 +659,20 @@ return (
 {equiposFiltrados.map((equipo) => (
 
 <EquipoCard
-equipo={equipo}
+  equipo={equipo}
 
   key={equipo._id}
-onSeguridad={() => {
 
-  setEquipoSeguridad(
-    equipo
-  );
+  onSeguridad={() => {
 
-  setOpenSeguridad(true);
+    setEquipoSeguridad(
+      equipo
+    );
 
-}}
+    setOpenSeguridad(true);
+
+  }}
+
   nombreEquipo={
     equipo.nombreEquipo
   }
@@ -675,20 +710,23 @@ onSeguridad={() => {
     setOpenDetalle(true);
 
   }}
-onEditar={() => {
 
-  setEquipoEditar(
-    equipo
-  );
+  onEditar={() => {
 
-  setOpenEditar(true);
+    setEquipoEditar(
+      equipo
+    );
 
-}}
+    setOpenEditar(true);
+
+  }}
 
 />
+
 ))}
 
 </div>
+
 {openDetalle && (
 
 <ModalDetalleEquipo
@@ -704,6 +742,7 @@ onEditar={() => {
 />
 
 )}
+
 {openEditar && (
 
 <ModalEditarEquipo
@@ -714,13 +753,13 @@ onEditar={() => {
     setOpenEditar(false)
   }
 
-recargarEquipos={() => {
+  recargarEquipos={() => {
 
-  obtenerEquipos();
+    obtenerEquipos();
 
-  recargarDashboard();
+    recargarDashboard();
 
-}}
+  }}
 
 />
 
@@ -739,9 +778,11 @@ recargarEquipos={() => {
 />
 
 )}
+
 </div>
 
 );
+
 }
 
 export default ListaEquipos;
