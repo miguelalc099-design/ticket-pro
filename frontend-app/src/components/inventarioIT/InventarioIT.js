@@ -59,10 +59,10 @@ const totalAlertas =
         e.fechaExpiracionAntivirus
       );
 
-    const fechaPassword =
-      new Date(
-        e.fechaCambioPasswordWindows
-      );
+   const fechaPassword =
+  new Date(
+    e.fechaExpiracionPasswordWindows
+  );
 
     const diasAntivirus =
       Math.ceil(
@@ -75,8 +75,8 @@ const totalAlertas =
     const diasPassword =
       Math.ceil(
         (
-          hoy - fechaPassword
-        ) /
+  fechaPassword - hoy
+) /
         (1000 * 60 * 60 * 24)
       );
 
@@ -85,8 +85,8 @@ const totalAlertas =
       diasAntivirus <=
         e.diasAlertaAntivirus ||
 
-      diasPassword >=
-        e.diasRecordatorioPassword ||
+diasPassword <=
+  e.diasRecordatorioPassword ||
 
       !e.mfa
 
@@ -378,10 +378,10 @@ return (
       e.fechaExpiracionAntivirus
     );
 
-  const fechaPassword =
-    new Date(
-      e.fechaCambioPasswordWindows
-    );
+ const fechaPassword =
+  new Date(
+    e.fechaExpiracionPasswordWindows
+  );
 
   const diasAntivirus =
     Math.ceil(
@@ -394,8 +394,8 @@ return (
   const diasPassword =
     Math.ceil(
       (
-        hoy - fechaPassword
-      ) /
+  fechaPassword - hoy
+) /
       (1000 * 60 * 60 * 24)
     );
 
@@ -405,15 +405,7 @@ return (
 
   if (diasAntivirus <= 0) {
 
-    alertas.push({
-      color: "#ef4444",
-      titulo:
-        "Antivirus vencido",
-      descripcion:
-        "El equipo requiere renovación inmediata del antivirus."
-    });
-
-  }
+   
 
   // 🟡 ANTIVIRUS POR VENCER
 
@@ -436,12 +428,34 @@ return (
 
   // 🟡 PASSWORD
 
-  if (
+ if (diasPassword <= 0) {
 
-    diasPassword >=
-      e.diasRecordatorioPassword
+  alertas.push({
+    color: "#ef4444",
+    titulo:
+      "Password vencido",
+    descripcion:
+      "La contraseña expiró y requiere cambio inmediato."
+  });
 
-  ) {
+}
+
+else if (
+
+  diasPassword <=
+    e.diasRecordatorioPassword
+
+) {
+
+  alertas.push({
+    color: "#f59e0b",
+    titulo:
+      "Password próximo a vencer",
+    descripcion:
+      `La contraseña vence en ${diasPassword} días.`
+  });
+
+}
 
     alertas.push({
       color: "#f59e0b",
