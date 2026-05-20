@@ -1,5 +1,8 @@
 import { useState } from "react";
 
+import { toast }
+from "react-toastify";
+
 function ModalEditarEquipo({
 
   equipo,
@@ -7,6 +10,9 @@ function ModalEditarEquipo({
   onClose
 
 }) {
+
+const API =
+  "https://ticket-pro-backend.onrender.com";
 
 const [nombreEquipo,
   setNombreEquipo] =
@@ -35,12 +41,63 @@ const [antivirus,
 const guardarCambios =
   async () => {
 
-  console.log({
-    nombreEquipo,
-    usuarioAsignado,
-    windows,
-    antivirus
-  });
+  try {
+
+    const body = {
+
+      nombreEquipo,
+
+      usuarioAsignado,
+
+      windows,
+
+      antivirus
+
+    };
+
+    const res = await fetch(
+
+      `${API}/it/equipos/${equipo._id}`,
+
+      {
+
+        method: "PUT",
+
+        headers: {
+          "Content-Type":
+            "application/json"
+        },
+
+        body:
+          JSON.stringify(body)
+      }
+    );
+
+    if (!res.ok) {
+
+      throw new Error(
+        "Error actualizando"
+      );
+
+    }
+
+    toast.success(
+      "Equipo actualizado"
+    );
+
+    onClose();
+
+    window.location.reload();
+
+  } catch (err) {
+
+    console.log(err);
+
+    toast.error(
+      "Error actualizando equipo"
+    );
+
+  }
 
 };
 
