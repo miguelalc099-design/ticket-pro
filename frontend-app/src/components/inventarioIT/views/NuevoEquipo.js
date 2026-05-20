@@ -36,6 +36,25 @@ const [passwordWindows,
 const [passwordCorreo,
   setPasswordCorreo] =
   useState("");
+const [passwordCorreoNoAplica,
+  setPasswordCorreoNoAplica] =
+  useState(false);
+
+const [fechaExpiracionAntivirus,
+  setFechaExpiracionAntivirus] =
+  useState("");
+
+const [diasAlertaAntivirus,
+  setDiasAlertaAntivirus] =
+  useState(30);
+
+const [fechaCambioPasswordWindows,
+  setFechaCambioPasswordWindows] =
+  useState("");
+
+const [diasRecordatorioPassword,
+  setDiasRecordatorioPassword] =
+  useState(90);
 
 const [estadoAntivirus,
   setEstadoAntivirus] =
@@ -75,6 +94,15 @@ const guardarEquipo =
       antivirus,
 
       passwordWindows,
+passwordCorreoNoAplica,
+
+fechaExpiracionAntivirus,
+
+diasAlertaAntivirus,
+
+fechaCambioPasswordWindows,
+
+diasRecordatorioPassword,
 
       passwordCorreo,
 
@@ -127,6 +155,25 @@ setAntivirus("");
 setPasswordWindows("");
 
 setPasswordCorreo("");
+setPasswordCorreoNoAplica(
+  false
+);
+
+setFechaExpiracionAntivirus(
+  ""
+);
+
+setDiasAlertaAntivirus(
+  30
+);
+
+setFechaCambioPasswordWindows(
+  ""
+);
+
+setDiasRecordatorioPassword(
+  90
+);
 
 setEstadoAntivirus(
   "activo"
