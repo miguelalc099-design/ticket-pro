@@ -385,15 +385,14 @@ return (
 <div
   style={{
     display: "grid",
-
-    gridTemplateColumns:
-      "1fr 1fr",
-
+    gridTemplateColumns: "1fr 1fr",
     gap: "24px",
-
     alignItems: "start"
   }}
 >
+
+{/* COLUMNA IZQUIERDA */}
+
 <div
   style={{
     display: "flex",
@@ -401,11 +400,11 @@ return (
     gap: "24px"
   }}
 >
+
 {/* DATOS GENERALES */}
 
 <div
   className="card-pro"
-
   style={{
     padding: "28px"
   }}
@@ -424,16 +423,11 @@ return (
   style={{
     width: "54px",
     height: "54px",
-
     borderRadius: "16px",
-
-    background:
-      "rgba(59,130,246,0.18)",
-
+    background: "rgba(59,130,246,0.18)",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-
     fontSize: "24px"
   }}
 >
@@ -480,15 +474,10 @@ return (
 
 <input
   className="input-pro"
-
   placeholder="PC-ADMON-01"
-
   value={nombreEquipo}
-
   onChange={(e) =>
-    setNombreEquipo(
-      e.target.value
-    )
+    setNombreEquipo(e.target.value)
   }
 />
 
@@ -502,15 +491,10 @@ return (
 
 <input
   className="input-pro"
-
   placeholder="Miguel Alcalá"
-
   value={usuarioAsignado}
-
   onChange={(e) =>
-    setUsuarioAsignado(
-      e.target.value
-    )
+    setUsuarioAsignado(e.target.value)
   }
 />
 
@@ -524,13 +508,9 @@ return (
 
 <select
   className="input-pro"
-
   value={tipoEquipo}
-
   onChange={(e) =>
-    setTipoEquipo(
-      e.target.value
-    )
+    setTipoEquipo(e.target.value)
   }
 >
 
@@ -554,13 +534,9 @@ return (
 
 <select
   className="input-pro"
-
   value={windows}
-
   onChange={(e) =>
-    setWindows(
-      e.target.value
-    )
+    setWindows(e.target.value)
   }
 >
 
@@ -588,15 +564,10 @@ return (
 
 <input
   className="input-pro"
-
   placeholder="Microsoft Defender"
-
   value={antivirus}
-
   onChange={(e) =>
-    setAntivirus(
-      e.target.value
-    )
+    setAntivirus(e.target.value)
   }
 />
 
@@ -605,6 +576,11 @@ return (
 </div>
 
 </div>
+
+</div>
+
+{/* COLUMNA DERECHA */}
+
 <div
   style={{
     display: "flex",
@@ -612,11 +588,11 @@ return (
     gap: "24px"
   }}
 >
+
 {/* SEGURIDAD */}
 
 <div
   className="card-pro"
-
   style={{
     padding: "28px"
   }}
@@ -624,66 +600,10 @@ return (
 
 <div
   style={{
-    display: "flex",
-    alignItems: "center",
-    gap: "14px",
-    marginBottom: "28px"
-  }}
->
-
-<div
-  style={{
-    width: "54px",
-    height: "54px",
-
-    borderRadius: "16px",
-
-    background:
-      "rgba(124,58,237,0.18)",
-
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-
-    fontSize: "24px"
-  }}
->
-  🔐
-</div>
-
-<div>
-
-<h2
-  style={{
-    margin: 0,
-    color: "#fff"
-  }}
->
-  Seguridad
-</h2>
-
-<p
-  style={{
-    marginTop: "4px",
-    color: "#64748b",
-    fontSize: "14px"
-  }}
->
-  Credenciales y protección del sistema
-</p>
-
-</div>
-
-</div>
-
-<div
-  style={{
     display: "grid",
     gap: "20px"
   }}
 >
-
-{/* PASSWORD WINDOWS */}
 
 <div>
 
@@ -693,13 +613,8 @@ return (
 
 <input
   type="password"
-
   className="input-pro"
-
-  placeholder="••••••••••"
-
   value={passwordWindows}
-
   onChange={(e) =>
     setPasswordWindows(
       e.target.value
@@ -709,8 +624,6 @@ return (
 
 </div>
 
-{/* PASSWORD CORREO */}
-
 <div>
 
 <label className="label-pro">
@@ -719,13 +632,8 @@ return (
 
 <input
   type="password"
-
   className="input-pro"
-
-  placeholder="••••••••••"
-
   value={passwordCorreo}
-
   onChange={(e) =>
     setPasswordCorreo(
       e.target.value
@@ -733,43 +641,7 @@ return (
   }
 />
 
-<div
-  style={{
-    display: "flex",
-    alignItems: "center",
-    gap: "10px",
-    marginTop: "12px"
-  }}
->
-
-<input
-  type="checkbox"
-
-  checked={
-    passwordCorreoNoAplica
-  }
-
-  onChange={(e) =>
-    setPasswordCorreoNoAplica(
-      e.target.checked
-    )
-  }
-/>
-
-<label
-  style={{
-    color: "#94a3b8",
-    fontSize: "14px"
-  }}
->
-  No aplica correo corporativo
-</label>
-
 </div>
-
-</div>
-
-{/* ANTIVIRUS */}
 
 <div>
 
@@ -779,13 +651,8 @@ return (
 
 <input
   type="date"
-
   className="input-pro"
-
-  value={
-    fechaExpiracionAntivirus
-  }
-
+  value={fechaExpiracionAntivirus}
   onChange={(e) =>
     setFechaExpiracionAntivirus(
       e.target.value
@@ -803,13 +670,8 @@ return (
 
 <input
   type="number"
-
   className="input-pro"
-
-  value={
-    diasAlertaAntivirus
-  }
-
+  value={diasAlertaAntivirus}
   onChange={(e) =>
     setDiasAlertaAntivirus(
       Number(e.target.value)
@@ -819,144 +681,6 @@ return (
 
 </div>
 
-<div>
-
-<label className="label-pro">
-  Estado Antivirus
-</label>
-
-<select
-  className="input-pro"
-
-  value={estadoAntivirus}
-
-  onChange={(e) =>
-    setEstadoAntivirus(
-      e.target.value
-    )
-  }
->
-
-<option value="activo">
-  ✅ Activo
-</option>
-
-<option value="pendiente">
-  ⚠ Pendiente
-</option>
-
-<option value="inactivo">
-  ❌ Inactivo
-</option>
-
-</select>
-
-</div>
-
-{/* MFA */}
-
-<div>
-
-<label className="label-pro">
-  MFA
-</label>
-
-<select
-  className="input-pro"
-
-  value={mfa ? "si" : "no"}
-
-  onChange={(e) =>
-    setMfa(
-      e.target.value === "si"
-    )
-  }
->
-
-<option value="si">
-  ✅ Configurado
-</option>
-
-<option value="no">
-  ❌ No configurado
-</option>
-
-</select>
-
-</div>
-
-{/* PASSWORD FECHAS */}
-
-<div>
-
-<label className="label-pro">
-  Fecha cambio password
-</label>
-
-<input
-  type="date"
-
-  className="input-pro"
-
-  value={
-    fechaCambioPasswordWindows
-  }
-
-  onChange={(e) =>
-    setFechaCambioPasswordWindows(
-      e.target.value
-    )
-  }
-/>
-
-</div>
-<div>
-
-<label className="label-pro">
-  Fecha expiración password
-</label>
-
-<input
-  type="date"
-disabled
-  className="input-pro"
-
-  value={
-    fechaExpiracionPasswordWindows
-  }
-
-  onChange={(e) =>
-    setFechaExpiracionPasswordWindows(
-      e.target.value
-    )
-  }
-/>
-
-</div>
-
-<div>
-
-<label className="label-pro">
-  Días recordatorio password
-</label>
-
-<input
-  type="number"
-
-  className="input-pro"
-
-  value={
-    diasRecordatorioPassword
-  }
-
-  onChange={(e) =>
-    setDiasRecordatorioPassword(
-      Number(e.target.value)
-    )
-  }
-/>
-
-</div>
 </div>
 
 </div>
@@ -971,56 +695,6 @@ disabled
     padding: "28px"
   }}
 >
-
-<div
-  style={{
-    display: "flex",
-    alignItems: "center",
-    gap: "14px",
-    marginBottom: "28px"
-  }}
->
-
-<div
-  style={{
-    width: "54px",
-    height: "54px",
-    borderRadius: "16px",
-    background:
-      "rgba(16,185,129,0.18)",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    fontSize: "24px"
-  }}
->
-  🖥
-</div>
-
-<div>
-
-<h2
-  style={{
-    margin: 0,
-    color: "#fff"
-  }}
->
-  Hardware
-</h2>
-
-<p
-  style={{
-    marginTop: "4px",
-    color: "#64748b",
-    fontSize: "14px"
-  }}
->
-  Monitores y periféricos corporativos
-</p>
-
-</div>
-
-</div>
 
 <div
   style={{
@@ -1066,86 +740,6 @@ disabled
 
 </div>
 
-{monitores.map((monitor, index) => (
-
-<div
-  key={index}
-  style={{
-    padding: "20px",
-    borderRadius: "18px",
-    background:
-      "rgba(15,23,42,0.55)",
-    border:
-      "1px solid rgba(51,65,85,0.7)"
-  }}
->
-
-<h3
-  style={{
-    marginTop: 0,
-    color: "#fff",
-    marginBottom: "18px"
-  }}
->
-  🖥 Monitor {index + 1}
-</h3>
-
-<div
-  style={{
-    display: "grid",
-    gap: "18px"
-  }}
->
-
-<input
-  className="input-pro"
-  placeholder="ID Monitor o N/A"
-  value={monitor.idMonitor}
-  onChange={(e) => {
-
-    const copia =
-      [...monitores];
-
-    copia[index]
-      .idMonitor =
-      e.target.value;
-
-    setMonitores(copia);
-  }}
-/>
-
-<select
-  className="input-pro"
-  value={monitor.tipoMonitor}
-  onChange={(e) => {
-
-    const copia =
-      [...monitores];
-
-    copia[index]
-      .tipoMonitor =
-      e.target.value;
-
-    setMonitores(copia);
-  }}
->
-
-<option value="empresa">
-  Empresa
-</option>
-
-<option value="prestado">
-  Prestado empleado
-</option>
-
-</select>
-
-</div>
-
-</div>
-
-))}
-
 </div>
 
 </div>
@@ -1162,13 +756,10 @@ disabled
       "1px solid rgba(59,130,246,0.25)",
     background:
       "rgba(59,130,246,0.08)",
-    color: "#93c5fd",
-    fontSize: "15px",
-    lineHeight: "1.6"
+    color: "#93c5fd"
   }}
 >
   💻 Equipo portátil detectado.
-  No requiere configuración de monitores corporativos.
 </div>
 
 )}
@@ -1179,88 +770,27 @@ disabled
 
 <div
   className="card-pro"
-
   style={{
     padding: "28px",
-
     gridColumn: "1 / -1"
   }}
 >
 
-<div
-  style={{
-    display: "flex",
-    alignItems: "center",
-    gap: "14px",
-    marginBottom: "28px"
-  }}
->
-
-<div
-  style={{
-    width: "54px",
-    height: "54px",
-
-    borderRadius: "16px",
-
-    background:
-      "rgba(245,158,11,0.18)",
-
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-
-    fontSize: "24px"
-  }}
->
-  📝
-</div>
-
-<div>
-
-<h2
-  style={{
-    margin: 0,
-    color: "#fff"
-  }}
->
-  Observaciones
-</h2>
-
-<p
-  style={{
-    marginTop: "4px",
-    color: "#64748b",
-    fontSize: "14px"
-  }}
->
-  Información adicional y notas técnicas
-</p>
-
-</div>
-
-</div>
-
 <textarea
   className="input-pro"
-
   rows={7}
-
   value={observaciones}
-
   onChange={(e) =>
     setObservaciones(
       e.target.value
     )
   }
-
-  placeholder="Detalles técnicos, observaciones, incidencias, cambios realizados..."
 />
 
 </div>
 
 </div>
-</div>
+
 {/* BOTONES */}
 
 <div
