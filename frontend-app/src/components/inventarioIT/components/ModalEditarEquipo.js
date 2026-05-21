@@ -1,7 +1,5 @@
 import { useState } from "react";
-
-import { toast }
-from "react-toastify";
+import { toast } from "react-toastify";
 
 function ModalEditarEquipo({
 
@@ -15,8 +13,6 @@ function ModalEditarEquipo({
 
 const API =
   "https://ticket-pro-backend.onrender.com";
-
-if (!equipo) return null;
 
 /* =========================
    STATES GENERALES
@@ -260,6 +256,12 @@ const [
       .split("T")[0]
   : ""
 );
+
+/* =========================
+   VALIDACION HOOKS
+========================= */
+
+if (!equipo) return null;
 
 /* =========================
    VALIDACIONES
@@ -656,15 +658,6 @@ return (
   }
 />
 
-<div
-  style={{
-    display: "grid",
-    gridTemplateColumns:
-      "1fr 1fr",
-    gap: "16px"
-  }}
->
-
 <input
   className="input-pro"
   placeholder="Marca"
@@ -686,107 +679,6 @@ return (
     )
   }
 />
-
-</div>
-
-<input
-  className="input-pro"
-  placeholder="Procesador"
-  value={procesador}
-  onChange={(e) =>
-    setProcesador(
-      e.target.value
-    )
-  }
-/>
-
-<div
-  style={{
-    display: "grid",
-    gridTemplateColumns:
-      "1fr 1fr",
-    gap: "16px"
-  }}
->
-
-<input
-  className="input-pro"
-  placeholder="RAM"
-  value={ram}
-  onChange={(e) =>
-    setRam(
-      e.target.value
-    )
-  }
-/>
-
-<input
-  className="input-pro"
-  placeholder="Tarjeta gráfica"
-  value={tarjetaGrafica}
-  onChange={(e) =>
-    setTarjetaGrafica(
-      e.target.value
-    )
-  }
-/>
-
-</div>
-
-<input
-  className="input-pro"
-  placeholder="Almacenamiento"
-  value={almacenamiento}
-  onChange={(e) =>
-    setAlmacenamiento(
-      e.target.value
-    )
-  }
-/>
-
-<input
-  className="input-pro"
-  placeholder="Tipo sistema"
-  value={tipoSistema}
-  onChange={(e) =>
-    setTipoSistema(
-      e.target.value
-    )
-  }
-/>
-
-<div
-  style={{
-    display: "grid",
-    gridTemplateColumns:
-      "1fr 1fr",
-    gap: "16px"
-  }}
->
-
-<input
-  className="input-pro"
-  placeholder="ID dispositivo"
-  value={idDispositivo}
-  onChange={(e) =>
-    setIdDispositivo(
-      e.target.value
-    )
-  }
-/>
-
-<input
-  className="input-pro"
-  placeholder="ID producto"
-  value={idProducto}
-  onChange={(e) =>
-    setIdProducto(
-      e.target.value
-    )
-  }
-/>
-
-</div>
 
 </div>
 
