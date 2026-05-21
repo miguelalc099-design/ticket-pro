@@ -688,10 +688,6 @@ tipoEquipo === "desktop" && (
       "fadeIn 0.25s ease"
   }}
 >
-  style={{
-    padding: "24px"
-  }}
->
 
 <h2
   style={{
