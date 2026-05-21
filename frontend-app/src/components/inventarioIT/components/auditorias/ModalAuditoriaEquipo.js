@@ -223,112 +223,6 @@ useEffect(() => {
 ]);
 
 /* =========================
-   COMPONENTE SI/NO
-========================= */
-
-const OpcionBoolean =
-({
-  titulo,
-  value,
-  setValue
-}) => {
-
-  return (
-
-<div
-  style={{
-    border: "1px solid #334155",
-    padding: "20px",
-    borderRadius: "14px"
-  }}
->
-
-<div
-  style={{
-    marginBottom: "12px",
-    color: "#fff",
-    fontWeight: "600"
-  }}
->
-  {titulo}
-</div>
-
-<div
-  style={{
-    display: "flex",
-    gap: "12px",
-    position: "relative",
-    zIndex: 50
-  }}
->
-
-<div
-
-  onClick={() =>
-    setValue(true)
-  }
-
-  style={{
-
-    padding: "12px 18px",
-
-    borderRadius: "12px",
-
-    cursor: "pointer",
-
-    userSelect: "none",
-
-    background:
-      value
-      ? "#2563eb"
-      : "#1e293b",
-
-    color: "#fff"
-  }}
->
-  ✅ Sí
-</div>
-
-<div
-
-  onClick={() =>
-    setValue(false)
-  }
-
-  style={{
-
-  position: "relative",
-
-  zIndex: 100,
-
-  padding: "12px 18px",
-
-  borderRadius: "12px",
-
-  cursor: "pointer",
-
-  userSelect: "none",
-
-  background:
-    value
-    ? "#2563eb"
-    : "#1e293b",
-
-  color: "#fff"
-}}
->
-  ❌ No
-</div>
-
-</div>
-
-</div>
-
-);
-
-};
-
-/* =========================
    JSX
 ========================= */
 if (!auditoria) return null;
@@ -504,29 +398,66 @@ return (
   }}
 >
 
-<OpcionBoolean
-  titulo="🔐 ¿Solicita contraseña al iniciar sesión?"
-  value={passwordInicio}
-  setValue={setPasswordInicio}
-/>
+<div
+  style={{
+    border: "1px solid #334155",
+    padding: "20px",
+    borderRadius: "14px"
+  }}
+>
 
-<OpcionBoolean
-  titulo="🔒 ¿Bloquea automáticamente?"
-  value={bloqueoAutomatico}
-  setValue={setBloqueoAutomatico}
-/>
+<div
+  style={{
+    marginBottom: "12px",
+    color: "#fff",
+    fontWeight: "600"
+  }}
+>
+  🔐 ¿Solicita contraseña al iniciar sesión?
+</div>
 
-<OpcionBoolean
-  titulo="🛡 ¿MFA habilitado?"
-  value={mfaActivo}
-  setValue={setMfaActivo}
-/>
+<div
+  style={{
+    display: "flex",
+    gap: "12px"
+  }}
+>
 
-<OpcionBoolean
-  titulo="🦠 ¿Antivirus activo?"
-  value={antivirusActivo}
-  setValue={setAntivirusActivo}
-/>
+<button
+  type="button"
+
+  className={
+    passwordInicio
+    ? "btn-pro"
+    : "btn-pro btn-secondary"
+  }
+
+  onClick={() =>
+    setPasswordInicio(true)
+  }
+>
+  ✅ Sí
+</button>
+
+<button
+  type="button"
+
+  className={
+    !passwordInicio
+    ? "btn-pro"
+    : "btn-pro btn-secondary"
+  }
+
+  onClick={() =>
+    setPasswordInicio(false)
+  }
+>
+  ❌ No
+</button>
+
+</div>
+
+</div>
 
 </div>
 
@@ -672,17 +603,127 @@ return (
   }}
 >
 
-<OpcionBoolean
-  titulo="🧹 ¿Escritorio limpio?"
-  value={escritorioLimpio}
-  setValue={setEscritorioLimpio}
-/>
+<div
+  style={{
+    border: "1px solid #334155",
+    padding: "20px",
+    borderRadius: "14px"
+  }}
+>
 
-<OpcionBoolean
-  titulo="🔌 ¿USB no autorizado detectado?"
-  value={usbNoAutorizado}
-  setValue={setUsbNoAutorizado}
-/>
+<div
+  style={{
+    marginBottom: "12px",
+    color: "#fff",
+    fontWeight: "600"
+  }}
+>
+  🧹 ¿Escritorio limpio?
+</div>
+
+<div
+  style={{
+    display: "flex",
+    gap: "12px"
+  }}
+>
+
+<button
+  type="button"
+
+  className={
+    escritorioLimpio
+    ? "btn-pro"
+    : "btn-pro btn-secondary"
+  }
+
+  onClick={() =>
+    setEscritorioLimpio(true)
+  }
+>
+  ✅ Sí
+</button>
+
+<button
+  type="button"
+
+  className={
+    !escritorioLimpio
+    ? "btn-pro"
+    : "btn-pro btn-secondary"
+  }
+
+  onClick={() =>
+    setEscritorioLimpio(false)
+  }
+>
+  ❌ No
+</button>
+
+</div>
+
+</div>
+
+<div
+  style={{
+    border: "1px solid #334155",
+    padding: "20px",
+    borderRadius: "14px"
+  }}
+>
+
+<div
+  style={{
+    marginBottom: "12px",
+    color: "#fff",
+    fontWeight: "600"
+  }}
+>
+  🔌 ¿USB no autorizado detectado?
+</div>
+
+<div
+  style={{
+    display: "flex",
+    gap: "12px"
+  }}
+>
+
+<button
+  type="button"
+
+  className={
+    usbNoAutorizado
+    ? "btn-pro"
+    : "btn-pro btn-secondary"
+  }
+
+  onClick={() =>
+    setUsbNoAutorizado(true)
+  }
+>
+  ✅ Sí
+</button>
+
+<button
+  type="button"
+
+  className={
+    !usbNoAutorizado
+    ? "btn-pro"
+    : "btn-pro btn-secondary"
+  }
+
+  onClick={() =>
+    setUsbNoAutorizado(false)
+  }
+>
+  ❌ No
+</button>
+
+</div>
+
+</div>
 
 <textarea
   className="input-pro"
