@@ -256,7 +256,9 @@ const OpcionBoolean =
 <div
   style={{
     display: "flex",
-    gap: "12px"
+    gap: "12px",
+    position: "relative",
+    zIndex: 50
   }}
 >
 
@@ -295,21 +297,25 @@ const OpcionBoolean =
 
   style={{
 
-    padding: "12px 18px",
+  position: "relative",
 
-    borderRadius: "12px",
+  zIndex: 100,
 
-    cursor: "pointer",
+  padding: "12px 18px",
 
-    userSelect: "none",
+  borderRadius: "12px",
 
-    background:
-      !value
-      ? "#2563eb"
-      : "#1e293b",
+  cursor: "pointer",
 
-    color: "#fff"
-  }}
+  userSelect: "none",
+
+  background:
+    value
+    ? "#2563eb"
+    : "#1e293b",
+
+  color: "#fff"
+}}
 >
   ❌ No
 </div>
