@@ -231,7 +231,7 @@ setFechaExpiracionPasswordWindows(
 );
 
 setDiasRecordatorioPassword(
-  90
+  5
 );
 
 setEstadoAntivirus(
@@ -1224,7 +1224,7 @@ disabled
 
 </div>
 
-{/* OBSERVACIONES */}}
+{/* OBSERVACIONES */}
 
 <div
   className="card-pro"
