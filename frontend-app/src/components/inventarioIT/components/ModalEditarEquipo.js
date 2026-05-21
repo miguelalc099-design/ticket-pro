@@ -54,8 +54,14 @@ const [mfa,
     equipo?.mfa ?? true
   );
 
+const [observaciones,
+  setObservaciones] =
+  useState(
+    equipo?.observaciones || ""
+  );
+
 /* =========================
-   HARDWARE ENTERPRISE
+   HARDWARE
 ========================= */
 
 const [numeroSerie,
@@ -118,6 +124,10 @@ const [idProducto,
     equipo?.idProducto || ""
   );
 
+/* =========================
+   ACTIVOS
+========================= */
+
 const [fechaCompra,
   setFechaCompra] =
   useState(
@@ -153,7 +163,11 @@ const [numeroActivo,
   useState(
     equipo?.numeroActivo || ""
   );
-
+const [observaciones,
+  setObservaciones] =
+  useState(
+    equipo?.observaciones || ""
+  );
 /* =========================
    PASSWORD WINDOWS
 ========================= */
@@ -320,6 +334,7 @@ const guardarCambios =
       windows,
       antivirus,
       mfa,
+      observaciones,
 
       numeroSerie,
       marca,
@@ -331,12 +346,13 @@ const guardarCambios =
       tipoSistema,
       idDispositivo,
       idProducto,
+
       fechaCompra,
       garantiaHasta,
       proveedor,
       factura,
       numeroActivo,
-
+observaciones,
       passwordWindows:
         passwordWindows ||
         equipo.passwordWindows,
@@ -439,7 +455,7 @@ return (
 
     width: "100%",
 
-    maxWidth: "950px",
+    maxWidth: "1000px",
 
     maxHeight: "95vh",
 
@@ -554,75 +570,11 @@ return (
   }
 />
 
-<select
-  className="input-pro"
-  value={tipoEquipo}
-  onChange={(e) =>
-    setTipoEquipo(
-      e.target.value
-    )
-  }
->
-
-<option value="laptop">
-  💻 Laptop
-</option>
-
-<option value="desktop">
-  🖥 Desktop
-</option>
-
-</select>
-
-<select
-  className="input-pro"
-  value={windows}
-  onChange={(e) =>
-    setWindows(
-      e.target.value
-    )
-  }
->
-
-<option>
-  Windows 11 Pro
-</option>
-
-<option>
-  Windows 10 Pro
-</option>
-
-<option>
-  Windows 11 Home
-</option>
-
-<option>
-  Windows 10 Home
-</option>
-
-<option>
-  Windows Server 2022
-</option>
-
-<option>
-  Windows Server 2019
-</option>
-
-<option>
-  macOS
-</option>
-
-<option>
-  Linux Ubuntu
-</option>
-
-</select>
-
 </div>
 
 </div>
 
-{/* HARDWARE */}
+{/* PASSWORD WINDOWS */}
 
 <div
   className="card-pro"
@@ -637,48 +589,69 @@ return (
     marginTop: 0
   }}
 >
-  🖥 Hardware Enterprise
+  🔐 Password Windows
 </h2>
 
 <div
   style={{
     display: "grid",
-    gap: "18px"
+    gap: "16px"
   }}
 >
 
 <input
+  type="password"
   className="input-pro"
-  placeholder="Número de serie"
-  value={numeroSerie}
+  placeholder="Nueva password Windows"
+  disabled={
+    passwordWindowsDesconocido
+  }
+  value={passwordWindows}
   onChange={(e) =>
-    setNumeroSerie(
+    setPasswordWindows(
       e.target.value
     )
   }
 />
 
 <input
+  type="password"
   className="input-pro"
-  placeholder="Marca"
-  value={marca}
+  placeholder="Confirmar password Windows"
+  disabled={
+    passwordWindowsDesconocido
+  }
+  value={
+    confirmarPasswordWindows
+  }
   onChange={(e) =>
-    setMarca(
+    setConfirmarPasswordWindows(
       e.target.value
     )
   }
 />
 
-<input
-  className="input-pro"
-  placeholder="Modelo"
-  value={modelo}
-  onChange={(e) =>
-    setModelo(
-      e.target.value
-    )
-  }
-/>
+{passwordWindows && (
+
+<div
+  style={{
+    color:
+      windowsCoincide
+      ? "#22c55e"
+      : "#ef4444",
+    fontWeight: "700"
+  }}
+>
+
+{
+windowsCoincide
+? "✅ Passwords Windows coinciden"
+: "❌ Passwords Windows no coinciden"
+}
+
+</div>
+
+)}
 
 </div>
 

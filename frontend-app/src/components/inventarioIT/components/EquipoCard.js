@@ -111,7 +111,61 @@ if (!equipo?.mfa) {
   });
 
 }
+/* PASSWORD WINDOWS FALTANTE */
 
+if (
+  !equipo?.passwordWindowsDesconocido &&
+  !equipo?.passwordWindows
+) {
+
+  alertas.push({
+    color: "#ef4444",
+    texto:
+      "🔴 Equipo sin password Windows"
+  });
+
+}
+
+/* PASSWORD WINDOWS DESCONOCIDO */
+
+if (
+  equipo?.passwordWindowsDesconocido
+) {
+
+  alertas.push({
+    color: "#ef4444",
+    texto:
+      "🔴 Password Windows desconocido"
+  });
+
+}
+
+/* ERP FALTANTE */
+
+if (
+  !equipo?.passwordERPNoAplica &&
+  !equipo?.passwordERP
+) {
+
+  alertas.push({
+    color: "#ef4444",
+    texto:
+      "🔴 ERP sin password"
+  });
+
+}
+
+/* SIN ANTIVIRUS */
+
+if (!equipo?.antivirus) {
+
+  alertas.push({
+    color: "#ef4444",
+    texto:
+      "🔴 Equipo sin antivirus"
+  });
+
+}
 /* ANTIVIRUS */
 
 if (
@@ -458,10 +512,10 @@ return (
   }}
 >
 
-  {
-    antivirus ||
-    "Sin antivirus"
-  }
+{
+  antivirus ||
+  "⚠ Sin antivirus"
+}
 
 </div>
 

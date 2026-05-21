@@ -448,10 +448,11 @@ return (
 
 <span
   style={{
-    color:
-      diasGarantia <= 30
-      ? "#ef4444"
-      : "#22c55e"
+  color:
+  diasGarantia !== null &&
+  diasGarantia <= 30
+    ? "#ef4444"
+    : "#22c55e"e"
   }}
 >
 
@@ -495,7 +496,17 @@ return (
 >
   🛡 Seguridad IT
 </h2>
+<div>
+  🖥 Tipo:
+  {" "}
+  {equipo.tipoEquipo}
+</div>
 
+<div>
+  🏷 Serie:
+  {" "}
+  {equipo.numeroSerie || "N/A"}
+</div>
 <div
   style={{
     display: "grid",
@@ -536,9 +547,10 @@ return (
   {" "}
 
   {
-    equipo.antivirus ||
-    "No registrado"
-  }
+  equipo.antivirus ||
+  "❌ Sin antivirus"
+}
+
 </div>
 
 <div>
@@ -692,7 +704,13 @@ return (
 
 {
   equipo.passwordWindowsDesconocido
+
   ? "❌ Desconocido"
+
+  : !equipo.passwordWindows
+
+  ? "❌ Sin password"
+
   : "✅ Configurado"
 }
 
@@ -791,8 +809,14 @@ return (
 
 {
   equipo.passwordERPNoAplica
+
   ? "No aplica"
-  : "Configurado"
+
+  : !equipo.passwordERP
+
+  ? "❌ Sin password"
+
+  : "✅ Configurado"
 }
 
 </div>
