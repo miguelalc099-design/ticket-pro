@@ -123,7 +123,9 @@ const [monitores,
   setMonitores] =
   useState([
     {
-      idMonitor: "",
+      marca: "",
+      modelo: "",
+      serie: "",
       tipoMonitor: "empresa"
     }
   ]);
@@ -250,7 +252,9 @@ setCantidadMonitores(1);
 
 setMonitores([
   {
-    idMonitor: "",
+    marca: "",
+    modelo: "",
+    serie: "",
     tipoMonitor: "empresa"
   }
 ]);
@@ -721,14 +725,17 @@ return (
       cantidad
     );
 
-    setMonitores(
-      Array.from({
-        length: cantidad
-      }).map(() => ({
-        idMonitor: "",
-        tipoMonitor: "empresa"
-      }))
-    );
+setMonitores(
+  Array.from({
+    length: cantidad
+  }).map(() => ({
+    marca: "",
+    modelo: "",
+    serie: "",
+    tipoMonitor: "empresa"
+  }))
+);
+
   }}
 >
 
@@ -739,6 +746,120 @@ return (
 </select>
 
 </div>
+
+{monitores.map((monitor, index) => (
+
+<div
+  key={index}
+  style={{
+    padding: "20px",
+    borderRadius: "18px",
+    background:
+      "rgba(15,23,42,0.55)",
+    border:
+      "1px solid rgba(51,65,85,0.7)"
+  }}
+>
+
+<h3
+  style={{
+    marginTop: 0,
+    color: "#fff",
+    marginBottom: "18px"
+  }}
+>
+  🖥 Monitor {index + 1}
+</h3>
+
+<div
+  style={{
+    display: "grid",
+    gap: "18px"
+  }}
+>
+
+<input
+  className="input-pro"
+  placeholder="Marca monitor"
+  value={monitor.marca}
+  onChange={(e) => {
+
+    const copia =
+      [...monitores];
+
+    copia[index]
+      .marca =
+      e.target.value;
+
+    setMonitores(copia);
+  }}
+/>
+
+<input
+  className="input-pro"
+  placeholder="Modelo monitor"
+  value={monitor.modelo}
+  onChange={(e) => {
+
+    const copia =
+      [...monitores];
+
+    copia[index]
+      .modelo =
+      e.target.value;
+
+    setMonitores(copia);
+  }}
+/>
+
+<input
+  className="input-pro"
+  placeholder="Serie monitor"
+  value={monitor.serie}
+  onChange={(e) => {
+
+    const copia =
+      [...monitores];
+
+    copia[index]
+      .serie =
+      e.target.value;
+
+    setMonitores(copia);
+  }}
+/>
+
+<select
+  className="input-pro"
+  value={monitor.tipoMonitor}
+  onChange={(e) => {
+
+    const copia =
+      [...monitores];
+
+    copia[index]
+      .tipoMonitor =
+      e.target.value;
+
+    setMonitores(copia);
+  }}
+>
+
+<option value="empresa">
+  Empresa
+</option>
+
+<option value="prestado">
+  Prestado empleado
+</option>
+
+</select>
+
+</div>
+
+</div>
+
+))}
 
 </div>
 
