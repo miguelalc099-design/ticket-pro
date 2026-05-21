@@ -556,16 +556,42 @@ resultadoEquipo?.score || 0
     borderRadius: "14px",
 
     background:
-      "rgba(245,158,11,0.12)",
 
-    color: "#f59e0b",
+      resultadoEquipo?.estado ===
+      "EXCELENTE"
+
+      ? "rgba(34,197,94,0.12)"
+
+      : resultadoEquipo?.estado ===
+        "ACEPTABLE"
+
+      ? "rgba(245,158,11,0.12)"
+
+      : "rgba(239,68,68,0.12)",
+
+    color:
+
+      resultadoEquipo?.estado ===
+      "EXCELENTE"
+
+      ? "#22c55e"
+
+      : resultadoEquipo?.estado ===
+        "ACEPTABLE"
+
+      ? "#f59e0b"
+
+      : "#ef4444",
 
     textAlign: "center",
 
     fontWeight: "700"
   }}
 >
-  En evaluación
+  {
+    resultadoEquipo?.estado
+    || "RIESGO"
+  }
 </div>
 
 </div>
