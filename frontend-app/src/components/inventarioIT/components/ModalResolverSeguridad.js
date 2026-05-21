@@ -1,7 +1,5 @@
 import { useState } from "react";
-
-import { toast }
-from "react-toastify";
+import { toast } from "react-toastify";
 
 function ModalResolverSeguridad({
 
@@ -12,8 +10,6 @@ function ModalResolverSeguridad({
   recargarEquipos
 
 }) {
-
-if (!equipo) return null;
 
 const API =
   "https://ticket-pro-backend.onrender.com";
@@ -120,6 +116,12 @@ const [
   setLoading
 
 ] = useState(false);
+
+/* =========================
+   VALIDACIÓN IMPORTANTE
+========================= */
+
+if (!equipo) return null;
 
 /* =========================
    GUARDAR
@@ -376,8 +378,6 @@ return (
   }}
 >
 
-{/* CERRAR */}
-
 <button
 
   onClick={onClose}
@@ -412,8 +412,6 @@ return (
   ✕
 </button>
 
-{/* HEADER */}
-
 <h1
   style={{
     color: "#fff",
@@ -433,16 +431,12 @@ return (
   {equipo?.nombreEquipo}
 </p>
 
-{/* GRID */}
-
 <div
   style={{
     display: "grid",
     gap: "22px"
   }}
 >
-
-{/* MFA */}
 
 <div>
 
@@ -474,8 +468,6 @@ return (
 
 </div>
 
-{/* ANTIVIRUS */}
-
 <div>
 
 <label className="label-pro">
@@ -499,8 +491,6 @@ return (
 />
 
 </div>
-
-{/* PASSWORD WINDOWS */}
 
 <div
   className="card-pro"
@@ -581,8 +571,6 @@ return (
 
 </div>
 
-{/* PASSWORD ERP */}
-
 <div
   className="card-pro"
   style={{
@@ -662,8 +650,6 @@ return (
 
 </div>
 
-{/* OBSERVACIONES */}
-
 <div>
 
 <label className="label-pro">
@@ -687,8 +673,6 @@ return (
 />
 
 </div>
-
-{/* BOTONES */}
 
 <div
   style={{
