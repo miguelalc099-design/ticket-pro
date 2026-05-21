@@ -1,4 +1,5 @@
-function NuevoEquipo({
+import { useState } from "react";
+import { toast } from "react-toastify";function NuevoEquipo({
 
   volverEquipos,
 
