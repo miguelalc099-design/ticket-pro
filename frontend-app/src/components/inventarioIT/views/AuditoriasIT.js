@@ -4,6 +4,8 @@ import NuevaAuditoria
 from "./NuevaAuditoria";
 import ModalAuditoriaEquipo
 from "../components/auditorias/ModalAuditoriaEquipo";
+import AuditoriaActiva
+from "./AuditoriaActiva";
 
 function AuditoriasIT({
 
@@ -28,6 +30,11 @@ const [
   auditoriaAbierta,
   setAuditoriaAbierta
 ] = useState(null);
+const [
+  auditoriaActiva,
+  setAuditoriaActiva
+] = useState(null);
+
 /* =========================
    NUEVA AUDITORIA
 ========================= */
@@ -46,12 +53,60 @@ if (creandoAuditoria) {
 
   onGuardar={(nueva) => {
 
-    setAuditorias([
-      nueva,
-      ...auditorias
-    ]);
+  setAuditorias([
+    nueva,
+    ...auditorias
+  ]);
 
-    setCreandoAuditoria(false);
+  setCreandoAuditoria(false);
+
+  setAuditoriaActiva(
+    nueva
+  );
+
+}}
+
+/>
+
+  );
+
+}
+/* =========================
+   AUDITORIA ACTIVA
+========================= */
+
+if (auditoriaActiva) {
+
+  return (
+
+<AuditoriaActiva
+
+  auditoria={
+    auditoriaActiva
+  }
+
+  onFinalizar={(
+    auditoriaFinalizada
+  ) => {
+
+    setAuditorias(
+
+      auditorias.map((a) =>
+
+        a.id ===
+        auditoriaFinalizada.id
+
+        ? auditoriaFinalizada
+
+        : a
+
+      )
+
+    );
+
+    setAuditoriaActiva(
+      null
+    );
 
   }}
 
@@ -60,7 +115,6 @@ if (creandoAuditoria) {
   );
 
 }
-
 /* =========================
    JSX
 ========================= */
