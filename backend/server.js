@@ -1278,7 +1278,45 @@ function calcularEstadoSeguridad(
       );
     }
   }
+/* =========================
+   PASSWORD WINDOWS DESCONOCIDO
+========================= */
 
+if (equipo.passwordWindowsDesconocido) {
+
+
+  estado = "riesgo";
+
+  alertas.push(
+    "Password Windows desconocido"
+  );
+}
+if (
+  !equipo.passwordERPNoAplica &&
+  !equipo.passwordERP
+) {
+
+  estado = "riesgo";
+
+  alertas.push(
+    "Password ERP no configurado"
+  );
+}
+/* =========================
+   PASSWORD WINDOWS VACIO
+========================= */
+
+if (
+  !equipo.passwordWindowsDesconocido &&
+  !equipo.passwordWindows
+) {
+
+  estado = "riesgo";
+
+  alertas.push(
+    "Equipo sin password Windows"
+  );
+}
   /* =========================
      PASSWORD ERP
   ========================= */
@@ -1312,7 +1350,18 @@ function calcularEstadoSeguridad(
       );
     }
   }
+/* =========================
+   ANTIVIRUS NO CONFIGURADO
+========================= */
 
+if (!equipo.antivirus) {
+
+  estado = "riesgo";
+
+  alertas.push(
+    "Equipo sin antivirus"
+  );
+}
   /* =========================
      ANTIVIRUS
   ========================= */
