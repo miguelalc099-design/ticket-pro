@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { toast } from "react-toastify";function NuevoEquipo({
+import { toast } from "react-toastify";
+function NuevoEquipo({
 
   volverEquipos,
 
@@ -869,6 +870,22 @@ Password desconocido
 
 </label>
 
+<div
+  style={{
+    color: "#94a3b8",
+    fontSize: "13px"
+  }}
+>
+  📅 Fecha en que el usuario CAMBIÓ la password Windows por última vez
+</div>
+<div
+  style={{
+    color: "#94a3b8",
+    fontSize: "13px"
+  }}
+>
+  ⏳ Fecha límite para volver a cambiar la password Windows
+</div>
 <input
   type="date"
 
@@ -1027,7 +1044,14 @@ erpPasswordsCoinciden
 ERP no aplica
 
 </label>
-
+<div
+  style={{
+    color: "#94a3b8",
+    fontSize: "13px"
+  }}
+>
+  📅 Fecha en que el usuario CAMBIÓ la password ERP/correo por última vez
+</div>
 <input
   type="date"
 
@@ -1047,7 +1071,14 @@ ERP no aplica
     )
   }
 />
-
+<div
+  style={{
+    color: "#94a3b8",
+    fontSize: "13px"
+  }}
+>
+  ⏳ Fecha límite para volver a cambiar la password ERP/correo
+</div>
 <input
   type="date"
 
@@ -1169,6 +1200,17 @@ ERP no aplica
 antivirus !== "Microsoft Defender" &&
 antivirus !== "" && (
 
+<>
+
+<div
+  style={{
+    color: "#94a3b8",
+    fontSize: "13px"
+  }}
+>
+  🛡 Fecha en la que expira la licencia del antivirus
+</div>
+
 <input
   type="date"
   className="input-pro"
@@ -1183,6 +1225,8 @@ antivirus !== "" && (
     )
   }
 />
+
+</>
 
 )}
 
@@ -1264,7 +1308,14 @@ antivirus === "Microsoft Defender" && (
     )
   }
 />
-
+<div
+  style={{
+    color: "#94a3b8",
+    fontSize: "13px"
+  }}
+>
+  🧾 Fecha real en la que se compró el equipo
+</div>
 <input
   type="date"
   className="input-pro"
@@ -1275,7 +1326,14 @@ antivirus === "Microsoft Defender" && (
     )
   }
 />
-
+<div
+  style={{
+    color: "#94a3b8",
+    fontSize: "13px"
+  }}
+>
+  🏷 Fecha en la que termina la garantía del fabricante
+</div>
 <input
   type="date"
   className="input-pro"
