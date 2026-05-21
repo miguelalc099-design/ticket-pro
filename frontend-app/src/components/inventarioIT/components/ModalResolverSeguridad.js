@@ -26,6 +26,13 @@ const [
 
 ] = useState(
 
+const [
+  antivirus,
+  setAntivirus
+] = useState(
+  equipo?.antivirus || ""
+);
+
   equipo?.fechaExpiracionAntivirus
     ?.split("T")[0] || ""
 
@@ -208,19 +215,21 @@ const guardar =
        BODY
     ========================= */
 
-    const body = {
+   const body = {
 
-      fechaExpiracionAntivirus,
+  antivirus,
 
-      fechaExpiracionPasswordWindows,
+  fechaExpiracionAntivirus,
 
-      fechaExpiracionPasswordERP,
+  fechaExpiracionPasswordWindows,
 
-      mfa,
+  fechaExpiracionPasswordERP,
 
-      observaciones
+  mfa,
 
-    };
+  observaciones
+
+};
 
     /* =========================
        PASSWORD WINDOWS
@@ -471,8 +480,70 @@ return (
 <div>
 
 <label className="label-pro">
-  Expiración Antivirus
+  Antivirus
 </label>
+
+<select
+  className="input-pro"
+
+  value={antivirus}
+
+  onChange={(e) =>
+    setAntivirus(
+      e.target.value
+    )
+  }
+>
+
+<option value="">
+  Seleccionar antivirus
+</option>
+
+<option>
+  Microsoft Defender
+</option>
+
+<option>
+  ESET Endpoint
+</option>
+
+<option>
+  Bitdefender
+</option>
+
+<option>
+  CrowdStrike
+</option>
+
+<option>
+  Kaspersky
+</option>
+
+<option>
+  Sophos
+</option>
+
+<option>
+  SentinelOne
+</option>
+
+</select>
+
+{
+antivirus !== "Microsoft Defender" &&
+antivirus !== "" && (
+
+<>
+
+<div
+  style={{
+    color: "#94a3b8",
+    fontSize: "13px",
+    marginTop: "10px"
+  }}
+>
+  🛡 Fecha en la que expira la licencia del antivirus
+</div>
 
 <input
   type="date"
@@ -489,6 +560,28 @@ return (
     )
   }
 />
+
+</>
+
+)}
+
+{
+antivirus === "Microsoft Defender" && (
+
+<div
+  style={{
+    marginTop: "12px",
+    padding: "14px",
+    borderRadius: "14px",
+    background:
+      "rgba(16,185,129,0.12)",
+    color: "#6ee7b7"
+  }}
+>
+  ✅ Microsoft Defender no requiere expiración.
+</div>
+
+)}
 
 </div>
 
