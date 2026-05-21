@@ -447,13 +447,13 @@ return (
 {" "}
 
 <span
-  style={{
+style={{
   color:
-  diasGarantia !== null &&
-  diasGarantia <= 30
-    ? "#ef4444"
-    : "#22c55e"e"
-  }}
+    diasGarantia !== null &&
+    diasGarantia <= 30
+      ? "#ef4444"
+      : "#22c55e"
+}}
 >
 
 {
