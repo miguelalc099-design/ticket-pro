@@ -445,7 +445,11 @@ style={{
   className="card-pro"
 
   style={{
-    padding: "28px"
+    padding: "28px",
+
+    minWidth: 0,
+
+    overflow: "hidden"
   }}
 >
 
@@ -483,11 +487,7 @@ style={{
   className="card-pro"
 
   style={{
-    padding: "28px",
-
-    minWidth: 0,
-
-    overflow: "hidden"
+    padding: "28px"
   }}
 >
 <h2
