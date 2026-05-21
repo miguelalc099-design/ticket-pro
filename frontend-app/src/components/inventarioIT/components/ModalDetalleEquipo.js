@@ -86,6 +86,11 @@ const diasAntivirus =
     equipo.fechaExpiracionAntivirus
   );
 
+const diasGarantia =
+  diasRestantes(
+    equipo.garantiaHasta
+  );
+
 return (
 
 <div
@@ -119,7 +124,7 @@ return (
 
     width: "100%",
 
-    maxWidth: "1100px",
+    maxWidth: "1200px",
 
     maxHeight: "92vh",
 
@@ -242,6 +247,41 @@ return (
   👤 {equipo.usuarioAsignado}
 </p>
 
+<div
+  style={{
+    marginTop: "10px",
+    display: "flex",
+    gap: "12px",
+    flexWrap: "wrap"
+  }}
+>
+
+<div
+  style={{
+    padding: "8px 14px",
+    borderRadius: "12px",
+    background: `${color}20`,
+    color,
+    fontWeight: "700"
+  }}
+>
+  {estado.toUpperCase()}
+</div>
+
+<div
+  style={{
+    padding: "8px 14px",
+    borderRadius: "12px",
+    background:
+      "rgba(59,130,246,0.15)",
+    color: "#60a5fa"
+  }}
+>
+  {equipo.windows}
+</div>
+
+</div>
+
 </div>
 
 </div>
@@ -254,13 +294,186 @@ return (
     display: "grid",
 
     gridTemplateColumns:
-      "repeat(auto-fit,minmax(320px,1fr))",
+      "repeat(auto-fit,minmax(340px,1fr))",
 
     gap: "20px"
   }}
 >
 
-{/* SEGURIDAD PRINCIPAL */}
+{/* HARDWARE */}
+
+<div
+  className="card-pro"
+
+  style={{
+    padding: "24px"
+  }}
+>
+
+<h2
+  style={{
+    marginTop: 0,
+    color: "#fff"
+  }}
+>
+  🖥 Hardware
+</h2>
+
+<div
+  style={{
+    display: "grid",
+    gap: "14px"
+  }}
+>
+
+<div>
+  <b>Marca:</b>
+  {" "}
+  {equipo.marca || "N/A"}
+</div>
+
+<div>
+  <b>Modelo:</b>
+  {" "}
+  {equipo.modelo || "N/A"}
+</div>
+
+<div>
+  <b>Número Serie:</b>
+  {" "}
+  {equipo.numeroSerie || "N/A"}
+</div>
+
+<div>
+  <b>Procesador:</b>
+  {" "}
+  {equipo.procesador || "N/A"}
+</div>
+
+<div>
+  <b>RAM:</b>
+  {" "}
+  {equipo.ram || "N/A"}
+</div>
+
+<div>
+  <b>Tarjeta gráfica:</b>
+  {" "}
+  {equipo.tarjetaGrafica || "N/A"}
+</div>
+
+<div>
+  <b>Almacenamiento:</b>
+  {" "}
+  {equipo.almacenamiento || "N/A"}
+</div>
+
+<div>
+  <b>Tipo sistema:</b>
+  {" "}
+  {equipo.tipoSistema || "N/A"}
+</div>
+
+</div>
+
+</div>
+
+{/* ACTIVOS */}
+
+<div
+  className="card-pro"
+
+  style={{
+    padding: "24px"
+  }}
+>
+
+<h2
+  style={{
+    marginTop: 0,
+    color: "#fff"
+  }}
+>
+  🏷 Activos / Compra
+</h2>
+
+<div
+  style={{
+    display: "grid",
+    gap: "14px"
+  }}
+>
+
+<div>
+  <b>Número activo:</b>
+  {" "}
+  {equipo.numeroActivo || "N/A"}
+</div>
+
+<div>
+  <b>Proveedor:</b>
+  {" "}
+  {equipo.proveedor || "N/A"}
+</div>
+
+<div>
+  <b>Factura:</b>
+  {" "}
+  {equipo.factura || "N/A"}
+</div>
+
+<div>
+  <b>Fecha compra:</b>
+  {" "}
+  {formatearFecha(
+    equipo.fechaCompra
+  )}
+</div>
+
+<div>
+  <b>Garantía hasta:</b>
+  {" "}
+  {formatearFecha(
+    equipo.garantiaHasta
+  )}
+</div>
+
+{diasGarantia !== null && (
+
+<div>
+
+⏳ Garantía:
+
+{" "}
+
+<span
+  style={{
+    color:
+      diasGarantia <= 30
+      ? "#ef4444"
+      : "#22c55e"
+  }}
+>
+
+{
+  diasGarantia < 0
+
+  ? "Vencida"
+
+  : `${diasGarantia} días restantes`
+}
+
+</span>
+
+</div>
+
+)}
+
+</div>
+
+</div>
+
+{/* SEGURIDAD */}
 
 <div
   className="card-pro"
@@ -463,7 +676,7 @@ return (
     color: "#fff"
   }}
 >
-  🖥 Sistema
+  🔐 Windows
 </h2>
 
 <div
@@ -474,19 +687,7 @@ return (
 >
 
 <div>
-  <b>Windows:</b>
-  {" "}
-  {equipo.windows}
-</div>
-
-<div>
-  <b>Tipo:</b>
-  {" "}
-  {equipo.tipoEquipo}
-</div>
-
-<div>
-  <b>Password Windows:</b>
+  <b>Password:</b>
   {" "}
 
 {

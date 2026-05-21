@@ -16,8 +16,10 @@ function ModalEditarEquipo({
 const API =
   "https://ticket-pro-backend.onrender.com";
 
+if (!equipo) return null;
+
 /* =========================
-   STATES
+   STATES GENERALES
 ========================= */
 
 const [nombreEquipo,
@@ -30,6 +32,12 @@ const [usuarioAsignado,
   setUsuarioAsignado] =
   useState(
     equipo?.usuarioAsignado || ""
+  );
+
+const [tipoEquipo,
+  setTipoEquipo] =
+  useState(
+    equipo?.tipoEquipo || "laptop"
   );
 
 const [windows,
@@ -48,6 +56,106 @@ const [mfa,
   setMfa] =
   useState(
     equipo?.mfa ?? true
+  );
+
+/* =========================
+   HARDWARE ENTERPRISE
+========================= */
+
+const [numeroSerie,
+  setNumeroSerie] =
+  useState(
+    equipo?.numeroSerie || ""
+  );
+
+const [marca,
+  setMarca] =
+  useState(
+    equipo?.marca || ""
+  );
+
+const [modelo,
+  setModelo] =
+  useState(
+    equipo?.modelo || ""
+  );
+
+const [procesador,
+  setProcesador] =
+  useState(
+    equipo?.procesador || ""
+  );
+
+const [ram,
+  setRam] =
+  useState(
+    equipo?.ram || ""
+  );
+
+const [tarjetaGrafica,
+  setTarjetaGrafica] =
+  useState(
+    equipo?.tarjetaGrafica || ""
+  );
+
+const [almacenamiento,
+  setAlmacenamiento] =
+  useState(
+    equipo?.almacenamiento || ""
+  );
+
+const [tipoSistema,
+  setTipoSistema] =
+  useState(
+    equipo?.tipoSistema || ""
+  );
+
+const [idDispositivo,
+  setIdDispositivo] =
+  useState(
+    equipo?.idDispositivo || ""
+  );
+
+const [idProducto,
+  setIdProducto] =
+  useState(
+    equipo?.idProducto || ""
+  );
+
+const [fechaCompra,
+  setFechaCompra] =
+  useState(
+    equipo?.fechaCompra
+    ? equipo.fechaCompra
+        .split("T")[0]
+    : ""
+  );
+
+const [garantiaHasta,
+  setGarantiaHasta] =
+  useState(
+    equipo?.garantiaHasta
+    ? equipo.garantiaHasta
+        .split("T")[0]
+    : ""
+  );
+
+const [proveedor,
+  setProveedor] =
+  useState(
+    equipo?.proveedor || ""
+  );
+
+const [factura,
+  setFactura] =
+  useState(
+    equipo?.factura || ""
+  );
+
+const [numeroActivo,
+  setNumeroActivo] =
+  useState(
+    equipo?.numeroActivo || ""
   );
 
 /* =========================
@@ -176,8 +284,6 @@ const guardarCambios =
 
   try {
 
-    /* WINDOWS */
-
     if (
       !passwordWindowsDesconocido &&
       passwordWindows &&
@@ -190,8 +296,6 @@ const guardarCambios =
 
       return;
     }
-
-    /* ERP */
 
     if (
       !passwordERPNoAplica &&
@@ -209,14 +313,27 @@ const guardarCambios =
     const body = {
 
       nombreEquipo,
-
       usuarioAsignado,
-
+      tipoEquipo,
       windows,
-
       antivirus,
-
       mfa,
+
+      numeroSerie,
+      marca,
+      modelo,
+      procesador,
+      ram,
+      tarjetaGrafica,
+      almacenamiento,
+      tipoSistema,
+      idDispositivo,
+      idProducto,
+      fechaCompra,
+      garantiaHasta,
+      proveedor,
+      factura,
+      numeroActivo,
 
       passwordWindows:
         passwordWindows ||
@@ -320,7 +437,11 @@ return (
 
     width: "100%",
 
-    maxWidth: "850px",
+    maxWidth: "950px",
+
+    maxHeight: "95vh",
+
+    overflowY: "auto",
 
     padding: "32px",
 
@@ -333,8 +454,6 @@ return (
       "1px solid rgba(51,65,85,0.8)"
   }}
 >
-
-{/* BOTON CERRAR */}
 
 <button
 
@@ -382,23 +501,39 @@ return (
 <div
   style={{
     display: "grid",
-    gap: "20px"
+    gap: "24px"
   }}
 >
 
-{/* NOMBRE */}
+{/* DATOS GENERALES */}
 
-<div>
+<div
+  className="card-pro"
+  style={{
+    padding: "24px"
+  }}
+>
 
-<label className="label-pro">
-  Nombre Equipo
-</label>
+<h2
+  style={{
+    color: "#fff",
+    marginTop: 0
+  }}
+>
+  💻 Datos Generales
+</h2>
+
+<div
+  style={{
+    display: "grid",
+    gap: "18px"
+  }}
+>
 
 <input
   className="input-pro"
-
+  placeholder="Nombre Equipo"
   value={nombreEquipo}
-
   onChange={(e) =>
     setNombreEquipo(
       e.target.value
@@ -406,21 +541,10 @@ return (
   }
 />
 
-</div>
-
-{/* USUARIO */}
-
-<div>
-
-<label className="label-pro">
-  Usuario Asignado
-</label>
-
 <input
   className="input-pro"
-
+  placeholder="Usuario Asignado"
   value={usuarioAsignado}
-
   onChange={(e) =>
     setUsuarioAsignado(
       e.target.value
@@ -428,21 +552,29 @@ return (
   }
 />
 
-</div>
+<select
+  className="input-pro"
+  value={tipoEquipo}
+  onChange={(e) =>
+    setTipoEquipo(
+      e.target.value
+    )
+  }
+>
 
-{/* WINDOWS */}
+<option value="laptop">
+  💻 Laptop
+</option>
 
-<div>
+<option value="desktop">
+  🖥 Desktop
+</option>
 
-<label className="label-pro">
-  Sistema Operativo
-</label>
+</select>
 
 <select
   className="input-pro"
-
   value={windows}
-
   onChange={(e) =>
     setWindows(
       e.target.value
@@ -486,168 +618,70 @@ return (
 
 </div>
 
-{/* MFA */}
-
-<div>
-
-<label className="label-pro">
-  MFA
-</label>
-
-<select
-  className="input-pro"
-
-  value={mfa ? "si" : "no"}
-
-  onChange={(e) =>
-    setMfa(
-      e.target.value === "si"
-    )
-  }
->
-
-<option value="si">
-  MFA Activado
-</option>
-
-<option value="no">
-  MFA Desactivado
-</option>
-
-</select>
-
 </div>
 
-{/* PASSWORD WINDOWS */}
+{/* HARDWARE */}
 
 <div
+  className="card-pro"
   style={{
-    padding: "20px",
-    borderRadius: "18px",
-    background:
-      "rgba(15,23,42,0.55)"
+    padding: "24px"
   }}
 >
 
-<h3 style={{ color: "#fff" }}>
-  🔐 Password Windows
-</h3>
+<h2
+  style={{
+    color: "#fff",
+    marginTop: 0
+  }}
+>
+  🖥 Hardware Enterprise
+</h2>
 
 <div
   style={{
     display: "grid",
+    gap: "18px"
+  }}
+>
+
+<input
+  className="input-pro"
+  placeholder="Número de serie"
+  value={numeroSerie}
+  onChange={(e) =>
+    setNumeroSerie(
+      e.target.value
+    )
+  }
+/>
+
+<div
+  style={{
+    display: "grid",
+    gridTemplateColumns:
+      "1fr 1fr",
     gap: "16px"
   }}
 >
 
 <input
-  type="password"
   className="input-pro"
-  placeholder="Nueva password Windows"
-
-  disabled={
-    passwordWindowsDesconocido
-  }
-
-  value={passwordWindows}
-
+  placeholder="Marca"
+  value={marca}
   onChange={(e) =>
-    setPasswordWindows(
+    setMarca(
       e.target.value
     )
   }
 />
 
 <input
-  type="password"
   className="input-pro"
-  placeholder="Confirmar password Windows"
-
-  disabled={
-    passwordWindowsDesconocido
-  }
-
-  value={
-    confirmarPasswordWindows
-  }
-
+  placeholder="Modelo"
+  value={modelo}
   onChange={(e) =>
-    setConfirmarPasswordWindows(
-      e.target.value
-    )
-  }
-/>
-
-{passwordWindows && (
-
-<div
-  style={{
-    color:
-      windowsCoincide
-      ? "#22c55e"
-      : "#ef4444",
-
-    fontWeight: 600
-  }}
->
-
-{windowsCoincide
-  ? "✅ Passwords Windows coinciden"
-  : "❌ Passwords Windows no coinciden"}
-
-</div>
-
-)}
-
-<label
-  style={{
-    color: "#94a3b8"
-  }}
->
-
-<input
-  type="checkbox"
-
-  checked={
-    passwordWindowsDesconocido
-  }
-
-  onChange={(e) =>
-    setPasswordWindowsDesconocido(
-      e.target.checked
-    )
-  }
-
-  style={{
-    marginRight: "8px"
-  }}
-/>
-
-Password desconocido
-
-</label>
-
-<div>
-
-<label className="label-pro">
-  Último cambio password Windows
-</label>
-
-<input
-  type="date"
-
-  disabled={
-    passwordWindowsDesconocido
-  }
-
-  className="input-pro"
-
-  value={
-    fechaCambioPasswordWindows
-  }
-
-  onChange={(e) =>
-    setFechaCambioPasswordWindows(
+    setModelo(
       e.target.value
     )
   }
@@ -655,196 +689,98 @@ Password desconocido
 
 </div>
 
-<div>
-
-<label className="label-pro">
-  Próximo cambio password Windows
-</label>
-
 <input
-  type="date"
-
-  disabled={
-    passwordWindowsDesconocido
-  }
-
   className="input-pro"
-
-  value={
-    fechaExpiracionPasswordWindows
-  }
-
+  placeholder="Procesador"
+  value={procesador}
   onChange={(e) =>
-    setFechaExpiracionPasswordWindows(
+    setProcesador(
       e.target.value
     )
   }
 />
-
-</div>
-
-</div>
-
-</div>
-
-{/* PASSWORD ERP */}
-
-<div
-  style={{
-    padding: "20px",
-    borderRadius: "18px",
-    background:
-      "rgba(15,23,42,0.55)"
-  }}
->
-
-<h3 style={{ color: "#fff" }}>
-  🏢 Password ERP
-</h3>
 
 <div
   style={{
     display: "grid",
+    gridTemplateColumns:
+      "1fr 1fr",
     gap: "16px"
   }}
 >
 
 <input
-  type="password"
   className="input-pro"
-  placeholder="Nueva password ERP"
-
-  disabled={
-    passwordERPNoAplica
-  }
-
-  value={passwordERP}
-
+  placeholder="RAM"
+  value={ram}
   onChange={(e) =>
-    setPasswordERP(
+    setRam(
       e.target.value
     )
   }
 />
 
 <input
-  type="password"
   className="input-pro"
-  placeholder="Confirmar password ERP"
-
-  disabled={
-    passwordERPNoAplica
-  }
-
-  value={
-    confirmarPasswordERP
-  }
-
+  placeholder="Tarjeta gráfica"
+  value={tarjetaGrafica}
   onChange={(e) =>
-    setConfirmarPasswordERP(
+    setTarjetaGrafica(
       e.target.value
     )
   }
 />
 
-{passwordERP && (
+</div>
+
+<input
+  className="input-pro"
+  placeholder="Almacenamiento"
+  value={almacenamiento}
+  onChange={(e) =>
+    setAlmacenamiento(
+      e.target.value
+    )
+  }
+/>
+
+<input
+  className="input-pro"
+  placeholder="Tipo sistema"
+  value={tipoSistema}
+  onChange={(e) =>
+    setTipoSistema(
+      e.target.value
+    )
+  }
+/>
 
 <div
   style={{
-    color:
-      erpCoincide
-      ? "#22c55e"
-      : "#ef4444",
-
-    fontWeight: 600
-  }}
->
-
-{erpCoincide
-  ? "✅ Passwords ERP coinciden"
-  : "❌ Passwords ERP no coinciden"}
-
-</div>
-
-)}
-
-<label
-  style={{
-    color: "#94a3b8"
+    display: "grid",
+    gridTemplateColumns:
+      "1fr 1fr",
+    gap: "16px"
   }}
 >
 
 <input
-  type="checkbox"
-
-  checked={
-    passwordERPNoAplica
-  }
-
+  className="input-pro"
+  placeholder="ID dispositivo"
+  value={idDispositivo}
   onChange={(e) =>
-    setPasswordERPNoAplica(
-      e.target.checked
+    setIdDispositivo(
+      e.target.value
     )
   }
-
-  style={{
-    marginRight: "8px"
-  }}
 />
-
-ERP no aplica
-
-</label>
-
-<div>
-
-<label className="label-pro">
-  Último cambio password ERP
-</label>
 
 <input
-  type="date"
-
-  disabled={
-    passwordERPNoAplica
-  }
-
   className="input-pro"
-
-  value={
-    fechaCambioPasswordERP
-  }
-
+  placeholder="ID producto"
+  value={idProducto}
   onChange={(e) =>
-    setFechaCambioPasswordERP(
-      e.target.value
-    )
-  }
-/>
-
-</div>
-
-<div>
-
-<label className="label-pro">
-  Próximo cambio password ERP
-</label>
-
-<input
-  type="date"
-
-  disabled={
-    passwordERPNoAplica
-  }
-
-  className="input-pro"
-
-  value={
-    fechaExpiracionPasswordERP
-  }
-
-  onChange={(e) =>
-    setFechaExpiracionPasswordERP(
+    setIdProducto(
       e.target.value
     )
   }
@@ -855,100 +791,9 @@ ERP no aplica
 </div>
 
 </div>
-
-{/* ANTIVIRUS */}
-
-<div>
-
-<label className="label-pro">
-  Antivirus
-</label>
-
-<select
-  className="input-pro"
-
-  value={antivirus}
-
-  onChange={(e) =>
-    setAntivirus(
-      e.target.value
-    )
-  }
->
-
-<option value="">
-  Seleccionar antivirus
-</option>
-
-<option>
-  Microsoft Defender
-</option>
-
-<option>
-  ESET Endpoint
-</option>
-
-<option>
-  Bitdefender
-</option>
-
-<option>
-  Kaspersky
-</option>
-
-<option>
-  Sophos
-</option>
-
-<option>
-  CrowdStrike
-</option>
-
-<option>
-  SentinelOne
-</option>
-
-<option>
-  Otro
-</option>
-
-</select>
-
-</div>
-
-{antivirus !== "Microsoft Defender" &&
-antivirus !== "" && (
-
-<div>
-
-<label className="label-pro">
-  Fecha expiración antivirus
-</label>
-
-<input
-  type="date"
-  className="input-pro"
-
-  value={
-    fechaExpiracionAntivirus
-  }
-
-  onChange={(e) =>
-    setFechaExpiracionAntivirus(
-      e.target.value
-    )
-  }
-/>
-
-</div>
-
-)}
-
-{/* BOTON */}
 
 <button
   className="btn-pro"
-
   onClick={guardarCambios}
 >
   💾 Guardar Cambios

@@ -40,6 +40,70 @@ const [antivirus,
   useState("");
 
 /* =========================
+   NUEVO HARDWARE
+========================= */
+
+const [numeroSerie,
+  setNumeroSerie] =
+  useState("");
+
+const [marca,
+  setMarca] =
+  useState("");
+
+const [modelo,
+  setModelo] =
+  useState("");
+
+const [procesador,
+  setProcesador] =
+  useState("");
+
+const [ram,
+  setRam] =
+  useState("");
+
+const [tarjetaGrafica,
+  setTarjetaGrafica] =
+  useState("");
+
+const [almacenamiento,
+  setAlmacenamiento] =
+  useState("");
+
+const [tipoSistema,
+  setTipoSistema] =
+  useState("");
+
+const [idDispositivo,
+  setIdDispositivo] =
+  useState("");
+
+const [idProducto,
+  setIdProducto] =
+  useState("");
+
+const [fechaCompra,
+  setFechaCompra] =
+  useState("");
+
+const [garantiaHasta,
+  setGarantiaHasta] =
+  useState("");
+
+const [proveedor,
+  setProveedor] =
+  useState("");
+
+const [factura,
+  setFactura] =
+  useState("");
+
+const [numeroActivo,
+  setNumeroActivo] =
+  useState("");
+
+/* =========================
    WINDOWS PASSWORD
 ========================= */
 
@@ -149,11 +213,7 @@ const guardarEquipo =
 
   try {
 
-    /* =========================
-       VALIDACIONES
-    ========================= */
-
-    if (!nombreEquipo) {
+    if (!nombreEquipo.trim()) {
 
       toast.error(
         "Nombre equipo requerido"
@@ -162,10 +222,19 @@ const guardarEquipo =
       return;
     }
 
-    if (!usuarioAsignado) {
+    if (!usuarioAsignado.trim()) {
 
       toast.error(
         "Usuario asignado requerido"
+      );
+
+      return;
+    }
+
+    if (!numeroSerie.trim()) {
+
+      toast.error(
+        "Número de serie requerido"
       );
 
       return;
@@ -203,21 +272,6 @@ const guardarEquipo =
       return;
     }
 
-    if (
-
-      !passwordWindowsDesconocido &&
-
-      !fechaExpiracionPasswordWindows
-
-    ) {
-
-      toast.error(
-        "Fecha expiración Windows requerida"
-      );
-
-      return;
-    }
-
     /* ERP */
 
     if (
@@ -250,45 +304,6 @@ const guardarEquipo =
       return;
     }
 
-    if (
-
-      !passwordERPNoAplica &&
-
-      !fechaExpiracionPasswordERP
-
-    ) {
-
-      toast.error(
-        "Fecha expiración ERP requerida"
-      );
-
-      return;
-    }
-
-    /* ANTIVIRUS */
-
-    if (
-
-      antivirus !==
-        "Microsoft Defender" &&
-
-      antivirus !== "" &&
-
-      !fechaExpiracionAntivirus
-
-    ) {
-
-      toast.error(
-        "Fecha expiración antivirus requerida"
-      );
-
-      return;
-    }
-
-    /* =========================
-       BODY
-    ========================= */
-
     const body = {
 
       nombreEquipo,
@@ -301,17 +316,43 @@ const guardarEquipo =
 
       antivirus,
 
-      passwordWindows,
+      numeroSerie,
 
-      confirmarPasswordWindows,
+      marca,
+
+      modelo,
+
+      procesador,
+
+      ram,
+
+      tarjetaGrafica,
+
+      almacenamiento,
+
+      tipoSistema,
+
+      idDispositivo,
+
+      idProducto,
+
+      fechaCompra,
+
+      garantiaHasta,
+
+      proveedor,
+
+      factura,
+
+      numeroActivo,
+
+      passwordWindows,
 
       passwordWindowsDesconocido,
 
       fechaExpiracionPasswordWindows,
 
       passwordERP,
-
-      confirmarPasswordERP,
 
       passwordERPNoAplica,
 
@@ -396,16 +437,12 @@ return (
   }}
 >
 
-{/* HERO */}
-
 <div
   className="card-pro"
   style={{
     padding: "35px",
     background:
-      "linear-gradient(145deg, rgba(37,99,235,0.18), rgba(124,58,237,0.14))",
-    border:
-      "1px solid rgba(59,130,246,0.18)"
+      "linear-gradient(145deg, rgba(37,99,235,0.18), rgba(124,58,237,0.14))"
   }}
 >
 
@@ -430,8 +467,6 @@ return (
 
 </div>
 
-{/* GRID */}
-
 <div
   style={{
     display: "grid",
@@ -451,8 +486,6 @@ return (
   }}
 >
 
-{/* DATOS */}
-
 <div
   className="card-pro"
   style={{
@@ -466,13 +499,13 @@ return (
     marginTop: 0
   }}
 >
-  Datos Generales
+  🖥 Datos Generales
 </h2>
 
 <div
   style={{
     display: "grid",
-    gap: "20px"
+    gap: "18px"
   }}
 >
 
@@ -493,6 +526,39 @@ return (
   value={usuarioAsignado}
   onChange={(e) =>
     setUsuarioAsignado(
+      e.target.value
+    )
+  }
+/>
+
+<input
+  className="input-pro"
+  placeholder="Número de serie"
+  value={numeroSerie}
+  onChange={(e) =>
+    setNumeroSerie(
+      e.target.value
+    )
+  }
+/>
+
+<input
+  className="input-pro"
+  placeholder="Marca"
+  value={marca}
+  onChange={(e) =>
+    setMarca(
+      e.target.value
+    )
+  }
+/>
+
+<input
+  className="input-pro"
+  placeholder="Modelo"
+  value={modelo}
+  onChange={(e) =>
+    setModelo(
       e.target.value
     )
   }
@@ -533,31 +599,7 @@ return (
 </option>
 
 <option>
-  Windows 11 Home
-</option>
-
-<option>
   Windows 10 Pro
-</option>
-
-<option>
-  Windows 10 Home
-</option>
-
-<option>
-  Windows 8.1 Pro
-</option>
-
-<option>
-  Windows 7 Pro
-</option>
-
-<option>
-  Windows Server 2022
-</option>
-
-<option>
-  Windows Server 2019
 </option>
 
 <option>
@@ -566,14 +608,6 @@ return (
 
 <option>
   Linux Ubuntu
-</option>
-
-<option>
-  Linux Mint
-</option>
-
-<option>
-  Otro
 </option>
 
 </select>
@@ -605,23 +639,7 @@ return (
 </option>
 
 <option>
-  Kaspersky
-</option>
-
-<option>
-  Sophos
-</option>
-
-<option>
   CrowdStrike
-</option>
-
-<option>
-  SentinelOne
-</option>
-
-<option>
-  Otro
 </option>
 
 </select>
@@ -631,8 +649,6 @@ return (
 </div>
 
 {/* HARDWARE */}
-
-{tipoEquipo === "desktop" && (
 
 <div
   className="card-pro"
@@ -647,162 +663,96 @@ return (
     marginTop: 0
   }}
 >
-  Hardware
+  ⚙ Hardware
 </h2>
 
 <div
   style={{
     display: "grid",
-    gap: "20px"
-  }}
->
-
-<select
-  className="input-pro"
-  value={cantidadMonitores}
-  onChange={(e) => {
-
-    const cantidad =
-      Number(e.target.value);
-
-    setCantidadMonitores(
-      cantidad
-    );
-
-    setMonitores(
-      Array.from({
-        length: cantidad
-      }).map(() => ({
-        marca: "",
-        modelo: "",
-        serie: "",
-        tipoMonitor: "empresa"
-      }))
-    );
-  }}
->
-
-<option value={1}>1</option>
-<option value={2}>2</option>
-<option value={3}>3</option>
-
-</select>
-
-{monitores.map((monitor, index) => (
-
-<div
-  key={index}
-  style={{
-    padding: "20px",
-    borderRadius: "18px",
-    background:
-      "rgba(15,23,42,0.55)"
-  }}
->
-
-<h3
-  style={{
-    color: "#fff"
-  }}
->
-  🖥 Monitor {index + 1}
-</h3>
-
-<div
-  style={{
-    display: "grid",
-    gap: "14px"
+    gap: "18px"
   }}
 >
 
 <input
   className="input-pro"
-  placeholder="Marca"
-  value={monitor.marca}
-  onChange={(e) => {
-
-    const copia =
-      [...monitores];
-
-    copia[index]
-      .marca =
-      e.target.value;
-
-    setMonitores(copia);
-  }}
+  placeholder="Procesador"
+  value={procesador}
+  onChange={(e) =>
+    setProcesador(
+      e.target.value
+    )
+  }
 />
 
 <input
   className="input-pro"
-  placeholder="Modelo"
-  value={monitor.modelo}
-  onChange={(e) => {
-
-    const copia =
-      [...monitores];
-
-    copia[index]
-      .modelo =
-      e.target.value;
-
-    setMonitores(copia);
-  }}
+  placeholder="RAM"
+  value={ram}
+  onChange={(e) =>
+    setRam(
+      e.target.value
+    )
+  }
 />
 
 <input
   className="input-pro"
-  placeholder="Serie"
-  value={monitor.serie}
-  onChange={(e) => {
-
-    const copia =
-      [...monitores];
-
-    copia[index]
-      .serie =
-      e.target.value;
-
-    setMonitores(copia);
-  }}
+  placeholder="Tarjeta gráfica"
+  value={tarjetaGrafica}
+  onChange={(e) =>
+    setTarjetaGrafica(
+      e.target.value
+    )
+  }
 />
 
-<select
+<input
   className="input-pro"
-  value={monitor.tipoMonitor}
-  onChange={(e) => {
+  placeholder="Almacenamiento"
+  value={almacenamiento}
+  onChange={(e) =>
+    setAlmacenamiento(
+      e.target.value
+    )
+  }
+/>
 
-    const copia =
-      [...monitores];
+<input
+  className="input-pro"
+  placeholder="Tipo sistema"
+  value={tipoSistema}
+  onChange={(e) =>
+    setTipoSistema(
+      e.target.value
+    )
+  }
+/>
 
-    copia[index]
-      .tipoMonitor =
-      e.target.value;
+<input
+  className="input-pro"
+  placeholder="ID dispositivo"
+  value={idDispositivo}
+  onChange={(e) =>
+    setIdDispositivo(
+      e.target.value
+    )
+  }
+/>
 
-    setMonitores(copia);
-  }}
->
-
-<option value="empresa">
-  Empresa
-</option>
-
-<option value="prestado">
-  Prestado empleado
-</option>
-
-</select>
+<input
+  className="input-pro"
+  placeholder="ID producto"
+  value={idProducto}
+  onChange={(e) =>
+    setIdProducto(
+      e.target.value
+    )
+  }
+/>
 
 </div>
 
 </div>
-
-))}
-
-</div>
-
-</div>
-
-)}
 
 </div>
 
@@ -829,30 +779,102 @@ return (
     marginTop: 0
   }}
 >
-  Seguridad
+  🧾 Activo / Garantía
 </h2>
 
 <div
   style={{
     display: "grid",
-    gap: "20px"
+    gap: "18px"
   }}
 >
 
-{/* WINDOWS */}
+<input
+  type="date"
+  className="input-pro"
+  value={fechaCompra}
+  onChange={(e) =>
+    setFechaCompra(
+      e.target.value
+    )
+  }
+/>
 
-<div>
+<input
+  type="date"
+  className="input-pro"
+  value={garantiaHasta}
+  onChange={(e) =>
+    setGarantiaHasta(
+      e.target.value
+    )
+  }
+/>
 
-<label className="label-pro">
-  Password Windows
-</label>
+<input
+  className="input-pro"
+  placeholder="Proveedor"
+  value={proveedor}
+  onChange={(e) =>
+    setProveedor(
+      e.target.value
+    )
+  }
+/>
+
+<input
+  className="input-pro"
+  placeholder="Factura"
+  value={factura}
+  onChange={(e) =>
+    setFactura(
+      e.target.value
+    )
+  }
+/>
+
+<input
+  className="input-pro"
+  placeholder="Número activo"
+  value={numeroActivo}
+  onChange={(e) =>
+    setNumeroActivo(
+      e.target.value
+    )
+  }
+/>
+
+</div>
+
+</div>
+
+<div
+  className="card-pro"
+  style={{
+    padding: "28px"
+  }}
+>
+
+<h2
+  style={{
+    color: "#fff",
+    marginTop: 0
+  }}
+>
+  🔐 Seguridad
+</h2>
+
+<div
+  style={{
+    display: "grid",
+    gap: "18px"
+  }}
+>
 
 <input
   type="password"
   className="input-pro"
-  disabled={
-    passwordWindowsDesconocido
-  }
+  placeholder="Password Windows"
   value={passwordWindows}
   onChange={(e) =>
     setPasswordWindows(
@@ -861,18 +883,11 @@ return (
   }
 />
 
-</div>
-
 <input
   type="password"
   className="input-pro"
   placeholder="Confirmar Password Windows"
-  disabled={
-    passwordWindowsDesconocido
-  }
-  value={
-    confirmarPasswordWindows
-  }
+  value={confirmarPasswordWindows}
   onChange={(e) =>
     setConfirmarPasswordWindows(
       e.target.value
@@ -880,75 +895,10 @@ return (
   }
 />
 
-{!passwordWindowsDesconocido && (
-
-<div
-  style={{
-    color:
-      windowsPasswordsCoinciden
-      ? "#22c55e"
-      : "#ef4444",
-    fontWeight: "700",
-    fontSize: "14px"
-  }}
->
-  {
-    windowsPasswordsCoinciden
-    ? "✅ Passwords Windows coinciden"
-    : "❌ Passwords Windows no coinciden"
-  }
-</div>
-
-)}
-
-<label
-  style={{
-    color: "#94a3b8"
-  }}
->
-
-<input
-  type="checkbox"
-  checked={
-    passwordWindowsDesconocido
-  }
-  onChange={(e) =>
-    setPasswordWindowsDesconocido(
-      e.target.checked
-    )
-  }
-  style={{
-    marginRight: "8px"
-  }}
-/>
-
-Password desconocido
-
-</label>
-
-<input
-  type="date"
-  disabled={
-    passwordWindowsDesconocido
-  }
-  className="input-pro"
-  value={
-    fechaExpiracionPasswordWindows
-  }
-  onChange={(e) =>
-    setFechaExpiracionPasswordWindows(
-      e.target.value
-    )
-  }
-/>
-
-{/* ERP */}
-
 <input
   type="password"
   className="input-pro"
   placeholder="Password ERP"
-  disabled={passwordERPNoAplica}
   value={passwordERP}
   onChange={(e) =>
     setPasswordERP(
@@ -961,76 +911,13 @@ Password desconocido
   type="password"
   className="input-pro"
   placeholder="Confirmar Password ERP"
-  disabled={passwordERPNoAplica}
-  value={
-    confirmarPasswordERP
-  }
+  value={confirmarPasswordERP}
   onChange={(e) =>
     setConfirmarPasswordERP(
       e.target.value
     )
   }
 />
-
-{!passwordERPNoAplica && (
-
-<div
-  style={{
-    color:
-      erpPasswordsCoinciden
-      ? "#22c55e"
-      : "#ef4444",
-    fontWeight: "700",
-    fontSize: "14px"
-  }}
->
-  {
-    erpPasswordsCoinciden
-    ? "✅ Passwords ERP coinciden"
-    : "❌ Passwords ERP no coinciden"
-  }
-</div>
-
-)}
-
-<label
-  style={{
-    color: "#94a3b8"
-  }}
->
-
-<input
-  type="checkbox"
-  checked={passwordERPNoAplica}
-  onChange={(e) =>
-    setPasswordERPNoAplica(
-      e.target.checked
-    )
-  }
-  style={{
-    marginRight: "8px"
-  }}
-/>
-
-ERP no aplica
-
-</label>
-
-<input
-  type="date"
-  disabled={passwordERPNoAplica}
-  className="input-pro"
-  value={
-    fechaExpiracionPasswordERP
-  }
-  onChange={(e) =>
-    setFechaExpiracionPasswordERP(
-      e.target.value
-    )
-  }
-/>
-
-{/* MFA */}
 
 <select
   className="input-pro"
@@ -1052,43 +939,6 @@ ERP no aplica
 
 </select>
 
-{/* ANTIVIRUS */}
-
-{antivirus !== "Microsoft Defender" &&
-antivirus !== "" && (
-
-<input
-  type="date"
-  className="input-pro"
-  value={
-    fechaExpiracionAntivirus
-  }
-  onChange={(e) =>
-    setFechaExpiracionAntivirus(
-      e.target.value
-    )
-  }
-/>
-
-)}
-
-{antivirus === "Microsoft Defender" && (
-
-<div
-  style={{
-    padding: "14px",
-    borderRadius: "14px",
-    background:
-      "rgba(16,185,129,0.12)",
-    color: "#6ee7b7"
-  }}
->
-  ✅ Microsoft Defender no requiere
-  expiración.
-</div>
-
-)}
-
 </div>
 
 </div>
@@ -1096,8 +946,6 @@ antivirus !== "" && (
 </div>
 
 </div>
-
-{/* OBSERVACIONES */}
 
 <div
   className="card-pro"
@@ -1112,24 +960,21 @@ antivirus !== "" && (
     marginTop: 0
   }}
 >
-  Observaciones
+  📝 Observaciones
 </h2>
 
 <textarea
   className="input-pro"
-  rows={7}
+  rows={6}
   value={observaciones}
   onChange={(e) =>
     setObservaciones(
       e.target.value
     )
   }
-  placeholder="Notas técnicas..."
 />
 
 </div>
-
-{/* BOTONES */}
 
 <div
   style={{

@@ -89,6 +89,11 @@ const diasPasswordERP =
     equipo?.fechaExpiracionPasswordERP
   );
 
+const diasGarantia =
+  diasRestantes(
+    equipo?.garantiaHasta
+  );
+
 /* =========================
    ALERTAS
 ========================= */
@@ -204,6 +209,38 @@ if (
       color: "#f59e0b",
       texto:
         `⚠ Password ERP vence en ${diasPasswordERP} días`
+    });
+
+  }
+
+}
+
+/* GARANTIA */
+
+if (
+  equipo?.garantiaHasta
+) {
+
+  if (
+    diasGarantia < 0
+  ) {
+
+    alertas.push({
+      color: "#ef4444",
+      texto:
+        "🔴 Garantía vencida"
+    });
+
+  }
+
+  else if (
+    diasGarantia <= 30
+  ) {
+
+    alertas.push({
+      color: "#f59e0b",
+      texto:
+        `⚠ Garantía vence en ${diasGarantia} días`
     });
 
   }
@@ -529,6 +566,77 @@ tipoEquipo ===
 }
 
 </div>
+
+{/* NUMERO SERIE */}
+
+{
+equipo?.numeroSerie && (
+
+<div
+  style={{
+
+    background:
+      "rgba(148,163,184,0.15)",
+
+    color: "#cbd5e1",
+
+    padding: "6px 12px",
+
+    borderRadius: "999px",
+
+    fontSize: "13px",
+
+    fontWeight: "600"
+  }}
+>
+
+  SN:
+  {" "}
+  {equipo.numeroSerie}
+
+</div>
+
+)}
+
+{/* GARANTIA */}
+
+{
+equipo?.garantiaHasta && (
+
+<div
+  style={{
+
+    background:
+      diasGarantia <= 30
+      ? "rgba(239,68,68,0.15)"
+      : "rgba(34,197,94,0.15)",
+
+    color:
+      diasGarantia <= 30
+      ? "#f87171"
+      : "#4ade80",
+
+    padding: "6px 12px",
+
+    borderRadius: "999px",
+
+    fontSize: "13px",
+
+    fontWeight: "600"
+  }}
+>
+
+{
+  diasGarantia < 0
+
+  ? "Garantía vencida"
+
+  : `Garantía ${diasGarantia} días`
+}
+
+</div>
+
+)}
 
 </div>
 
