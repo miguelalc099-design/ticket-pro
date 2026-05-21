@@ -55,6 +55,36 @@ const equipo =
 const siguienteEquipo =
   () => {
 
+  if (!resultadoEquipo) {
+
+    alert(
+      "Completa la auditoría del equipo"
+    );
+
+    return;
+  }
+
+  const nuevaAuditoria = {
+
+    equipoId:
+      equipo._id,
+
+    nombreEquipo:
+      equipo.nombreEquipo,
+
+    usuarioAsignado:
+      equipo.usuarioAsignado,
+
+    ...resultadoEquipo
+  };
+
+  setAuditoriasGuardadas(
+    [
+      ...auditoriasGuardadas,
+      nuevaAuditoria
+    ]
+  );
+
   if (
     equipoActual <
     totalEquipos - 1
@@ -63,6 +93,8 @@ const siguienteEquipo =
     setEquipoActual(
       equipoActual + 1
     );
+
+    setResultadoEquipo(null);
 
   }
 
@@ -86,69 +118,36 @@ const anteriorEquipo =
 /* =========================
    FINALIZAR
 ========================= */
-
 const finalizarAuditoria =
   async () => {
 
   try {
 
-    if (!resultadoEquipo) {
+    let auditoriasFinales =
+      [...auditoriasGuardadas];
 
-      alert(
-        "Completa la auditoría primero"
-      );
+    /* GUARDAR ULTIMO */
 
-      return;
+    if (resultadoEquipo) {
+
+      auditoriasFinales.push({
+
+        equipoId:
+          equipo._id,
+
+        nombreEquipo:
+          equipo.nombreEquipo,
+
+        usuarioAsignado:
+          equipo.usuarioAsignado,
+
+        ...resultadoEquipo
+      });
+
     }
 
-    const body = {
+    for (const auditoria of auditoriasFinales) {
 
-      equipoId:
-        equipo._id,
-
-      nombreEquipo:
-        equipo.nombreEquipo,
-
-      usuarioAsignado:
-        equipo.usuarioAsignado,
-
-      score:
-        resultadoEquipo.score,
-
-      estado:
-        resultadoEquipo.estado,
-
-      passwordInicio:
-        resultadoEquipo.passwordInicio,
-
-      bloqueoAutomatico:
-        resultadoEquipo.bloqueoAutomatico,
-
-      mfaActivo:
-        resultadoEquipo.mfaActivo,
-
-      antivirusActivo:
-        resultadoEquipo.antivirusActivo,
-
-      escritorioLimpio:
-        resultadoEquipo.escritorioLimpio,
-
-      usbNoAutorizado:
-        resultadoEquipo.usbNoAutorizado,
-
-      serieCorrecta:
-        resultadoEquipo.serieCorrecta,
-
-      observaciones:
-        resultadoEquipo.observaciones || "",
-
-      auditor:
-        localStorage.getItem("user")
-        || "Auditor"
-
-    };
-
-    const res =
       await fetch(
 
         "https://ticket-pro-backend.onrender.com/it/auditorias",
@@ -163,63 +162,47 @@ const finalizarAuditoria =
           },
 
           body:
-            JSON.stringify(body)
-        }
+            JSON.stringify({
+
+              ...auditoria,
+
+              auditor:
+                localStorage.getItem("user")
+                || "Auditor"
+
+            })
+          }
       );
-
-    const data =
-      await res.json();
-
-    setAuditoriasGuardadas(
-      [
-        ...auditoriasGuardadas,
-        data
-      ]
-    );
-
-    alert(
-      "✅ Auditoría guardada"
-    );
-
-    if (
-      equipoActual <
-      totalEquipos - 1
-    ) {
-
-      setEquipoActual(
-        equipoActual + 1
-      );
-
-      setResultadoEquipo(null);
-
-    } else {
-
-      onFinalizar({
-
-        ...auditoria,
-
-        estado:
-          "finalizada",
-
-        bloqueada: true,
-
-        fechaFinalizacion:
-          new Date()
-
-      });
 
     }
+
+    alert(
+      "✅ Auditorías guardadas correctamente"
+    );
+
+    onFinalizar({
+
+      ...auditoria,
+
+      estado:
+        "finalizada",
+
+      bloqueada: true,
+
+      fechaFinalizacion:
+        new Date()
+
+    });
 
   } catch (err) {
 
     console.log(err);
 
     alert(
-      "Error guardando auditoría"
+      "Error guardando auditorías"
     );
   }
 };
-
 /* =========================
    JSX
 ========================= */
