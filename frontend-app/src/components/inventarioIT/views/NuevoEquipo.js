@@ -1294,7 +1294,214 @@ antivirus === "Microsoft Defender" && (
 </div>
 
 </div>
+{/* MONITORES */}
 
+{
+tipoEquipo === "desktop" && (
+
+<div
+  className="card-pro"
+  style={{
+    padding: "24px"
+  }}
+>
+
+<h2
+  style={{
+    color: "#fff",
+    marginTop: 0
+  }}
+>
+  🖥 Monitores
+</h2>
+
+<div
+  style={{
+    display: "grid",
+    gap: "18px"
+  }}
+>
+
+<select
+  className="input-pro"
+
+  value={cantidadMonitores}
+
+  onChange={(e) => {
+
+    const cantidad =
+      Number(e.target.value);
+
+    setCantidadMonitores(
+      cantidad
+    );
+
+    setMonitores(
+
+      Array.from(
+        { length: cantidad },
+
+        (_, i) => (
+
+          monitores[i] || {
+
+            marca: "",
+
+            modelo: "",
+
+            serie: "",
+
+            tipoMonitor:
+              "empresa"
+          }
+
+        )
+      )
+    );
+  }}
+>
+
+<option value={1}>
+  1 Monitor
+</option>
+
+<option value={2}>
+  2 Monitores
+</option>
+
+<option value={3}>
+  3 Monitores
+</option>
+
+<option value={4}>
+  4 Monitores
+</option>
+
+</select>
+
+{
+monitores.map(
+  (monitor, index) => (
+
+<div
+  key={index}
+
+  style={{
+    padding: "18px",
+    borderRadius: "14px",
+
+    background:
+      "rgba(15,23,42,0.45)",
+
+    border:
+      "1px solid rgba(51,65,85,0.5)",
+
+    display: "grid",
+    gap: "14px"
+  }}
+>
+
+<h3
+  style={{
+    margin: 0,
+    color: "#60a5fa"
+  }}
+>
+  Monitor {index + 1}
+</h3>
+
+<input
+  className="input-pro"
+  placeholder="Marca"
+
+  value={monitor.marca}
+
+  onChange={(e) => {
+
+    const copia =
+      [...monitores];
+
+    copia[index].marca =
+      e.target.value;
+
+    setMonitores(copia);
+  }}
+/>
+
+<input
+  className="input-pro"
+  placeholder="Modelo"
+
+  value={monitor.modelo}
+
+  onChange={(e) => {
+
+    const copia =
+      [...monitores];
+
+    copia[index].modelo =
+      e.target.value;
+
+    setMonitores(copia);
+  }}
+/>
+
+<input
+  className="input-pro"
+  placeholder="Serie"
+
+  value={monitor.serie}
+
+  onChange={(e) => {
+
+    const copia =
+      [...monitores];
+
+    copia[index].serie =
+      e.target.value;
+
+    setMonitores(copia);
+  }}
+/>
+
+<select
+  className="input-pro"
+
+  value={monitor.tipoMonitor}
+
+  onChange={(e) => {
+
+    const copia =
+      [...monitores];
+
+    copia[index].tipoMonitor =
+      e.target.value;
+
+    setMonitores(copia);
+  }}
+>
+
+<option value="empresa">
+  Empresa
+</option>
+
+<option value="personal">
+  Personal
+</option>
+
+</select>
+
+</div>
+
+))
+}
+
+</div>
+
+</div>
+
+)
+}
 {/* OBSERVACIONES */}
 
 <div
