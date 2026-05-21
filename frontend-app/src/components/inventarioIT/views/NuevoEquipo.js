@@ -1,6 +1,3 @@
-import { useState } from "react";
-import { toast } from "react-toastify";
-
 function NuevoEquipo({
 
   volverEquipos,
@@ -40,7 +37,7 @@ const [antivirus,
   useState("");
 
 /* =========================
-   NUEVO HARDWARE
+   HARDWARE
 ========================= */
 
 const [numeroSerie,
@@ -83,6 +80,10 @@ const [idProducto,
   setIdProducto] =
   useState("");
 
+/* =========================
+   ACTIVOS
+========================= */
+
 const [fechaCompra,
   setFechaCompra] =
   useState("");
@@ -104,7 +105,7 @@ const [numeroActivo,
   useState("");
 
 /* =========================
-   WINDOWS PASSWORD
+   PASSWORD WINDOWS
 ========================= */
 
 const [passwordWindows,
@@ -122,12 +123,17 @@ const [
 ] = useState(false);
 
 const [
+  fechaCambioPasswordWindows,
+  setFechaCambioPasswordWindows
+] = useState("");
+
+const [
   fechaExpiracionPasswordWindows,
   setFechaExpiracionPasswordWindows
 ] = useState("");
 
 /* =========================
-   ERP PASSWORD
+   PASSWORD ERP
 ========================= */
 
 const [passwordERP,
@@ -139,9 +145,15 @@ const [
   setConfirmarPasswordERP
 ] = useState("");
 
-const [passwordERPNoAplica,
-  setPasswordERPNoAplica] =
-  useState(false);
+const [
+  passwordERPNoAplica,
+  setPasswordERPNoAplica
+] = useState(false);
+
+const [
+  fechaCambioPasswordERP,
+  setFechaCambioPasswordERP
+] = useState("");
 
 const [
   fechaExpiracionPasswordERP,
@@ -350,11 +362,15 @@ const guardarEquipo =
 
       passwordWindowsDesconocido,
 
+      fechaCambioPasswordWindows,
+
       fechaExpiracionPasswordWindows,
 
       passwordERP,
 
       passwordERPNoAplica,
+
+      fechaCambioPasswordERP,
 
       fechaExpiracionPasswordERP,
 
@@ -486,6 +502,8 @@ return (
   }}
 >
 
+{/* DATOS GENERALES */}
+
 <div
   className="card-pro"
   style={{
@@ -612,38 +630,6 @@ return (
 
 </select>
 
-<select
-  className="input-pro"
-  value={antivirus}
-  onChange={(e) =>
-    setAntivirus(
-      e.target.value
-    )
-  }
->
-
-<option value="">
-  Seleccionar antivirus
-</option>
-
-<option>
-  Microsoft Defender
-</option>
-
-<option>
-  ESET Endpoint
-</option>
-
-<option>
-  Bitdefender
-</option>
-
-<option>
-  CrowdStrike
-</option>
-
-</select>
-
 </div>
 
 </div>
@@ -766,10 +752,12 @@ return (
   }}
 >
 
+{/* PASSWORD WINDOWS */}
+
 <div
   className="card-pro"
   style={{
-    padding: "28px"
+    padding: "24px"
   }}
 >
 
@@ -779,7 +767,461 @@ return (
     marginTop: 0
   }}
 >
-  🧾 Activo / Garantía
+  🔐 Password Windows
+</h2>
+
+<div
+  style={{
+    display: "grid",
+    gap: "16px"
+  }}
+>
+
+<input
+  type="password"
+  className="input-pro"
+  placeholder="Nueva password Windows"
+
+  disabled={
+    passwordWindowsDesconocido
+  }
+
+  value={passwordWindows}
+
+  onChange={(e) =>
+    setPasswordWindows(
+      e.target.value
+    )
+  }
+/>
+
+<input
+  type="password"
+  className="input-pro"
+  placeholder="Confirmar password Windows"
+
+  disabled={
+    passwordWindowsDesconocido
+  }
+
+  value={
+    confirmarPasswordWindows
+  }
+
+  onChange={(e) =>
+    setConfirmarPasswordWindows(
+      e.target.value
+    )
+  }
+/>
+
+{passwordWindows && (
+
+<div
+  style={{
+    color:
+      windowsPasswordsCoinciden
+      ? "#22c55e"
+      : "#ef4444",
+
+    fontWeight: "700"
+  }}
+>
+
+{
+windowsPasswordsCoinciden
+
+? "✅ Passwords Windows coinciden"
+
+: "❌ Passwords Windows no coinciden"
+}
+
+</div>
+
+)}
+
+<label
+  style={{
+    color: "#94a3b8"
+  }}
+>
+
+<input
+  type="checkbox"
+
+  checked={
+    passwordWindowsDesconocido
+  }
+
+  onChange={(e) =>
+    setPasswordWindowsDesconocido(
+      e.target.checked
+    )
+  }
+
+  style={{
+    marginRight: "8px"
+  }}
+/>
+
+Password desconocido
+
+</label>
+
+<input
+  type="date"
+
+  disabled={
+    passwordWindowsDesconocido
+  }
+
+  className="input-pro"
+
+  value={
+    fechaCambioPasswordWindows
+  }
+
+  onChange={(e) =>
+    setFechaCambioPasswordWindows(
+      e.target.value
+    )
+  }
+/>
+
+<input
+  type="date"
+
+  disabled={
+    passwordWindowsDesconocido
+  }
+
+  className="input-pro"
+
+  value={
+    fechaExpiracionPasswordWindows
+  }
+
+  onChange={(e) =>
+    setFechaExpiracionPasswordWindows(
+      e.target.value
+    )
+  }
+/>
+
+</div>
+
+</div>
+{/* PASSWORD ERP */}
+
+<div
+  className="card-pro"
+  style={{
+    padding: "24px"
+  }}
+>
+
+<h2
+  style={{
+    color: "#fff",
+    marginTop: 0
+  }}
+>
+  🏢 Password ERP
+</h2>
+
+<div
+  style={{
+    display: "grid",
+    gap: "16px"
+  }}
+>
+
+<input
+  type="password"
+  className="input-pro"
+  placeholder="Nueva password ERP"
+
+  disabled={
+    passwordERPNoAplica
+  }
+
+  value={passwordERP}
+
+  onChange={(e) =>
+    setPasswordERP(
+      e.target.value
+    )
+  }
+/>
+
+<input
+  type="password"
+  className="input-pro"
+  placeholder="Confirmar password ERP"
+
+  disabled={
+    passwordERPNoAplica
+  }
+
+  value={
+    confirmarPasswordERP
+  }
+
+  onChange={(e) =>
+    setConfirmarPasswordERP(
+      e.target.value
+    )
+  }
+/>
+
+{passwordERP && (
+
+<div
+  style={{
+    color:
+      erpPasswordsCoinciden
+      ? "#22c55e"
+      : "#ef4444",
+
+    fontWeight: "700"
+  }}
+>
+
+{
+erpPasswordsCoinciden
+
+? "✅ Passwords ERP coinciden"
+
+: "❌ Passwords ERP no coinciden"
+}
+
+</div>
+
+)}
+
+<label
+  style={{
+    color: "#94a3b8"
+  }}
+>
+
+<input
+  type="checkbox"
+
+  checked={
+    passwordERPNoAplica
+  }
+
+  onChange={(e) =>
+    setPasswordERPNoAplica(
+      e.target.checked
+    )
+  }
+
+  style={{
+    marginRight: "8px"
+  }}
+/>
+
+ERP no aplica
+
+</label>
+
+<input
+  type="date"
+
+  disabled={
+    passwordERPNoAplica
+  }
+
+  className="input-pro"
+
+  value={
+    fechaCambioPasswordERP
+  }
+
+  onChange={(e) =>
+    setFechaCambioPasswordERP(
+      e.target.value
+    )
+  }
+/>
+
+<input
+  type="date"
+
+  disabled={
+    passwordERPNoAplica
+  }
+
+  className="input-pro"
+
+  value={
+    fechaExpiracionPasswordERP
+  }
+
+  onChange={(e) =>
+    setFechaExpiracionPasswordERP(
+      e.target.value
+    )
+  }
+/>
+
+</div>
+
+</div>
+
+{/* SEGURIDAD */}
+
+<div
+  className="card-pro"
+  style={{
+    padding: "24px"
+  }}
+>
+
+<h2
+  style={{
+    color: "#fff",
+    marginTop: 0
+  }}
+>
+  🛡 Seguridad IT
+</h2>
+
+<div
+  style={{
+    display: "grid",
+    gap: "16px"
+  }}
+>
+
+<select
+  className="input-pro"
+
+  value={mfa ? "si" : "no"}
+
+  onChange={(e) =>
+    setMfa(
+      e.target.value === "si"
+    )
+  }
+>
+
+<option value="si">
+  MFA Activado
+</option>
+
+<option value="no">
+  MFA Desactivado
+</option>
+
+</select>
+
+<select
+  className="input-pro"
+
+  value={antivirus}
+
+  onChange={(e) =>
+    setAntivirus(
+      e.target.value
+    )
+  }
+>
+
+<option value="">
+  Seleccionar antivirus
+</option>
+
+<option>
+  Microsoft Defender
+</option>
+
+<option>
+  ESET Endpoint
+</option>
+
+<option>
+  Bitdefender
+</option>
+
+<option>
+  CrowdStrike
+</option>
+
+<option>
+  Kaspersky
+</option>
+
+<option>
+  Sophos
+</option>
+
+<option>
+  SentinelOne
+</option>
+
+</select>
+
+{
+antivirus !== "Microsoft Defender" &&
+antivirus !== "" && (
+
+<input
+  type="date"
+  className="input-pro"
+
+  value={
+    fechaExpiracionAntivirus
+  }
+
+  onChange={(e) =>
+    setFechaExpiracionAntivirus(
+      e.target.value
+    )
+  }
+/>
+
+)}
+
+{
+antivirus === "Microsoft Defender" && (
+
+<div
+  style={{
+    padding: "14px",
+    borderRadius: "14px",
+    background:
+      "rgba(16,185,129,0.12)",
+    color: "#6ee7b7"
+  }}
+>
+  ✅ Microsoft Defender no requiere expiración.
+</div>
+
+)}
+
+</div>
+
+</div>
+
+{/* ACTIVOS */}
+
+<div
+  className="card-pro"
+  style={{
+    padding: "24px"
+  }}
+>
+
+<h2
+  style={{
+    color: "#fff",
+    marginTop: 0
+  }}
+>
+  🏷 Activos / Compra
 </h2>
 
 <div
@@ -790,22 +1232,11 @@ return (
 >
 
 <input
-  type="date"
   className="input-pro"
-  value={fechaCompra}
+  placeholder="Número activo"
+  value={numeroActivo}
   onChange={(e) =>
-    setFechaCompra(
-      e.target.value
-    )
-  }
-/>
-
-<input
-  type="date"
-  className="input-pro"
-  value={garantiaHasta}
-  onChange={(e) =>
-    setGarantiaHasta(
+    setNumeroActivo(
       e.target.value
     )
   }
@@ -834,111 +1265,27 @@ return (
 />
 
 <input
+  type="date"
   className="input-pro"
-  placeholder="Número activo"
-  value={numeroActivo}
+  value={fechaCompra}
   onChange={(e) =>
-    setNumeroActivo(
-      e.target.value
-    )
-  }
-/>
-
-</div>
-
-</div>
-
-<div
-  className="card-pro"
-  style={{
-    padding: "28px"
-  }}
->
-
-<h2
-  style={{
-    color: "#fff",
-    marginTop: 0
-  }}
->
-  🔐 Seguridad
-</h2>
-
-<div
-  style={{
-    display: "grid",
-    gap: "18px"
-  }}
->
-
-<input
-  type="password"
-  className="input-pro"
-  placeholder="Password Windows"
-  value={passwordWindows}
-  onChange={(e) =>
-    setPasswordWindows(
+    setFechaCompra(
       e.target.value
     )
   }
 />
 
 <input
-  type="password"
+  type="date"
   className="input-pro"
-  placeholder="Confirmar Password Windows"
-  value={confirmarPasswordWindows}
+  value={garantiaHasta}
   onChange={(e) =>
-    setConfirmarPasswordWindows(
+    setGarantiaHasta(
       e.target.value
     )
   }
 />
 
-<input
-  type="password"
-  className="input-pro"
-  placeholder="Password ERP"
-  value={passwordERP}
-  onChange={(e) =>
-    setPasswordERP(
-      e.target.value
-    )
-  }
-/>
-
-<input
-  type="password"
-  className="input-pro"
-  placeholder="Confirmar Password ERP"
-  value={confirmarPasswordERP}
-  onChange={(e) =>
-    setConfirmarPasswordERP(
-      e.target.value
-    )
-  }
-/>
-
-<select
-  className="input-pro"
-  value={mfa ? "si" : "no"}
-  onChange={(e) =>
-    setMfa(
-      e.target.value === "si"
-    )
-  }
->
-
-<option value="si">
-  MFA Activado
-</option>
-
-<option value="no">
-  MFA Desactivado
-</option>
-
-</select>
-
 </div>
 
 </div>
@@ -946,6 +1293,8 @@ return (
 </div>
 
 </div>
+
+{/* OBSERVACIONES */}
 
 <div
   className="card-pro"
