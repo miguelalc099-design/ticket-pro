@@ -8,8 +8,6 @@ function ModalAuditoriaEquipo({
 
 }) {
 
-if (!auditoria) return null;
-
 /* =========================
    STATES
 ========================= */
@@ -262,7 +260,7 @@ const OpcionBoolean =
 /* =========================
    JSX
 ========================= */
-
+if (!auditoria) return null;
 return (
 
 <div
