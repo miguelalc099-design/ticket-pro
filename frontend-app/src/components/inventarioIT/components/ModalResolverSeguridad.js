@@ -17,7 +17,6 @@ const API =
 /* =========================
    STATES
 ========================= */
-
 const [
 
   fechaExpiracionAntivirus,
@@ -26,16 +25,16 @@ const [
 
 ] = useState(
 
+  equipo?.fechaExpiracionAntivirus
+    ?.split("T")[0] || ""
+
+);
+
 const [
   antivirus,
   setAntivirus
 ] = useState(
   equipo?.antivirus || ""
-);
-
-  equipo?.fechaExpiracionAntivirus
-    ?.split("T")[0] || ""
-
 );
 
 const [
