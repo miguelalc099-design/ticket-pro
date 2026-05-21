@@ -259,12 +259,242 @@ return (
 {/* EQUIPO */}
 
 <div
+  style={{
+
+    display: "grid",
+
+    gridTemplateColumns:
+      "320px 1fr 260px",
+
+    gap: "24px",
+
+    alignItems: "start"
+  }}
+>
+<div
   className="card-pro"
 
   style={{
     padding: "28px"
   }}
 >
+
+<h2
+  style={{
+    color: "#fff",
+    marginTop: 0
+  }}
+>
+  💻 Información del Equipo
+</h2>
+
+<div
+  style={{
+    display: "grid",
+    gap: "22px"
+  }}
+>
+
+<div>
+
+<div style={{
+  color:"#94a3b8"
+}}>
+Nombre del equipo
+</div>
+
+<div style={{
+  color:"#fff",
+  fontWeight:"700",
+  marginTop:"6px"
+}}>
+{equipo.nombreEquipo}
+</div>
+
+</div>
+
+<div>
+
+<div style={{
+  color:"#94a3b8"
+}}>
+Usuario asignado
+</div>
+
+<div style={{
+  color:"#fff",
+  fontWeight:"700",
+  marginTop:"6px"
+}}>
+{equipo.usuarioAsignado}
+</div>
+
+</div>
+
+<div>
+
+<div style={{
+  color:"#94a3b8"
+}}>
+Tipo de equipo
+</div>
+
+<div style={{
+  color:"#fff",
+  fontWeight:"700",
+  marginTop:"6px"
+}}>
+{equipo.tipoEquipo}
+</div>
+
+</div>
+
+<div>
+
+<div style={{
+  color:"#94a3b8"
+}}>
+Estado actual
+</div>
+
+<div
+  style={{
+    marginTop:"8px",
+
+    display:"inline-flex",
+
+    padding:"10px 14px",
+
+    borderRadius:"12px",
+
+    background:
+      "rgba(34,197,94,0.12)",
+
+    color:"#22c55e",
+
+    fontWeight:"700"
+  }}
+>
+  En uso
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div
+  className="card-pro"
+
+  style={{
+    padding: "28px"
+  }}
+>
+
+<h2
+  style={{
+    color:"#fff",
+    marginTop:0
+  }}
+>
+  📋 Checklist de Auditoría
+</h2>
+
+<ModalAuditoriaEquipo
+  auditoria={equipo}
+/>
+
+</div>
+<div
+  className="card-pro"
+
+  style={{
+    padding:"28px"
+  }}
+>
+
+<h2
+  style={{
+    color:"#fff",
+    marginTop:0
+  }}
+>
+  📊 Resumen
+</h2>
+
+<div
+  style={{
+    display:"flex",
+    justifyContent:"center",
+    alignItems:"center",
+    marginTop:"40px",
+    marginBottom:"40px"
+  }}
+>
+
+<div
+  style={{
+
+    width:"180px",
+    height:"180px",
+
+    borderRadius:"50%",
+
+    border:
+      "12px solid rgba(59,130,246,0.25)",
+
+    display:"flex",
+
+    justifyContent:"center",
+
+    alignItems:"center",
+
+    flexDirection:"column"
+  }}
+>
+
+<div
+  style={{
+    color:"#fff",
+    fontSize:"46px",
+    fontWeight:"700"
+  }}
+>
+  0%
+</div>
+
+<div
+  style={{
+    color:"#94a3b8"
+  }}
+>
+  Score
+</div>
+
+</div>
+
+</div>
+
+<div
+  style={{
+    padding:"14px",
+
+    borderRadius:"14px",
+
+    background:
+      "rgba(245,158,11,0.12)",
+
+    color:"#f59e0b",
+
+    textAlign:"center",
+
+    fontWeight:"700"
+  }}
+>
+  En evaluación
+</div>
+
+</div>
 
 <h2
   style={{

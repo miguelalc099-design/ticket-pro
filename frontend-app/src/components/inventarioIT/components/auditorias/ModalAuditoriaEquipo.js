@@ -265,27 +265,7 @@ return (
 
 <div
   style={{
-
-    position: "fixed",
-
-    inset: 0,
-
-    background:
-      "rgba(2,6,23,0.82)",
-
-    backdropFilter:
-      "blur(8px)",
-
-    display: "flex",
-
-    justifyContent:
-      "center",
-
-    alignItems: "center",
-
-    zIndex: 9999,
-
-    padding: "20px"
+    width: "100%"
   }}
 >
 
@@ -313,41 +293,6 @@ return (
       "1px solid rgba(51,65,85,0.7)"
   }}
 >
-
-{/* CERRAR */}
-
-<button
-
-  onClick={onClose}
-
-  style={{
-
-    position: "absolute",
-
-    right: "20px",
-
-    top: "20px",
-
-    width: "42px",
-
-    height: "42px",
-
-    borderRadius: "12px",
-
-    border: "none",
-
-    background:
-      "rgba(239,68,68,0.15)",
-
-    color: "#ef4444",
-
-    cursor: "pointer",
-
-    fontSize: "18px"
-  }}
->
-  ✕
-</button>
 
 {/* HEADER */}
 
@@ -688,41 +633,6 @@ return (
 </div>
 
 </div>
-
-{/* BOTONES */}
-
-<div
-  style={{
-
-    display: "flex",
-
-    justifyContent:
-      "flex-end",
-
-    gap: "14px",
-
-    marginTop: "34px",
-
-    flexWrap: "wrap"
-  }}
->
-
-<button
-  className="btn-pro btn-secondary"
-
-  onClick={onClose}
->
-  Cancelar
-</button>
-
-<button
-  className="btn-pro"
->
-  ✅ Finalizar Auditoría
-</button>
-
-</div>
-
 </div>
 
 </div>
