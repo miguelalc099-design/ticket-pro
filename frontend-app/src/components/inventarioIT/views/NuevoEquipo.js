@@ -840,6 +840,8 @@ return (
 
 </div>
 
+</div>
+
 {/* BOTONES */}
 
 <div
