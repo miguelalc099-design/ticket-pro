@@ -316,7 +316,6 @@ function ModalEditarEquipo({
       );
     }
   };
-if (!equipo) return null;
   return (
 
     <div
