@@ -425,9 +425,13 @@ return (
     display: "grid",
 
     gridTemplateColumns:
-      "repeat(auto-fit,minmax(340px,1fr))",
+      "repeat(auto-fit,minmax(300px,1fr))",
 
-    gap: "24px"
+    gap: "24px",
+
+    width: "100%",
+
+    minWidth: 0
   }}
 >
 

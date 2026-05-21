@@ -7,9 +7,12 @@ function AuditoriaActiva({
 
   auditoria,
 
-  onFinalizar
+  onFinalizar,
+
+  onCancelar
 
 }) {
+
 const [
   resultadoEquipo,
   setResultadoEquipo
@@ -129,7 +132,13 @@ return (
     flexWrap: "wrap"
   }}
 >
+<button
+  className="btn-pro btn-secondary"
 
+  onClick={onCancelar}
+>
+  ✖ Salir Auditoría
+</button>
 <div>
 
 <h1
@@ -267,18 +276,19 @@ style={{
   display: "grid",
 
   gridTemplateColumns:
-    "280px minmax(0,1fr) 240px",
+    "280px minmax(0,1fr) 260px",
 
   gap: "24px",
 
   alignItems: "start",
 
-  width: "100%"
+  width: "100%",
+
+  overflow: "hidden"
 }}
 >
 
 {/* IZQUIERDA */}
-
 <div
   className="card-pro"
 
@@ -451,11 +461,11 @@ style={{
 
 <ModalAuditoriaEquipo
 
+  key={equipo._id}
+
   auditoria={equipo}
 
-  onChange={(
-    resultado
-  ) => {
+  onChange={(resultado) => {
 
     setResultadoEquipo(
       resultado
@@ -473,10 +483,13 @@ style={{
   className="card-pro"
 
   style={{
-    padding: "28px"
+    padding: "28px",
+
+    minWidth: 0,
+
+    overflow: "hidden"
   }}
 >
-
 <h2
   style={{
     color: "#fff",

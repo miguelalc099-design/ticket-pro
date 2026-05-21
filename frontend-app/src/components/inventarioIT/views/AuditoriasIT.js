@@ -80,6 +80,10 @@ if (auditoriaActiva) {
     auditoriaActiva
   }
 
+  onCancelar={() =>
+    setAuditoriaActiva(null)
+  }
+
   onFinalizar={(
     auditoriaFinalizada
   ) => {
