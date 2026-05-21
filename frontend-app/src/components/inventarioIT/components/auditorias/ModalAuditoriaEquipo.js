@@ -1,10 +1,19 @@
-import { useMemo, useState } from "react";
+
+import {
+
+  useEffect,
+
+  useMemo,
+
+  useState
+
+} from "react";
 
 function ModalAuditoriaEquipo({
 
   auditoria,
 
-  onClose
+  onChange
 
 }) {
 
@@ -185,6 +194,33 @@ else if (score >= 70) {
     "Equipo funcional pero requiere mejoras.";
 
 }
+useEffect(() => {
+
+  if (onChange) {
+
+    onChange({
+
+      score,
+
+      estado,
+
+      serieCorrecta
+
+    });
+
+  }
+
+}, [
+
+  score,
+
+  estado,
+
+  serieCorrecta,
+
+  onChange
+
+]);
 
 /* =========================
    COMPONENTE SI/NO

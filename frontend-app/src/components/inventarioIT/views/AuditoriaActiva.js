@@ -10,7 +10,10 @@ function AuditoriaActiva({
   onFinalizar
 
 }) {
-
+const [
+  resultadoEquipo,
+  setResultadoEquipo
+] = useState(null);
 /* =========================
    STATES
 ========================= */
@@ -445,7 +448,19 @@ return (
 </h2>
 
 <ModalAuditoriaEquipo
+
   auditoria={equipo}
+
+  onChange={(
+    resultado
+  ) => {
+
+    setResultadoEquipo(
+      resultado
+    );
+
+  }}
+
 />
 
 </div>
@@ -507,7 +522,9 @@ return (
     fontWeight: "700"
   }}
 >
-  0%
+  {
+resultadoEquipo?.score || 0
+}%
 </div>
 
 <div
