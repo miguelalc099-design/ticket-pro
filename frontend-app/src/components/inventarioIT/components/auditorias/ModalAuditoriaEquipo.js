@@ -462,7 +462,186 @@ return (
 </div>
 
 </div>
+<div
+  style={{
+    border: "1px solid #334155",
+    padding: "20px",
+    borderRadius: "14px"
+  }}
+>
 
+<div
+  style={{
+    marginBottom: "12px",
+    color: "#fff",
+    fontWeight: "600"
+  }}
+>
+  🔒 ¿Bloquea automáticamente?
+</div>
+
+<div
+  style={{
+    display: "flex",
+    gap: "12px"
+  }}
+>
+
+<button
+  type="button"
+
+  className={
+    bloqueoAutomatico
+    ? "btn-pro"
+    : "btn-pro btn-secondary"
+  }
+
+  onClick={() =>
+    setBloqueoAutomatico(true)
+  }
+>
+  ✅ Sí
+</button>
+
+<button
+  type="button"
+
+  className={
+    !bloqueoAutomatico
+    ? "btn-pro"
+    : "btn-pro btn-secondary"
+  }
+
+  onClick={() =>
+    setBloqueoAutomatico(false)
+  }
+>
+  ❌ No
+</button>
+
+</div>
+
+</div>
+<div
+  style={{
+    border: "1px solid #334155",
+    padding: "20px",
+    borderRadius: "14px"
+  }}
+>
+
+<div
+  style={{
+    marginBottom: "12px",
+    color: "#fff",
+    fontWeight: "600"
+  }}
+>
+  🛡 ¿MFA habilitado?
+</div>
+
+<div
+  style={{
+    display: "flex",
+    gap: "12px"
+  }}
+>
+
+<button
+  type="button"
+
+  className={
+    mfaActivo
+    ? "btn-pro"
+    : "btn-pro btn-secondary"
+  }
+
+  onClick={() =>
+    setMfaActivo(true)
+  }
+>
+  ✅ Sí
+</button>
+
+<button
+  type="button"
+
+  className={
+    !mfaActivo
+    ? "btn-pro"
+    : "btn-pro btn-secondary"
+  }
+
+  onClick={() =>
+    setMfaActivo(false)
+  }
+>
+  ❌ No
+</button>
+
+</div>
+
+</div>
+<div
+  style={{
+    border: "1px solid #334155",
+    padding: "20px",
+    borderRadius: "14px"
+  }}
+>
+
+<div
+  style={{
+    marginBottom: "12px",
+    color: "#fff",
+    fontWeight: "600"
+  }}
+>
+  🦠 ¿Antivirus activo?
+</div>
+
+<div
+  style={{
+    display: "flex",
+    gap: "12px"
+  }}
+>
+
+<button
+  type="button"
+
+  className={
+    antivirusActivo
+    ? "btn-pro"
+    : "btn-pro btn-secondary"
+  }
+
+  onClick={() =>
+    setAntivirusActivo(true)
+  }
+>
+  ✅ Sí
+</button>
+
+<button
+  type="button"
+
+  className={
+    !antivirusActivo
+    ? "btn-pro"
+    : "btn-pro btn-secondary"
+  }
+
+  onClick={() =>
+    setAntivirusActivo(false)
+  }
+>
+  ❌ No
+</button>
+
+</div>
+
+</div>
 {/* VALIDACION */}
 
 <div
