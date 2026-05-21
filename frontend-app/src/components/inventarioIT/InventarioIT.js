@@ -433,117 +433,15 @@ return (
 
 )}
 
-<div
-  style={{
-    display: "grid",
+{/* =========================
+   AUDITORIAS
+========================= */}
 
-    gridTemplateColumns:
-      "repeat(auto-fit,minmax(280px,1fr))",
+{vista === "dashboard" && (
 
-    gap: "20px"
-  }}
->
-
-<div
-  className="card-pro"
-
-  style={{
-    padding: "28px"
-  }}
->
-
-<h2
-  style={{
-    marginTop: 0,
-    color: "#22c55e"
-  }}
->
-  ✅ Equipos Seguros
-</h2>
-
-<div
-  style={{
-    fontSize: "52px",
-
-    fontWeight: "700",
-
-    color: "#fff"
-  }}
->
-  {totalSeguro}
-</div>
-
-</div>
-
-<div
-  className="card-pro"
-
-  style={{
-    padding: "28px"
-  }}
->
-
-<h2
-  style={{
-    marginTop: 0,
-    color: "#f59e0b"
-  }}
->
-  ⚠ Equipos en Alerta
-</h2>
-
-<div
-  style={{
-    fontSize: "52px",
-
-    fontWeight: "700",
-
-    color: "#fff"
-  }}
->
-  {
-    equipos.filter(
-      (e) =>
-        e.estadoSeguridad ===
-        "alerta"
-    ).length
-  }
-</div>
-
-</div>
-
-<div
-  className="card-pro"
-
-  style={{
-    padding: "28px"
-  }}
->
-
-<h2
-  style={{
-    marginTop: 0,
-    color: "#ef4444"
-  }}
->
-  🚨 Equipos en Riesgo
-</h2>
-
-<div
-  style={{
-    fontSize: "52px",
-
-    fontWeight: "700",
-
-    color: "#fff"
-  }}
->
-  {totalRiesgo}
-</div>
-
-</div>
-
-</div>
+<AuditoriasIT
+  equipos={equipos}
+/>
 
 )}
 
