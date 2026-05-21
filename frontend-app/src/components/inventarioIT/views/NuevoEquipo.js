@@ -967,7 +967,6 @@ disabled
 
 <div
   className="card-pro"
-
   style={{
     padding: "28px"
   }}
@@ -986,16 +985,12 @@ disabled
   style={{
     width: "54px",
     height: "54px",
-
     borderRadius: "16px",
-
     background:
       "rgba(16,185,129,0.18)",
-
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-
     fontSize: "24px"
   }}
 >
@@ -1027,8 +1022,6 @@ disabled
 
 </div>
 
-{tipoEquipo === "desktop" ? (
-
 <div
   style={{
     display: "grid",
@@ -1044,9 +1037,7 @@ disabled
 
 <select
   className="input-pro"
-
   value={cantidadMonitores}
-
   onChange={(e) => {
 
     const cantidad =
@@ -1079,15 +1070,11 @@ disabled
 
 <div
   key={index}
-
   style={{
     padding: "20px",
-
     borderRadius: "18px",
-
     background:
       "rgba(15,23,42,0.55)",
-
     border:
       "1px solid rgba(51,65,85,0.7)"
   }}
@@ -1112,11 +1099,8 @@ disabled
 
 <input
   className="input-pro"
-
   placeholder="ID Monitor o N/A"
-
   value={monitor.idMonitor}
-
   onChange={(e) => {
 
     const copia =
@@ -1132,9 +1116,7 @@ disabled
 
 <select
   className="input-pro"
-
   value={monitor.tipoMonitor}
-
   onChange={(e) => {
 
     const copia =
@@ -1166,35 +1148,31 @@ disabled
 
 </div>
 
-) : (
+</div>
+
+)}
+
+{tipoEquipo === "laptop" && (
 
 <div
+  className="card-pro"
   style={{
-    padding: "28px",
-
-    borderRadius: "18px",
-
-    background:
-      "rgba(15,23,42,0.45)",
-
+    padding: "18px",
     border:
-      "1px solid rgba(51,65,85,0.7)",
-
-    color: "#94a3b8",
-
-    textAlign: "center",
-
-    fontSize: "15px"
+      "1px solid rgba(59,130,246,0.25)",
+    background:
+      "rgba(59,130,246,0.08)",
+    color: "#93c5fd",
+    fontSize: "15px",
+    lineHeight: "1.6"
   }}
 >
- 💻 Laptop corporativa sin monitores externos configurados.
+  💻 Equipo portátil detectado.
+  No requiere configuración de monitores corporativos.
 </div>
 
 )}
 
-</div>
-
-)}
 {tipoEquipo === "laptop" && (
 
 <div
