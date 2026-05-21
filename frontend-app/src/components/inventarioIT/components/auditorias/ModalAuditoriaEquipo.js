@@ -265,11 +265,23 @@ const OpcionBoolean =
     position: "relative",
     zIndex: 20
   }}
-  className={
+  style={{
+
+  padding: "12px 18px",
+
+  borderRadius: "12px",
+
+  border: "none",
+
+  cursor: "pointer",
+
+  background:
     value
-    ? "btn-pro"
-    : "btn-pro btn-secondary"
-  }
+    ? "#2563eb"
+    : "#1e293b",
+
+  color: "#fff"
+}}
 
   onClick={() =>
     setValue(true)
@@ -286,11 +298,23 @@ const OpcionBoolean =
     position: "relative",
     zIndex: 20
   }}
-  className={
+ style={{
+
+  padding: "12px 18px",
+
+  borderRadius: "12px",
+
+  border: "none",
+
+  cursor: "pointer",
+
+  background:
     !value
-    ? "btn-pro"
-    : "btn-pro btn-secondary"
-  }
+    ? "#2563eb"
+    : "#1e293b",
+
+  color: "#fff"
+}}
 
   onClick={() =>
     setValue(false)
