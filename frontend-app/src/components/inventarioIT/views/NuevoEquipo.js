@@ -776,6 +776,56 @@ return (
   }}
 >
 
+<div
+  style={{
+    display: "flex",
+    alignItems: "center",
+    gap: "14px",
+    marginBottom: "28px"
+  }}
+>
+
+<div
+  style={{
+    width: "54px",
+    height: "54px",
+    borderRadius: "16px",
+    background:
+      "rgba(245,158,11,0.18)",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    fontSize: "24px"
+  }}
+>
+  📝
+</div>
+
+<div>
+
+<h2
+  style={{
+    margin: 0,
+    color: "#fff"
+  }}
+>
+  Observaciones
+</h2>
+
+<p
+  style={{
+    marginTop: "4px",
+    color: "#64748b",
+    fontSize: "14px"
+  }}
+>
+  Información adicional y notas técnicas
+</p>
+
+</div>
+
+</div>
+
 <textarea
   className="input-pro"
   rows={7}
@@ -785,9 +835,8 @@ return (
       e.target.value
     )
   }
+  placeholder="Detalles técnicos, observaciones, incidencias, cambios realizados..."
 />
-
-</div>
 
 </div>
 
