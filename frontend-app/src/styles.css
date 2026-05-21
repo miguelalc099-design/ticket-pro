@@ -717,9 +717,12 @@ body {
 
 .btn-pro:hover {
 
-  transform:
-    translateY(-2px)
-    scale(1.02);
+  box-shadow:
+    0 20px 35px rgba(37,99,235,0.45),
+    0 0 20px rgba(6,182,212,0.35);
+
+  filter: brightness(1.08);
+}
 
   box-shadow:
     0 20px 35px rgba(37,99,235,0.45),
@@ -729,7 +732,6 @@ body {
 }
 
 .btn-pro:active {
-  transform: scale(0.98);
 }
 
 /* BOTON SECUNDARIO */
