@@ -9,6 +9,9 @@ from "./views/NuevoEquipo";
 import ListaEquipos
 from "./views/ListaEquipos";
 
+import AuditoriasIT
+from "./views/AuditoriasIT";
+
 function InventarioIT() {
 
 const API =
@@ -381,7 +384,7 @@ return (
     setVista("dashboard")
   }
 >
-  📊 Dashboard
+  🛡 Auditorías IT
 </button>
 
 <button
@@ -423,6 +426,12 @@ return (
 ========================= */}
 
 {vista === "dashboard" && (
+
+<AuditoriasIT
+  equipos={equipos}
+/>
+
+)}
 
 <div
   style={{
