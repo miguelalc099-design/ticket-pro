@@ -1,52 +1,64 @@
 import { useState } from "react";
 
-function AuditoriasIT({ equipos }) {
+import NuevaAuditoria
+from "./NuevaAuditoria";
 
-const [auditorias, setAuditorias] =
-  useState([]);
+function AuditoriasIT({
 
-const crearAuditoria = () => {
+  equipos
 
-  const nueva = {
+}) {
 
-    id: Date.now(),
+/* =========================
+   STATES
+========================= */
 
-    nombre:
-      `Auditoría ${new Date().toLocaleDateString()}`,
+const [
+  auditorias,
+  setAuditorias
+] = useState([]);
 
-    fecha:
-      new Date(),
+const [
+  creandoAuditoria,
+  setCreandoAuditoria
+] = useState(false);
 
-    equipos: equipos.map((e) => ({
+/* =========================
+   NUEVA AUDITORIA
+========================= */
 
-      ...e,
+if (creandoAuditoria) {
 
-      checklist: {
+  return (
 
-        bloqueoAutomatico: false,
+<NuevaAuditoria
 
-        passwordDesbloqueo: false,
+  equipos={equipos}
 
-        serieValidada: false,
+  onCancel={() =>
+    setCreandoAuditoria(false)
+  }
 
-        antivirusActivo: false,
+  onGuardar={(nueva) => {
 
-        escritorioLimpio: false,
+    setAuditorias([
+      nueva,
+      ...auditorias
+    ]);
 
-        usbNoAutorizado: false
+    setCreandoAuditoria(false);
 
-      }
+  }}
 
-    }))
+/>
 
-  };
+  );
 
-  setAuditorias([
-    nueva,
-    ...auditorias
-  ]);
+}
 
-};
+/* =========================
+   JSX
+========================= */
 
 return (
 
@@ -62,10 +74,28 @@ return (
 
 <div
   className="card-pro"
+
   style={{
-    padding: "30px"
+    padding: "32px"
   }}
 >
+
+<div
+  style={{
+    display: "flex",
+
+    justifyContent:
+      "space-between",
+
+    alignItems: "center",
+
+    gap: "20px",
+
+    flexWrap: "wrap"
+  }}
+>
+
+<div>
 
 <h1
   style={{
@@ -78,20 +108,27 @@ return (
 
 <p
   style={{
-    color: "#94a3b8"
+    color: "#94a3b8",
+    marginBottom: 0
   }}
 >
-  Validación corporativa de
-  seguridad, inventario y cumplimiento IT.
+  Auditorías corporativas
+  de seguridad y compliance.
 </p>
+
+</div>
 
 <button
   className="btn-pro"
 
-  onClick={crearAuditoria}
+  onClick={() =>
+    setCreandoAuditoria(true)
+  }
 >
-  ➕ Generar Nueva Auditoría
+  ➕ Nueva Auditoría
 </button>
+
+</div>
 
 </div>
 
@@ -102,11 +139,21 @@ auditorias.length === 0 && (
 
 <div
   className="card-pro"
+
   style={{
-    padding: "40px",
+    padding: "60px",
     textAlign: "center"
   }}
 >
+
+<div
+  style={{
+    fontSize: "60px",
+    marginBottom: "20px"
+  }}
+>
+  🛡
+</div>
 
 <h2
   style={{
@@ -121,7 +168,7 @@ auditorias.length === 0 && (
     color: "#94a3b8"
   }}
 >
-  Genera una nueva auditoría IT
+  Genera tu primera auditoría IT corporativa.
 </p>
 
 </div>
@@ -129,6 +176,13 @@ auditorias.length === 0 && (
 )}
 
 {/* AUDITORIAS */}
+
+<div
+  style={{
+    display: "grid",
+    gap: "22px"
+  }}
+>
 
 {
 auditorias.map((auditoria) => (
@@ -139,116 +193,147 @@ auditorias.map((auditoria) => (
   className="card-pro"
 
   style={{
-    padding: "28px"
+    padding: "28px",
+
+    border:
+      "1px solid rgba(59,130,246,0.25)"
   }}
 >
 
-<h2
+<div
   style={{
-    marginTop: 0,
-    color: "#60a5fa"
+    display: "flex",
+
+    justifyContent:
+      "space-between",
+
+    alignItems: "center",
+
+    gap: "20px",
+
+    flexWrap: "wrap"
   }}
 >
-  📋 {auditoria.nombre}
+
+<div>
+
+<h2
+  style={{
+    color: "#fff",
+    marginTop: 0,
+    marginBottom: "10px"
+  }}
+>
+  📋 {auditoria.nombreAuditoria}
 </h2>
 
 <p
   style={{
-    color: "#94a3b8"
+    color: "#94a3b8",
+    margin: 0
   }}
 >
-  Equipos:
-  {" "}
-  {auditoria.equipos.length}
+  👤 {auditoria.auditor}
 </p>
+
+</div>
 
 <div
   style={{
-    display: "grid",
-    gap: "18px",
+    padding: "10px 16px",
+
+    borderRadius: "14px",
+
+    background:
+      "rgba(59,130,246,0.14)",
+
+    color: "#60a5fa",
+
+    fontWeight: "700"
+  }}
+>
+  {auditoria.tipoAuditoria}
+</div>
+
+</div>
+
+{/* INFO */}
+
+<div
+  style={{
+    display: "flex",
+
+    gap: "20px",
+
+    flexWrap: "wrap",
+
     marginTop: "24px"
   }}
 >
 
-{
-auditoria.equipos.map((equipo) => (
-
 <div
-  key={equipo._id}
-
-  style={{
-    padding: "22px",
-
-    borderRadius: "18px",
-
-    background:
-      "rgba(15,23,42,0.5)",
-
-    border:
-      "1px solid rgba(51,65,85,0.6)"
-  }}
->
-
-<h3
-  style={{
-    color: "#fff",
-    marginTop: 0
-  }}
->
-  💻 {equipo.nombreEquipo}
-</h3>
-
-<p
   style={{
     color: "#94a3b8"
   }}
 >
-  👤 {equipo.usuarioAsignado}
-</p>
+  💻 Equipos:
+  {" "}
+  {auditoria.equipos.length}
+</div>
 
 <div
   style={{
-    display: "grid",
+    color: "#94a3b8"
+  }}
+>
+  📅 {
+    new Date(
+      auditoria.fecha
+    ).toLocaleDateString()
+  }
+</div>
+
+<div
+  style={{
+    color: "#22c55e"
+  }}
+>
+  ✅ {auditoria.estado}
+</div>
+
+</div>
+
+{/* BOTONES */}
+
+<div
+  style={{
+    display: "flex",
+
     gap: "12px",
-    marginTop: "18px"
+
+    marginTop: "26px",
+
+    flexWrap: "wrap"
   }}
 >
 
-<label>
-  <input type="checkbox" />
-  {" "}
-  Equipo se bloquea automáticamente
-</label>
+<button
+  className="btn-pro"
+>
+  ▶ Abrir Auditoría
+</button>
 
-<label>
-  <input type="checkbox" />
-  {" "}
-  Solicita password al desbloquear
-</label>
+<button
+  className="btn-pro btn-secondary"
+>
+  📄 PDF
+</button>
 
-<label>
-  <input type="checkbox" />
-  {" "}
-  Número de serie validado
-</label>
-
-<label>
-  <input type="checkbox" />
-  {" "}
-  Antivirus validado
-</label>
-
-<label>
-  <input type="checkbox" />
-  {" "}
-  Escritorio limpio
-</label>
-
-<label>
-  <input type="checkbox" />
-  {" "}
-  Sin USB no autorizados
-</label>
+<button
+  className="btn-pro btn-secondary"
+>
+  📊 Excel
+</button>
 
 </div>
 
@@ -258,11 +343,6 @@ auditoria.equipos.map((equipo) => (
 }
 
 </div>
-
-</div>
-
-))
-}
 
 </div>
 
