@@ -2,6 +2,8 @@ import { useState } from "react";
 
 import NuevaAuditoria
 from "./NuevaAuditoria";
+import ModalAuditoriaEquipo
+from "../components/auditorias/ModalAuditoriaEquipo";
 
 function AuditoriasIT({
 
@@ -22,7 +24,10 @@ const [
   creandoAuditoria,
   setCreandoAuditoria
 ] = useState(false);
-
+const [
+  auditoriaAbierta,
+  setAuditoriaAbierta
+] = useState(null);
 /* =========================
    NUEVA AUDITORIA
 ========================= */
@@ -319,6 +324,14 @@ auditorias.map((auditoria) => (
 
 <button
   className="btn-pro"
+
+  onClick={() =>
+
+    setAuditoriaAbierta(
+      auditoria.equipos[0]
+    )
+
+  }
 >
   ▶ Abrir Auditoría
 </button>
@@ -343,7 +356,22 @@ auditorias.map((auditoria) => (
 }
 
 </div>
+{
+auditoriaAbierta && (
 
+<ModalAuditoriaEquipo
+
+  auditoria={
+    auditoriaAbierta
+  }
+
+  onClose={() =>
+    setAuditoriaAbierta(null)
+  }
+
+/>
+
+)}
 </div>
 
 );
