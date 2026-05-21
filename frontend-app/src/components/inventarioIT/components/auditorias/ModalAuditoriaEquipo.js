@@ -390,13 +390,14 @@ return (
 >
   🔐 Seguridad
 </h2>
-
 <div
   style={{
     display: "grid",
     gap: "22px"
   }}
 >
+
+{/* PASSWORD */}
 
 <div
   style={{
@@ -425,13 +426,11 @@ return (
 
 <button
   type="button"
-
   className={
     passwordInicio
     ? "btn-pro"
     : "btn-pro btn-secondary"
   }
-
   onClick={() =>
     setPasswordInicio(true)
   }
@@ -441,13 +440,11 @@ return (
 
 <button
   type="button"
-
   className={
     !passwordInicio
     ? "btn-pro"
     : "btn-pro btn-secondary"
   }
-
   onClick={() =>
     setPasswordInicio(false)
   }
@@ -459,9 +456,8 @@ return (
 
 </div>
 
-</div>
+{/* BLOQUEO */}
 
-</div>
 <div
   style={{
     border: "1px solid #334155",
@@ -489,13 +485,11 @@ return (
 
 <button
   type="button"
-
   className={
     bloqueoAutomatico
     ? "btn-pro"
     : "btn-pro btn-secondary"
   }
-
   onClick={() =>
     setBloqueoAutomatico(true)
   }
@@ -505,13 +499,11 @@ return (
 
 <button
   type="button"
-
   className={
     !bloqueoAutomatico
     ? "btn-pro"
     : "btn-pro btn-secondary"
   }
-
   onClick={() =>
     setBloqueoAutomatico(false)
   }
@@ -522,6 +514,9 @@ return (
 </div>
 
 </div>
+
+{/* MFA */}
+
 <div
   style={{
     border: "1px solid #334155",
@@ -549,13 +544,11 @@ return (
 
 <button
   type="button"
-
   className={
     mfaActivo
     ? "btn-pro"
     : "btn-pro btn-secondary"
   }
-
   onClick={() =>
     setMfaActivo(true)
   }
@@ -565,13 +558,11 @@ return (
 
 <button
   type="button"
-
   className={
     !mfaActivo
     ? "btn-pro"
     : "btn-pro btn-secondary"
   }
-
   onClick={() =>
     setMfaActivo(false)
   }
@@ -582,6 +573,9 @@ return (
 </div>
 
 </div>
+
+{/* ANTIVIRUS */}
+
 <div
   style={{
     border: "1px solid #334155",
@@ -609,13 +603,11 @@ return (
 
 <button
   type="button"
-
   className={
     antivirusActivo
     ? "btn-pro"
     : "btn-pro btn-secondary"
   }
-
   onClick={() =>
     setAntivirusActivo(true)
   }
@@ -625,13 +617,11 @@ return (
 
 <button
   type="button"
-
   className={
     !antivirusActivo
     ? "btn-pro"
     : "btn-pro btn-secondary"
   }
-
   onClick={() =>
     setAntivirusActivo(false)
   }
@@ -642,6 +632,11 @@ return (
 </div>
 
 </div>
+
+</div>
+
+</div>
+
 {/* VALIDACION */}
 
 <div
