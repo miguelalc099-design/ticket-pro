@@ -387,14 +387,20 @@ return (
     display: "grid",
 
     gridTemplateColumns:
-      "repeat(auto-fit,minmax(520px,1fr))",
+      "1fr 1fr",
 
     gap: "24px",
 
     alignItems: "start"
   }}
 >
-
+<div
+  style={{
+    display: "flex",
+    flexDirection: "column",
+    gap: "24px"
+  }}
+>
 {/* DATOS GENERALES */}
 
 <div
@@ -599,6 +605,13 @@ return (
 </div>
 
 </div>
+<div
+  style={{
+    display: "flex",
+    flexDirection: "column",
+    gap: "24px"
+  }}
+>
 {/* SEGURIDAD */}
 
 <div
@@ -1208,7 +1221,10 @@ disabled
 </div>
 
 )}
-{/* OBSERVACIONES */}
+
+</div>
+
+{/* OBSERVACIONES */}}
 
 <div
   className="card-pro"
