@@ -346,7 +346,7 @@ return (
   {" "}
 
   {
-    equipo?.passwordCorreoNoAplica
+    equipo?.passwordERPNoAplica
       ? "No aplica"
       : "Configurado"
   }

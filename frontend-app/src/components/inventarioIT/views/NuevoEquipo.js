@@ -12,6 +12,10 @@ function NuevoEquipo({
 const API =
   "https://ticket-pro-backend.onrender.com";
 
+/* =========================
+   STATES
+========================= */
+
 const [tipoEquipo, setTipoEquipo] =
   useState("laptop");
 
@@ -39,11 +43,17 @@ const [passwordWindows,
   setPasswordWindows] =
   useState("");
 
-const [passwordCorreo,
-  setPasswordCorreo] =
+const [
+  passwordWindowsDesconocido,
+  setPasswordWindowsDesconocido
+] = useState(false);
+
+const [passwordERP,
+  setPasswordERP] =
   useState("");
-const [passwordCorreoNoAplica,
-  setPasswordCorreoNoAplica] =
+
+const [passwordERPNoAplica,
+  setPasswordERPNoAplica] =
   useState(false);
 
 const [fechaExpiracionAntivirus,
@@ -54,20 +64,57 @@ const [diasAlertaAntivirus,
   setDiasAlertaAntivirus] =
   useState(30);
 
-const [fechaCambioPasswordWindows,
-  setFechaCambioPasswordWindows] =
-  useState("");
 const [
-
-  fechaExpiracionPasswordWindows,
-
-  setFechaExpiracionPasswordWindows
-
+  fechaCambioPasswordWindows,
+  setFechaCambioPasswordWindows
 ] = useState("");
 
-const [diasRecordatorioPassword,
-  setDiasRecordatorioPassword] =
-  useState(5);
+const [
+  fechaExpiracionPasswordWindows,
+  setFechaExpiracionPasswordWindows
+] = useState("");
+
+const [
+  fechaCambioPasswordERP,
+  setFechaCambioPasswordERP
+] = useState("");
+
+const [
+  fechaExpiracionPasswordERP,
+  setFechaExpiracionPasswordERP
+] = useState("");
+
+const [
+  diasRecordatorioPassword,
+  setDiasRecordatorioPassword
+] = useState(5);
+
+const [estadoAntivirus,
+  setEstadoAntivirus] =
+  useState("activo");
+
+const [mfa, setMfa] =
+  useState(true);
+
+const [observaciones,
+  setObservaciones] =
+  useState("");
+
+const [monitores,
+  setMonitores] =
+  useState([
+    {
+      marca: "",
+      modelo: "",
+      serie: "",
+      tipoMonitor: "empresa"
+    }
+  ]);
+
+/* =========================
+   EFFECTS
+========================= */
+
 useEffect(() => {
 
   if (!fechaCambioPasswordWindows)
@@ -108,27 +155,49 @@ useEffect(() => {
 
 ]);
 
-const [estadoAntivirus,
-  setEstadoAntivirus] =
-  useState("activo");
+useEffect(() => {
 
-const [mfa, setMfa] =
-  useState(true);
+  if (!fechaCambioPasswordERP)
+    return;
 
-const [observaciones,
-  setObservaciones] =
-  useState("");
+  const fecha =
+    new Date(
+      fechaCambioPasswordERP
+    );
 
-const [monitores,
-  setMonitores] =
-  useState([
-    {
-      marca: "",
-      modelo: "",
-      serie: "",
-      tipoMonitor: "empresa"
-    }
-  ]);
+  fecha.setDate(
+    fecha.getDate() +
+    diasRecordatorioPassword
+  );
+
+  const yyyy =
+    fecha.getFullYear();
+
+  const mm =
+    String(
+      fecha.getMonth() + 1
+    ).padStart(2, "0");
+
+  const dd =
+    String(
+      fecha.getDate()
+    ).padStart(2, "0");
+
+  setFechaExpiracionPasswordERP(
+    `${yyyy}-${mm}-${dd}`
+  );
+
+}, [
+
+  fechaCambioPasswordERP,
+
+  diasRecordatorioPassword
+
+]);
+
+/* =========================
+   GUARDAR
+========================= */
 
 const guardarEquipo =
   async () => {
@@ -148,18 +217,26 @@ const guardarEquipo =
       antivirus,
 
       passwordWindows,
-passwordCorreoNoAplica,
 
-fechaExpiracionAntivirus,
+      passwordWindowsDesconocido,
 
-diasAlertaAntivirus,
+      passwordERP,
 
-fechaCambioPasswordWindows,
-fechaExpiracionPasswordWindows,
+      passwordERPNoAplica,
 
-diasRecordatorioPassword,
+      fechaExpiracionAntivirus,
 
-      passwordCorreo,
+      diasAlertaAntivirus,
+
+      fechaCambioPasswordWindows,
+
+      fechaExpiracionPasswordWindows,
+
+      fechaCambioPasswordERP,
+
+      fechaExpiracionPasswordERP,
+
+      diasRecordatorioPassword,
 
       estadoAntivirus,
 
@@ -195,79 +272,101 @@ diasRecordatorioPassword,
     console.log(data);
 
     toast.success(
-  "Equipo registrado correctamente"
-);
-recargarEquipos();
+      "Equipo registrado correctamente"
+    );
 
-volverEquipos();
-setNombreEquipo("");
+    recargarEquipos();
 
-setUsuarioAsignado("");
+    volverEquipos();
 
-setWindows(
-  "Windows 11 Pro"
-);
+    /* RESET */
 
-setAntivirus("");
+    setNombreEquipo("");
 
-setPasswordWindows("");
+    setUsuarioAsignado("");
 
-setPasswordCorreo("");
-setPasswordCorreoNoAplica(
-  false
-);
+    setWindows(
+      "Windows 11 Pro"
+    );
 
-setFechaExpiracionAntivirus(
-  ""
-);
+    setAntivirus("");
 
-setDiasAlertaAntivirus(
-  30
-);
+    setPasswordWindows("");
 
-setFechaCambioPasswordWindows(
-  ""
-);
-setFechaExpiracionPasswordWindows(
-  ""
-);
+    setPasswordWindowsDesconocido(
+      false
+    );
 
-setDiasRecordatorioPassword(
-  5
-);
+    setPasswordERP("");
 
-setEstadoAntivirus(
-  "activo"
-);
+    setPasswordERPNoAplica(
+      false
+    );
 
-setMfa(true);
+    setFechaExpiracionAntivirus(
+      ""
+    );
 
-setObservaciones("");
+    setDiasAlertaAntivirus(
+      30
+    );
 
-setTipoEquipo(
-  "laptop"
-);
+    setFechaCambioPasswordWindows(
+      ""
+    );
 
-setCantidadMonitores(1);
+    setFechaExpiracionPasswordWindows(
+      ""
+    );
 
-setMonitores([
-  {
-    marca: "",
-    modelo: "",
-    serie: "",
-    tipoMonitor: "empresa"
-  }
-]);
+    setFechaCambioPasswordERP(
+      ""
+    );
+
+    setFechaExpiracionPasswordERP(
+      ""
+    );
+
+    setDiasRecordatorioPassword(
+      5
+    );
+
+    setEstadoAntivirus(
+      "activo"
+    );
+
+    setMfa(true);
+
+    setObservaciones("");
+
+    setTipoEquipo(
+      "laptop"
+    );
+
+    setCantidadMonitores(1);
+
+    setMonitores([
+      {
+        marca: "",
+        modelo: "",
+        serie: "",
+        tipoMonitor: "empresa"
+      }
+    ]);
 
   } catch (err) {
 
     console.log(err);
 
-   toast.error(
-  "Error guardando equipo"
-);
+    toast.error(
+      "Error guardando equipo"
+    );
   }
 };
+
+/* =========================
+   JSX
+========================= */
 
 return (
 
@@ -283,49 +382,22 @@ return (
 
 <div
   className="card-pro"
-
   style={{
     padding: "35px",
-
     background:
       "linear-gradient(145deg, rgba(37,99,235,0.18), rgba(124,58,237,0.14))",
-
     border:
       "1px solid rgba(59,130,246,0.18)",
-
     position: "relative",
-
     overflow: "hidden"
   }}
 >
 
 <div
   style={{
-    position: "absolute",
-
-    right: "-40px",
-    top: "-40px",
-
-    width: "180px",
-    height: "180px",
-
-    borderRadius: "50%",
-
-    background:
-      "rgba(59,130,246,0.12)",
-
-    filter: "blur(10px)"
-  }}
-/>
-
-<div
-  style={{
     display: "flex",
     alignItems: "center",
-    gap: "20px",
-
-    position: "relative",
-    zIndex: 2
+    gap: "20px"
   }}
 >
 
@@ -333,20 +405,13 @@ return (
   style={{
     width: "82px",
     height: "82px",
-
     borderRadius: "24px",
-
     background:
       "linear-gradient(145deg,#2563eb,#7c3aed)",
-
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-
-    fontSize: "42px",
-
-    boxShadow:
-      "0 15px 35px rgba(59,130,246,0.35)"
+    fontSize: "42px"
   }}
 >
   💻
@@ -358,8 +423,7 @@ return (
   style={{
     margin: 0,
     fontSize: "38px",
-    color: "#fff",
-    fontWeight: "800"
+    color: "#fff"
   }}
 >
   Nuevo Equipo IT
@@ -368,14 +432,10 @@ return (
 <p
   style={{
     marginTop: "10px",
-    color: "#94a3b8",
-    fontSize: "16px",
-    maxWidth: "700px",
-    lineHeight: "1.6"
+    color: "#94a3b8"
   }}
 >
-  Registro corporativo de activos tecnológicos,
-  seguridad, hardware y monitoreo empresarial.
+  Registro corporativo de activos tecnológicos
 </p>
 
 </div>
@@ -384,18 +444,18 @@ return (
 
 </div>
 
-{/* GRID PRINCIPAL */}
+{/* GRID */}
 
 <div
   style={{
     display: "grid",
-    gridTemplateColumns: "1fr 1fr",
-    gap: "24px",
-    alignItems: "start"
+    gridTemplateColumns:
+      "1fr 1fr",
+    gap: "24px"
   }}
 >
 
-{/* COLUMNA IZQUIERDA */}
+{/* IZQUIERDA */}
 
 <div
   style={{
@@ -405,7 +465,7 @@ return (
   }}
 >
 
-{/* DATOS GENERALES */}
+{/* DATOS */}
 
 <div
   className="card-pro"
@@ -414,54 +474,14 @@ return (
   }}
 >
 
-<div
-  style={{
-    display: "flex",
-    alignItems: "center",
-    gap: "14px",
-    marginBottom: "28px"
-  }}
->
-
-<div
-  style={{
-    width: "54px",
-    height: "54px",
-    borderRadius: "16px",
-    background: "rgba(59,130,246,0.18)",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    fontSize: "24px"
-  }}
->
-  🖥
-</div>
-
-<div>
-
 <h2
   style={{
-    margin: 0,
-    color: "#fff"
+    color: "#fff",
+    marginTop: 0
   }}
 >
   Datos Generales
 </h2>
-
-<p
-  style={{
-    marginTop: "4px",
-    color: "#64748b",
-    fontSize: "14px"
-  }}
->
-  Información principal del activo
-</p>
-
-</div>
-
-</div>
 
 <div
   style={{
@@ -470,51 +490,35 @@ return (
   }}
 >
 
-<div>
-
-<label className="label-pro">
-  Nombre del equipo
-</label>
-
 <input
   className="input-pro"
-  placeholder="PC-ADMON-01"
+  placeholder="Nombre equipo"
   value={nombreEquipo}
   onChange={(e) =>
-    setNombreEquipo(e.target.value)
+    setNombreEquipo(
+      e.target.value
+    )
   }
 />
-
-</div>
-
-<div>
-
-<label className="label-pro">
-  Usuario asignado
-</label>
 
 <input
   className="input-pro"
-  placeholder="Miguel Alcalá"
+  placeholder="Usuario asignado"
   value={usuarioAsignado}
   onChange={(e) =>
-    setUsuarioAsignado(e.target.value)
+    setUsuarioAsignado(
+      e.target.value
+    )
   }
 />
-
-</div>
-
-<div>
-
-<label className="label-pro">
-  Tipo de equipo
-</label>
 
 <select
   className="input-pro"
   value={tipoEquipo}
   onChange={(e) =>
-    setTipoEquipo(e.target.value)
+    setTipoEquipo(
+      e.target.value
+    )
   }
 >
 
@@ -528,19 +532,13 @@ return (
 
 </select>
 
-</div>
-
-<div>
-
-<label className="label-pro">
-  Windows instalado
-</label>
-
 <select
   className="input-pro"
   value={windows}
   onChange={(e) =>
-    setWindows(e.target.value)
+    setWindows(
+      e.target.value
+    )
   }
 >
 
@@ -549,141 +547,90 @@ return (
 </option>
 
 <option>
+  Windows 11 Home
+</option>
+
+<option>
   Windows 10 Pro
 </option>
 
 <option>
-  Windows 11 Home
+  Windows 10 Home
+</option>
+
+<option>
+  Windows Server 2022
+</option>
+
+<option>
+  Windows Server 2019
+</option>
+
+<option>
+  macOS
+</option>
+
+<option>
+  Linux Ubuntu
+</option>
+
+<option>
+  Linux Mint
+</option>
+
+<option>
+  Otro
 </option>
 
 </select>
 
-</div>
-
-<div>
-
-<label className="label-pro">
-  Antivirus
-</label>
-
-<input
+<select
   className="input-pro"
-  placeholder="Microsoft Defender"
   value={antivirus}
   onChange={(e) =>
-    setAntivirus(e.target.value)
-  }
-/>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-{/* COLUMNA DERECHA */}
-
-<div
-  style={{
-    display: "flex",
-    flexDirection: "column",
-    gap: "24px"
-  }}
->
-
-{/* SEGURIDAD */}
-
-<div
-  className="card-pro"
-  style={{
-    padding: "28px"
-  }}
->
-
-<div
-  style={{
-    display: "grid",
-    gap: "20px"
-  }}
->
-
-<div>
-
-<label className="label-pro">
-  Password Windows
-</label>
-
-<input
-  type="password"
-  className="input-pro"
-  value={passwordWindows}
-  onChange={(e) =>
-    setPasswordWindows(
+    setAntivirus(
       e.target.value
     )
   }
-/>
+>
 
-</div>
+<option value="">
+  Seleccionar antivirus
+</option>
 
-<div>
+<option>
+  Microsoft Defender
+</option>
 
-<label className="label-pro">
-  Password Correo
-</label>
+<option>
+  ESET Endpoint
+</option>
 
-<input
-  type="password"
-  className="input-pro"
-  value={passwordCorreo}
-  onChange={(e) =>
-    setPasswordCorreo(
-      e.target.value
-    )
-  }
-/>
+<option>
+  Bitdefender
+</option>
 
-</div>
+<option>
+  Kaspersky
+</option>
 
-<div>
+<option>
+  Sophos
+</option>
 
-<label className="label-pro">
-  Fecha expiración antivirus
-</label>
+<option>
+  CrowdStrike
+</option>
 
-<input
-  type="date"
-  className="input-pro"
-  value={fechaExpiracionAntivirus}
-  onChange={(e) =>
-    setFechaExpiracionAntivirus(
-      e.target.value
-    )
-  }
-/>
+<option>
+  SentinelOne
+</option>
 
-</div>
+<option>
+  Otro
+</option>
 
-<div>
-
-<label className="label-pro">
-  Días alerta antivirus
-</label>
-
-<input
-  type="number"
-  className="input-pro"
-  value={diasAlertaAntivirus}
-  onChange={(e) =>
-    setDiasAlertaAntivirus(
-      Number(e.target.value)
-    )
-  }
-/>
-
-</div>
+</select>
 
 </div>
 
@@ -700,18 +647,21 @@ return (
   }}
 >
 
+<h2
+  style={{
+    color: "#fff",
+    marginTop: 0
+  }}
+>
+  Hardware
+</h2>
+
 <div
   style={{
     display: "grid",
     gap: "20px"
   }}
 >
-
-<div>
-
-<label className="label-pro">
-  Cantidad monitores
-</label>
 
 <select
   className="input-pro"
@@ -725,17 +675,16 @@ return (
       cantidad
     );
 
-setMonitores(
-  Array.from({
-    length: cantidad
-  }).map(() => ({
-    marca: "",
-    modelo: "",
-    serie: "",
-    tipoMonitor: "empresa"
-  }))
-);
-
+    setMonitores(
+      Array.from({
+        length: cantidad
+      }).map(() => ({
+        marca: "",
+        modelo: "",
+        serie: "",
+        tipoMonitor: "empresa"
+      }))
+    );
   }}
 >
 
@@ -745,8 +694,6 @@ setMonitores(
 
 </select>
 
-</div>
-
 {monitores.map((monitor, index) => (
 
 <div
@@ -755,32 +702,28 @@ setMonitores(
     padding: "20px",
     borderRadius: "18px",
     background:
-      "rgba(15,23,42,0.55)",
-    border:
-      "1px solid rgba(51,65,85,0.7)"
+      "rgba(15,23,42,0.55)"
   }}
 >
 
 <h3
   style={{
-    marginTop: 0,
-    color: "#fff",
-    marginBottom: "18px"
+    color: "#fff"
   }}
 >
-  🖥 Monitor {index + 1}
+  Monitor {index + 1}
 </h3>
 
 <div
   style={{
     display: "grid",
-    gap: "18px"
+    gap: "14px"
   }}
 >
 
 <input
   className="input-pro"
-  placeholder="Marca monitor"
+  placeholder="Marca"
   value={monitor.marca}
   onChange={(e) => {
 
@@ -797,7 +740,7 @@ setMonitores(
 
 <input
   className="input-pro"
-  placeholder="Modelo monitor"
+  placeholder="Modelo"
   value={monitor.modelo}
   onChange={(e) => {
 
@@ -814,7 +757,7 @@ setMonitores(
 
 <input
   className="input-pro"
-  placeholder="Serie monitor"
+  placeholder="Serie"
   value={monitor.serie}
   onChange={(e) => {
 
@@ -867,23 +810,236 @@ setMonitores(
 
 )}
 
-{tipoEquipo === "laptop" && (
+</div>
+
+{/* DERECHA */}
+
+<div
+  style={{
+    display: "flex",
+    flexDirection: "column",
+    gap: "24px"
+  }}
+>
+
+{/* SEGURIDAD */}
 
 <div
   className="card-pro"
   style={{
-    padding: "18px",
-    border:
-      "1px solid rgba(59,130,246,0.25)",
-    background:
-      "rgba(59,130,246,0.08)",
-    color: "#93c5fd"
+    padding: "28px"
   }}
 >
-  💻 Equipo portátil detectado.
+
+<h2
+  style={{
+    color: "#fff",
+    marginTop: 0
+  }}
+>
+  Seguridad
+</h2>
+
+<div
+  style={{
+    display: "grid",
+    gap: "20px"
+  }}
+>
+
+<input
+  type="password"
+  className="input-pro"
+  placeholder="Password Windows"
+  disabled={
+    passwordWindowsDesconocido
+  }
+  value={passwordWindows}
+  onChange={(e) =>
+    setPasswordWindows(
+      e.target.value
+    )
+  }
+/>
+
+<label
+  style={{
+    color: "#94a3b8"
+  }}
+>
+
+<input
+  type="checkbox"
+  checked={
+    passwordWindowsDesconocido
+  }
+  onChange={(e) =>
+    setPasswordWindowsDesconocido(
+      e.target.checked
+    )
+  }
+  style={{
+    marginRight: "8px"
+  }}
+/>
+
+Password desconocido
+
+</label>
+
+<input
+  type="date"
+  className="input-pro"
+  value={fechaCambioPasswordWindows}
+  onChange={(e) =>
+    setFechaCambioPasswordWindows(
+      e.target.value
+    )
+  }
+/>
+
+<input
+  type="date"
+  disabled
+  className="input-pro"
+  value={
+    fechaExpiracionPasswordWindows
+  }
+/>
+
+<input
+  type="password"
+  className="input-pro"
+  placeholder="Password ERP"
+  value={passwordERP}
+  onChange={(e) =>
+    setPasswordERP(
+      e.target.value
+    )
+  }
+/>
+
+<label
+  style={{
+    color: "#94a3b8",
+    fontSize: "14px"
+  }}
+>
+
+<input
+  type="checkbox"
+  checked={passwordERPNoAplica}
+  onChange={(e) =>
+    setPasswordERPNoAplica(
+      e.target.checked
+    )
+  }
+  style={{
+    marginRight: "8px"
+  }}
+/>
+
+ERP no aplica
+
+</label>
+
+<input
+  type="date"
+  className="input-pro"
+  value={fechaCambioPasswordERP}
+  onChange={(e) =>
+    setFechaCambioPasswordERP(
+      e.target.value
+    )
+  }
+/>
+
+<input
+  type="date"
+  disabled
+  className="input-pro"
+  value={
+    fechaExpiracionPasswordERP
+  }
+/>
+
+<select
+  className="input-pro"
+  value={mfa ? "si" : "no"}
+  onChange={(e) =>
+    setMfa(
+      e.target.value === "si"
+    )
+  }
+>
+
+<option value="si">
+  MFA Activado
+</option>
+
+<option value="no">
+  MFA Desactivado
+</option>
+
+</select>
+
+{antivirus !== "Microsoft Defender" &&
+antivirus !== "" && (
+
+<>
+
+<input
+  type="date"
+  className="input-pro"
+  value={
+    fechaExpiracionAntivirus
+  }
+  onChange={(e) =>
+    setFechaExpiracionAntivirus(
+      e.target.value
+    )
+  }
+/>
+
+<input
+  type="number"
+  className="input-pro"
+  value={
+    diasAlertaAntivirus
+  }
+  onChange={(e) =>
+    setDiasAlertaAntivirus(
+      Number(e.target.value)
+    )
+  }
+/>
+
+</>
+
+)}
+
+{antivirus === "Microsoft Defender" && (
+
+<div
+  style={{
+    padding: "14px",
+    borderRadius: "14px",
+    background:
+      "rgba(16,185,129,0.12)",
+    color: "#6ee7b7"
+  }}
+>
+  ✅ Microsoft Defender no requiere
+  expiración.
 </div>
 
 )}
+
+</div>
+
+</div>
+
+</div>
 
 </div>
 
@@ -892,60 +1048,18 @@ setMonitores(
 <div
   className="card-pro"
   style={{
-    padding: "28px",
-    gridColumn: "1 / -1"
+    padding: "28px"
   }}
 >
-
-<div
-  style={{
-    display: "flex",
-    alignItems: "center",
-    gap: "14px",
-    marginBottom: "28px"
-  }}
->
-
-<div
-  style={{
-    width: "54px",
-    height: "54px",
-    borderRadius: "16px",
-    background:
-      "rgba(245,158,11,0.18)",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    fontSize: "24px"
-  }}
->
-  📝
-</div>
-
-<div>
 
 <h2
   style={{
-    margin: 0,
-    color: "#fff"
+    color: "#fff",
+    marginTop: 0
   }}
 >
   Observaciones
 </h2>
-
-<p
-  style={{
-    marginTop: "4px",
-    color: "#64748b",
-    fontSize: "14px"
-  }}
->
-  Información adicional y notas técnicas
-</p>
-
-</div>
-
-</div>
 
 <textarea
   className="input-pro"
@@ -956,10 +1070,8 @@ setMonitores(
       e.target.value
     )
   }
-  placeholder="Detalles técnicos, observaciones, incidencias, cambios realizados..."
+  placeholder="Notas técnicas..."
 />
-
-</div>
 
 </div>
 
@@ -975,7 +1087,6 @@ setMonitores(
 
 <button
   className="btn-pro btn-secondary"
-
   onClick={volverEquipos}
 >
   Cancelar
@@ -983,16 +1094,7 @@ setMonitores(
 
 <button
   className="btn-pro"
-
   onClick={guardarEquipo}
-
-  style={{
-    padding: "14px 26px",
-
-    fontSize: "15px",
-
-    fontWeight: "700"
-  }}
 >
   💾 Guardar Equipo
 </button>
@@ -1002,6 +1104,7 @@ setMonitores(
 </div>
 
 );
+
 }
 
 export default NuevoEquipo;
