@@ -146,9 +146,19 @@ const CapturaCiclico = mongoose.model("CapturaCiclico", capturaSchema);
 const monitorSchema =
   new mongoose.Schema({
 
-  idMonitor: {
+  marca: {
     type: String,
-    default: "N/A"
+    default: ""
+  },
+
+  modelo: {
+    type: String,
+    default: ""
+  },
+
+  serie: {
+    type: String,
+    default: ""
   },
 
   tipoMonitor: {
@@ -163,7 +173,6 @@ const monitorSchema =
   }
 
 });
-
 const equipoITSchema =
   new mongoose.Schema({
 
@@ -215,11 +224,11 @@ const equipoITSchema =
     default: ""
   },
 
-  passwordCorreo: {
+  passwordERP: {
     type: String,
     default: ""
   },
-passwordCorreoNoAplica: {
+passwordERPNoAplica: {
   type: Boolean,
   default: false
 },
@@ -240,6 +249,15 @@ fechaCambioPasswordWindows: {
 },
 
 fechaExpiracionPasswordWindows: {
+  type: Date,
+  default: null
+},
+fechaCambioPasswordERP: {
+  type: Date,
+  default: null
+},
+
+fechaExpiracionPasswordERP: {
   type: Date,
   default: null
 },
