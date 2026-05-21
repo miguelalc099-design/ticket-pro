@@ -258,7 +258,13 @@ const OpcionBoolean =
 >
 
 <button
-type="button"
+
+  type="button"
+
+  style={{
+    position: "relative",
+    zIndex: 20
+  }}
   className={
     value
     ? "btn-pro"
@@ -273,7 +279,13 @@ type="button"
 </button>
 
 <button
-type="button"
+
+  type="button"
+
+  style={{
+    position: "relative",
+    zIndex: 20
+  }}
   className={
     !value
     ? "btn-pro"
@@ -355,6 +367,10 @@ return (
 <div
   style={{
 
+    position: "relative",
+
+    zIndex: 1,
+
     padding: "28px",
 
     borderRadius: "24px",
@@ -421,6 +437,10 @@ return (
 
 <div
   style={{
+
+    position: "relative",
+
+    zIndex: 5,
 
     display: "grid",
 
