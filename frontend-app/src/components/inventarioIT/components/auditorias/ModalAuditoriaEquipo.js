@@ -260,7 +260,7 @@ const OpcionBoolean =
 <button
 
   type="button"
-
+tabIndex={0}
   style={{
     position: "relative",
     zIndex: 20
@@ -283,9 +283,15 @@ const OpcionBoolean =
   color: "#fff"
 }}
 
-  onClick={() =>
-    setValue(true)
-  }
+  onClick={(e) => {
+
+  e.preventDefault();
+
+  e.stopPropagation();
+
+  setValue(true);
+
+}}
 >
   ✅ Sí
 </button>
@@ -293,7 +299,7 @@ const OpcionBoolean =
 <button
 
   type="button"
-
+tabIndex={0}
   style={{
     position: "relative",
     zIndex: 20
@@ -316,9 +322,15 @@ const OpcionBoolean =
   color: "#fff"
 }}
 
-  onClick={() =>
-    setValue(false)
-  }
+ onClick={(e) => {
+
+  e.preventDefault();
+
+  e.stopPropagation();
+
+  setValue(false);
+
+}}
 >
   ❌ No
 </button>
