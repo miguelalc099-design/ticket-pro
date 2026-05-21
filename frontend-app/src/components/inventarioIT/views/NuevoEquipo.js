@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { toast } from "react-toastify";
 
 function NuevoEquipo({
@@ -56,14 +56,6 @@ const [passwordERPNoAplica,
   setPasswordERPNoAplica] =
   useState(false);
 
-const [fechaExpiracionAntivirus,
-  setFechaExpiracionAntivirus] =
-  useState("");
-
-const [diasAlertaAntivirus,
-  setDiasAlertaAntivirus] =
-  useState(30);
-
 const [
   fechaCambioPasswordWindows,
   setFechaCambioPasswordWindows
@@ -85,9 +77,14 @@ const [
 ] = useState("");
 
 const [
-  diasRecordatorioPassword,
-  setDiasRecordatorioPassword
-] = useState(5);
+  fechaExpiracionAntivirus,
+  setFechaExpiracionAntivirus
+] = useState("");
+
+const [
+  diasAlertaAntivirus,
+  setDiasAlertaAntivirus
+] = useState(30);
 
 const [estadoAntivirus,
   setEstadoAntivirus] =
@@ -110,90 +107,6 @@ const [monitores,
       tipoMonitor: "empresa"
     }
   ]);
-
-/* =========================
-   EFFECTS
-========================= */
-
-useEffect(() => {
-
-  if (!fechaCambioPasswordWindows)
-    return;
-
-  const fecha =
-    new Date(
-      fechaCambioPasswordWindows
-    );
-
-  fecha.setDate(
-    fecha.getDate() +
-    diasRecordatorioPassword
-  );
-
-  const yyyy =
-    fecha.getFullYear();
-
-  const mm =
-    String(
-      fecha.getMonth() + 1
-    ).padStart(2, "0");
-
-  const dd =
-    String(
-      fecha.getDate()
-    ).padStart(2, "0");
-
-  setFechaExpiracionPasswordWindows(
-    `${yyyy}-${mm}-${dd}`
-  );
-
-}, [
-
-  fechaCambioPasswordWindows,
-
-  diasRecordatorioPassword
-
-]);
-
-useEffect(() => {
-
-  if (!fechaCambioPasswordERP)
-    return;
-
-  const fecha =
-    new Date(
-      fechaCambioPasswordERP
-    );
-
-  fecha.setDate(
-    fecha.getDate() +
-    diasRecordatorioPassword
-  );
-
-  const yyyy =
-    fecha.getFullYear();
-
-  const mm =
-    String(
-      fecha.getMonth() + 1
-    ).padStart(2, "0");
-
-  const dd =
-    String(
-      fecha.getDate()
-    ).padStart(2, "0");
-
-  setFechaExpiracionPasswordERP(
-    `${yyyy}-${mm}-${dd}`
-  );
-
-}, [
-
-  fechaCambioPasswordERP,
-
-  diasRecordatorioPassword
-
-]);
 
 /* =========================
    GUARDAR
@@ -224,10 +137,6 @@ const guardarEquipo =
 
       passwordERPNoAplica,
 
-      fechaExpiracionAntivirus,
-
-      diasAlertaAntivirus,
-
       fechaCambioPasswordWindows,
 
       fechaExpiracionPasswordWindows,
@@ -236,7 +145,9 @@ const guardarEquipo =
 
       fechaExpiracionPasswordERP,
 
-      diasRecordatorioPassword,
+      fechaExpiracionAntivirus,
+
+      diasAlertaAntivirus,
 
       estadoAntivirus,
 
@@ -248,6 +159,7 @@ const guardarEquipo =
         tipoEquipo === "desktop"
         ? monitores
         : []
+
     };
 
     const res = await fetch(
@@ -266,10 +178,7 @@ const guardarEquipo =
       }
     );
 
-    const data =
-      await res.json();
-
-    console.log(data);
+    await res.json();
 
     toast.success(
       "Equipo registrado correctamente"
@@ -278,81 +187,6 @@ const guardarEquipo =
     recargarEquipos();
 
     volverEquipos();
-
-    /* RESET */
-
-    setNombreEquipo("");
-
-    setUsuarioAsignado("");
-
-    setWindows(
-      "Windows 11 Pro"
-    );
-
-    setAntivirus("");
-
-    setPasswordWindows("");
-
-    setPasswordWindowsDesconocido(
-      false
-    );
-
-    setPasswordERP("");
-
-    setPasswordERPNoAplica(
-      false
-    );
-
-    setFechaExpiracionAntivirus(
-      ""
-    );
-
-    setDiasAlertaAntivirus(
-      30
-    );
-
-    setFechaCambioPasswordWindows(
-      ""
-    );
-
-    setFechaExpiracionPasswordWindows(
-      ""
-    );
-
-    setFechaCambioPasswordERP(
-      ""
-    );
-
-    setFechaExpiracionPasswordERP(
-      ""
-    );
-
-    setDiasRecordatorioPassword(
-      5
-    );
-
-    setEstadoAntivirus(
-      "activo"
-    );
-
-    setMfa(true);
-
-    setObservaciones("");
-
-    setTipoEquipo(
-      "laptop"
-    );
-
-    setCantidadMonitores(1);
-
-    setMonitores([
-      {
-        marca: "",
-        modelo: "",
-        serie: "",
-        tipoMonitor: "empresa"
-      }
-    ]);
 
   } catch (err) {
 
@@ -387,37 +221,9 @@ return (
     background:
       "linear-gradient(145deg, rgba(37,99,235,0.18), rgba(124,58,237,0.14))",
     border:
-      "1px solid rgba(59,130,246,0.18)",
-    position: "relative",
-    overflow: "hidden"
+      "1px solid rgba(59,130,246,0.18)"
   }}
 >
-
-<div
-  style={{
-    display: "flex",
-    alignItems: "center",
-    gap: "20px"
-  }}
->
-
-<div
-  style={{
-    width: "82px",
-    height: "82px",
-    borderRadius: "24px",
-    background:
-      "linear-gradient(145deg,#2563eb,#7c3aed)",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    fontSize: "42px"
-  }}
->
-  💻
-</div>
-
-<div>
 
 <h1
   style={{
@@ -426,7 +232,7 @@ return (
     color: "#fff"
   }}
 >
-  Nuevo Equipo IT
+  💻 Nuevo Equipo IT
 </h1>
 
 <p
@@ -437,10 +243,6 @@ return (
 >
   Registro corporativo de activos tecnológicos
 </p>
-
-</div>
-
-</div>
 
 </div>
 
@@ -490,9 +292,15 @@ return (
   }}
 >
 
+<div>
+
+<label className="label-pro">
+  Nombre equipo
+</label>
+
 <input
   className="input-pro"
-  placeholder="Nombre equipo"
+  placeholder="PC-ADMON-01"
   value={nombreEquipo}
   onChange={(e) =>
     setNombreEquipo(
@@ -501,9 +309,17 @@ return (
   }
 />
 
+</div>
+
+<div>
+
+<label className="label-pro">
+  Usuario asignado
+</label>
+
 <input
   className="input-pro"
-  placeholder="Usuario asignado"
+  placeholder="Miguel Alcalá"
   value={usuarioAsignado}
   onChange={(e) =>
     setUsuarioAsignado(
@@ -511,6 +327,14 @@ return (
     )
   }
 />
+
+</div>
+
+<div>
+
+<label className="label-pro">
+  Tipo equipo
+</label>
 
 <select
   className="input-pro"
@@ -531,6 +355,14 @@ return (
 </option>
 
 </select>
+
+</div>
+
+<div>
+
+<label className="label-pro">
+  Sistema operativo
+</label>
 
 <select
   className="input-pro"
@@ -584,6 +416,14 @@ return (
 
 </select>
 
+</div>
+
+<div>
+
+<label className="label-pro">
+  Antivirus
+</label>
+
 <select
   className="input-pro"
   value={antivirus}
@@ -636,6 +476,8 @@ return (
 
 </div>
 
+</div>
+
 {/* HARDWARE */}
 
 {tipoEquipo === "desktop" && (
@@ -662,6 +504,12 @@ return (
     gap: "20px"
   }}
 >
+
+<div>
+
+<label className="label-pro">
+  Cantidad monitores
+</label>
 
 <select
   className="input-pro"
@@ -694,6 +542,8 @@ return (
 
 </select>
 
+</div>
+
 {monitores.map((monitor, index) => (
 
 <div
@@ -711,7 +561,7 @@ return (
     color: "#fff"
   }}
 >
-  Monitor {index + 1}
+  🖥 Monitor {index + 1}
 </h3>
 
 <div
@@ -822,8 +672,6 @@ return (
   }}
 >
 
-{/* SEGURIDAD */}
-
 <div
   className="card-pro"
   style={{
@@ -847,6 +695,14 @@ return (
   }}
 >
 
+{/* WINDOWS */}
+
+<div>
+
+<label className="label-pro">
+  Password Windows
+</label>
+
 <input
   type="password"
   className="input-pro"
@@ -861,6 +717,8 @@ return (
     )
   }
 />
+
+</div>
 
 <label
   style={{
@@ -887,8 +745,17 @@ Password desconocido
 
 </label>
 
+<div>
+
+<label className="label-pro">
+  Último cambio password Windows
+</label>
+
 <input
   type="date"
+  disabled={
+    passwordWindowsDesconocido
+  }
   className="input-pro"
   value={fechaCambioPasswordWindows}
   onChange={(e) =>
@@ -898,19 +765,45 @@ Password desconocido
   }
 />
 
+</div>
+
+<div>
+
+<label className="label-pro">
+  Próximo cambio password Windows
+</label>
+
 <input
   type="date"
-  disabled
+  disabled={
+    passwordWindowsDesconocido
+  }
   className="input-pro"
   value={
     fechaExpiracionPasswordWindows
   }
+  onChange={(e) =>
+    setFechaExpiracionPasswordWindows(
+      e.target.value
+    )
+  }
 />
+
+</div>
+
+{/* ERP */}
+
+<div>
+
+<label className="label-pro">
+  Password ERP
+</label>
 
 <input
   type="password"
   className="input-pro"
   placeholder="Password ERP"
+  disabled={passwordERPNoAplica}
   value={passwordERP}
   onChange={(e) =>
     setPasswordERP(
@@ -919,10 +812,11 @@ Password desconocido
   }
 />
 
+</div>
+
 <label
   style={{
-    color: "#94a3b8",
-    fontSize: "14px"
+    color: "#94a3b8"
   }}
 >
 
@@ -943,8 +837,15 @@ ERP no aplica
 
 </label>
 
+<div>
+
+<label className="label-pro">
+  Último cambio password ERP
+</label>
+
 <input
   type="date"
+  disabled={passwordERPNoAplica}
   className="input-pro"
   value={fechaCambioPasswordERP}
   onChange={(e) =>
@@ -954,14 +855,37 @@ ERP no aplica
   }
 />
 
+</div>
+
+<div>
+
+<label className="label-pro">
+  Próximo cambio password ERP
+</label>
+
 <input
   type="date"
-  disabled
+  disabled={passwordERPNoAplica}
   className="input-pro"
   value={
     fechaExpiracionPasswordERP
   }
+  onChange={(e) =>
+    setFechaExpiracionPasswordERP(
+      e.target.value
+    )
+  }
 />
+
+</div>
+
+{/* MFA */}
+
+<div>
+
+<label className="label-pro">
+  MFA
+</label>
 
 <select
   className="input-pro"
@@ -983,10 +907,20 @@ ERP no aplica
 
 </select>
 
+</div>
+
+{/* ANTIVIRUS */}
+
 {antivirus !== "Microsoft Defender" &&
 antivirus !== "" && (
 
 <>
+
+<div>
+
+<label className="label-pro">
+  Fecha expiración antivirus
+</label>
 
 <input
   type="date"
@@ -1001,6 +935,14 @@ antivirus !== "" && (
   }
 />
 
+</div>
+
+<div>
+
+<label className="label-pro">
+  Días alerta antivirus
+</label>
+
 <input
   type="number"
   className="input-pro"
@@ -1013,6 +955,8 @@ antivirus !== "" && (
     )
   }
 />
+
+</div>
 
 </>
 
