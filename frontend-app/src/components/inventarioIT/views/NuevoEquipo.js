@@ -1173,33 +1173,6 @@ disabled
 
 )}
 
-{tipoEquipo === "laptop" && (
-
-<div
-  className="card-pro"
-
-  style={{
-   padding: "18px",
-
-    border:
-      "1px solid rgba(59,130,246,0.25)",
-
-    background:
-      "rgba(59,130,246,0.08)",
-
-    color: "#93c5fd",
-
-    fontSize: "15px",
-
-    lineHeight: "1.6"
-  }}
->
-  💻 Equipo portátil detectado.
-  No requiere configuración de monitores corporativos.
-</div>
-
-)}
-
 </div>
 
 {/* OBSERVACIONES */}
@@ -1287,7 +1260,7 @@ disabled
 </div>
 
 </div>
-
+</div>
 {/* BOTONES */}
 
 <div
