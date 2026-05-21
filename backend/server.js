@@ -177,6 +177,55 @@ const monitorSchema =
 const equipoITSchema =
   new mongoose.Schema({
 
+numeroSerie: {
+  type: String,
+  default: ""
+},
+
+marca: {
+  type: String,
+  default: ""
+},
+
+modelo: {
+  type: String,
+  default: ""
+},
+
+procesador: {
+  type: String,
+  default: ""
+},
+
+ram: {
+  type: String,
+  default: ""
+},
+
+tarjetaGrafica: {
+  type: String,
+  default: ""
+},
+
+almacenamiento: {
+  type: String,
+  default: ""
+},
+
+tipoSistema: {
+  type: String,
+  default: ""
+},
+
+idDispositivo: {
+  type: String,
+  default: ""
+},
+
+idProducto: {
+  type: String,
+  default: ""
+}
   nombreEquipo: {
     type: String,
     required: true
