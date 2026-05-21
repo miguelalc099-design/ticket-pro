@@ -17,6 +17,13 @@ const [
   resultadoEquipo,
   setResultadoEquipo
 ] = useState(null);
+
+const [
+  auditoriasGuardadas,
+  setAuditoriasGuardadas
+] = useState([]);
+
+
 /* =========================
    STATES
 ========================= */
@@ -81,22 +88,136 @@ const anteriorEquipo =
 ========================= */
 
 const finalizarAuditoria =
-  () => {
+  async () => {
 
-  onFinalizar({
+  try {
 
-    ...auditoria,
+    if (!resultadoEquipo) {
 
-    estado:
-      "finalizada",
+      alert(
+        "Completa la auditoría primero"
+      );
 
-    bloqueada: true,
+      return;
+    }
 
-    fechaFinalizacion:
-      new Date()
+    const body = {
 
-  });
+      equipoId:
+        equipo._id,
 
+      nombreEquipo:
+        equipo.nombreEquipo,
+
+      usuarioAsignado:
+        equipo.usuarioAsignado,
+
+      score:
+        resultadoEquipo.score,
+
+      estado:
+        resultadoEquipo.estado,
+
+      passwordInicio:
+        resultadoEquipo.passwordInicio,
+
+      bloqueoAutomatico:
+        resultadoEquipo.bloqueoAutomatico,
+
+      mfaActivo:
+        resultadoEquipo.mfaActivo,
+
+      antivirusActivo:
+        resultadoEquipo.antivirusActivo,
+
+      escritorioLimpio:
+        resultadoEquipo.escritorioLimpio,
+
+      usbNoAutorizado:
+        resultadoEquipo.usbNoAutorizado,
+
+      serieCorrecta:
+        resultadoEquipo.serieCorrecta,
+
+      observaciones:
+        resultadoEquipo.observaciones || "",
+
+      auditor:
+        localStorage.getItem("user")
+        || "Auditor"
+
+    };
+
+    const res =
+      await fetch(
+
+        "https://ticket-pro-backend.onrender.com/it/auditorias",
+
+        {
+
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "application/json"
+          },
+
+          body:
+            JSON.stringify(body)
+        }
+      );
+
+    const data =
+      await res.json();
+
+    setAuditoriasGuardadas(
+      [
+        ...auditoriasGuardadas,
+        data
+      ]
+    );
+
+    alert(
+      "✅ Auditoría guardada"
+    );
+
+    if (
+      equipoActual <
+      totalEquipos - 1
+    ) {
+
+      setEquipoActual(
+        equipoActual + 1
+      );
+
+      setResultadoEquipo(null);
+
+    } else {
+
+      onFinalizar({
+
+        ...auditoria,
+
+        estado:
+          "finalizada",
+
+        bloqueada: true,
+
+        fechaFinalizacion:
+          new Date()
+
+      });
+
+    }
+
+  } catch (err) {
+
+    console.log(err);
+
+    alert(
+      "Error guardando auditoría"
+    );
+  }
 };
 
 /* =========================
@@ -465,13 +586,22 @@ style={{
 
   auditoria={equipo}
 
-  onChange={(resultado) => {
+ onChange={(resultado) => {
 
-    setResultadoEquipo(
-      resultado
-    );
+  setResultadoEquipo({
+    ...resultado,
 
-  }}
+    equipoId:
+      equipo._id,
+
+    nombreEquipo:
+      equipo.nombreEquipo,
+
+    usuarioAsignado:
+      equipo.usuarioAsignado
+  });
+
+}}
 
 />
 

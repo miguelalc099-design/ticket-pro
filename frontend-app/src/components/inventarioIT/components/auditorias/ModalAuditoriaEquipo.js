@@ -198,15 +198,29 @@ useEffect(() => {
 
   if (onChange) {
 
-    onChange({
+  onChange({
 
-      score,
+  score,
 
-      estado,
+  estado,
 
-      serieCorrecta
+  serieCorrecta,
 
-    });
+  passwordInicio,
+
+  bloqueoAutomatico,
+
+  mfaActivo,
+
+  antivirusActivo,
+
+  escritorioLimpio,
+
+  usbNoAutorizado,
+
+  observaciones
+
+});
 
   }
 
