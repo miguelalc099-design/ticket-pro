@@ -2,676 +2,536 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 
 function ModalEditarEquipo({
-
   equipo,
-
   onClose,
-
   recargarEquipos
-
 }) {
 
-const API =
-  "https://ticket-pro-backend.onrender.com";
+  if (!equipo) return null;
 
-/* =========================
-   STATES GENERALES
-========================= */
+  const API =
+    "https://ticket-pro-backend.onrender.com";
 
-const [nombreEquipo,
-  setNombreEquipo] =
-  useState(
-    equipo?.nombreEquipo || ""
+  /* =========================
+     STATES GENERALES
+  ========================= */
+
+  const [nombreEquipo, setNombreEquipo] =
+    useState(equipo?.nombreEquipo || "");
+
+  const [usuarioAsignado, setUsuarioAsignado] =
+    useState(equipo?.usuarioAsignado || "");
+
+  const [tipoEquipo, setTipoEquipo] =
+    useState(equipo?.tipoEquipo || "laptop");
+
+  const [windows, setWindows] =
+    useState(equipo?.windows || "");
+
+  const [antivirus, setAntivirus] =
+    useState(equipo?.antivirus || "");
+
+  const [mfa, setMfa] =
+    useState(equipo?.mfa ?? true);
+
+  const [observaciones, setObservaciones] =
+    useState(equipo?.observaciones || "");
+
+  /* =========================
+     HARDWARE
+  ========================= */
+
+  const [numeroSerie, setNumeroSerie] =
+    useState(equipo?.numeroSerie || "");
+
+  const [marca, setMarca] =
+    useState(equipo?.marca || "");
+
+  const [modelo, setModelo] =
+    useState(equipo?.modelo || "");
+
+  const [procesador, setProcesador] =
+    useState(equipo?.procesador || "");
+
+  const [ram, setRam] =
+    useState(equipo?.ram || "");
+
+  const [tarjetaGrafica, setTarjetaGrafica] =
+    useState(equipo?.tarjetaGrafica || "");
+
+  const [almacenamiento, setAlmacenamiento] =
+    useState(equipo?.almacenamiento || "");
+
+  const [tipoSistema, setTipoSistema] =
+    useState(equipo?.tipoSistema || "");
+
+  const [idDispositivo, setIdDispositivo] =
+    useState(equipo?.idDispositivo || "");
+
+  const [idProducto, setIdProducto] =
+    useState(equipo?.idProducto || "");
+
+  /* =========================
+     ACTIVOS
+  ========================= */
+
+  const [fechaCompra, setFechaCompra] =
+    useState(
+      equipo?.fechaCompra
+        ? equipo.fechaCompra.split("T")[0]
+        : ""
+    );
+
+  const [garantiaHasta, setGarantiaHasta] =
+    useState(
+      equipo?.garantiaHasta
+        ? equipo.garantiaHasta.split("T")[0]
+        : ""
+    );
+
+  const [proveedor, setProveedor] =
+    useState(equipo?.proveedor || "");
+
+  const [factura, setFactura] =
+    useState(equipo?.factura || "");
+
+  const [numeroActivo, setNumeroActivo] =
+    useState(equipo?.numeroActivo || "");
+
+  /* =========================
+     PASSWORD WINDOWS
+  ========================= */
+
+  const [passwordWindows, setPasswordWindows] =
+    useState("");
+
+  const [
+    confirmarPasswordWindows,
+    setConfirmarPasswordWindows
+  ] = useState("");
+
+  const [
+    passwordWindowsDesconocido,
+    setPasswordWindowsDesconocido
+  ] = useState(
+    equipo?.passwordWindowsDesconocido || false
   );
 
-const [usuarioAsignado,
-  setUsuarioAsignado] =
-  useState(
-    equipo?.usuarioAsignado || ""
+  const [
+    fechaCambioPasswordWindows,
+    setFechaCambioPasswordWindows
+  ] = useState(
+    equipo?.fechaCambioPasswordWindows
+      ? equipo.fechaCambioPasswordWindows.split("T")[0]
+      : ""
   );
 
-const [tipoEquipo,
-  setTipoEquipo] =
-  useState(
-    equipo?.tipoEquipo || "laptop"
+  const [
+    fechaExpiracionPasswordWindows,
+    setFechaExpiracionPasswordWindows
+  ] = useState(
+    equipo?.fechaExpiracionPasswordWindows
+      ? equipo.fechaExpiracionPasswordWindows.split("T")[0]
+      : ""
   );
 
-const [windows,
-  setWindows] =
-  useState(
-    equipo?.windows || ""
+  /* =========================
+     PASSWORD ERP
+  ========================= */
+
+  const [passwordERP, setPasswordERP] =
+    useState("");
+
+  const [
+    confirmarPasswordERP,
+    setConfirmarPasswordERP
+  ] = useState("");
+
+  const [
+    passwordERPNoAplica,
+    setPasswordERPNoAplica
+  ] = useState(
+    equipo?.passwordERPNoAplica || false
   );
 
-const [antivirus,
-  setAntivirus] =
-  useState(
-    equipo?.antivirus || ""
+  const [
+    fechaCambioPasswordERP,
+    setFechaCambioPasswordERP
+  ] = useState(
+    equipo?.fechaCambioPasswordERP
+      ? equipo.fechaCambioPasswordERP.split("T")[0]
+      : ""
   );
 
-const [mfa,
-  setMfa] =
-  useState(
-    equipo?.mfa ?? true
+  const [
+    fechaExpiracionPasswordERP,
+    setFechaExpiracionPasswordERP
+  ] = useState(
+    equipo?.fechaExpiracionPasswordERP
+      ? equipo.fechaExpiracionPasswordERP.split("T")[0]
+      : ""
   );
 
-const [observaciones,
-  setObservaciones] =
-  useState(
-    equipo?.observaciones || ""
+  /* =========================
+     ANTIVIRUS
+  ========================= */
+
+  const [
+    fechaExpiracionAntivirus,
+    setFechaExpiracionAntivirus
+  ] = useState(
+    equipo?.fechaExpiracionAntivirus
+      ? equipo.fechaExpiracionAntivirus.split("T")[0]
+      : ""
   );
 
-/* =========================
-   HARDWARE
-========================= */
+  /* =========================
+     VALIDACIONES
+  ========================= */
 
-const [numeroSerie,
-  setNumeroSerie] =
-  useState(
-    equipo?.numeroSerie || ""
-  );
+  const windowsCoincide =
+    passwordWindows === confirmarPasswordWindows;
 
-const [marca,
-  setMarca] =
-  useState(
-    equipo?.marca || ""
-  );
+  const erpCoincide =
+    passwordERP === confirmarPasswordERP;
 
-const [modelo,
-  setModelo] =
-  useState(
-    equipo?.modelo || ""
-  );
+  /* =========================
+     GUARDAR
+  ========================= */
 
-const [procesador,
-  setProcesador] =
-  useState(
-    equipo?.procesador || ""
-  );
+  const guardarCambios = async () => {
 
-const [ram,
-  setRam] =
-  useState(
-    equipo?.ram || ""
-  );
+    try {
 
-const [tarjetaGrafica,
-  setTarjetaGrafica] =
-  useState(
-    equipo?.tarjetaGrafica || ""
-  );
+      if (
+        !passwordWindowsDesconocido &&
+        passwordWindows &&
+        !windowsCoincide
+      ) {
 
-const [almacenamiento,
-  setAlmacenamiento] =
-  useState(
-    equipo?.almacenamiento || ""
-  );
+        toast.error(
+          "Passwords Windows no coinciden"
+        );
 
-const [tipoSistema,
-  setTipoSistema] =
-  useState(
-    equipo?.tipoSistema || ""
-  );
-
-const [idDispositivo,
-  setIdDispositivo] =
-  useState(
-    equipo?.idDispositivo || ""
-  );
-
-const [idProducto,
-  setIdProducto] =
-  useState(
-    equipo?.idProducto || ""
-  );
-
-/* =========================
-   ACTIVOS
-========================= */
-
-const [fechaCompra,
-  setFechaCompra] =
-  useState(
-    equipo?.fechaCompra
-    ? equipo.fechaCompra
-        .split("T")[0]
-    : ""
-  );
-
-const [garantiaHasta,
-  setGarantiaHasta] =
-  useState(
-    equipo?.garantiaHasta
-    ? equipo.garantiaHasta
-        .split("T")[0]
-    : ""
-  );
-
-const [proveedor,
-  setProveedor] =
-  useState(
-    equipo?.proveedor || ""
-  );
-
-const [factura,
-  setFactura] =
-  useState(
-    equipo?.factura || ""
-  );
-
-const [numeroActivo,
-  setNumeroActivo] =
-  useState(
-    equipo?.numeroActivo || ""
-  );
-const [observaciones,
-  setObservaciones] =
-  useState(
-    equipo?.observaciones || ""
-  );
-/* =========================
-   PASSWORD WINDOWS
-========================= */
-
-const [passwordWindows,
-  setPasswordWindows] =
-  useState("");
-
-const [
-  confirmarPasswordWindows,
-
-  setConfirmarPasswordWindows
-] = useState("");
-
-const [
-  passwordWindowsDesconocido,
-
-  setPasswordWindowsDesconocido
-] = useState(
-  equipo?.passwordWindowsDesconocido || false
-);
-
-const [
-  fechaCambioPasswordWindows,
-
-  setFechaCambioPasswordWindows
-] = useState(
-  equipo?.fechaCambioPasswordWindows
-  ? equipo.fechaCambioPasswordWindows
-      .split("T")[0]
-  : ""
-);
-
-const [
-  fechaExpiracionPasswordWindows,
-
-  setFechaExpiracionPasswordWindows
-] = useState(
-  equipo?.fechaExpiracionPasswordWindows
-  ? equipo.fechaExpiracionPasswordWindows
-      .split("T")[0]
-  : ""
-);
-
-/* =========================
-   PASSWORD ERP
-========================= */
-
-const [passwordERP,
-  setPasswordERP] =
-  useState("");
-
-const [
-  confirmarPasswordERP,
-
-  setConfirmarPasswordERP
-] = useState("");
-
-const [
-  passwordERPNoAplica,
-
-  setPasswordERPNoAplica
-] = useState(
-  equipo?.passwordERPNoAplica || false
-);
-
-const [
-  fechaCambioPasswordERP,
-
-  setFechaCambioPasswordERP
-] = useState(
-  equipo?.fechaCambioPasswordERP
-  ? equipo.fechaCambioPasswordERP
-      .split("T")[0]
-  : ""
-);
-
-const [
-  fechaExpiracionPasswordERP,
-
-  setFechaExpiracionPasswordERP
-] = useState(
-  equipo?.fechaExpiracionPasswordERP
-  ? equipo.fechaExpiracionPasswordERP
-      .split("T")[0]
-  : ""
-);
-
-/* =========================
-   ANTIVIRUS
-========================= */
-
-const [
-  fechaExpiracionAntivirus,
-
-  setFechaExpiracionAntivirus
-] = useState(
-  equipo?.fechaExpiracionAntivirus
-  ? equipo.fechaExpiracionAntivirus
-      .split("T")[0]
-  : ""
-);
-
-/* =========================
-   VALIDACION HOOKS
-========================= */
-
-if (!equipo) return null;
-
-/* =========================
-   VALIDACIONES
-========================= */
-
-const windowsCoincide =
-
-  passwordWindows ===
-  confirmarPasswordWindows;
-
-const erpCoincide =
-
-  passwordERP ===
-  confirmarPasswordERP;
-
-/* =========================
-   GUARDAR
-========================= */
-
-const guardarCambios =
-  async () => {
-
-  try {
-
-    if (
-      !passwordWindowsDesconocido &&
-      passwordWindows &&
-      !windowsCoincide
-    ) {
-
-      toast.error(
-        "Passwords Windows no coinciden"
-      );
-
-      return;
-    }
-
-    if (
-      !passwordERPNoAplica &&
-      passwordERP &&
-      !erpCoincide
-    ) {
-
-      toast.error(
-        "Passwords ERP no coinciden"
-      );
-
-      return;
-    }
-
-    const body = {
-
-      nombreEquipo,
-      usuarioAsignado,
-      tipoEquipo,
-      windows,
-      antivirus,
-      mfa,
-      observaciones,
-
-      numeroSerie,
-      marca,
-      modelo,
-      procesador,
-      ram,
-      tarjetaGrafica,
-      almacenamiento,
-      tipoSistema,
-      idDispositivo,
-      idProducto,
-
-      fechaCompra,
-      garantiaHasta,
-      proveedor,
-      factura,
-      numeroActivo,
-observaciones,
-      passwordWindows:
-        passwordWindows ||
-        equipo.passwordWindows,
-
-      passwordWindowsDesconocido,
-
-      fechaCambioPasswordWindows,
-
-      fechaExpiracionPasswordWindows,
-
-      passwordERP:
-        passwordERP ||
-        equipo.passwordERP,
-
-      passwordERPNoAplica,
-
-      fechaCambioPasswordERP,
-
-      fechaExpiracionPasswordERP,
-
-      fechaExpiracionAntivirus
-
-    };
-
-    const res = await fetch(
-
-      `${API}/it/equipos/${equipo._id}`,
-
-      {
-
-        method: "PUT",
-
-        headers: {
-          "Content-Type":
-            "application/json"
-        },
-
-        body:
-          JSON.stringify(body)
+        return;
       }
-    );
 
-    if (!res.ok) {
+      if (
+        !passwordERPNoAplica &&
+        passwordERP &&
+        !erpCoincide
+      ) {
 
-      throw new Error(
-        "Error actualizando"
+        toast.error(
+          "Passwords ERP no coinciden"
+        );
+
+        return;
+      }
+
+      const body = {
+
+        nombreEquipo,
+        usuarioAsignado,
+        tipoEquipo,
+        windows,
+        antivirus,
+        mfa,
+        observaciones,
+
+        numeroSerie,
+        marca,
+        modelo,
+        procesador,
+        ram,
+        tarjetaGrafica,
+        almacenamiento,
+        tipoSistema,
+        idDispositivo,
+        idProducto,
+
+        fechaCompra,
+        garantiaHasta,
+        proveedor,
+        factura,
+        numeroActivo,
+
+        passwordWindows:
+          passwordWindows ||
+          equipo.passwordWindows,
+
+        passwordWindowsDesconocido,
+
+        fechaCambioPasswordWindows,
+
+        fechaExpiracionPasswordWindows,
+
+        passwordERP:
+          passwordERP ||
+          equipo.passwordERP,
+
+        passwordERPNoAplica,
+
+        fechaCambioPasswordERP,
+
+        fechaExpiracionPasswordERP,
+
+        fechaExpiracionAntivirus
+      };
+
+      const res = await fetch(
+        `${API}/it/equipos/${equipo._id}`,
+        {
+          method: "PUT",
+
+          headers: {
+            "Content-Type":
+              "application/json"
+          },
+
+          body: JSON.stringify(body)
+        }
+      );
+
+      if (!res.ok) {
+
+        throw new Error(
+          "Error actualizando"
+        );
+      }
+
+      toast.success(
+        "Equipo actualizado"
+      );
+
+      recargarEquipos();
+
+      onClose();
+
+    } catch (err) {
+
+      console.log(err);
+
+      toast.error(
+        "Error actualizando equipo"
       );
     }
-
-    toast.success(
-      "Equipo actualizado"
-    );
-
-    recargarEquipos();
-
-    onClose();
-
-  } catch (err) {
-
-    console.log(err);
-
-    toast.error(
-      "Error actualizando equipo"
-    );
-  }
-};
-
-return (
-
-<div
-  style={{
-
-    position: "fixed",
-
-    inset: 0,
-
-    background:
-      "rgba(2,6,23,0.82)",
-
-    backdropFilter: "blur(8px)",
-
-    display: "flex",
-
-    alignItems: "center",
-
-    justifyContent: "center",
-
-    zIndex: 9999,
-
-    padding: "20px",
-
-    overflowY: "auto"
-  }}
->
-
-<div
-  className="card-pro"
-
-  style={{
-
-    width: "100%",
-
-    maxWidth: "1000px",
-
-    maxHeight: "95vh",
-
-    overflowY: "auto",
-
-    padding: "32px",
-
-    position: "relative",
-
-    background:
-      "linear-gradient(145deg, rgba(15,23,42,0.96), rgba(15,23,42,0.88))",
-
-    border:
-      "1px solid rgba(51,65,85,0.8)"
-  }}
->
-
-<button
-
-  onClick={onClose}
-
-  style={{
-
-    position: "absolute",
-
-    right: "20px",
-
-    top: "20px",
-
-    width: "42px",
-
-    height: "42px",
-
-    borderRadius: "12px",
-
-    border: "none",
-
-    background:
-      "rgba(239,68,68,0.15)",
-
-    color: "#ef4444",
-
-    cursor: "pointer",
-
-    fontSize: "18px"
-  }}
->
-  ✕
-</button>
-
-<h1
-  style={{
-    color: "#fff",
-    marginTop: 0,
-    marginBottom: "30px"
-  }}
->
-  ✏ Editar Equipo
-</h1>
-
-<div
-  style={{
-    display: "grid",
-    gap: "24px"
-  }}
->
-
-{/* DATOS GENERALES */}
-
-<div
-  className="card-pro"
-  style={{
-    padding: "24px"
-  }}
->
-
-<h2
-  style={{
-    color: "#fff",
-    marginTop: 0
-  }}
->
-  💻 Datos Generales
-</h2>
-
-<div
-  style={{
-    display: "grid",
-    gap: "18px"
-  }}
->
-
-<input
-  className="input-pro"
-  placeholder="Nombre Equipo"
-  value={nombreEquipo}
-  onChange={(e) =>
-    setNombreEquipo(
-      e.target.value
-    )
-  }
-/>
-
-<input
-  className="input-pro"
-  placeholder="Usuario Asignado"
-  value={usuarioAsignado}
-  onChange={(e) =>
-    setUsuarioAsignado(
-      e.target.value
-    )
-  }
-/>
-
-</div>
-
-</div>
-
-{/* PASSWORD WINDOWS */}
-
-<div
-  className="card-pro"
-  style={{
-    padding: "24px"
-  }}
->
-
-<h2
-  style={{
-    color: "#fff",
-    marginTop: 0
-  }}
->
-  🔐 Password Windows
-</h2>
-
-<div
-  style={{
-    display: "grid",
-    gap: "16px"
-  }}
->
-
-<input
-  type="password"
-  className="input-pro"
-  placeholder="Nueva password Windows"
-  disabled={
-    passwordWindowsDesconocido
-  }
-  value={passwordWindows}
-  onChange={(e) =>
-    setPasswordWindows(
-      e.target.value
-    )
-  }
-/>
-
-<input
-  type="password"
-  className="input-pro"
-  placeholder="Confirmar password Windows"
-  disabled={
-    passwordWindowsDesconocido
-  }
-  value={
-    confirmarPasswordWindows
-  }
-  onChange={(e) =>
-    setConfirmarPasswordWindows(
-      e.target.value
-    )
-  }
-/>
-
-{passwordWindows && (
-
-<div
-  style={{
-    color:
-      windowsCoincide
-      ? "#22c55e"
-      : "#ef4444",
-    fontWeight: "700"
-  }}
->
-
-{
-windowsCoincide
-? "✅ Passwords Windows coinciden"
-: "❌ Passwords Windows no coinciden"
-}
-
-</div>
-
-)}
-
-</div>
-
-</div>
-
-<button
-  className="btn-pro"
-  onClick={guardarCambios}
->
-  💾 Guardar Cambios
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-);
-
+  };
+
+  return (
+
+    <div
+      style={{
+        position: "fixed",
+        inset: 0,
+        background:
+          "rgba(2,6,23,0.82)",
+        backdropFilter: "blur(8px)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        zIndex: 9999,
+        padding: "20px",
+        overflowY: "auto"
+      }}
+    >
+
+      <div
+        className="card-pro"
+        style={{
+          width: "100%",
+          maxWidth: "1000px",
+          maxHeight: "95vh",
+          overflowY: "auto",
+          padding: "32px",
+          position: "relative",
+          background:
+            "linear-gradient(145deg, rgba(15,23,42,0.96), rgba(15,23,42,0.88))",
+          border:
+            "1px solid rgba(51,65,85,0.8)"
+        }}
+      >
+
+        <button
+          onClick={onClose}
+          style={{
+            position: "absolute",
+            right: "20px",
+            top: "20px",
+            width: "42px",
+            height: "42px",
+            borderRadius: "12px",
+            border: "none",
+            background:
+              "rgba(239,68,68,0.15)",
+            color: "#ef4444",
+            cursor: "pointer",
+            fontSize: "18px"
+          }}
+        >
+          ✕
+        </button>
+
+        <h1
+          style={{
+            color: "#fff",
+            marginTop: 0,
+            marginBottom: "30px"
+          }}
+        >
+          ✏ Editar Equipo
+        </h1>
+
+        <div
+          style={{
+            display: "grid",
+            gap: "24px"
+          }}
+        >
+
+          <div
+            className="card-pro"
+            style={{
+              padding: "24px"
+            }}
+          >
+
+            <h2
+              style={{
+                color: "#fff",
+                marginTop: 0
+              }}
+            >
+              💻 Datos Generales
+            </h2>
+
+            <div
+              style={{
+                display: "grid",
+                gap: "18px"
+              }}
+            >
+
+              <input
+                className="input-pro"
+                placeholder="Nombre Equipo"
+                value={nombreEquipo}
+                onChange={(e) =>
+                  setNombreEquipo(
+                    e.target.value
+                  )
+                }
+              />
+
+              <input
+                className="input-pro"
+                placeholder="Usuario Asignado"
+                value={usuarioAsignado}
+                onChange={(e) =>
+                  setUsuarioAsignado(
+                    e.target.value
+                  )
+                }
+              />
+
+            </div>
+
+          </div>
+
+          <div
+            className="card-pro"
+            style={{
+              padding: "24px"
+            }}
+          >
+
+            <h2
+              style={{
+                color: "#fff",
+                marginTop: 0
+              }}
+            >
+              🔐 Password Windows
+            </h2>
+
+            <div
+              style={{
+                display: "grid",
+                gap: "16px"
+              }}
+            >
+
+              <input
+                type="password"
+                className="input-pro"
+                placeholder="Nueva password Windows"
+                disabled={
+                  passwordWindowsDesconocido
+                }
+                value={passwordWindows}
+                onChange={(e) =>
+                  setPasswordWindows(
+                    e.target.value
+                  )
+                }
+              />
+
+              <input
+                type="password"
+                className="input-pro"
+                placeholder="Confirmar password Windows"
+                disabled={
+                  passwordWindowsDesconocido
+                }
+                value={
+                  confirmarPasswordWindows
+                }
+                onChange={(e) =>
+                  setConfirmarPasswordWindows(
+                    e.target.value
+                  )
+                }
+              />
+
+              {passwordWindows && (
+
+                <div
+                  style={{
+                    color:
+                      windowsCoincide
+                        ? "#22c55e"
+                        : "#ef4444",
+                    fontWeight: "700"
+                  }}
+                >
+
+                  {
+                    windowsCoincide
+                      ? "✅ Passwords Windows coinciden"
+                      : "❌ Passwords Windows no coinciden"
+                  }
+
+                </div>
+
+              )}
+
+            </div>
+
+          </div>
+
+          <button
+            className="btn-pro"
+            onClick={guardarCambios}
+          >
+            💾 Guardar Cambios
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+  );
 }
 
 export default ModalEditarEquipo;
