@@ -7,7 +7,6 @@ function ModalEditarEquipo({
   recargarEquipos
 }) {
 
-  if (!equipo) return null;
 
   const API =
     "https://ticket-pro-backend.onrender.com";
@@ -317,7 +316,7 @@ function ModalEditarEquipo({
       );
     }
   };
-
+if (!equipo) return null;
   return (
 
     <div
