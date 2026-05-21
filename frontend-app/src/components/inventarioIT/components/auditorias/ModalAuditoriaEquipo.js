@@ -228,16 +228,20 @@ useEffect(() => {
 
 const OpcionBoolean =
 ({
-
   titulo,
-
   value,
-
   setValue
+}) => {
 
-}) => (
+  return (
 
-<div>
+<div
+  style={{
+    border: "1px solid #334155",
+    padding: "20px",
+    borderRadius: "14px"
+  }}
+>
 
 <div
   style={{
@@ -252,94 +256,71 @@ const OpcionBoolean =
 <div
   style={{
     display: "flex",
-    gap: "12px",
-    flexWrap: "wrap"
+    gap: "12px"
   }}
 >
 
-<button
+<div
 
-  type="button"
-tabIndex={0}
+  onClick={() =>
+    setValue(true)
+  }
+
   style={{
-    position: "relative",
-    zIndex: 20
+
+    padding: "12px 18px",
+
+    borderRadius: "12px",
+
+    cursor: "pointer",
+
+    userSelect: "none",
+
+    background:
+      value
+      ? "#2563eb"
+      : "#1e293b",
+
+    color: "#fff"
   }}
-  style={{
-
-  padding: "12px 18px",
-
-  borderRadius: "12px",
-
-  border: "none",
-
-  cursor: "pointer",
-
-  background:
-    value
-    ? "#2563eb"
-    : "#1e293b",
-
-  color: "#fff"
-}}
-
-  onClick={(e) => {
-
-  e.preventDefault();
-
-  e.stopPropagation();
-
-  setValue(true);
-
-}}
 >
   ✅ Sí
-</button>
+</div>
 
-<button
+<div
 
-  type="button"
-tabIndex={0}
+  onClick={() =>
+    setValue(false)
+  }
+
   style={{
-    position: "relative",
-    zIndex: 20
+
+    padding: "12px 18px",
+
+    borderRadius: "12px",
+
+    cursor: "pointer",
+
+    userSelect: "none",
+
+    background:
+      !value
+      ? "#2563eb"
+      : "#1e293b",
+
+    color: "#fff"
   }}
- style={{
-
-  padding: "12px 18px",
-
-  borderRadius: "12px",
-
-  border: "none",
-
-  cursor: "pointer",
-
-  background:
-    !value
-    ? "#2563eb"
-    : "#1e293b",
-
-  color: "#fff"
-}}
-
- onClick={(e) => {
-
-  e.preventDefault();
-
-  e.stopPropagation();
-
-  setValue(false);
-
-}}
 >
   ❌ No
-</button>
+</div>
 
 </div>
 
 </div>
 
 );
+
+};
 
 /* =========================
    JSX

@@ -282,9 +282,7 @@ style={{
 
   alignItems: "start",
 
-  width: "100%",
-
-  overflow: "hidden"
+  width: "100%"
 }}
 >
 
@@ -445,12 +443,10 @@ style={{
   className="card-pro"
 
   style={{
-    padding: "28px",
+  padding: "28px",
 
-    minWidth: 0,
-
-    overflow: "hidden"
-  }}
+  minWidth: 0
+}}
 >
 
 <h2
