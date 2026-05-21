@@ -173,6 +173,7 @@ const monitorSchema =
   }
 
 });
+
 const equipoITSchema =
   new mongoose.Schema({
 
@@ -187,6 +188,7 @@ const equipoITSchema =
   },
 
   tipoEquipo: {
+
     type: String,
 
     enum: [
@@ -208,6 +210,7 @@ const equipoITSchema =
   },
 
   estadoAntivirus: {
+
     type: String,
 
     enum: [
@@ -224,48 +227,50 @@ const equipoITSchema =
     default: ""
   },
 
+  passwordWindowsDesconocido: {
+    type: Boolean,
+    default: false
+  },
+
   passwordERP: {
     type: String,
     default: ""
   },
-passwordERPNoAplica: {
-  type: Boolean,
-  default: false
-},
 
-fechaExpiracionAntivirus: {
-  type: Date,
-  default: null
-},
+  passwordERPNoAplica: {
+    type: Boolean,
+    default: false
+  },
 
-diasAlertaAntivirus: {
-  type: Number,
-  default: 30
-},
+  fechaCambioPasswordWindows: {
+    type: Date,
+    default: null
+  },
 
-fechaCambioPasswordWindows: {
-  type: Date,
-  default: Date.now
-},
+  fechaExpiracionPasswordWindows: {
+    type: Date,
+    default: null
+  },
 
-fechaExpiracionPasswordWindows: {
-  type: Date,
-  default: null
-},
-fechaCambioPasswordERP: {
-  type: Date,
-  default: null
-},
+  fechaCambioPasswordERP: {
+    type: Date,
+    default: null
+  },
 
-fechaExpiracionPasswordERP: {
-  type: Date,
-  default: null
-},
+  fechaExpiracionPasswordERP: {
+    type: Date,
+    default: null
+  },
 
-diasRecordatorioPassword: {
-  type: Number,
-  default: 90
-},
+  fechaExpiracionAntivirus: {
+    type: Date,
+    default: null
+  },
+
+  diasAlertaAntivirus: {
+    type: Number,
+    default: 4
+  },
 
   mfa: {
     type: Boolean,
@@ -282,6 +287,7 @@ diasRecordatorioPassword: {
   },
 
   estadoSeguridad: {
+
     type: String,
 
     enum: [
@@ -293,9 +299,9 @@ diasRecordatorioPassword: {
     default: "seguro"
   },
 
-  fechaCambioPassword: {
-    type: Date,
-    default: Date.now
+  alertas: {
+    type: [String],
+    default: []
   },
 
   creadoPor: {
@@ -1141,7 +1147,162 @@ app.put("/ciclicos/:id/cerrar", async (req, res) => {
     res.status(500).send("Error");
   }
 });
+/* =========================================
+   MOTOR SEGURIDAD IT
+========================================= */
 
+function diasRestantes(fecha) {
+
+  if (!fecha) return null;
+
+  const hoy =
+    new Date();
+
+  const vencimiento =
+    new Date(fecha);
+
+  hoy.setHours(0,0,0,0);
+
+  vencimiento.setHours(0,0,0,0);
+
+  const diff =
+    vencimiento - hoy;
+
+  return Math.ceil(
+    diff / (1000 * 60 * 60 * 24)
+  );
+}
+
+function calcularEstadoSeguridad(
+  equipo
+) {
+
+  let estado =
+    "seguro";
+
+  let alertas = [];
+
+  /* =========================
+     MFA
+  ========================= */
+
+  if (!equipo.mfa) {
+
+    estado = "riesgo";
+
+    alertas.push(
+      "MFA desactivado"
+    );
+  }
+
+  /* =========================
+     PASSWORD WINDOWS
+  ========================= */
+
+  if (
+    !equipo.passwordWindowsDesconocido &&
+    equipo.fechaExpiracionPasswordWindows
+  ) {
+
+    const dias =
+      diasRestantes(
+        equipo.fechaExpiracionPasswordWindows
+      );
+
+    if (dias < 0) {
+
+      estado = "riesgo";
+
+      alertas.push(
+        "Password Windows vencido"
+      );
+
+    } else if (dias <= 4) {
+
+      if (estado !== "riesgo") {
+        estado = "alerta";
+      }
+
+      alertas.push(
+        `Password Windows vence en ${dias} días`
+      );
+    }
+  }
+
+  /* =========================
+     PASSWORD ERP
+  ========================= */
+
+  if (
+    !equipo.passwordERPNoAplica &&
+    equipo.fechaExpiracionPasswordERP
+  ) {
+
+    const dias =
+      diasRestantes(
+        equipo.fechaExpiracionPasswordERP
+      );
+
+    if (dias < 0) {
+
+      estado = "riesgo";
+
+      alertas.push(
+        "Password ERP vencido"
+      );
+
+    } else if (dias <= 4) {
+
+      if (estado !== "riesgo") {
+        estado = "alerta";
+      }
+
+      alertas.push(
+        `Password ERP vence en ${dias} días`
+      );
+    }
+  }
+
+  /* =========================
+     ANTIVIRUS
+  ========================= */
+
+  if (
+    equipo.antivirus &&
+    equipo.antivirus !== "Microsoft Defender" &&
+    equipo.fechaExpiracionAntivirus
+  ) {
+
+    const dias =
+      diasRestantes(
+        equipo.fechaExpiracionAntivirus
+      );
+
+    if (dias < 0) {
+
+      estado = "riesgo";
+
+      alertas.push(
+        "Antivirus vencido"
+      );
+
+    } else if (dias <= 4) {
+
+      if (estado !== "riesgo") {
+        estado = "alerta";
+      }
+
+      alertas.push(
+        `Antivirus vence en ${dias} días`
+      );
+    }
+  }
+
+  return {
+    estadoSeguridad: estado,
+    alertas
+  };
+}
 // 🔥 OBTENER EQUIPOS IT
 
 app.get("/it/equipos", async (req, res) => {
@@ -1169,8 +1330,23 @@ app.post("/it/equipos", async (req, res) => {
 
   try {
 
+    const seguridad =
+      calcularEstadoSeguridad(
+        req.body
+      );
+
     const nuevo =
-      new EquipoIT(req.body);
+      new EquipoIT({
+
+        ...req.body,
+
+        estadoSeguridad:
+          seguridad.estadoSeguridad,
+
+        alertas:
+          seguridad.alertas
+
+      });
 
     await nuevo.save();
 
@@ -1191,9 +1367,24 @@ app.put("/it/equipos/:id", async (req, res) => {
 
   try {
 
+    const seguridad =
+      calcularEstadoSeguridad(
+        req.body
+      );
+
     await EquipoIT.findByIdAndUpdate(
       req.params.id,
-      req.body
+      {
+
+        ...req.body,
+
+        estadoSeguridad:
+          seguridad.estadoSeguridad,
+
+        alertas:
+          seguridad.alertas
+
+      }
     );
 
     res.json({
