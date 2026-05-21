@@ -225,11 +225,12 @@ idDispositivo: {
 idProducto: {
   type: String,
   default: ""
-}
-  nombreEquipo: {
-    type: String,
-    required: true
-  },
+},
+
+nombreEquipo: {
+  type: String,
+  required: true
+},
 
   usuarioAsignado: {
     type: String,
