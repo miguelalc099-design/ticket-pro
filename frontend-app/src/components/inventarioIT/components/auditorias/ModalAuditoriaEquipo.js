@@ -258,7 +258,7 @@ const OpcionBoolean =
 >
 
 <button
-
+type="button"
   className={
     value
     ? "btn-pro"
@@ -273,7 +273,7 @@ const OpcionBoolean =
 </button>
 
 <button
-
+type="button"
   className={
     !value
     ? "btn-pro"

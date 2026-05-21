@@ -262,17 +262,19 @@ return (
 {/* EQUIPO */}
 
 <div
-  style={{
+style={{
 
-    display: "grid",
+  display: "grid",
 
-    gridTemplateColumns:
-      "320px 1fr 260px",
+  gridTemplateColumns:
+    "280px minmax(0,1fr) 240px",
 
-    gap: "24px",
+  gap: "24px",
 
-    alignItems: "start"
-  }}
+  alignItems: "start",
+
+  width: "100%"
+}}
 >
 
 {/* IZQUIERDA */}
