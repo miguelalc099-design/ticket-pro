@@ -368,6 +368,104 @@ const EquipoIT =
     "EquipoIT",
     equipoITSchema
   );
+
+/* =========================================
+   AUDITORIAS IT
+========================================= */
+
+const auditoriaITSchema =
+  new mongoose.Schema({
+
+  equipoId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "EquipoIT"
+  },
+
+  nombreEquipo: {
+    type: String,
+    default: ""
+  },
+
+  usuarioAsignado: {
+    type: String,
+    default: ""
+  },
+
+  score: {
+    type: Number,
+    default: 0
+  },
+
+  estado: {
+    type: String,
+    default: "RIESGO"
+  },
+
+  passwordInicio: {
+    type: Boolean,
+    default: false
+  },
+
+  bloqueoAutomatico: {
+    type: Boolean,
+    default: false
+  },
+
+  mfaActivo: {
+    type: Boolean,
+    default: false
+  },
+
+  antivirusActivo: {
+    type: Boolean,
+    default: false
+  },
+
+  escritorioLimpio: {
+    type: Boolean,
+    default: false
+  },
+
+  usbNoAutorizado: {
+    type: Boolean,
+    default: false
+  },
+
+  serieCorrecta: {
+    type: Boolean,
+    default: false
+  },
+
+  observaciones: {
+    type: String,
+    default: ""
+  },
+
+  auditor: {
+    type: String,
+    default: ""
+  },
+
+  finalizada: {
+    type: Boolean,
+    default: true
+  },
+
+  fechaAuditoria: {
+    type: Date,
+    default: Date.now
+  }
+
+}, {
+  timestamps: true
+});
+
+const AuditoriaIT =
+  mongoose.model(
+    "AuditoriaIT",
+    auditoriaITSchema
+  );
+
 // 🔥 LOGIN SIMPLE
 
 app.post("/login", async (req, res) => {
@@ -1521,6 +1619,61 @@ app.delete("/it/equipos/:id", async (req, res) => {
       .send("Error eliminando equipo");
   }
 });
+
+/* =========================================
+   AUDITORIAS IT
+========================================= */
+
+app.post("/it/auditorias", async (req, res) => {
+
+  try {
+
+    const nueva =
+      new AuditoriaIT(req.body);
+
+    await nueva.save();
+
+    res.json(nueva);
+
+  } catch (err) {
+
+    console.log(err);
+
+    res.status(500)
+      .send("Error guardando auditoría");
+  }
+});
+
+app.get("/it/auditorias/:equipoId", async (req, res) => {
+
+  try {
+
+    const auditorias =
+      await AuditoriaIT.find({
+
+        equipoId:
+          req.params.equipoId
+
+      })
+      .sort({
+        createdAt: -1
+      });
+
+    res.json(auditorias);
+
+  } catch (err) {
+
+    console.log(err);
+
+    res.status(500)
+      .send("Error obteniendo auditorías");
+  }
+});
+
+/* =========================================
+   SERVER
+========================================= */
+
 const PORT = process.env.PORT || 10000;
 
 app.listen(PORT, () => {
