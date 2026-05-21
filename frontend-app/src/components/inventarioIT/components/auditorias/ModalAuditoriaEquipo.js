@@ -310,24 +310,15 @@ return (
 
   style={{
 
-    width: "100%",
+  width: "100%",
 
-    maxWidth: "1100px",
+  padding: "0px",
 
-    maxHeight: "94vh",
+  background:
+    "transparent",
 
-    overflowY: "auto",
-
-    padding: "34px",
-
-    position: "relative",
-
-    background:
-      "linear-gradient(145deg, rgba(15,23,42,0.96), rgba(15,23,42,0.90))",
-
-    border:
-      "1px solid rgba(51,65,85,0.7)"
-  }}
+  border: "none"
+}}
 >
 
 {/* HEADER */}
