@@ -878,14 +878,7 @@ Password desconocido
 >
   📅 Fecha en que el usuario CAMBIÓ la password Windows por última vez
 </div>
-<div
-  style={{
-    color: "#94a3b8",
-    fontSize: "13px"
-  }}
->
-  ⏳ Fecha límite para volver a cambiar la password Windows
-</div>
+
 <input
   type="date"
 
@@ -905,7 +898,14 @@ Password desconocido
     )
   }
 />
-
+<div
+  style={{
+    color: "#94a3b8",
+    fontSize: "13px"
+  }}
+>
+  ⏳ Fecha límite para volver a cambiar la password Windows
+</div>
 <input
   type="date"
 
