@@ -1,5 +1,8 @@
 import { useState } from "react";
 
+import { toast }
+from "react-toastify";
+
 function ModalResolverSeguridad({
 
   equipo,
@@ -10,8 +13,14 @@ function ModalResolverSeguridad({
 
 }) {
 
+if (!equipo) return null;
+
 const API =
   "https://ticket-pro-backend.onrender.com";
+
+/* =========================
+   STATES
+========================= */
 
 const [
 
@@ -35,6 +44,19 @@ const [
 ] = useState(
 
   equipo?.fechaExpiracionPasswordWindows
+    ?.split("T")[0] || ""
+
+);
+
+const [
+
+  fechaExpiracionPasswordERP,
+
+  setFechaExpiracionPasswordERP
+
+] = useState(
+
+  equipo?.fechaExpiracionPasswordERP
     ?.split("T")[0] || ""
 
 );
@@ -69,17 +91,17 @@ const [
 
 const [
 
-  nuevaPasswordCorreo,
+  nuevaPasswordERP,
 
-  setNuevaPasswordCorreo
+  setNuevaPasswordERP
 
 ] = useState("");
 
 const [
 
-  confirmarPasswordCorreo,
+  confirmarPasswordERP,
 
-  setConfirmarPasswordCorreo
+  setConfirmarPasswordERP
 
 ] = useState("");
 
@@ -91,12 +113,28 @@ const [
 
 ] = useState("");
 
+const [
+
+  loading,
+
+  setLoading
+
+] = useState(false);
+
+/* =========================
+   GUARDAR
+========================= */
+
 const guardar =
   async () => {
 
   try {
 
-    // 🔐 VALIDAR PASSWORD WINDOWS
+    setLoading(true);
+
+    /* =========================
+       VALIDAR WINDOWS
+    ========================= */
 
     if (
 
@@ -107,66 +145,66 @@ const guardar =
 
     ) {
 
-      alert(
-        "Las passwords Windows no coinciden"
+      toast.error(
+        "Passwords Windows no coinciden"
       );
 
       return;
-
     }
 
     if (
 
-      nuevaPasswordWindows &&
+      nuevaPasswordWindows.length > 0 &&
 
-      nuevaPasswordWindows ===
-        equipo.passwordWindows
+      nuevaPasswordWindows.length < 6
 
     ) {
 
-      alert(
-        "La nueva password Windows no puede ser igual a la anterior"
+      toast.error(
+        "Password Windows demasiado corto"
       );
 
       return;
-
     }
 
-    // 🔐 VALIDAR PASSWORD CORREO
+    /* =========================
+       VALIDAR ERP
+    ========================= */
 
     if (
 
-      nuevaPasswordCorreo &&
+      nuevaPasswordERP &&
 
-      nuevaPasswordCorreo !==
-        confirmarPasswordCorreo
+      nuevaPasswordERP !==
+        confirmarPasswordERP
 
     ) {
 
-      alert(
-        "Las passwords correo no coinciden"
+      toast.error(
+        "Passwords ERP no coinciden"
       );
 
       return;
-
     }
 
     if (
 
-      nuevaPasswordCorreo &&
+      nuevaPasswordERP.length > 0 &&
 
-      nuevaPasswordCorreo ===
-        equipo.passwordCorreo
+      nuevaPasswordERP.length < 6
 
     ) {
 
-      alert(
-        "La nueva password correo no puede ser igual a la anterior"
+      toast.error(
+        "Password ERP demasiado corto"
       );
 
       return;
-
     }
+
+    /* =========================
+       BODY
+    ========================= */
 
     const body = {
 
@@ -174,56 +212,85 @@ const guardar =
 
       fechaExpiracionPasswordWindows,
 
+      fechaExpiracionPasswordERP,
+
       mfa,
 
       observaciones
 
     };
 
-    // 🔐 WINDOWS
+    /* =========================
+       PASSWORD WINDOWS
+    ========================= */
 
     if (nuevaPasswordWindows) {
 
       body.passwordWindows =
         nuevaPasswordWindows;
 
+      body.passwordWindowsDesconocido =
+        false;
+
       body.fechaCambioPasswordWindows =
         new Date();
 
-      body.fechaExpiracionPasswordWindows =
-        fechaExpiracionPasswordWindows;
+    }
+
+    /* =========================
+       PASSWORD ERP
+    ========================= */
+
+    if (nuevaPasswordERP) {
+
+      body.passwordERP =
+        nuevaPasswordERP;
+
+      body.passwordERPNoAplica =
+        false;
+
+      body.fechaCambioPasswordERP =
+        new Date();
 
     }
 
-    // 🔐 CORREO
+    /* =========================
+       REQUEST
+    ========================= */
 
-    if (nuevaPasswordCorreo) {
+    const res =
+      await fetch(
 
-      body.passwordCorreo =
-        nuevaPasswordCorreo;
+        `${API}/it/equipos/${equipo._id}`,
+
+        {
+
+          method: "PUT",
+
+          headers: {
+
+            "Content-Type":
+              "application/json"
+
+          },
+
+          body:
+            JSON.stringify(body)
+
+        }
+
+      );
+
+    if (!res.ok) {
+
+      throw new Error(
+        "Error actualizando"
+      );
 
     }
 
-    await fetch(
-
-      `${API}/it/equipos/${equipo._id}`,
-
-      {
-
-        method: "PUT",
-
-        headers: {
-
-          "Content-Type":
-            "application/json"
-
-        },
-
-        body:
-          JSON.stringify(body)
-
-      }
-
+    toast.success(
+      "Seguridad actualizada"
     );
 
     recargarEquipos();
@@ -234,9 +301,21 @@ const guardar =
 
     console.log(err);
 
+    toast.error(
+      "Error actualizando seguridad"
+    );
+
+  } finally {
+
+    setLoading(false);
+
   }
 
 };
+
+/* =========================
+   JSX
+========================= */
 
 return (
 
@@ -277,14 +356,14 @@ return (
 
     width: "100%",
 
-    maxWidth: "700px",
+    maxWidth: "760px",
 
     maxHeight:
       "calc(100vh - 60px)",
 
     overflowY: "auto",
 
-    padding: "30px",
+    padding: "32px",
 
     position: "relative",
 
@@ -296,6 +375,8 @@ return (
 
   }}
 >
+
+{/* CERRAR */}
 
 <button
 
@@ -309,25 +390,35 @@ return (
 
     top: "20px",
 
-    background: "none",
+    width: "42px",
+
+    height: "42px",
+
+    borderRadius: "12px",
 
     border: "none",
 
-    color: "#fff",
+    background:
+      "rgba(239,68,68,0.15)",
+
+    color: "#ef4444",
 
     cursor: "pointer",
 
-    fontSize: "22px"
+    fontSize: "18px"
 
   }}
 >
   ✕
 </button>
 
+{/* HEADER */}
+
 <h1
   style={{
     color: "#fff",
-    marginTop: 0
+    marginTop: 0,
+    marginBottom: "10px"
   }}
 >
   ✅ Resolver Seguridad
@@ -335,67 +426,23 @@ return (
 
 <p
   style={{
-    color: "#94a3b8"
+    color: "#94a3b8",
+    marginBottom: "30px"
   }}
 >
   {equipo?.nombreEquipo}
 </p>
 
+{/* GRID */}
+
 <div
   style={{
     display: "grid",
-    gap: "20px",
-    marginTop: "30px"
+    gap: "22px"
   }}
 >
 
-<div>
-
-<label className="label-pro">
-  Nueva fecha antivirus
-</label>
-
-<input
-  type="date"
-
-  className="input-pro"
-
-  value={
-    fechaExpiracionAntivirus
-  }
-
-  onChange={(e) =>
-    setFechaExpiracionAntivirus(
-      e.target.value
-    )
-  }
-/>
-
-</div>
-
-<div>
-
-<label className="label-pro">
-  Nueva fecha expiración password
-</label>
-
-<input
-  type="date"
-
-  className="input-pro"
-
-  value={
-    fechaExpiracionPasswordWindows
-  }
-
-  onChange={(e) =>
-    setFechaExpiracionPasswordWindows(
-      e.target.value
-    )
-  }
-/>
-
-</div>
+{/* MFA */}
 
 <div>
 
@@ -416,27 +463,74 @@ return (
 >
 
 <option value="si">
-  Activo
+  ✅ Activado
 </option>
 
 <option value="no">
-  Desactivado
+  ❌ Desactivado
 </option>
 
 </select>
 
 </div>
 
+{/* ANTIVIRUS */}
+
 <div>
 
 <label className="label-pro">
-  Nueva password Windows
+  Expiración Antivirus
 </label>
+
+<input
+  type="date"
+
+  className="input-pro"
+
+  value={
+    fechaExpiracionAntivirus
+  }
+
+  onChange={(e) =>
+    setFechaExpiracionAntivirus(
+      e.target.value
+    )
+  }
+/>
+
+</div>
+
+{/* PASSWORD WINDOWS */}
+
+<div
+  className="card-pro"
+  style={{
+    padding: "20px"
+  }}
+>
+
+<h3
+  style={{
+    marginTop: 0,
+    color: "#fff"
+  }}
+>
+  🔐 Password Windows
+</h3>
+
+<div
+  style={{
+    display: "grid",
+    gap: "16px"
+  }}
+>
 
 <input
   type="password"
 
   className="input-pro"
+
+  placeholder="Nueva password Windows"
 
   value={
     nuevaPasswordWindows
@@ -449,18 +543,12 @@ return (
   }
 />
 
-</div>
-
-<div>
-
-<label className="label-pro">
-  Confirmar password Windows
-</label>
-
 <input
   type="password"
 
   className="input-pro"
+
+  placeholder="Confirmar password Windows"
 
   value={
     confirmarPasswordWindows
@@ -473,25 +561,17 @@ return (
   }
 />
 
-</div>
-
-<div>
-
-<label className="label-pro">
-  Nueva password Correo
-</label>
-
 <input
-  type="password"
+  type="date"
 
   className="input-pro"
 
   value={
-    nuevaPasswordCorreo
+    fechaExpiracionPasswordWindows
   }
 
   onChange={(e) =>
-    setNuevaPasswordCorreo(
+    setFechaExpiracionPasswordWindows(
       e.target.value
     )
   }
@@ -499,29 +579,90 @@ return (
 
 </div>
 
-<div>
+</div>
 
-<label className="label-pro">
-  Confirmar password Correo
-</label>
+{/* PASSWORD ERP */}
+
+<div
+  className="card-pro"
+  style={{
+    padding: "20px"
+  }}
+>
+
+<h3
+  style={{
+    marginTop: 0,
+    color: "#fff"
+  }}
+>
+  🏢 Password ERP
+</h3>
+
+<div
+  style={{
+    display: "grid",
+    gap: "16px"
+  }}
+>
 
 <input
   type="password"
 
   className="input-pro"
 
+  placeholder="Nueva password ERP"
+
   value={
-    confirmarPasswordCorreo
+    nuevaPasswordERP
   }
 
   onChange={(e) =>
-    setConfirmarPasswordCorreo(
+    setNuevaPasswordERP(
+      e.target.value
+    )
+  }
+/>
+
+<input
+  type="password"
+
+  className="input-pro"
+
+  placeholder="Confirmar password ERP"
+
+  value={
+    confirmarPasswordERP
+  }
+
+  onChange={(e) =>
+    setConfirmarPasswordERP(
+      e.target.value
+    )
+  }
+/>
+
+<input
+  type="date"
+
+  className="input-pro"
+
+  value={
+    fechaExpiracionPasswordERP
+  }
+
+  onChange={(e) =>
+    setFechaExpiracionPasswordERP(
       e.target.value
     )
   }
 />
 
 </div>
+
+</div>
+
+{/* OBSERVACIONES */}
 
 <div>
 
@@ -532,7 +673,7 @@ return (
 <textarea
   className="input-pro"
 
-  rows={3}
+  rows={4}
 
   value={observaciones}
 
@@ -542,18 +683,47 @@ return (
     )
   }
 
-  placeholder="Detalles de actualización..."
+  placeholder="Detalles de actualización, renovación o cambios realizados..."
 />
 
 </div>
 
+{/* BOTONES */}
+
+<div
+  style={{
+    display: "flex",
+    justifyContent: "flex-end",
+    gap: "14px",
+    marginTop: "10px"
+  }}
+>
+
+<button
+  className="btn-pro btn-secondary"
+
+  onClick={onClose}
+>
+  Cancelar
+</button>
+
 <button
   className="btn-pro"
 
+  disabled={loading}
+
   onClick={guardar}
 >
-  💾 Guardar Resolución
+  {
+    loading
+
+    ? "Guardando..."
+
+    : "💾 Guardar Resolución"
+  }
 </button>
+
+</div>
 
 </div>
 

@@ -39,56 +39,70 @@ const [antivirus,
   setAntivirus] =
   useState("");
 
+/* =========================
+   WINDOWS PASSWORD
+========================= */
+
 const [passwordWindows,
   setPasswordWindows] =
   useState("");
+
+const [
+  confirmarPasswordWindows,
+  setConfirmarPasswordWindows
+] = useState("");
 
 const [
   passwordWindowsDesconocido,
   setPasswordWindowsDesconocido
 ] = useState(false);
 
+const [
+  fechaExpiracionPasswordWindows,
+  setFechaExpiracionPasswordWindows
+] = useState("");
+
+/* =========================
+   ERP PASSWORD
+========================= */
+
 const [passwordERP,
   setPasswordERP] =
   useState("");
+
+const [
+  confirmarPasswordERP,
+  setConfirmarPasswordERP
+] = useState("");
 
 const [passwordERPNoAplica,
   setPasswordERPNoAplica] =
   useState(false);
 
 const [
-  fechaCambioPasswordWindows,
-  setFechaCambioPasswordWindows
-] = useState("");
-
-const [
-  fechaExpiracionPasswordWindows,
-  setFechaExpiracionPasswordWindows
-] = useState("");
-
-const [
-  fechaCambioPasswordERP,
-  setFechaCambioPasswordERP
-] = useState("");
-
-const [
   fechaExpiracionPasswordERP,
   setFechaExpiracionPasswordERP
 ] = useState("");
+
+/* =========================
+   ANTIVIRUS
+========================= */
 
 const [
   fechaExpiracionAntivirus,
   setFechaExpiracionAntivirus
 ] = useState("");
 
-const [
-  diasAlertaAntivirus,
-  setDiasAlertaAntivirus
-] = useState(30);
+const [diasAlertaAntivirus] =
+  useState(4);
 
 const [estadoAntivirus,
   setEstadoAntivirus] =
   useState("activo");
+
+/* =========================
+   SEGURIDAD
+========================= */
 
 const [mfa, setMfa] =
   useState(true);
@@ -96,6 +110,10 @@ const [mfa, setMfa] =
 const [observaciones,
   setObservaciones] =
   useState("");
+
+/* =========================
+   MONITORES
+========================= */
 
 const [monitores,
   setMonitores] =
@@ -109,6 +127,20 @@ const [monitores,
   ]);
 
 /* =========================
+   VALIDACIONES
+========================= */
+
+const windowsPasswordsCoinciden =
+
+  passwordWindows ===
+  confirmarPasswordWindows;
+
+const erpPasswordsCoinciden =
+
+  passwordERP ===
+  confirmarPasswordERP;
+
+/* =========================
    GUARDAR
 ========================= */
 
@@ -116,6 +148,146 @@ const guardarEquipo =
   async () => {
 
   try {
+
+    /* =========================
+       VALIDACIONES
+    ========================= */
+
+    if (!nombreEquipo) {
+
+      toast.error(
+        "Nombre equipo requerido"
+      );
+
+      return;
+    }
+
+    if (!usuarioAsignado) {
+
+      toast.error(
+        "Usuario asignado requerido"
+      );
+
+      return;
+    }
+
+    /* WINDOWS */
+
+    if (
+
+      !passwordWindowsDesconocido &&
+
+      !passwordWindows
+
+    ) {
+
+      toast.error(
+        "Password Windows requerida"
+      );
+
+      return;
+    }
+
+    if (
+
+      !passwordWindowsDesconocido &&
+
+      !windowsPasswordsCoinciden
+
+    ) {
+
+      toast.error(
+        "Passwords Windows no coinciden"
+      );
+
+      return;
+    }
+
+    if (
+
+      !passwordWindowsDesconocido &&
+
+      !fechaExpiracionPasswordWindows
+
+    ) {
+
+      toast.error(
+        "Fecha expiración Windows requerida"
+      );
+
+      return;
+    }
+
+    /* ERP */
+
+    if (
+
+      !passwordERPNoAplica &&
+
+      !passwordERP
+
+    ) {
+
+      toast.error(
+        "Password ERP requerida"
+      );
+
+      return;
+    }
+
+    if (
+
+      !passwordERPNoAplica &&
+
+      !erpPasswordsCoinciden
+
+    ) {
+
+      toast.error(
+        "Passwords ERP no coinciden"
+      );
+
+      return;
+    }
+
+    if (
+
+      !passwordERPNoAplica &&
+
+      !fechaExpiracionPasswordERP
+
+    ) {
+
+      toast.error(
+        "Fecha expiración ERP requerida"
+      );
+
+      return;
+    }
+
+    /* ANTIVIRUS */
+
+    if (
+
+      antivirus !==
+        "Microsoft Defender" &&
+
+      antivirus !== "" &&
+
+      !fechaExpiracionAntivirus
+
+    ) {
+
+      toast.error(
+        "Fecha expiración antivirus requerida"
+      );
+
+      return;
+    }
+
+    /* =========================
+       BODY
+    ========================= */
 
     const body = {
 
@@ -131,17 +303,17 @@ const guardarEquipo =
 
       passwordWindows,
 
+      confirmarPasswordWindows,
+
       passwordWindowsDesconocido,
-
-      passwordERP,
-
-      passwordERPNoAplica,
-
-      fechaCambioPasswordWindows,
 
       fechaExpiracionPasswordWindows,
 
-      fechaCambioPasswordERP,
+      passwordERP,
+
+      confirmarPasswordERP,
+
+      passwordERPNoAplica,
 
       fechaExpiracionPasswordERP,
 
@@ -163,22 +335,34 @@ const guardarEquipo =
     };
 
     const res = await fetch(
+
       `${API}/it/equipos`,
+
       {
 
         method: "POST",
 
         headers: {
+
           "Content-Type":
             "application/json"
+
         },
 
         body:
           JSON.stringify(body)
+
       }
+
     );
 
-    await res.json();
+    if (!res.ok) {
+
+      throw new Error(
+        "Error guardando"
+      );
+
+    }
 
     toast.success(
       "Equipo registrado correctamente"
@@ -292,15 +476,9 @@ return (
   }}
 >
 
-<div>
-
-<label className="label-pro">
-  Nombre equipo
-</label>
-
 <input
   className="input-pro"
-  placeholder="PC-ADMON-01"
+  placeholder="Nombre equipo"
   value={nombreEquipo}
   onChange={(e) =>
     setNombreEquipo(
@@ -309,17 +487,9 @@ return (
   }
 />
 
-</div>
-
-<div>
-
-<label className="label-pro">
-  Usuario asignado
-</label>
-
 <input
   className="input-pro"
-  placeholder="Miguel Alcalá"
+  placeholder="Usuario asignado"
   value={usuarioAsignado}
   onChange={(e) =>
     setUsuarioAsignado(
@@ -327,14 +497,6 @@ return (
     )
   }
 />
-
-</div>
-
-<div>
-
-<label className="label-pro">
-  Tipo equipo
-</label>
 
 <select
   className="input-pro"
@@ -355,14 +517,6 @@ return (
 </option>
 
 </select>
-
-</div>
-
-<div>
-
-<label className="label-pro">
-  Sistema operativo
-</label>
 
 <select
   className="input-pro"
@@ -391,6 +545,14 @@ return (
 </option>
 
 <option>
+  Windows 8.1 Pro
+</option>
+
+<option>
+  Windows 7 Pro
+</option>
+
+<option>
   Windows Server 2022
 </option>
 
@@ -415,14 +577,6 @@ return (
 </option>
 
 </select>
-
-</div>
-
-<div>
-
-<label className="label-pro">
-  Antivirus
-</label>
 
 <select
   className="input-pro"
@@ -476,8 +630,6 @@ return (
 
 </div>
 
-</div>
-
 {/* HARDWARE */}
 
 {tipoEquipo === "desktop" && (
@@ -504,12 +656,6 @@ return (
     gap: "20px"
   }}
 >
-
-<div>
-
-<label className="label-pro">
-  Cantidad monitores
-</label>
 
 <select
   className="input-pro"
@@ -541,8 +687,6 @@ return (
 <option value={3}>3</option>
 
 </select>
-
-</div>
 
 {monitores.map((monitor, index) => (
 
@@ -706,7 +850,6 @@ return (
 <input
   type="password"
   className="input-pro"
-  placeholder="Password Windows"
   disabled={
     passwordWindowsDesconocido
   }
@@ -719,6 +862,44 @@ return (
 />
 
 </div>
+
+<input
+  type="password"
+  className="input-pro"
+  placeholder="Confirmar Password Windows"
+  disabled={
+    passwordWindowsDesconocido
+  }
+  value={
+    confirmarPasswordWindows
+  }
+  onChange={(e) =>
+    setConfirmarPasswordWindows(
+      e.target.value
+    )
+  }
+/>
+
+{!passwordWindowsDesconocido && (
+
+<div
+  style={{
+    color:
+      windowsPasswordsCoinciden
+      ? "#22c55e"
+      : "#ef4444",
+    fontWeight: "700",
+    fontSize: "14px"
+  }}
+>
+  {
+    windowsPasswordsCoinciden
+    ? "✅ Passwords Windows coinciden"
+    : "❌ Passwords Windows no coinciden"
+  }
+</div>
+
+)}
 
 <label
   style={{
@@ -745,34 +926,6 @@ Password desconocido
 
 </label>
 
-<div>
-
-<label className="label-pro">
-  Último cambio password Windows
-</label>
-
-<input
-  type="date"
-  disabled={
-    passwordWindowsDesconocido
-  }
-  className="input-pro"
-  value={fechaCambioPasswordWindows}
-  onChange={(e) =>
-    setFechaCambioPasswordWindows(
-      e.target.value
-    )
-  }
-/>
-
-</div>
-
-<div>
-
-<label className="label-pro">
-  Próximo cambio password Windows
-</label>
-
 <input
   type="date"
   disabled={
@@ -789,15 +942,7 @@ Password desconocido
   }
 />
 
-</div>
-
 {/* ERP */}
-
-<div>
-
-<label className="label-pro">
-  Password ERP
-</label>
 
 <input
   type="password"
@@ -812,7 +957,41 @@ Password desconocido
   }
 />
 
+<input
+  type="password"
+  className="input-pro"
+  placeholder="Confirmar Password ERP"
+  disabled={passwordERPNoAplica}
+  value={
+    confirmarPasswordERP
+  }
+  onChange={(e) =>
+    setConfirmarPasswordERP(
+      e.target.value
+    )
+  }
+/>
+
+{!passwordERPNoAplica && (
+
+<div
+  style={{
+    color:
+      erpPasswordsCoinciden
+      ? "#22c55e"
+      : "#ef4444",
+    fontWeight: "700",
+    fontSize: "14px"
+  }}
+>
+  {
+    erpPasswordsCoinciden
+    ? "✅ Passwords ERP coinciden"
+    : "❌ Passwords ERP no coinciden"
+  }
 </div>
+
+)}
 
 <label
   style={{
@@ -837,32 +1016,6 @@ ERP no aplica
 
 </label>
 
-<div>
-
-<label className="label-pro">
-  Último cambio password ERP
-</label>
-
-<input
-  type="date"
-  disabled={passwordERPNoAplica}
-  className="input-pro"
-  value={fechaCambioPasswordERP}
-  onChange={(e) =>
-    setFechaCambioPasswordERP(
-      e.target.value
-    )
-  }
-/>
-
-</div>
-
-<div>
-
-<label className="label-pro">
-  Próximo cambio password ERP
-</label>
-
 <input
   type="date"
   disabled={passwordERPNoAplica}
@@ -877,15 +1030,7 @@ ERP no aplica
   }
 />
 
-</div>
-
 {/* MFA */}
-
-<div>
-
-<label className="label-pro">
-  MFA
-</label>
 
 <select
   className="input-pro"
@@ -907,20 +1052,10 @@ ERP no aplica
 
 </select>
 
-</div>
-
 {/* ANTIVIRUS */}
 
 {antivirus !== "Microsoft Defender" &&
 antivirus !== "" && (
-
-<>
-
-<div>
-
-<label className="label-pro">
-  Fecha expiración antivirus
-</label>
 
 <input
   type="date"
@@ -934,31 +1069,6 @@ antivirus !== "" && (
     )
   }
 />
-
-</div>
-
-<div>
-
-<label className="label-pro">
-  Días alerta antivirus
-</label>
-
-<input
-  type="number"
-  className="input-pro"
-  value={
-    diasAlertaAntivirus
-  }
-  onChange={(e) =>
-    setDiasAlertaAntivirus(
-      Number(e.target.value)
-    )
-  }
-/>
-
-</div>
-
-</>
 
 )}
 

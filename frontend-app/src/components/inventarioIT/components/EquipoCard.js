@@ -1,5 +1,6 @@
 function EquipoCard({
-equipo,
+
+  equipo,
 
   nombreEquipo,
 
@@ -16,10 +17,17 @@ equipo,
   estadoSeguridad,
 
   onEditar,
-onVer,
-onSeguridad
+
+  onVer,
+
+  onSeguridad
 
 }) {
+
+/* =========================
+   HELPERS
+========================= */
+
 const colorEstado = {
 
   seguro: "#22c55e",
@@ -29,66 +37,202 @@ const colorEstado = {
   riesgo: "#ef4444"
 
 };
-const hoy = new Date();
 
-const fechaAntivirus =
-  new Date(
+const bgEstado = {
+
+  seguro:
+    "rgba(34,197,94,0.12)",
+
+  alerta:
+    "rgba(245,158,11,0.12)",
+
+  riesgo:
+    "rgba(239,68,68,0.12)"
+
+};
+
+function diasRestantes(fecha) {
+
+  if (!fecha) return null;
+
+  const hoy =
+    new Date();
+
+  const vencimiento =
+    new Date(fecha);
+
+  hoy.setHours(0,0,0,0);
+
+  vencimiento.setHours(0,0,0,0);
+
+  const diff =
+    vencimiento - hoy;
+
+  return Math.ceil(
+    diff / (1000 * 60 * 60 * 24)
+  );
+
+}
+
+const diasAntivirus =
+  diasRestantes(
     equipo?.fechaExpiracionAntivirus
   );
 
-const fechaPassword =
-  new Date(
+const diasPasswordWindows =
+  diasRestantes(
     equipo?.fechaExpiracionPasswordWindows
   );
 
-const diasRestantesAntivirus =
-  Math.ceil(
-    (
-      fechaAntivirus - hoy
-    ) /
-    (1000 * 60 * 60 * 24)
+const diasPasswordERP =
+  diasRestantes(
+    equipo?.fechaExpiracionPasswordERP
   );
 
-const diasPassword =
-  Math.ceil(
-    (
-      fechaPassword - hoy
-    ) /
-    (1000 * 60 * 60 * 24)
-  );
+/* =========================
+   ALERTAS
+========================= */
 
-let estadoCalculado =
-  "seguro";
+const alertas = [];
+
+/* MFA */
+
+if (!equipo?.mfa) {
+
+  alertas.push({
+    color: "#ef4444",
+    texto:
+      "🔴 MFA desactivado"
+  });
+
+}
+
+/* ANTIVIRUS */
 
 if (
-  diasRestantesAntivirus <= 0 ||
-  diasPassword <= 0 ||
-  !equipo?.mfa
-) 
-{
 
-  estadoCalculado =
-    "riesgo";
+  antivirus &&
 
-} else if (
-
-  diasRestantesAntivirus <=
-    equipo?.diasAlertaAntivirus ||
-
-  diasPassword <=
-  equipo?.diasRecordatorioPassword
+  antivirus !==
+    "Microsoft Defender"
 
 ) {
 
-  estadoCalculado =
-    "alerta";
+  if (diasAntivirus < 0) {
+
+    alertas.push({
+      color: "#ef4444",
+      texto:
+        "🔴 Antivirus vencido"
+    });
+
+  }
+
+  else if (
+
+    diasAntivirus <= 4
+
+  ) {
+
+    alertas.push({
+      color: "#f59e0b",
+      texto:
+        `⚠ Antivirus vence en ${diasAntivirus} días`
+    });
+
+  }
+
 }
+
+/* PASSWORD WINDOWS */
+
+if (
+  !equipo?.passwordWindowsDesconocido &&
+  equipo?.fechaExpiracionPasswordWindows
+) {
+
+  if (
+    diasPasswordWindows < 0
+  ) {
+
+    alertas.push({
+      color: "#ef4444",
+      texto:
+        "🔴 Password Windows vencido"
+    });
+
+  }
+
+  else if (
+    diasPasswordWindows <= 4
+  ) {
+
+    alertas.push({
+      color: "#f59e0b",
+      texto:
+        `⚠ Password Windows vence en ${diasPasswordWindows} días`
+    });
+
+  }
+
+}
+
+/* PASSWORD ERP */
+
+if (
+  !equipo?.passwordERPNoAplica &&
+  equipo?.fechaExpiracionPasswordERP
+) {
+
+  if (
+    diasPasswordERP < 0
+  ) {
+
+    alertas.push({
+      color: "#ef4444",
+      texto:
+        "🔴 Password ERP vencido"
+    });
+
+  }
+
+  else if (
+    diasPasswordERP <= 4
+  ) {
+
+    alertas.push({
+      color: "#f59e0b",
+      texto:
+        `⚠ Password ERP vence en ${diasPasswordERP} días`
+    });
+
+  }
+
+}
+
+/* =========================
+   ESTADO
+========================= */
+
+const estadoFinal =
+
+  estadoSeguridad ||
+
+  equipo?.estadoSeguridad ||
+
+  "seguro";
+
+/* =========================
+   JSX
+========================= */
+
 return (
 
 <div
   className="card-pro"
 
   style={{
+
     padding: "24px",
 
     display: "flex",
@@ -106,7 +250,7 @@ return (
       "linear-gradient(145deg, rgba(15,23,42,0.92), rgba(15,23,42,0.78))",
 
     border:
-      "1px solid rgba(51,65,85,0.7)"
+      `1px solid ${colorEstado[estadoFinal]}35`
   }}
 >
 
@@ -114,29 +258,41 @@ return (
 
 <div
   style={{
+
     display: "flex",
+
     gap: "20px",
+
     alignItems: "center",
+
     flex: 1
   }}
 >
 
+{/* ICONO */}
+
 <div
   style={{
-    width: "72px",
-    height: "72px",
+
+    width: "74px",
+
+    height: "74px",
 
     borderRadius: "22px",
 
     background:
-      tipoEquipo === "desktop"
+
+      tipoEquipo ===
+      "desktop"
 
       ? "linear-gradient(145deg,#2563eb,#7c3aed)"
 
       : "linear-gradient(145deg,#0f766e,#14b8a6)",
 
     display: "flex",
+
     alignItems: "center",
+
     justifyContent: "center",
 
     fontSize: "34px",
@@ -145,39 +301,65 @@ return (
       "0 10px 25px rgba(59,130,246,0.35)"
   }}
 >
-  {tipoEquipo === "desktop"
-    ? "🖥"
-    : "💻"}
+
+{
+  tipoEquipo ===
+  "desktop"
+
+  ? "🖥"
+
+  : "💻"
+}
+
 </div>
+
+{/* INFO */}
 
 <div
   style={{
+
     display: "flex",
+
     flexDirection: "column",
-    gap: "12px"
+
+    gap: "14px",
+
+    flex: 1
   }}
 >
+
+{/* TITULO */}
 
 <div>
 
 <h2
   style={{
+
     margin: 0,
+
     color: "#fff",
-    fontSize: "24px"
+
+    fontSize: "25px"
   }}
 >
+
   {nombreEquipo}
+
 </h2>
 
 <p
   style={{
+
     marginTop: "6px",
-    color: "#94a3b8",
-    marginBottom: 0
+
+    marginBottom: 0,
+
+    color: "#94a3b8"
   }}
 >
-  {usuarioAsignado}
+
+  👤 {usuarioAsignado}
+
 </p>
 
 </div>
@@ -186,14 +368,20 @@ return (
 
 <div
   style={{
+
     display: "flex",
+
     gap: "10px",
+
     flexWrap: "wrap"
   }}
 >
 
+{/* WINDOWS */}
+
 <div
   style={{
+
     background:
       "rgba(59,130,246,0.15)",
 
@@ -208,11 +396,16 @@ return (
     fontWeight: "600"
   }}
 >
+
   {windows}
+
 </div>
+
+{/* ANTIVIRUS */}
 
 <div
   style={{
+
     background:
       "rgba(16,185,129,0.15)",
 
@@ -227,11 +420,19 @@ return (
     fontWeight: "600"
   }}
 >
-  {antivirus || "Sin antivirus"}
+
+  {
+    antivirus ||
+    "Sin antivirus"
+  }
+
 </div>
+
+{/* TIPO */}
 
 <div
   style={{
+
     background:
       "rgba(124,58,237,0.15)",
 
@@ -243,16 +444,26 @@ return (
 
     fontSize: "13px",
 
-    fontWeight: "600"
+    fontWeight: "600",
+
+    textTransform:
+      "capitalize"
   }}
 >
+
   {tipoEquipo}
+
 </div>
 
-{tipoEquipo === "desktop" && (
+{/* MONITORES */}
+
+{
+tipoEquipo ===
+  "desktop" && (
 
 <div
   style={{
+
     background:
       "rgba(245,158,11,0.15)",
 
@@ -267,11 +478,57 @@ return (
     fontWeight: "600"
   }}
 >
-  {monitores?.length || 0}
-  {" "}Monitores
+
+  {
+    monitores?.length || 0
+  }
+  {" "}
+  Monitores
+
 </div>
 
 )}
+
+{/* MFA */}
+
+<div
+  style={{
+
+    background:
+
+      equipo?.mfa
+
+      ? "rgba(34,197,94,0.15)"
+
+      : "rgba(239,68,68,0.15)",
+
+    color:
+
+      equipo?.mfa
+
+      ? "#4ade80"
+
+      : "#f87171",
+
+    padding: "6px 12px",
+
+    borderRadius: "999px",
+
+    fontSize: "13px",
+
+    fontWeight: "600"
+  }}
+>
+
+{
+  equipo?.mfa
+
+  ? "MFA Activo"
+
+  : "MFA OFF"
+}
+
+</div>
 
 </div>
 
@@ -279,37 +536,46 @@ return (
 
 <div
   style={{
-    display: "flex",
-    gap: "16px",
-    flexWrap: "wrap",
 
-    color: "#94a3b8",
-    fontSize: "14px"
-  }}
->
-<div
-  style={{
     display: "flex",
+
     flexDirection: "column",
+
     gap: "10px",
+
     marginTop: "6px"
   }}
 >
 
-{/* ESTADO GENERAL */}
+{/* ESTADO */}
 
 <div
   style={{
+
     display: "flex",
+
     alignItems: "center",
+
     gap: "10px",
 
-    fontWeight: "700",
+    width: "fit-content",
+
+    padding: "8px 14px",
+
+    borderRadius: "999px",
+
+    background:
+      bgEstado[estadoFinal],
 
     color:
       colorEstado[
-        estadoCalculado
-      ]
+        estadoFinal
+      ],
+
+    fontWeight: "700",
+
+    textTransform:
+      "capitalize"
   }}
 >
 
@@ -317,104 +583,69 @@ return (
   ●
 </div>
 
-<div
-  style={{
-    textTransform:
-      "capitalize"
-  }}
->
-  {estadoCalculado}
+<div>
+  {estadoFinal}
 </div>
 
 </div>
 
 {/* ALERTAS */}
 
-{diasRestantesAntivirus <=
-  equipo?.diasAlertaAntivirus &&
-
-diasRestantesAntivirus > 0 && (
+{
+alertas.length === 0 && (
 
 <div
   style={{
-    color: "#f59e0b",
+
+    color: "#22c55e",
+
     fontSize: "14px"
   }}
 >
-  ⚠ Antivirus vence en{" "}
-  {
-    diasRestantesAntivirus
-  } días
+
+  ✅ Equipo seguro
+
 </div>
 
 )}
 
-{diasRestantesAntivirus <= 0 && (
+{
+alertas.map(
+  (alerta, index) => (
 
 <div
+  key={index}
+
   style={{
-    color: "#ef4444",
+
+    color:
+      alerta.color,
+
     fontSize: "14px",
-    fontWeight: "700"
+
+    fontWeight: "600"
   }}
 >
-  🔴 Antivirus vencido
+
+  {alerta.texto}
+
 </div>
 
-)}
-
-{diasPassword <= 0 && (
+))
+}
 
 <div
   style={{
-    color: "#ef4444",
-    fontSize: "14px",
-    fontWeight: "700"
-  }}
->
-  🔴 Password vencido
-</div>
 
-)}
+    color: "#64748b",
 
-{diasPassword > 0 &&
- diasPassword <=
-  equipo?.diasRecordatorioPassword && (
+    fontSize: "13px",
 
-<div
-  style={{
-    color: "#f59e0b",
-    fontSize: "14px"
-  }}
->
-  ⚠ Password vence en{" "}
-  {diasPassword} días
-</div>
-
-)}
-{!equipo?.mfa && (
-
-<div
-  style={{
-    color: "#ef4444",
-    fontSize: "14px",
-    fontWeight: "700"
-  }}
->
-  🔴 MFA desactivado
-</div>
-
-)}
-
-<div
-  style={{
-    color: "#94a3b8",
-    fontSize: "13px"
+    marginTop: "4px"
   }}
 >
 
   🛡 Seguridad IT Enterprise
-</div>
 
 </div>
 
@@ -428,8 +659,11 @@ diasRestantesAntivirus > 0 && (
 
 <div
   style={{
+
     display: "flex",
+
     gap: "12px",
+
     flexWrap: "wrap"
   }}
 >
@@ -463,6 +697,7 @@ diasRestantesAntivirus > 0 && (
 </div>
 
 );
+
 }
 
 export default EquipoCard;

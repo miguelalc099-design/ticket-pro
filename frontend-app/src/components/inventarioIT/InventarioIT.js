@@ -1,17 +1,29 @@
 import { useEffect, useState } from "react";
+
 import ModalResolverSeguridad
 from "./components/ModalResolverSeguridad";
-import NuevoEquipo from "./views/NuevoEquipo";
-import ListaEquipos from "./views/ListaEquipos";
+
+import NuevoEquipo
+from "./views/NuevoEquipo";
+
+import ListaEquipos
+from "./views/ListaEquipos";
+
 function InventarioIT() {
 
-const [vista, setVista] =
-  useState("equipos")
 const API =
   "https://ticket-pro-backend.onrender.com";
 
+/* =========================
+   STATES
+========================= */
+
+const [vista, setVista] =
+  useState("equipos");
+
 const [equipos, setEquipos] =
   useState([]);
+
 const [openResolver,
   setOpenResolver] =
   useState(false);
@@ -19,14 +31,20 @@ const [openResolver,
 const [equipoResolver,
   setEquipoResolver] =
   useState(null);
+
+/* =========================
+   API
+========================= */
+
 const obtenerEquipos =
   async () => {
 
   try {
 
-    const res = await fetch(
-      `${API}/it/equipos`
-    );
+    const res =
+      await fetch(
+        `${API}/it/equipos`
+      );
 
     const data =
       await res.json();
@@ -40,59 +58,50 @@ const obtenerEquipos =
   }
 
 };
+
 useEffect(() => {
 
   obtenerEquipos();
 
 }, []);
 
+/* =========================
+   KPIs
+========================= */
+
 const totalEquipos =
   equipos.length;
 
 const totalAlertas =
-  equipos.filter((e) => {
+  equipos.filter((e) =>
 
-    const hoy = new Date();
+    e.estadoSeguridad ===
+      "alerta" ||
 
-    const fechaAntivirus =
-      new Date(
-        e.fechaExpiracionAntivirus
-      );
+    e.estadoSeguridad ===
+      "riesgo"
 
-   const fechaPassword =
-  new Date(
-    e.fechaExpiracionPasswordWindows
-  );
+  ).length;
 
-    const diasAntivirus =
-      Math.ceil(
-        (
-          fechaAntivirus - hoy
-        ) /
-        (1000 * 60 * 60 * 24)
-      );
+const totalRiesgo =
+  equipos.filter((e) =>
 
-    const diasPassword =
-      Math.ceil(
-        (
-  fechaPassword - hoy
-) /
-        (1000 * 60 * 60 * 24)
-      );
+    e.estadoSeguridad ===
+      "riesgo"
 
-    return (
+  ).length;
 
-      diasAntivirus <=
-        e.diasAlertaAntivirus ||
+const totalSeguro =
+  equipos.filter((e) =>
 
-diasPassword <=
-  e.diasRecordatorioPassword ||
+    e.estadoSeguridad ===
+      "seguro"
 
-      !e.mfa
+  ).length;
 
-    );
-
-  }).length;
+/* =========================
+   JSX
+========================= */
 
 return (
 
@@ -119,9 +128,14 @@ return (
 <div
   style={{
     display: "flex",
-    justifyContent: "space-between",
+
+    justifyContent:
+      "space-between",
+
     alignItems: "center",
+
     flexWrap: "wrap",
+
     gap: "20px"
   }}
 >
@@ -141,13 +155,19 @@ return (
 <p
   style={{
     color: "#94a3b8",
-    maxWidth: "700px",
+
+    maxWidth: "760px",
+
     lineHeight: "1.6",
+
     marginBottom: 0
   }}
 >
-  Administración corporativa de equipos,
-  seguridad, hardware y activos tecnológicos.
+  Administración corporativa de
+  equipos, seguridad,
+  contraseñas, MFA,
+  antivirus y activos
+  tecnológicos.
 </p>
 
 </div>
@@ -157,10 +177,14 @@ return (
 <div
   style={{
     display: "flex",
+
     gap: "14px",
+
     flexWrap: "wrap"
   }}
 >
+
+{/* EQUIPOS */}
 
 <div
   style={{
@@ -190,7 +214,9 @@ return (
 <div
   style={{
     color: "#fff",
+
     fontSize: "28px",
+
     fontWeight: "700"
   }}
 >
@@ -198,6 +224,8 @@ return (
 </div>
 
 </div>
+
+{/* ALERTAS */}
 
 <div
   style={{
@@ -227,11 +255,95 @@ return (
 <div
   style={{
     color: "#f59e0b",
+
     fontSize: "28px",
+
     fontWeight: "700"
   }}
 >
   {totalAlertas}
+</div>
+
+</div>
+
+{/* RIESGO */}
+
+<div
+  style={{
+    padding: "16px 20px",
+
+    borderRadius: "18px",
+
+    background:
+      "rgba(15,23,42,0.55)",
+
+    border:
+      "1px solid rgba(51,65,85,0.7)",
+
+    minWidth: "120px"
+  }}
+>
+
+<div
+  style={{
+    color: "#64748b",
+    fontSize: "13px"
+  }}
+>
+  Riesgo
+</div>
+
+<div
+  style={{
+    color: "#ef4444",
+
+    fontSize: "28px",
+
+    fontWeight: "700"
+  }}
+>
+  {totalRiesgo}
+</div>
+
+</div>
+
+{/* SEGUROS */}
+
+<div
+  style={{
+    padding: "16px 20px",
+
+    borderRadius: "18px",
+
+    background:
+      "rgba(15,23,42,0.55)",
+
+    border:
+      "1px solid rgba(51,65,85,0.7)",
+
+    minWidth: "120px"
+  }}
+>
+
+<div
+  style={{
+    color: "#64748b",
+    fontSize: "13px"
+  }}
+>
+  Seguros
+</div>
+
+<div
+  style={{
+    color: "#22c55e",
+
+    fontSize: "28px",
+
+    fontWeight: "700"
+  }}
+>
+  {totalSeguro}
 </div>
 
 </div>
@@ -247,8 +359,11 @@ return (
 <div
   style={{
     display: "flex",
+
     gap: "12px",
+
     flexWrap: "wrap",
+
     marginBottom: "30px"
   }}
 >
@@ -303,26 +418,135 @@ return (
 
 </div>
 
-{/* VISTAS */}
+{/* =========================
+   DASHBOARD
+========================= */}
 
 {vista === "dashboard" && (
 
-<div className="card-pro">
+<div
+  style={{
+    display: "grid",
 
-<h2>
-  📊 Dashboard IT
+    gridTemplateColumns:
+      "repeat(auto-fit,minmax(280px,1fr))",
+
+    gap: "20px"
+  }}
+>
+
+<div
+  className="card-pro"
+
+  style={{
+    padding: "28px"
+  }}
+>
+
+<h2
+  style={{
+    marginTop: 0,
+    color: "#22c55e"
+  }}
+>
+  ✅ Equipos Seguros
 </h2>
 
-<p style={{ color: "#94a3b8" }}>
-  Próximamente métricas y estadísticas.
-</p>
+<div
+  style={{
+    fontSize: "52px",
+
+    fontWeight: "700",
+
+    color: "#fff"
+  }}
+>
+  {totalSeguro}
+</div>
+
+</div>
+
+<div
+  className="card-pro"
+
+  style={{
+    padding: "28px"
+  }}
+>
+
+<h2
+  style={{
+    marginTop: 0,
+    color: "#f59e0b"
+  }}
+>
+  ⚠ Equipos en Alerta
+</h2>
+
+<div
+  style={{
+    fontSize: "52px",
+
+    fontWeight: "700",
+
+    color: "#fff"
+  }}
+>
+  {
+    equipos.filter(
+      (e) =>
+        e.estadoSeguridad ===
+        "alerta"
+    ).length
+  }
+</div>
+
+</div>
+
+<div
+  className="card-pro"
+
+  style={{
+    padding: "28px"
+  }}
+>
+
+<h2
+  style={{
+    marginTop: 0,
+    color: "#ef4444"
+  }}
+>
+  🚨 Equipos en Riesgo
+</h2>
+
+<div
+  style={{
+    fontSize: "52px",
+
+    fontWeight: "700",
+
+    color: "#fff"
+  }}
+>
+  {totalRiesgo}
+</div>
+
+</div>
 
 </div>
 
 )}
 
+{/* =========================
+   EQUIPOS
+========================= */}
+
 {vista === "equipos" && (
- <ListaEquipos
+
+<ListaEquipos
+
+  equipos={equipos}
 
   recargarDashboard={
     obtenerEquipos
@@ -333,11 +557,16 @@ return (
   }
 
 />
+
 )}
 
+{/* =========================
+   NUEVO EQUIPO
+========================= */}
 
 {vista === "nuevo" && (
-  <NuevoEquipo
+
+<NuevoEquipo
 
   volverEquipos={() =>
     setVista("equipos")
@@ -348,14 +577,21 @@ return (
   }
 
 />
+
 )}
+
+{/* =========================
+   ALERTAS
+========================= */}
 
 {vista === "alertas" && (
 
 <div
   style={{
     display: "flex",
+
     flexDirection: "column",
+
     gap: "18px"
   }}
 >
@@ -369,120 +605,49 @@ return (
   ⚠ Centro de Alertas IT
 </h2>
 
+{
+equipos.filter((e) =>
+
+  e.estadoSeguridad ===
+    "alerta" ||
+
+  e.estadoSeguridad ===
+    "riesgo"
+
+).length === 0 && (
+
+<div
+  className="card-pro"
+
+  style={{
+    padding: "30px",
+
+    textAlign: "center",
+
+    color: "#22c55e"
+  }}
+>
+
+✅ No existen alertas activas
+
+</div>
+
+)}
+
 {equipos.map((e) => {
 
-  const hoy = new Date();
+  if (
 
-  const fechaAntivirus =
-    new Date(
-      e.fechaExpiracionAntivirus
-    );
+    e.estadoSeguridad !==
+      "alerta" &&
 
- const fechaPassword =
-  new Date(
-    e.fechaExpiracionPasswordWindows
-  );
-
-  const diasAntivirus =
-    Math.ceil(
-      (
-        fechaAntivirus - hoy
-      ) /
-      (1000 * 60 * 60 * 24)
-    );
-
-  const diasPassword =
-    Math.ceil(
-      (
-  fechaPassword - hoy
-) /
-      (1000 * 60 * 60 * 24)
-    );
-
-  const alertas = [];
-
-  // 🔴 ANTIVIRUS VENCIDO
-
-  if (diasAntivirus <= 0) {
-
-    alertas.push({
-      color: "#ef4444",
-      titulo:
-        "Antivirus vencido",
-      descripcion:
-        "El equipo requiere renovación inmediata del antivirus."
-    });
-
-  }
-
-  // 🟡 ANTIVIRUS POR VENCER
-
-  else if (
-
-    diasAntivirus <=
-      e.diasAlertaAntivirus
+    e.estadoSeguridad !==
+      "riesgo"
 
   ) {
 
-    alertas.push({
-      color: "#f59e0b",
-      titulo:
-        "Licencia antivirus próxima a vencer",
-      descripcion:
-        `Faltan ${diasAntivirus} días para vencimiento.`
-    });
-
-  }
-
-  // 🔴 PASSWORD VENCIDO
-
-  if (diasPassword <= 0) {
-
-    alertas.push({
-      color: "#ef4444",
-      titulo:
-        "Password vencido",
-      descripcion:
-        "La contraseña expiró y requiere cambio inmediato."
-    });
-
-  }
-
-  // 🟡 PASSWORD POR VENCER
-
-  else if (
-
-    diasPassword <=
-      e.diasRecordatorioPassword
-
-  ) {
-
-    alertas.push({
-      color: "#f59e0b",
-      titulo:
-        "Password próximo a vencer",
-      descripcion:
-        `La contraseña vence en ${diasPassword} días.`
-    });
-
-  }
-
-  // 🔴 MFA
-
-  if (!e.mfa) {
-
-    alertas.push({
-      color: "#ef4444",
-      titulo:
-        "MFA desactivado",
-      descripcion:
-        "El equipo no tiene autenticación multifactor."
-    });
-
-  }
-
-  if (alertas.length === 0)
     return null;
+  }
 
   return (
 
@@ -495,14 +660,40 @@ return (
     padding: "24px",
 
     border:
-      "1px solid rgba(51,65,85,0.7)"
+
+      e.estadoSeguridad ===
+      "riesgo"
+
+      ? "1px solid rgba(239,68,68,0.35)"
+
+      : "1px solid rgba(245,158,11,0.35)"
   }}
 >
+
+{/* HEADER */}
+
+<div
+  style={{
+    display: "flex",
+
+    justifyContent:
+      "space-between",
+
+    alignItems: "center",
+
+    gap: "20px",
+
+    flexWrap: "wrap"
+  }}
+>
+
+<div>
 
 <h2
   style={{
     color: "#fff",
-    marginTop: 0
+    marginTop: 0,
+    marginBottom: "8px"
   }}
 >
   💻 {e.nombreEquipo}
@@ -510,21 +701,71 @@ return (
 
 <p
   style={{
-    color: "#94a3b8"
+    color: "#94a3b8",
+    margin: 0
   }}
 >
   👤 {e.usuarioAsignado}
 </p>
 
+</div>
+
 <div
   style={{
-    display: "grid",
-    gap: "14px",
-    marginTop: "20px"
+    padding: "10px 16px",
+
+    borderRadius: "14px",
+
+    fontWeight: "700",
+
+    background:
+
+      e.estadoSeguridad ===
+      "riesgo"
+
+      ? "rgba(239,68,68,0.14)"
+
+      : "rgba(245,158,11,0.14)",
+
+    color:
+
+      e.estadoSeguridad ===
+      "riesgo"
+
+      ? "#ef4444"
+
+      : "#f59e0b"
   }}
 >
 
-{alertas.map((a, index) => (
+{
+  e.estadoSeguridad ===
+  "riesgo"
+
+  ? "🚨 RIESGO"
+
+  : "⚠ ALERTA"
+}
+
+</div>
+
+</div>
+
+{/* ALERTAS */}
+
+<div
+  style={{
+    display: "grid",
+
+    gap: "14px",
+
+    marginTop: "24px"
+  }}
+>
+
+{
+e.alertas?.map(
+  (alerta, index) => (
 
 <div
   key={index}
@@ -535,43 +776,34 @@ return (
     borderRadius: "16px",
 
     background:
-      `${a.color}15`,
+      "rgba(239,68,68,0.10)",
 
     border:
-      `1px solid ${a.color}40`
+      "1px solid rgba(239,68,68,0.18)",
+
+    color: "#fca5a5"
   }}
 >
 
-<div
-  style={{
-    color: a.color,
-    fontWeight: "700",
-    fontSize: "16px"
-  }}
->
-  ⚠ {a.titulo}
-</div>
-
-<p
-  style={{
-    color: "#cbd5e1",
-    marginBottom: 0,
-    marginTop: "8px"
-  }}
->
-  {a.descripcion}
-</p>
+⚠ {alerta}
 
 </div>
 
-))}
+))
+}
 
 </div>
+
+{/* BOTONES */}
+
 <div
   style={{
     display: "flex",
+
     gap: "12px",
+
     marginTop: "24px",
+
     flexWrap: "wrap"
   }}
 >
@@ -603,13 +835,14 @@ return (
 <button
   className="btn-pro btn-secondary"
 
-onClick={() => {
+  onClick={() => {
 
-  setEquipoResolver(e);
+    setEquipoResolver(e);
 
-  setOpenResolver(true);
+    setOpenResolver(true);
 
-}}
+  }}
+
   style={{
     border:
       "1px solid rgba(34,197,94,0.4)",
@@ -621,6 +854,7 @@ onClick={() => {
 </button>
 
 </div>
+
 </div>
 
 );
@@ -630,6 +864,11 @@ onClick={() => {
 </div>
 
 )}
+
+{/* =========================
+   MODAL RESOLVER
+========================= */}
+
 {openResolver && (
 
 <ModalResolverSeguridad
@@ -647,9 +886,11 @@ onClick={() => {
 />
 
 )}
+
 </div>
 
 );
+
 }
 
 export default InventarioIT;

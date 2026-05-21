@@ -6,58 +6,50 @@ function ModalDetalleEquipo({
 
 }) {
 
-const hoy = new Date();
+if (!equipo) return null;
 
-const fechaAntivirus =
-  new Date(
-    equipo?.fechaExpiracionAntivirus
-  );
+/* =========================
+   HELPERS
+========================= */
 
-const fechaPassword =
-  new Date(
-    equipo?.fechaCambioPasswordWindows
-  );
+const formatearFecha =
+  (fecha) => {
 
-const diasRestantesAntivirus =
-  Math.ceil(
+  if (!fecha)
+    return "No definida";
+
+  return new Date(
+    fecha
+  ).toLocaleDateString();
+};
+
+const diasRestantes =
+  (fecha) => {
+
+  if (!fecha)
+    return null;
+
+  const hoy =
+    new Date();
+
+  const vencimiento =
+    new Date(fecha);
+
+  hoy.setHours(0,0,0,0);
+
+  vencimiento.setHours(0,0,0,0);
+
+  return Math.ceil(
     (
-      fechaAntivirus - hoy
+      vencimiento - hoy
     ) /
     (1000 * 60 * 60 * 24)
   );
+};
 
-const diasPassword =
-  Math.ceil(
-    (
-      hoy - fechaPassword
-    ) /
-    (1000 * 60 * 60 * 24)
-  );
-
-let estadoCalculado =
-  "seguro";
-
-if (
-  diasRestantesAntivirus <= 0 ||
-  !equipo?.mfa
-) {
-
-  estadoCalculado =
-    "riesgo";
-
-} else if (
-
-  diasRestantesAntivirus <=
-    equipo?.diasAlertaAntivirus ||
-
-  diasPassword >=
-    equipo?.diasRecordatorioPassword
-
-) {
-
-  estadoCalculado =
-    "alerta";
-}
+/* =========================
+   ESTADO SEGURIDAD
+========================= */
 
 const colorEstado = {
 
@@ -68,7 +60,31 @@ const colorEstado = {
   riesgo: "#ef4444"
 };
 
-if (!equipo) return null;
+const estado =
+  equipo.estadoSeguridad ||
+  "seguro";
+
+const color =
+  colorEstado[estado];
+
+/* =========================
+   CALCULOS
+========================= */
+
+const diasWindows =
+  diasRestantes(
+    equipo.fechaExpiracionPasswordWindows
+  );
+
+const diasERP =
+  diasRestantes(
+    equipo.fechaExpiracionPasswordERP
+  );
+
+const diasAntivirus =
+  diasRestantes(
+    equipo.fechaExpiracionAntivirus
+  );
 
 return (
 
@@ -103,9 +119,9 @@ return (
 
     width: "100%",
 
-    maxWidth: "900px",
+    maxWidth: "1100px",
 
-    maxHeight: "90vh",
+    maxHeight: "92vh",
 
     overflowY: "auto",
 
@@ -121,7 +137,7 @@ return (
   }}
 >
 
-{/* BOTON CERRAR */}
+{/* CERRAR */}
 
 <button
 
@@ -181,6 +197,7 @@ return (
     borderRadius: "24px",
 
     background:
+
       equipo.tipoEquipo === "desktop"
 
       ? "linear-gradient(145deg,#2563eb,#7c3aed)"
@@ -196,9 +213,11 @@ return (
     fontSize: "42px"
   }}
 >
-  {equipo.tipoEquipo === "desktop"
+  {
+    equipo.tipoEquipo === "desktop"
     ? "🖥"
-    : "💻"}
+    : "💻"
+  }
 </div>
 
 <div>
@@ -235,34 +254,30 @@ return (
     display: "grid",
 
     gridTemplateColumns:
-      "repeat(auto-fit,minmax(280px,1fr))",
+      "repeat(auto-fit,minmax(320px,1fr))",
 
     gap: "20px"
   }}
 >
+
+{/* SEGURIDAD PRINCIPAL */}
+
 <div
   className="card-pro"
 
   style={{
-    padding: "22px",
-    marginTop: "20px",
+
+    padding: "24px",
 
     border:
-      `1px solid ${
-        colorEstado[
-          estadoCalculado
-        ]
-      }40`
+      `1px solid ${color}40`
   }}
 >
 
 <h2
   style={{
     marginTop: 0,
-    color:
-      colorEstado[
-        estadoCalculado
-      ]
+    color
   }}
 >
   🛡 Seguridad IT
@@ -271,27 +286,25 @@ return (
 <div
   style={{
     display: "grid",
-    gap: "14px",
-    marginTop: "20px"
+    gap: "14px"
   }}
 >
 
 <div>
-  Estado:
-  {" "}
 
-  <span
-    style={{
-      color:
-        colorEstado[
-          estadoCalculado
-        ],
+<b>Estado:</b>
+{" "}
 
-      fontWeight: "700"
-    }}
-  >
-    {estadoCalculado}
-  </span>
+<span
+  style={{
+    color,
+    fontWeight: "700",
+    textTransform: "uppercase"
+  }}
+>
+  {estado}
+</span>
+
 </div>
 
 <div>
@@ -299,8 +312,8 @@ return (
   {" "}
 
   {
-    equipo?.mfa
-    ? "✅ Activo"
+    equipo.mfa
+    ? "✅ Activado"
     : "❌ Desactivado"
   }
 </div>
@@ -310,161 +323,422 @@ return (
   {" "}
 
   {
-    equipo?.antivirus ||
+    equipo.antivirus ||
     "No registrado"
   }
 </div>
 
 <div>
-  📅 Expira:
+  📅 Expiración Antivirus:
   {" "}
 
   {
-    equipo?.fechaExpiracionAntivirus
-      ? new Date(
-          equipo.fechaExpiracionAntivirus
-        ).toLocaleDateString()
-      : "No definida"
+    formatearFecha(
+      equipo.fechaExpiracionAntivirus
+    )
   }
 </div>
+
+{diasAntivirus !== null && (
 
 <div>
-  🔑 Último cambio password:
-  {" "}
 
-  {
-    equipo?.fechaCambioPasswordWindows
-      ? new Date(
-          equipo.fechaCambioPasswordWindows
-        ).toLocaleDateString()
-      : "No definida"
-  }
-</div>
+⏳ Antivirus:
 
-<div>
-  📧 Correo corporativo:
-  {" "}
-
-  {
-    equipo?.passwordERPNoAplica
-      ? "No aplica"
-      : "Configurado"
-  }
-</div>
-
-</div>
-
-</div>
-{/* SISTEMA */}
-
-<div className="card-pro">
-
-<h3>🖥 Sistema</h3>
-
-<p>
-  <b>Windows:</b>
-  {" "}
-  {equipo.windows}
-</p>
-
-<p>
-  <b>Tipo:</b>
-  {" "}
-  {equipo.tipoEquipo}
-</p>
-
-<p>
-  <b>Antivirus:</b>
-  {" "}
-  {equipo.antivirus || "N/A"}
-</p>
-
-</div>
-
-{/* SEGURIDAD */}
-
-<div className="card-pro">
-
-<h3>🔐 Seguridad</h3>
-
-<p>
-  <b>MFA:</b>
-  {" "}
-  {equipo.mfa
-    ? "Activo"
-    : "Desactivado"}
-</p>
-
-<p>
-  <b>Estado Antivirus:</b>
-  {" "}
-  {equipo.estadoAntivirus}
-</p>
-
-<p>
-  <b>Estado Seguridad:</b>
-  {" "}
+{" "}
 
 <span
   style={{
     color:
-      colorEstado[
-        estadoCalculado
-      ]
+      diasAntivirus <= 4
+      ? "#ef4444"
+      : "#22c55e"
   }}
 >
-  {estadoCalculado}
-</span>
 
-</p>
+{
+  diasAntivirus < 0
+
+  ? "Vencido"
+
+  : `${diasAntivirus} días restantes`
+}
+
+</span>
 
 </div>
 
-{/* PASSWORDS */}
+)}
 
-<div className="card-pro">
+</div>
 
-<h3>🔑 Credenciales</h3>
+</div>
 
-<p>
+{/* ALERTAS */}
+
+<div
+  className="card-pro"
+
+  style={{
+    padding: "24px"
+  }}
+>
+
+<h2
+  style={{
+    marginTop: 0,
+    color: "#fff"
+  }}
+>
+  🚨 Alertas
+</h2>
+
+{
+  !equipo.alertas ||
+  equipo.alertas.length === 0
+  ? (
+
+<div
+  style={{
+    color: "#22c55e"
+  }}
+>
+  ✅ Sin alertas activas
+</div>
+
+)
+
+: (
+
+<div
+  style={{
+    display: "grid",
+    gap: "12px"
+  }}
+>
+
+{equipo.alertas.map(
+  (alerta, index) => (
+
+<div
+  key={index}
+
+  style={{
+    padding: "14px",
+    borderRadius: "14px",
+
+    background:
+      "rgba(239,68,68,0.12)",
+
+    color: "#fca5a5"
+  }}
+>
+
+⚠ {alerta}
+
+</div>
+
+))
+}
+
+</div>
+
+)}
+
+</div>
+
+{/* WINDOWS */}
+
+<div
+  className="card-pro"
+
+  style={{
+    padding: "24px"
+  }}
+>
+
+<h2
+  style={{
+    marginTop: 0,
+    color: "#fff"
+  }}
+>
+  🖥 Sistema
+</h2>
+
+<div
+  style={{
+    display: "grid",
+    gap: "14px"
+  }}
+>
+
+<div>
+  <b>Windows:</b>
+  {" "}
+  {equipo.windows}
+</div>
+
+<div>
+  <b>Tipo:</b>
+  {" "}
+  {equipo.tipoEquipo}
+</div>
+
+<div>
   <b>Password Windows:</b>
   {" "}
-  ••••••••
-</p>
 
-<p>
-  <b>Password Correo:</b>
+{
+  equipo.passwordWindowsDesconocido
+  ? "❌ Desconocido"
+  : "✅ Configurado"
+}
+
+</div>
+
+<div>
+  <b>Último cambio:</b>
   {" "}
-  ••••••••
-</p>
+
+{
+  formatearFecha(
+    equipo.fechaCambioPasswordWindows
+  )
+}
+
+</div>
+
+<div>
+  <b>Próximo cambio:</b>
+  {" "}
+
+{
+  formatearFecha(
+    equipo.fechaExpiracionPasswordWindows
+  )
+}
+
+</div>
+
+{diasWindows !== null && (
+
+<div>
+
+⏳ Password Windows:
+
+{" "}
+
+<span
+  style={{
+    color:
+      diasWindows <= 4
+      ? "#ef4444"
+      : "#22c55e"
+  }}
+>
+
+{
+  diasWindows < 0
+
+  ? "Vencido"
+
+  : `${diasWindows} días restantes`
+}
+
+</span>
+
+</div>
+
+)}
+
+</div>
+
+</div>
+
+{/* ERP */}
+
+<div
+  className="card-pro"
+
+  style={{
+    padding: "24px"
+  }}
+>
+
+<h2
+  style={{
+    marginTop: 0,
+    color: "#fff"
+  }}
+>
+  🏢 ERP / Correo
+</h2>
+
+<div
+  style={{
+    display: "grid",
+    gap: "14px"
+  }}
+>
+
+<div>
+
+<b>ERP:</b>
+
+{" "}
+
+{
+  equipo.passwordERPNoAplica
+  ? "No aplica"
+  : "Configurado"
+}
+
+</div>
+
+{
+!equipo.passwordERPNoAplica && (
+
+<>
+
+<div>
+  <b>Último cambio:</b>
+  {" "}
+
+{
+  formatearFecha(
+    equipo.fechaCambioPasswordERP
+  )
+}
+
+</div>
+
+<div>
+  <b>Próximo cambio:</b>
+  {" "}
+
+{
+  formatearFecha(
+    equipo.fechaExpiracionPasswordERP
+  )
+}
+
+</div>
+
+{diasERP !== null && (
+
+<div>
+
+⏳ Password ERP:
+
+{" "}
+
+<span
+  style={{
+    color:
+      diasERP <= 4
+      ? "#ef4444"
+      : "#22c55e"
+  }}
+>
+
+{
+  diasERP < 0
+
+  ? "Vencido"
+
+  : `${diasERP} días restantes`
+}
+
+</span>
+
+</div>
+
+)}
+
+</>
+
+)}
+
+</div>
 
 </div>
 
 {/* MONITORES */}
 
-<div className="card-pro">
+<div
+  className="card-pro"
 
-<h3>🖥 Monitores</h3>
+  style={{
+    padding: "24px"
+  }}
+>
 
-{equipo.monitores?.length === 0 && (
-  <p>No tiene monitores</p>
-)}
+<h2
+  style={{
+    marginTop: 0,
+    color: "#fff"
+  }}
+>
+  🖥 Monitores
+</h2>
 
-{equipo.monitores?.map(
+{
+!equipo.monitores ||
+equipo.monitores.length === 0
+
+? (
+
+<div
+  style={{
+    color: "#94a3b8"
+  }}
+>
+  No tiene monitores registrados
+</div>
+
+)
+
+: (
+
+<div
+  style={{
+    display: "grid",
+    gap: "14px"
+  }}
+>
+
+{equipo.monitores.map(
   (m, index) => (
 
 <div
   key={index}
 
   style={{
-    marginBottom: "12px"
+    padding: "16px",
+    borderRadius: "14px",
+
+    background:
+      "rgba(15,23,42,0.55)"
   }}
 >
 
 <div>
-  <b>ID:</b>
+  <b>Marca:</b>
   {" "}
-  {m.idMonitor || "N/A"}
+  {m.marca || "N/A"}
+</div>
+
+<div>
+  <b>Modelo:</b>
+  {" "}
+  {m.modelo || "N/A"}
+</div>
+
+<div>
+  <b>Serie:</b>
+  {" "}
+  {m.serie || "N/A"}
 </div>
 
 <div>
@@ -475,7 +749,12 @@ return (
 
 </div>
 
-))}
+))
+}
+
+</div>
+
+)}
 
 </div>
 
@@ -487,11 +766,19 @@ return (
   className="card-pro"
 
   style={{
-    marginTop: "20px"
+    marginTop: "20px",
+    padding: "24px"
   }}
 >
 
-<h3>📝 Observaciones</h3>
+<h2
+  style={{
+    marginTop: 0,
+    color: "#fff"
+  }}
+>
+  📝 Observaciones
+</h2>
 
 <p
   style={{
@@ -499,8 +786,10 @@ return (
     lineHeight: "1.7"
   }}
 >
-  {equipo.observaciones ||
-    "Sin observaciones"}
+  {
+    equipo.observaciones ||
+    "Sin observaciones"
+  }
 </p>
 
 </div>

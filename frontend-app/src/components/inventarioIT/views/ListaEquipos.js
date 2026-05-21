@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
 
-import EquipoCard from "../components/EquipoCard";
+import EquipoCard
+from "../components/EquipoCard";
+
 import ModalDetalleEquipo
 from "../components/ModalDetalleEquipo";
+
 import ModalEditarEquipo
 from "../components/ModalEditarEquipo";
+
 import ModalSeguridadEquipo
 from "../components/ModalSeguridadEquipo";
 
@@ -18,6 +22,10 @@ function ListaEquipos({
   irNuevoEquipo
 
 }) {
+
+/* =========================
+   STATES
+========================= */
 
 const [equipos, setEquipos] =
   useState([]);
@@ -61,14 +69,21 @@ const [filtroEstado,
   setFiltroEstado] =
   useState("todos");
 
+/* =========================
+   API
+========================= */
+
 const obtenerEquipos =
   async () => {
 
   try {
 
-    const res = await fetch(
-      `${API}/it/equipos`
-    );
+    setLoading(true);
+
+    const res =
+      await fetch(
+        `${API}/it/equipos`
+      );
 
     const data =
       await res.json();
@@ -82,101 +97,54 @@ const obtenerEquipos =
   } finally {
 
     setLoading(false);
+
   }
+
 };
 
+useEffect(() => {
+
+  obtenerEquipos();
+
+}, []);
+
+/* =========================
+   HELPERS
+========================= */
+
+function obtenerEstado(equipo) {
+
+  return (
+    equipo.estadoSeguridad ||
+    "seguro"
+  );
+
+}
+
+/* =========================
+   KPIs
+========================= */
+
 const equiposSeguros =
-  equipos.filter((e) => {
-
-    const hoy = new Date();
-
-    const fechaAntivirus =
-      new Date(
-        e.fechaExpiracionAntivirus
-      );
-
-    const fechaPassword =
-      new Date(
-        e.fechaExpiracionPasswordWindows
-      );
-
-    const diasAntivirus =
-      Math.ceil(
-        (
-          fechaAntivirus - hoy
-        ) /
-        (1000 * 60 * 60 * 24)
-      );
-
-    const diasPassword =
-      Math.ceil(
-        (
-          fechaPassword - hoy
-        ) /
-        (1000 * 60 * 60 * 24)
-      );
-
-    return (
-
-      diasAntivirus >
-        e.diasAlertaAntivirus &&
-
-      diasPassword >
-        e.diasRecordatorioPassword &&
-
-      e.mfa
-
-    );
-
-  }).length;
-
-const equiposRiesgo =
-  equipos.filter((e) => {
-
-    const hoy = new Date();
-
-    const fechaAntivirus =
-      new Date(
-        e.fechaExpiracionAntivirus
-      );
-
-    const fechaPassword =
-      new Date(
-        e.fechaExpiracionPasswordWindows
-      );
-
-    const diasAntivirus =
-      Math.ceil(
-        (
-          fechaAntivirus - hoy
-        ) /
-        (1000 * 60 * 60 * 24)
-      );
-
-    const diasPassword =
-      Math.ceil(
-        (
-          fechaPassword - hoy
-        ) /
-        (1000 * 60 * 60 * 24)
-      );
-
-    return (
-
-      diasAntivirus <= 0 ||
-
-      diasPassword <= 0 ||
-
-      !e.mfa
-
-    );
-
-  }).length;
+  equipos.filter(
+    (e) =>
+      obtenerEstado(e) ===
+      "seguro"
+  ).length;
 
 const equiposAlerta =
-  equipos.length -
-  equiposSeguros -
-  equiposRiesgo;
+  equipos.filter(
+    (e) =>
+      obtenerEstado(e) ===
+      "alerta"
+  ).length;
+
+const equiposRiesgo =
+  equipos.filter(
+    (e) =>
+      obtenerEstado(e) ===
+      "riesgo"
+  ).length;
 
 const mfaDesactivado =
   equipos.filter(
@@ -186,32 +154,61 @@ const mfaDesactivado =
 const antivirusVencido =
   equipos.filter((e) => {
 
-    const hoy = new Date();
+    if (
+      !e.fechaExpiracionAntivirus
+    ) {
 
-    const fechaAntivirus =
+      return false;
+
+    }
+
+    if (
+      e.antivirus ===
+      "Microsoft Defender"
+    ) {
+
+      return false;
+
+    }
+
+    const hoy =
+      new Date();
+
+    const fecha =
       new Date(
         e.fechaExpiracionAntivirus
       );
 
+    hoy.setHours(0,0,0,0);
+
+    fecha.setHours(0,0,0,0);
+
     const dias =
       Math.ceil(
         (
-          fechaAntivirus - hoy
+          fecha - hoy
         ) /
         (1000 * 60 * 60 * 24)
       );
 
-    return dias <= 0;
+    return dias < 0;
 
   }).length;
+
+/* =========================
+   FILTROS
+========================= */
 
 const equiposFiltrados =
   equipos.filter((e) => {
 
     const texto =
-      `${e.nombreEquipo}
-       ${e.usuarioAsignado}
-       ${e.antivirus}`
+      `
+        ${e.nombreEquipo || ""}
+        ${e.usuarioAsignado || ""}
+        ${e.antivirus || ""}
+        ${e.windows || ""}
+      `
       .toLowerCase();
 
     const matchBusqueda =
@@ -220,71 +217,21 @@ const equiposFiltrados =
       );
 
     const matchTipo =
+
       filtroTipo === "todos"
+
       ? true
+
       : e.tipoEquipo ===
         filtroTipo;
 
-    const hoy = new Date();
-
-    const fechaAntivirus =
-      new Date(
-        e.fechaExpiracionAntivirus
-      );
-
-    const fechaPassword =
-      new Date(
-        e.fechaExpiracionPasswordWindows
-      );
-
-    const diasAntivirus =
-      Math.ceil(
-        (
-          fechaAntivirus - hoy
-        ) /
-        (1000 * 60 * 60 * 24)
-      );
-
-    const diasPassword =
-      Math.ceil(
-        (
-          fechaPassword - hoy
-        ) /
-        (1000 * 60 * 60 * 24)
-      );
-
-    let estado =
-      "seguro";
-
-    if (
-
-      diasAntivirus <= 0 ||
-
-      diasPassword <= 0 ||
-
-      !e.mfa
-
-    ) {
-
-      estado = "riesgo";
-
-    } else if (
-
-      diasAntivirus <=
-        e.diasAlertaAntivirus ||
-
-      diasPassword <=
-        e.diasRecordatorioPassword
-
-    ) {
-
-      estado = "alerta";
-    }
-
     const matchEstado =
+
       filtroEstado === "todos"
+
       ? true
-      : estado ===
+
+      : obtenerEstado(e) ===
         filtroEstado;
 
     return (
@@ -297,11 +244,9 @@ const equiposFiltrados =
 
   });
 
-useEffect(() => {
-
-  obtenerEquipos();
-
-}, []);
+/* =========================
+   JSX
+========================= */
 
 return (
 
@@ -318,9 +263,14 @@ return (
 <div
   style={{
     display: "flex",
-    justifyContent: "space-between",
+
+    justifyContent:
+      "space-between",
+
     alignItems: "center",
+
     gap: "20px",
+
     flexWrap: "wrap"
   }}
 >
@@ -343,7 +293,8 @@ return (
     color: "#94a3b8"
   }}
 >
-  Administración y monitoreo corporativo
+  Administración y monitoreo
+  corporativo de seguridad IT
 </p>
 
 </div>
@@ -381,6 +332,8 @@ return (
   }}
 >
 
+{/* SEGUROS */}
+
 <div
   className="card-pro"
 
@@ -411,6 +364,8 @@ return (
 </h1>
 
 </div>
+
+{/* ALERTAS */}
 
 <div
   className="card-pro"
@@ -443,6 +398,8 @@ return (
 
 </div>
 
+{/* RIESGO */}
+
 <div
   className="card-pro"
 
@@ -474,6 +431,8 @@ return (
 
 </div>
 
+{/* MFA OFF */}
+
 <div
   className="card-pro"
 
@@ -501,6 +460,8 @@ return (
 </h1>
 
 </div>
+
+{/* ANTIVIRUS */}
 
 <div
   className="card-pro"
@@ -532,6 +493,8 @@ return (
 
 </div>
 
+{/* FILTROS */}
+
 <div
   className="card-pro"
 
@@ -551,10 +514,12 @@ return (
   }}
 >
 
+{/* BUSQUEDA */}
+
 <input
   className="input-pro"
 
-  placeholder="🔍 Buscar equipo, usuario o antivirus..."
+  placeholder="🔍 Buscar equipo, usuario, windows o antivirus..."
 
   value={busqueda}
 
@@ -564,6 +529,8 @@ return (
     )
   }
 />
+
+{/* TIPO */}
 
 <select
 
@@ -591,6 +558,8 @@ return (
 </option>
 
 </select>
+
+{/* ESTADO */}
 
 <select
 
@@ -637,39 +606,75 @@ return (
   }}
 >
 
+{/* LOADING */}
+
 {loading && (
 
-<div className="card-pro">
+<div
+  className="card-pro"
+
+  style={{
+    padding: "30px",
+    color: "#94a3b8"
+  }}
+>
+
   Cargando equipos...
+
 </div>
 
 )}
+
+{/* VACIO */}
 
 {!loading &&
  equipos.length === 0 && (
 
-<div className="card-pro">
+<div
+  className="card-pro"
+
+  style={{
+    padding: "30px",
+    color: "#94a3b8"
+  }}
+>
+
   No hay equipos registrados.
+
 </div>
 
 )}
 
+{/* SIN RESULTADOS */}
+
+{!loading &&
+ equipos.length > 0 &&
+ equiposFiltrados.length === 0 && (
+
+<div
+  className="card-pro"
+
+  style={{
+    padding: "30px",
+    color: "#94a3b8"
+  }}
+>
+
+  No se encontraron equipos.
+
+</div>
+
+)}
+
+{/* CARDS */}
+
 {equiposFiltrados.map((equipo) => (
 
 <EquipoCard
-  equipo={equipo}
 
   key={equipo._id}
 
-  onSeguridad={() => {
-
-    setEquipoSeguridad(
-      equipo
-    );
-
-    setOpenSeguridad(true);
-
-  }}
+  equipo={equipo}
 
   nombreEquipo={
     equipo.nombreEquipo
@@ -719,11 +724,23 @@ return (
 
   }}
 
+  onSeguridad={() => {
+
+    setEquipoSeguridad(
+      equipo
+    );
+
+    setOpenSeguridad(true);
+
+  }}
+
 />
 
 ))}
 
 </div>
+
+{/* DETALLE */}
 
 {openDetalle && (
 
@@ -740,6 +757,8 @@ return (
 />
 
 )}
+
+{/* EDITAR */}
 
 {openEditar && (
 
@@ -762,6 +781,8 @@ return (
 />
 
 )}
+
+{/* SEGURIDAD */}
 
 {openSeguridad && (
 
