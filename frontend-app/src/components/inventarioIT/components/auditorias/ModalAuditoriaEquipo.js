@@ -114,7 +114,7 @@ useEffect(() => {
     auditoria?.observaciones ?? ""
   );
 
-}, [auditoria]);
+}, [auditoria?._id]);
 /* =========================
    VALIDAR SERIE
 ========================= */
