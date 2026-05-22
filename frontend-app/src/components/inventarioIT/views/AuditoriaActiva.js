@@ -21,7 +21,9 @@ const [
 const [
   auditoriasGuardadas,
   setAuditoriasGuardadas
-] = useState([]);
+] = useState(
+  auditoria.equipos || []
+);
 
 
 /* =========================
@@ -45,6 +47,10 @@ const totalEquipos =
 
 const equipo =
   auditoria.equipos[
+    equipoActual
+  ];
+const auditoriaGuardada =
+  auditoriasGuardadas[
     equipoActual
   ];
 
@@ -78,12 +84,15 @@ const siguienteEquipo =
     ...resultadoEquipo
   };
 
-  setAuditoriasGuardadas(
-    [
-      ...auditoriasGuardadas,
-      nuevaAuditoria
-    ]
-  );
+  const copia =
+  [...auditoriasGuardadas];
+
+copia[equipoActual] =
+  nuevaAuditoria;
+
+setAuditoriasGuardadas(
+  copia
+);
 
   if (
     equipoActual <
@@ -128,23 +137,25 @@ const finalizarAuditoria =
 
     /* AGREGAR ULTIMO EQUIPO */
 
-    if (resultadoEquipo) {
+ if (resultadoEquipo) {
 
-      auditoriasFinales.push({
+  auditoriasFinales[
+    equipoActual
+  ] = {
 
-        equipoId:
-          equipo._id,
+    equipoId:
+      equipo._id,
 
-        nombreEquipo:
-          equipo.nombreEquipo,
+    nombreEquipo:
+      equipo.nombreEquipo,
 
-        usuarioAsignado:
-          equipo.usuarioAsignado,
+    usuarioAsignado:
+      equipo.usuarioAsignado,
 
-        ...resultadoEquipo
-      });
+    ...resultadoEquipo
+  };
 
-    }
+}
 
     /* BODY GENERAL */
 
@@ -592,7 +603,12 @@ style={{
 
   key={equipo._id}
 
-  auditoria={equipo}
+auditoria={{
+  ...equipo,
+  ...auditoriaGuardada,
+  finalizada:
+    auditoria.finalizada
+}}
 
  onChange={(resultado) => {
 

@@ -222,6 +222,8 @@ useEffect(() => {
 
   serieCorrecta,
 
+  serieFisica,
+
   passwordInicio,
 
   bloqueoAutomatico,
@@ -462,7 +464,7 @@ return (
   disabled={soloLectura}
 
   className={
-    passwordInicio
+    passwordInicio === true
     ? "btn-pro"
     : "btn-pro btn-secondary"
   }
@@ -479,8 +481,8 @@ return (
   disabled={soloLectura}
 
   className={
-    !passwordInicio
-    ? "btn-pro"
+    passwordInicio === false
+? "btn-pro"
     : "btn-pro btn-secondary"
   }
 
@@ -527,7 +529,7 @@ return (
 
   disabled={soloLectura}
   className={
-    bloqueoAutomatico
+    bloqueoAutomatico === true
     ? "btn-pro"
     : "btn-pro btn-secondary"
   }
@@ -543,7 +545,7 @@ return (
 
   disabled={soloLectura}
   className={
-    !bloqueoAutomatico
+    bloqueoAutomatico === false
     ? "btn-pro"
     : "btn-pro btn-secondary"
   }
@@ -590,7 +592,7 @@ return (
 
   disabled={soloLectura}
   className={
-    mfaActivo
+    mfaActivo === false
     ? "btn-pro"
     : "btn-pro btn-secondary"
   }
@@ -606,7 +608,7 @@ return (
 
   disabled={soloLectura}
   className={
-    !mfaActivo
+    !mfaActivo === false
     ? "btn-pro"
     : "btn-pro btn-secondary"
   }
@@ -653,7 +655,7 @@ return (
 
   disabled={soloLectura}
   className={
-    antivirusActivo
+    antivirusActivo === false
     ? "btn-pro"
     : "btn-pro btn-secondary"
   }
@@ -668,7 +670,7 @@ return (
 
   disabled={soloLectura}
   className={
-    !antivirusActivo
+    !antivirusActivo === false
     ? "btn-pro"
     : "btn-pro btn-secondary"
   }
