@@ -617,14 +617,17 @@ return (
   CTPAT
 </option>
 
-<option value="ISO 27001">
-  ISO 27001
+<option value="SEGURIDAD IT">
+  SEGURIDAD IT
 </option>
 
-<option value="IT">
-  IT
+<option value="Compliance ISO 27001">
+  Compliance ISO 27001
 </option>
 
+<option value="Inventario">
+  Inventario
+</option>
 </select>
 
 </div>
