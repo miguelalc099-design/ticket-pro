@@ -465,6 +465,124 @@ const AuditoriaIT =
     "AuditoriaIT",
     auditoriaITSchema
   );
+/* =========================================
+   AUDITORIA GENERAL IT
+========================================= */
+
+const auditoriaGeneralSchema =
+  new mongoose.Schema({
+
+  nombreAuditoria: {
+    type: String,
+    default: ""
+  },
+
+  auditor: {
+    type: String,
+    default: ""
+  },
+
+  estado: {
+    type: String,
+    default: "activa"
+  },
+
+  finalizada: {
+    type: Boolean,
+    default: false
+  },
+
+  fechaInicio: {
+    type: Date,
+    default: Date.now
+  },
+
+  fechaFinalizacion: {
+    type: Date
+  },
+
+  equipos: [
+
+    {
+
+      equipoId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "EquipoIT"
+      },
+
+      nombreEquipo: {
+        type: String,
+        default: ""
+      },
+
+      usuarioAsignado: {
+        type: String,
+        default: ""
+      },
+
+      score: {
+        type: Number,
+        default: 0
+      },
+
+      estado: {
+        type: String,
+        default: "RIESGO"
+      },
+
+      passwordInicio: {
+        type: Boolean,
+        default: false
+      },
+
+      bloqueoAutomatico: {
+        type: Boolean,
+        default: false
+      },
+
+      mfaActivo: {
+        type: Boolean,
+        default: false
+      },
+
+      antivirusActivo: {
+        type: Boolean,
+        default: false
+      },
+
+      escritorioLimpio: {
+        type: Boolean,
+        default: false
+      },
+
+      usbNoAutorizado: {
+        type: Boolean,
+        default: false
+      },
+
+      serieCorrecta: {
+        type: Boolean,
+        default: false
+      },
+
+      observaciones: {
+        type: String,
+        default: ""
+      }
+
+    }
+
+  ]
+
+}, {
+  timestamps: true
+});
+
+const AuditoriaITGeneral =
+  mongoose.model(
+    "AuditoriaITGeneral",
+    auditoriaGeneralSchema
+  );
 
 // 🔥 LOGIN SIMPLE
 
@@ -1667,6 +1785,70 @@ app.get("/it/auditorias/:equipoId", async (req, res) => {
 
     res.status(500)
       .send("Error obteniendo auditorías");
+  }
+});
+
+/* =========================================
+   GUARDAR AUDITORIA GENERAL
+========================================= */
+
+app.post(
+  "/it/auditorias-generales",
+
+  async (req, res) => {
+
+  try {
+
+    const nuevaAuditoria =
+
+      new AuditoriaITGeneral(
+        req.body
+      );
+
+    await nuevaAuditoria.save();
+
+    res.json(nuevaAuditoria);
+
+  } catch (err) {
+
+    console.log(err);
+
+    res.status(500)
+      .send(
+        "Error guardando auditoría general"
+      );
+  }
+});
+
+/* =========================================
+   OBTENER AUDITORIAS GENERALES
+========================================= */
+
+app.get(
+  "/it/auditorias-generales",
+
+  async (req, res) => {
+
+  try {
+
+    const auditorias =
+
+      await AuditoriaITGeneral
+      .find()
+      .sort({
+        createdAt: -1
+      });
+
+    res.json(auditorias);
+
+  } catch (err) {
+
+    console.log(err);
+
+    res.status(500)
+      .send(
+        "Error obteniendo auditorías"
+      );
   }
 });
 
