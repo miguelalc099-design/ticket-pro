@@ -240,6 +240,8 @@ useEffect(() => {
    JSX
 ========================= */
 if (!auditoria) return null;
+const soloLectura =
+  auditoria.finalizada;
 return (
 
 <div
@@ -440,6 +442,9 @@ return (
 
 <button
   type="button"
+
+  disabled={soloLectura}
+
   className={
     passwordInicio
     ? "btn-pro"
@@ -454,11 +459,15 @@ return (
 
 <button
   type="button"
+
+  disabled={soloLectura}
+
   className={
     !passwordInicio
     ? "btn-pro"
     : "btn-pro btn-secondary"
   }
+
   onClick={() =>
     setPasswordInicio(false)
   }
@@ -499,6 +508,8 @@ return (
 
 <button
   type="button"
+
+  disabled={soloLectura}
   className={
     bloqueoAutomatico
     ? "btn-pro"
@@ -513,6 +524,8 @@ return (
 
 <button
   type="button"
+
+  disabled={soloLectura}
   className={
     !bloqueoAutomatico
     ? "btn-pro"
@@ -558,6 +571,8 @@ return (
 
 <button
   type="button"
+
+  disabled={soloLectura}
   className={
     mfaActivo
     ? "btn-pro"
@@ -572,6 +587,8 @@ return (
 
 <button
   type="button"
+
+  disabled={soloLectura}
   className={
     !mfaActivo
     ? "btn-pro"
@@ -617,6 +634,8 @@ return (
 
 <button
   type="button"
+
+  disabled={soloLectura}
   className={
     antivirusActivo
     ? "btn-pro"
@@ -628,9 +647,10 @@ return (
 >
   ✅ Sí
 </button>
-
 <button
   type="button"
+
+  disabled={soloLectura}
   className={
     !antivirusActivo
     ? "btn-pro"
@@ -701,6 +721,9 @@ return (
 </div>
 
 <input
+
+  disabled={soloLectura}
+
   className="input-pro"
 
   placeholder="Escribir serie física encontrada"
@@ -819,6 +842,8 @@ return (
 <button
   type="button"
 
+  disabled={soloLectura}
+
   className={
     escritorioLimpio
     ? "btn-pro"
@@ -834,6 +859,8 @@ return (
 
 <button
   type="button"
+
+  disabled={soloLectura}
 
   className={
     !escritorioLimpio
@@ -880,6 +907,8 @@ return (
 <button
   type="button"
 
+  disabled={soloLectura}
+
   className={
     usbNoAutorizado
     ? "btn-pro"
@@ -895,6 +924,8 @@ return (
 
 <button
   type="button"
+
+  disabled={soloLectura}
 
   className={
     !usbNoAutorizado
@@ -914,6 +945,7 @@ return (
 </div>
 
 <textarea
+disabled={soloLectura}
   className="input-pro"
 
   placeholder="Observaciones generales de auditoría"

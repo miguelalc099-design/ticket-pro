@@ -388,10 +388,37 @@ auditorias.map((auditoria) => (
 
 <div
   style={{
-    color: "#22c55e"
+
+    padding: "10px 16px",
+
+    borderRadius: "14px",
+
+    background:
+
+      auditoria.finalizada
+
+      ? "rgba(34,197,94,0.12)"
+
+      : "rgba(245,158,11,0.12)",
+
+    color:
+
+      auditoria.finalizada
+
+      ? "#22c55e"
+
+      : "#f59e0b",
+
+    fontWeight: "700"
   }}
 >
-  ✅ {auditoria.estado}
+  {
+    auditoria.finalizada
+
+    ? "✅ FINALIZADA"
+
+    : "🕒 EN PROCESO"
+  }
 </div>
 
 </div>
@@ -414,12 +441,18 @@ auditorias.map((auditoria) => (
   className="btn-pro"
 
   onClick={() =>
-  setAuditoriaActiva(
-    auditoria
-  )
-}
+    setAuditoriaActiva(
+      auditoria
+    )
+  }
 >
-  ▶ Abrir Auditoría
+  {
+    auditoria.finalizada
+
+    ? "👁 Ver Auditoría"
+
+    : "▶ Continuar Auditoría"
+  }
 </button>
 
 <button
