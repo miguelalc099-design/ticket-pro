@@ -45,6 +45,21 @@ const [
 
 const auditoriasPorPagina = 4;
 
+const [
+  busqueda,
+  setBusqueda
+] = useState("");
+
+const [
+  filtroEstado,
+  setFiltroEstado
+] = useState("todos");
+
+const [
+  filtroTipo,
+  setFiltroTipo
+] = useState("todos");
+
 /* =========================
    CARGAR AUDITORIAS
 ========================= */
@@ -353,7 +368,59 @@ if (auditoriaActiva) {
   );
 
 }
+/* =========================
+   FILTROS
+========================= */
 
+const auditoriasFiltradas =
+  auditorias.filter(
+    (auditoria) => {
+
+    const texto =
+      `${auditoria.nombreAuditoria}
+       ${auditoria.auditor}`
+      .toLowerCase();
+
+    const coincideBusqueda =
+      texto.includes(
+        busqueda.toLowerCase()
+      );
+
+    const coincideEstado =
+
+      filtroEstado ===
+      "todos"
+
+      ? true
+
+      : filtroEstado ===
+        "finalizada"
+
+      ? auditoria.finalizada
+
+      : !auditoria.finalizada;
+
+    const coincideTipo =
+
+      filtroTipo ===
+      "todos"
+
+      ? true
+
+      : auditoria.tipoAuditoria ===
+        filtroTipo;
+
+    return (
+
+      coincideBusqueda &&
+
+      coincideEstado &&
+
+      coincideTipo
+
+    );
+
+});
 /* =========================
    PAGINACION
 ========================= */
@@ -367,14 +434,14 @@ const indiceInicio =
   auditoriasPorPagina;
 
 const auditoriasPaginadas =
-  auditorias.slice(
+  auditoriasFiltradas.slice(
     indiceInicio,
     indiceFinal
   );
 
 const totalPaginas =
   Math.ceil(
-    auditorias.length /
+    auditoriasFiltradas.length /
     auditoriasPorPagina
   );
 
@@ -453,7 +520,103 @@ return (
 </div>
 
 </div>
+{/* =========================
+   FILTROS UI
+========================= */}
 
+<div
+  className="card-pro"
+
+  style={{
+    padding: "24px"
+  }}
+>
+
+<div
+  style={{
+
+    display: "grid",
+
+    gridTemplateColumns:
+      "repeat(auto-fit,minmax(220px,1fr))",
+
+    gap: "18px"
+  }}
+>
+
+<input
+  className="input-pro"
+
+  placeholder="🔎 Buscar auditoría..."
+
+  value={busqueda}
+
+  onChange={(e) =>
+    setBusqueda(
+      e.target.value
+    )
+  }
+/>
+
+<select
+  className="input-pro"
+
+  value={filtroEstado}
+
+  onChange={(e) =>
+    setFiltroEstado(
+      e.target.value
+    )
+  }
+>
+
+<option value="todos">
+  Todos los estados
+</option>
+
+<option value="finalizada">
+  Finalizadas
+</option>
+
+<option value="proceso">
+  En proceso
+</option>
+
+</select>
+
+<select
+  className="input-pro"
+
+  value={filtroTipo}
+
+  onChange={(e) =>
+    setFiltroTipo(
+      e.target.value
+    )
+  }
+>
+
+<option value="todos">
+  Todos los tipos
+</option>
+
+<option value="CTPAT">
+  CTPAT
+</option>
+
+<option value="ISO 27001">
+  ISO 27001
+</option>
+
+<option value="IT">
+  IT
+</option>
+
+</select>
+
+</div>
+
+</div>
 {/* SIN AUDITORIAS */}
 
 {
@@ -692,12 +855,6 @@ auditoriasPaginadas.map((auditoria) => (
   }
 >
   📄 PDF
-</button>
-
-<button
-  className="btn-pro btn-secondary"
->
-  📊 Excel
 </button>
 
 </div>
