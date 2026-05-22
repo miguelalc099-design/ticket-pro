@@ -9,6 +9,11 @@ from "./NuevaAuditoria";
 import AuditoriaActiva
 from "./AuditoriaActiva";
 
+import jsPDF from "jspdf";
+
+import autoTable
+from "jspdf-autotable";
+
 function AuditoriasIT({
 
   equipos
@@ -65,7 +70,199 @@ const obtenerAuditorias =
     console.log(err);
   }
 };
+/* =========================
+   PDF AUDITORIA
+========================= */
 
+const descargarPDF =
+  (auditoria) => {
+
+  const doc =
+    new jsPDF();
+
+  /* =========================
+     PORTADA
+  ========================= */
+
+  doc.setFontSize(22);
+
+  doc.text(
+    "AUDITORIA IT CORPORATIVA",
+    20,
+    25
+  );
+
+  doc.setFontSize(12);
+
+  doc.text(
+    `Auditoría: ${auditoria.nombreAuditoria}`,
+    20,
+    45
+  );
+
+  doc.text(
+    `Auditor: ${auditoria.auditor}`,
+    20,
+    55
+  );
+
+  doc.text(
+    `Estado: ${
+      auditoria.finalizada
+      ? "FINALIZADA"
+      : "EN PROCESO"
+    }`,
+    20,
+    65
+  );
+
+  doc.text(
+    `Equipos auditados: ${
+      auditoria.equipos.length
+    }`,
+    20,
+    75
+  );
+
+  doc.text(
+    `Fecha: ${
+      new Date().toLocaleDateString()
+    }`,
+    20,
+    85
+  );
+
+  /* =========================
+     EQUIPOS
+  ========================= */
+
+  auditoria.equipos.forEach(
+
+    (equipo, index) => {
+
+    doc.addPage();
+
+    doc.setFontSize(18);
+
+    doc.text(
+      `Equipo ${index + 1}`,
+      20,
+      20
+    );
+
+    doc.setFontSize(12);
+
+    doc.text(
+      `Nombre: ${equipo.nombreEquipo}`,
+      20,
+      35
+    );
+
+    doc.text(
+      `Usuario: ${equipo.usuarioAsignado}`,
+      20,
+      45
+    );
+
+    doc.text(
+      `Score: ${equipo.score}/100`,
+      20,
+      55
+    );
+
+    doc.text(
+      `Estado: ${equipo.estado}`,
+      20,
+      65
+    );
+
+    autoTable(doc, {
+
+      startY: 80,
+
+      head: [[
+        "Control",
+        "Resultado"
+      ]],
+
+      body: [
+
+        [
+          "Password Inicio",
+          equipo.passwordInicio
+          ? "SI"
+          : "NO"
+        ],
+
+        [
+          "Bloqueo Automático",
+          equipo.bloqueoAutomatico
+          ? "SI"
+          : "NO"
+        ],
+
+        [
+          "MFA",
+          equipo.mfaActivo
+          ? "SI"
+          : "NO"
+        ],
+
+        [
+          "Antivirus",
+          equipo.antivirusActivo
+          ? "SI"
+          : "NO"
+        ],
+
+        [
+          "Escritorio Limpio",
+          equipo.escritorioLimpio
+          ? "SI"
+          : "NO"
+        ],
+
+        [
+          "USB No Autorizado",
+          equipo.usbNoAutorizado
+          ? "SI"
+          : "NO"
+        ],
+
+        [
+          "Serie Correcta",
+          equipo.serieCorrecta
+          ? "SI"
+          : "NO"
+        ]
+
+      ]
+
+    });
+
+    doc.text(
+
+      `Observaciones: ${
+        equipo.observaciones || "N/A"
+      }`,
+
+      20,
+
+      doc.lastAutoTable.finalY + 20
+    );
+
+  });
+
+  /* =========================
+     SAVE
+  ========================= */
+
+  doc.save(
+
+`${auditoria.nombreAuditoria}.pdf`
+
+  );
+};
 /* =========================
    NUEVA AUDITORIA
 ========================= */
@@ -457,6 +654,10 @@ auditorias.map((auditoria) => (
 
 <button
   className="btn-pro btn-secondary"
+
+  onClick={() =>
+    descargarPDF(auditoria)
+  }
 >
   📄 PDF
 </button>
