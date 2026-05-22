@@ -100,8 +100,6 @@ const guardarAuditoria =
 
  const nueva = {
 
-  id: Date.now(),
-
   nombreAuditoria,
 
   auditor,

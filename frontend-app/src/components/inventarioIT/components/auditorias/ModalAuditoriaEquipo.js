@@ -114,7 +114,8 @@ useEffect(() => {
     auditoria?.observaciones ?? ""
   );
 
-}, [auditoria?._id]);
+}, [auditoria]);
+
 /* =========================
    VALIDAR SERIE
 ========================= */
@@ -283,10 +284,17 @@ useEffect(() => {
 }, [
 
   score,
-
   estado,
-
   serieCorrecta,
+
+  serieFisica,
+  passwordInicio,
+  bloqueoAutomatico,
+  mfaActivo,
+  antivirusActivo,
+  escritorioLimpio,
+  usbNoAutorizado,
+  observaciones,
 
   onChange
 

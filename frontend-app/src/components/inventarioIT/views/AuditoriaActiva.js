@@ -46,9 +46,27 @@ const [
 
 useEffect(() => {
 
-  setResultadoEquipo(null);
+  if (auditoria.finalizada) {
 
-}, [equipoActual]);
+    setResultadoEquipo(
+      auditoriasGuardadas[
+        equipoActual
+      ] || null
+    );
+
+  } else {
+
+    setResultadoEquipo(null);
+
+  }
+
+}, [
+
+  equipoActual,
+  auditoria.finalizada,
+  auditoriasGuardadas
+
+]);
 
 /* =========================
    DATA
@@ -821,50 +839,46 @@ resultadoEquipo?.score || 0
 <button
   className="btn-pro btn-secondary"
 
-  disabled={equipoActual === 0}
-
   onClick={anteriorEquipo}
+
+  disabled={equipoActual === 0}
 >
   ⬅ Anterior
 </button>
 
-<button
-  className="btn-pro"
+{
+  equipoActual <
+  totalEquipos - 1 && (
 
-  disabled={
-    equipoActual ===
-    totalEquipos - 1
-  }
+    <button
+      className="btn-pro"
 
-  onClick={siguienteEquipo}
->
-  ➡ Siguiente
-</button>
+      onClick={siguienteEquipo}
+    >
+      ➡ Siguiente
+    </button>
 
-</div>
+  )
+}
 
 {
-equipoActual ===
-totalEquipos - 1 && (
+  !auditoria.finalizada &&
+  equipoActual === totalEquipos - 1 && (
 
-<button
-  className="btn-pro"
+    <button
+      className="btn-pro"
 
-  onClick={finalizarAuditoria}
+      onClick={finalizarAuditoria}
+    >
+      ✅ Finalizar Auditoría
+    </button>
 
-  style={{
-    border:
-      "1px solid rgba(34,197,94,0.4)"
-  }}
->
-  ✅ Finalizar Auditoría
-</button>
-
-)}
+  )
+}
 
 </div>
-</div>
 
+</div>
 );
 
 }
