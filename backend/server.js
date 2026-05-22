@@ -476,7 +476,10 @@ const auditoriaGeneralSchema =
     type: String,
     default: ""
   },
-
+tipoAuditoria: {
+  type: String,
+  default: ""
+},
   auditor: {
     type: String,
     default: ""
@@ -1786,19 +1789,28 @@ app.post("/it/auditorias", async (req, res) => {
   try {
 
     const nueva =
-      new AuditoriaIT(req.body);
+  new AuditoriaGeneral({
 
-    await nueva.save();
+    nombreAuditoria:
+      req.body.nombreAuditoria,
 
-    res.json(nueva);
+    tipoAuditoria:
+      req.body.tipoAuditoria,
 
-  } catch (err) {
+    auditor:
+      req.body.auditor,
 
-    console.log(err);
+    equipos:
+      req.body.equipos,
 
-    res.status(500)
-      .send("Error guardando auditoría");
-  }
+    estado:
+      req.body.estado,
+
+    finalizada:
+      req.body.finalizada,
+
+    fecha:
+      req.body.fecha
 });
 
 app.get("/it/auditorias/:equipoId", async (req, res) => {
