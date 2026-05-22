@@ -297,7 +297,7 @@ useEffect(() => {
 ========================= */
 if (!auditoria) return null;
 const soloLectura =
-  auditoria.finalizada;
+  auditoria?.finalizada === true;
 return (
 
 <div

@@ -98,26 +98,44 @@ const guardarAuditoria =
     return;
   }
 
-  const nueva = {
+ const nueva = {
 
-    id: Date.now(),
+  id: Date.now(),
 
-    nombreAuditoria,
+  nombreAuditoria,
 
-    auditor,
+  auditor,
 
-    tipoAuditoria,
+  tipoAuditoria,
 
-    fecha:
-      new Date(),
+  fecha:
+    new Date(),
 
-    equipos:
-      equiposSeleccionados,
+equipos: equiposSeleccionados.map(
+  (e) => ({
 
-    estado:
-      "pendiente"
+    ...e,
 
-  };
+    serieFisica: "",
+    observaciones: "",
+
+    passwordInicio: null,
+    bloqueoAutomatico: null,
+    mfaActivo: null,
+    antivirusActivo: null,
+
+    escritorioLimpio: null,
+    usbNoAutorizado: false
+
+  })
+),
+
+  estado:
+    "pendiente",
+
+  finalizada: false
+
+};
 
   onGuardar(nueva);
 

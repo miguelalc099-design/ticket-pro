@@ -1,4 +1,7 @@
-import { useState } from "react";
+import {
+  useEffect,
+  useState
+} from "react";
 
 import ModalAuditoriaEquipo
 from "../components/auditorias/ModalAuditoriaEquipo";
@@ -17,6 +20,12 @@ const [
   resultadoEquipo,
   setResultadoEquipo
 ] = useState(null);
+
+useEffect(() => {
+
+  setResultadoEquipo(null);
+
+}, [equipoActual]);
 
 const [
   auditoriasGuardadas,
