@@ -15,7 +15,13 @@ app.use(express.json({
 mongoose.connect("mongodb+srv://appuser:MiPass1234@cluster0.qlsaznk.mongodb.net/tickets?retryWrites=true&w=majority")
   .then(() => console.log("🔥 Mongo conectado"))
   .catch(err => console.log("❌ Error Mongo:", err));
+const lavadosRoutes =
+  require("./routes/lavados");
 
+app.use(
+  "/lavados",
+  lavadosRoutes
+);
 // 🔥 MODELO
 
 const catalogoSchema = new mongoose.Schema({
