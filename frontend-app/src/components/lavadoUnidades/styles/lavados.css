@@ -415,3 +415,41 @@ textarea.input-lavado {
 
   cursor: pointer;
 }
+
+/* =========================
+   SIGNATURE
+========================= */
+
+.signature-canvas {
+
+  width: 100%;
+
+  height: 180px;
+}
+
+/* =========================
+   DANGER
+========================= */
+
+.btn-danger {
+
+  border: none;
+
+  border-radius: 18px;
+
+  padding:
+    16px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #dc2626,
+      #ef4444
+    );
+
+  color: white;
+
+  font-weight: 700;
+
+  cursor: pointer;
+}
