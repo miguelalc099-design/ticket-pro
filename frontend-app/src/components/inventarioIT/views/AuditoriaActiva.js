@@ -829,29 +829,6 @@ resultadoEquipo?.score || 0
   }}
 >
 
-<div
-  style={{
-
-    display: "flex",
-
-    justifyContent:
-      "space-between",
-
-    marginTop: "30px",
-
-    gap: "20px",
-
-    flexWrap: "wrap"
-  }}
->
-
-<div
-  style={{
-    display: "flex",
-    gap: "12px"
-  }}
->
-
 <button
   className="btn-pro btn-secondary"
 
@@ -891,6 +868,8 @@ resultadoEquipo?.score || 0
 
   )
 }
+
+</div>
 
 </div>
 
