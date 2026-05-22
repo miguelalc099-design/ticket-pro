@@ -407,8 +407,11 @@ const auditoriasFiltradas =
 
       ? true
 
-      : auditoria.tipoAuditoria ===
-        filtroTipo;
+      (auditoria.tipoAuditoria || "")
+  .toLowerCase()
+===
+filtroTipo.toLowerCase()
+
 
     return (
 

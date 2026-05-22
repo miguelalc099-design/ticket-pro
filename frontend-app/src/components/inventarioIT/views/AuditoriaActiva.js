@@ -192,6 +192,9 @@ const finalizarAuditoria =
   nombreAuditoria:
     auditoria.nombreAuditoria,
 
+tipoAuditoria:
+  auditoria.tipoAuditoria,
+
   auditor:
     JSON.parse(
       localStorage.getItem("user")
