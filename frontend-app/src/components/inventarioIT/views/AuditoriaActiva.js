@@ -92,19 +92,22 @@ if (
   return;
 }
 
-  const nuevaAuditoria = {
+const nuevaAuditoria = {
 
-    equipoId:
-      equipo._id,
+  equipoId:
+    equipo._id,
 
-    nombreEquipo:
-      equipo.nombreEquipo,
+  nombreEquipo:
+    equipo.nombreEquipo,
 
-    usuarioAsignado:
-      equipo.usuarioAsignado,
+  usuarioAsignado:
+    equipo.usuarioAsignado,
 
-    ...resultadoEquipo
-  };
+  numeroSerie:
+    equipo.numeroSerie,
+
+  ...resultadoEquipo
+};
 
   const copia =
   [...auditoriasGuardadas];
@@ -160,20 +163,23 @@ const finalizarAuditoria =
  if (resultadoEquipo) {
 
   auditoriasFinales[
-    equipoActual
-  ] = {
+  equipoActual
+] = {
 
-    equipoId:
-      equipo._id,
+  equipoId:
+    equipo._id,
 
-    nombreEquipo:
-      equipo.nombreEquipo,
+  nombreEquipo:
+    equipo.nombreEquipo,
 
-    usuarioAsignado:
-      equipo.usuarioAsignado,
+  usuarioAsignado:
+    equipo.usuarioAsignado,
 
-    ...resultadoEquipo
-  };
+  numeroSerie:
+    equipo.numeroSerie,
+
+  ...resultadoEquipo
+};
 
 }
 

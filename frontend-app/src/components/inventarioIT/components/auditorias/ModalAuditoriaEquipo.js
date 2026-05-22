@@ -67,7 +67,7 @@ const [
   usbNoAutorizado,
   setUsbNoAutorizado
 ] = useState(
-  auditoria?.usbNoAutorizado ?? false
+  auditoria?.usbNoAutorizado ?? null
 );
 
 const [
