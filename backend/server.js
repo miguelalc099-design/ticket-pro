@@ -1784,60 +1784,6 @@ app.delete("/it/equipos/:id", async (req, res) => {
    AUDITORIAS IT
 ========================================= */
 
-app.post("/it/auditorias", async (req, res) => {
-
-  try {
-
-    const nueva =
-  new AuditoriaGeneral({
-
-    nombreAuditoria:
-      req.body.nombreAuditoria,
-
-    tipoAuditoria:
-      req.body.tipoAuditoria,
-
-    auditor:
-      req.body.auditor,
-
-    equipos:
-      req.body.equipos,
-
-    estado:
-      req.body.estado,
-
-    finalizada:
-      req.body.finalizada,
-
-    fecha:
-      req.body.fecha
-});
-
-app.get("/it/auditorias/:equipoId", async (req, res) => {
-
-  try {
-
-    const auditorias =
-      await AuditoriaIT.find({
-
-        equipoId:
-          req.params.equipoId
-
-      })
-      .sort({
-        createdAt: -1
-      });
-
-    res.json(auditorias);
-
-  } catch (err) {
-
-    console.log(err);
-
-    res.status(500)
-      .send("Error obteniendo auditorías");
-  }
-});
 
 /* =========================================
    GUARDAR AUDITORIA GENERAL
