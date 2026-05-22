@@ -21,11 +21,6 @@ const [
   setResultadoEquipo
 ] = useState(null);
 
-useEffect(() => {
-
-  setResultadoEquipo(null);
-
-}, [equipoActual]);
 
 const [
   auditoriasGuardadas,
@@ -48,6 +43,12 @@ const [
   setEquipoActual
 
 ] = useState(0);
+
+useEffect(() => {
+
+  setResultadoEquipo(null);
+
+}, [equipoActual]);
 
 /* =========================
    DATA
