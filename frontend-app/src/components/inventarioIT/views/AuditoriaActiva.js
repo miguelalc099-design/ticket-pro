@@ -83,14 +83,20 @@ const auditoriaGuardada =
 const siguienteEquipo =
   () => {
 
-  if (!resultadoEquipo) {
+if (
 
-    alert(
-      "Completa la auditoría del equipo"
-    );
+  !resultadoEquipo &&
 
-    return;
-  }
+  !auditoria.finalizada
+
+) {
+
+  alert(
+    "Completa la auditoría del equipo"
+  );
+
+  return;
+}
 
   const nuevaAuditoria = {
 
