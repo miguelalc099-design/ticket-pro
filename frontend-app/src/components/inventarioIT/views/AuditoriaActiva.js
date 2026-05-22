@@ -797,6 +797,9 @@ resultadoEquipo?.score || 0
 
 </div>
 
+{
+  !auditoria.finalizada && (
+
 <button
   className="btn-pro"
 
@@ -809,6 +812,9 @@ resultadoEquipo?.score || 0
 >
   ✅ Finalizar Auditoría
 </button>
+
+  )
+}
 
 </div>
 
