@@ -468,6 +468,7 @@ return (
     ? "btn-pro"
     : "btn-pro btn-secondary"
   }
+
   onClick={() =>
     setPasswordInicio(true)
   }
@@ -482,7 +483,7 @@ return (
 
   className={
     passwordInicio === false
-? "btn-pro"
+    ? "btn-pro"
     : "btn-pro btn-secondary"
   }
 
@@ -528,11 +529,13 @@ return (
   type="button"
 
   disabled={soloLectura}
+
   className={
     bloqueoAutomatico === true
     ? "btn-pro"
     : "btn-pro btn-secondary"
   }
+
   onClick={() =>
     setBloqueoAutomatico(true)
   }
@@ -544,11 +547,13 @@ return (
   type="button"
 
   disabled={soloLectura}
+
   className={
     bloqueoAutomatico === false
     ? "btn-pro"
     : "btn-pro btn-secondary"
   }
+
   onClick={() =>
     setBloqueoAutomatico(false)
   }
@@ -591,11 +596,13 @@ return (
   type="button"
 
   disabled={soloLectura}
+
   className={
-    mfaActivo === false
+    mfaActivo === true
     ? "btn-pro"
     : "btn-pro btn-secondary"
   }
+
   onClick={() =>
     setMfaActivo(true)
   }
@@ -607,11 +614,13 @@ return (
   type="button"
 
   disabled={soloLectura}
+
   className={
-    !mfaActivo === false
+    mfaActivo === false
     ? "btn-pro"
     : "btn-pro btn-secondary"
   }
+
   onClick={() =>
     setMfaActivo(false)
   }
@@ -654,26 +663,31 @@ return (
   type="button"
 
   disabled={soloLectura}
+
   className={
-    antivirusActivo === false
+    antivirusActivo === true
     ? "btn-pro"
     : "btn-pro btn-secondary"
   }
+
   onClick={() =>
     setAntivirusActivo(true)
   }
 >
   ✅ Sí
 </button>
+
 <button
   type="button"
 
   disabled={soloLectura}
+
   className={
-    !antivirusActivo === false
+    antivirusActivo === false
     ? "btn-pro"
     : "btn-pro btn-secondary"
   }
+
   onClick={() =>
     setAntivirusActivo(false)
   }
