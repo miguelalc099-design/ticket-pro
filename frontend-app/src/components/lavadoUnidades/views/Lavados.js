@@ -1,339 +1,206 @@
-import {
+const express =
+require("express");
 
-  useEffect,
-  useState
+const router =
+express.Router();
 
-} from "react";
-
-import CardLavado
-from "../components/CardLavado";
-
-import NuevoLavado
-from "./NuevoLavado";
-
-import "../styles/lavados.css";
-
-function Lavados() {
+const Lavado =
+require("../models/Lavado");
 
 /* =========================
-   STATES
+   GET
 ========================= */
 
-const [
+router.get("/",
 
-  lavados,
-  setLavados
+async (req, res) => {
 
-] = useState([]);
+try {
 
-const [
+const lavados =
+await Lavado.find()
 
-  paginaActual,
-  setPaginaActual
+.sort({
 
-] = useState(1);
+  createdAt: -1
 
-const [
+});
 
-  creandoLavado,
-  setCreandoLavado
+res.json(lavados);
 
-] = useState(false);
+} catch (err) {
 
-const registrosPorPagina = 10;
+console.log(err);
 
-/* =========================
-   OBTENER
-========================= */
+res.status(500)
+.json({
 
-useEffect(() => {
+msg:
+  "Error obteniendo lavados"
 
-  obtenerLavados();
-
-}, []);
-
-const obtenerLavados =
-async () => {
-
-  try {
-
-    const res =
-      await fetch(
-
-"http://localhost:3001/lavados"
-
-      );
-
-    const data =
-      await res.json();
-
-    setLavados(data);
-
-  } catch (err) {
-
-    console.log(err);
-  }
-};
-
-/* =========================
-   KPIS
-========================= */
-
-const aprobadas =
-  lavados.filter(
-
-    (l) =>
-      l.estatus ===
-      "APROBADA"
-
-  ).length;
-
-const pendientes =
-  lavados.filter(
-
-    (l) =>
-      l.estatus ===
-      "EN_ESPERA"
-
-  ).length;
-
-const rechazadas =
-  lavados.filter(
-
-    (l) =>
-      l.estatus ===
-      "RECHAZADA"
-
-  ).length;
-
-/* =========================
-   PAGINACION
-========================= */
-
-const indiceFinal =
-  paginaActual *
-  registrosPorPagina;
-
-const indiceInicio =
-  indiceFinal -
-  registrosPorPagina;
-
-const lavadosPaginados =
-  lavados.slice(
-
-    indiceInicio,
-    indiceFinal
-
-  );
-
-const totalPaginas =
-  Math.ceil(
-
-    lavados.length /
-    registrosPorPagina
-
-  );
-if (creandoLavado) {
-
-  return (
-
-<NuevoLavado
-
-  onVolver={() =>
-    setCreandoLavado(false)
-  }
-
-/>
-
-  );
+});
 
 }
+
+});
+
 /* =========================
-   JSX
+   POST
 ========================= */
 
-return (
+router.post("/",
 
-<div
-  className="lavados-container"
->
+async (req, res) => {
 
-{/* HEADER */}
+try {
 
-<div
-  className="lavados-header"
->
+/* =========================
+   FOLIO
+========================= */
 
-<div>
+const total =
+await Lavado.countDocuments();
 
-<div
-  className="lavados-title"
->
-  🚛 Lavado de Unidades
-</div>
+const folio =
 
-<div
-  className="lavados-subtitle"
->
-  Gestión corporativa
-  de lavados móviles.
-</div>
+`LVD-${
+  String(
+    total + 1
+  ).padStart(5,"0")
+}`;
 
-</div>
+/* =========================
+   CREATE
+========================= */
 
-<button
-  className="btn-lavado"
+const nuevoLavado =
+new Lavado({
 
-  onClick={() =>
-    setCreandoLavado(true)
-  }
->
-  ➕ Nuevo Lavado
-</button>
+...req.body,
 
-</div>
+folio
 
-{/* KPIS */}
+});
 
-<div
-  className="kpis-grid"
->
+await nuevoLavado.save();
 
-<div
-  className="kpi-card"
->
-  <div className="kpi-title">
-    Pendientes
-  </div>
+res.json(nuevoLavado);
 
-  <div className="kpi-value">
-    {pendientes}
-  </div>
-</div>
+} catch (err) {
 
-<div
-  className="kpi-card"
->
-  <div className="kpi-title">
-    Aprobadas
-  </div>
+console.log(err);
 
-  <div className="kpi-value">
-    {aprobadas}
-  </div>
-</div>
+res.status(500)
+.json({
 
-<div
-  className="kpi-card"
->
-  <div className="kpi-title">
-    Rechazadas
-  </div>
+msg:
+  "Error creando lavado"
 
-  <div className="kpi-value">
-    {rechazadas}
-  </div>
-</div>
+});
 
-<div
-  className="kpi-card"
->
-  <div className="kpi-title">
-    Total
-  </div>
+}
 
-  <div className="kpi-value">
-    {lavados.length}
-  </div>
-</div>
+});
 
-</div>
+/* =========================
+   PUT
+========================= */
 
-{/* LISTADO */}
+router.put("/:id",
 
-<div
-  style={{
-    display: "grid",
-    gap: "16px"
-  }}
->
+async (req, res) => {
+
+try {
+
+const lavado =
+await Lavado.findById(
+  req.params.id
+);
+
+if (!lavado) {
+
+return res.status(404)
+.json({
+
+msg:
+  "Lavado no encontrado"
+
+});
+
+}
+
+/* =========================
+   BLOQUEADO
+========================= */
+
+if (
+lavado.bloqueado
+) {
+
+return res.status(400)
+.json({
+
+msg:
+  "Lavado bloqueado"
+
+});
+
+}
+
+/* =========================
+   UPDATE
+========================= */
+
+const actualizado =
+await Lavado.findByIdAndUpdate(
+
+req.params.id,
 
 {
-lavadosPaginados.map(
-  (lavado) => (
 
-<CardLavado
+...req.body,
 
-  key={lavado._id}
+bloqueado:
 
-  lavado={lavado}
+req.body.estatus ===
+"APROBADA"
 
-/>
+? true
 
-))
-}
+: false,
 
-</div>
+fechaAprobacion:
 
-{/* PAGINACION */}
+req.body.estatus ===
+"APROBADA"
 
-{
-totalPaginas > 1 && (
+? new Date()
 
-<div
-  className="pagination"
->
+: null
 
-<button
-  className="btn-lavado"
+},
 
-  disabled={
-    paginaActual === 1
-  }
-
-  onClick={() =>
-    setPaginaActual(
-      paginaActual - 1
-    )
-  }
->
-  ⬅
-</button>
-
-<div
-  style={{
-    color: "#fff"
-  }}
->
-  Página {paginaActual}
-</div>
-
-<button
-  className="btn-lavado"
-
-  disabled={
-    paginaActual ===
-    totalPaginas
-  }
-
-  onClick={() =>
-    setPaginaActual(
-      paginaActual + 1
-    )
-  }
->
-  ➡
-</button>
-
-</div>
-
-)
-}
-
-</div>
+{ new: true }
 
 );
 
+res.json(actualizado);
+
+} catch (err) {
+
+console.log(err);
+
+res.status(500)
+.json({
+
+msg:
+  "Error actualizando lavado"
+
+});
+
 }
 
-export default Lavados;
+});
+
+module.exports =
+router;
