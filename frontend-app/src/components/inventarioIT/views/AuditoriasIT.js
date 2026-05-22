@@ -621,8 +621,12 @@ return (
   SEGURIDAD IT
 </option>
 
-<option value="Compliance ISO 27001">
-  Compliance ISO 27001
+<option value="Compliance">
+  Compliance
+</option>
+
+<option value="ISO 27001">
+  ISO 27001
 </option>
 
 <option value="Inventario">
