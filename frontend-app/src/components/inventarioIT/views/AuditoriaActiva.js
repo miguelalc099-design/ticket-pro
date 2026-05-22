@@ -44,26 +44,6 @@ const [
 
 ] = useState(0);
 
-useEffect(() => {
-
-  const actual =
-    auditoriasGuardadas[
-      equipoActual
-    ];
-
-  if (actual) {
-
-    setResultadoEquipo(actual);
-
-  }
-
-}, [
-
-  equipoActual,
-  auditoriasGuardadas
-
-]);
-
 /* =========================
    DATA
 ========================= */
@@ -224,8 +204,12 @@ tipoAuditoria:
       fechaFinalizacion:
         new Date(),
 
-      equipos:
-        auditoriasFinales
+   equipos:
+  auditoriasFinales,
+
+resultados:
+  auditoriasFinales
+
     };
 
     /* GUARDAR GENERAL */

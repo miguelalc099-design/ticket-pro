@@ -138,13 +138,17 @@ const descargarPDF =
     65
   );
 
-  doc.text(
-    `Equipos auditados: ${
-      auditoria.equipos.length
-    }`,
-    20,
-    75
-  );
+doc.text(
+  `Equipos auditados: ${
+    (
+      auditoria.resultados ||
+      auditoria.equipos ||
+      []
+    ).length
+  }`,
+  20,
+  75
+);
 
   doc.text(
     `Fecha: ${
@@ -158,7 +162,11 @@ const descargarPDF =
      EQUIPOS
   ========================= */
 
-  auditoria.equipos.forEach(
+  (
+  auditoria.resultados ||
+  auditoria.equipos ||
+  []
+).forEach(
 
     (equipo, index) => {
 
@@ -768,7 +776,11 @@ auditoriasPaginadas.map((auditoria) => (
 >
   💻 Equipos:
   {" "}
-  {auditoria.equipos.length}
+  {(
+  auditoria.resultados ||
+  auditoria.equipos ||
+  []
+).length}
 </div>
 
 <div
