@@ -24,82 +24,58 @@ function ModalAuditoriaEquipo({
 const [
   serieFisica,
   setSerieFisica
-useState(
-
-  auditoria?.serieFisica
-  ?? ""
-
-)
+] = useState(
+  auditoria?.serieFisica ?? ""
+);
 
 const [
   passwordInicio,
   setPasswordInicio
 ] = useState(
-
-  auditoria?.passwordInicio
-  ?? null
-
+  auditoria?.passwordInicio ?? null
 );
 
 const [
   bloqueoAutomatico,
   setBloqueoAutomatico
 ] = useState(
-
-  auditoria?.bloqueoAutomatico
-  ?? null
-
+  auditoria?.bloqueoAutomatico ?? null
 );
 
 const [
   mfaActivo,
   setMfaActivo
 ] = useState(
-
-  auditoria?.mfaActivo
-  ?? null
-
+  auditoria?.mfaActivo ?? null
 );
 
 const [
   antivirusActivo,
   setAntivirusActivo
 ] = useState(
-
-  auditoria?.antivirusActivo
-  ?? null
-
+  auditoria?.antivirusActivo ?? null
 );
 
 const [
   escritorioLimpio,
   setEscritorioLimpio
 ] = useState(
-
-  auditoria?.escritorioLimpio
-  ?? null
-
+  auditoria?.escritorioLimpio ?? null
 );
 
 const [
   usbNoAutorizado,
   setUsbNoAutorizado
-useState(
-
-  auditoria?.usbNoAutorizado
-  ?? false
-
-)
+] = useState(
+  auditoria?.usbNoAutorizado ?? false
+);
 
 const [
   observaciones,
   setObservaciones
-useState(
-
-  auditoria?.observaciones
-  ?? ""
-
-)
+] = useState(
+  auditoria?.observaciones ?? ""
+);
 
 /* =========================
    VALIDAR SERIE
