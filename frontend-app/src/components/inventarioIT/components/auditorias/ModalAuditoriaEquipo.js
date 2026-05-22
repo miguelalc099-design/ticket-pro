@@ -76,7 +76,45 @@ const [
 ] = useState(
   auditoria?.observaciones ?? ""
 );
+/* =========================
+   RECARGAR DATA
+========================= */
 
+useEffect(() => {
+
+  setSerieFisica(
+    auditoria?.serieFisica ?? ""
+  );
+
+  setPasswordInicio(
+    auditoria?.passwordInicio ?? null
+  );
+
+  setBloqueoAutomatico(
+    auditoria?.bloqueoAutomatico ?? null
+  );
+
+  setMfaActivo(
+    auditoria?.mfaActivo ?? null
+  );
+
+  setAntivirusActivo(
+    auditoria?.antivirusActivo ?? null
+  );
+
+  setEscritorioLimpio(
+    auditoria?.escritorioLimpio ?? null
+  );
+
+  setUsbNoAutorizado(
+    auditoria?.usbNoAutorizado ?? false
+  );
+
+  setObservaciones(
+    auditoria?.observaciones ?? ""
+  );
+
+}, [auditoria]);
 /* =========================
    VALIDAR SERIE
 ========================= */

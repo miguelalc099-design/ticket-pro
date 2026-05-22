@@ -22,7 +22,9 @@ const [
   auditoriasGuardadas,
   setAuditoriasGuardadas
 ] = useState(
-  auditoria.equipos || []
+
+  auditoria.resultados || []
+
 );
 
 
@@ -42,13 +44,23 @@ const [
    DATA
 ========================= */
 
+const equiposData =
+
+  auditoria.finalizada
+  && auditoria.resultados
+
+    ? auditoria.resultados
+
+    : auditoria.equipos;
+
 const totalEquipos =
-  auditoria.equipos.length;
+  equiposData.length;
 
 const equipo =
-  auditoria.equipos[
+  equiposData[
     equipoActual
   ];
+
 const auditoriaGuardada =
   auditoriasGuardadas[
     equipoActual
@@ -159,17 +171,18 @@ const finalizarAuditoria =
 
     /* BODY GENERAL */
 
-    const body = {
+   const body = {
 
-      nombreAuditoria:
-        auditoria.nombreAuditoria,
+  nombreAuditoria:
+    auditoria.nombreAuditoria,
 
-      auditor:
-        localStorage.getItem("user")
-        || "Auditor",
+  auditor:
+    JSON.parse(
+      localStorage.getItem("user")
+    )?.username || "Auditor",
 
-      estado:
-        "finalizada",
+  estado:
+    "finalizada",
 
       finalizada: true,
 
@@ -213,21 +226,21 @@ const finalizarAuditoria =
 
     onFinalizar({
 
-      ...auditoria,
+  ...auditoria,
 
-      estado:
-        "finalizada",
+  estado: "finalizada",
 
-      finalizada: true,
+  bloqueada: true,
 
-      bloqueada: true,
+  finalizada: true,
 
-      equipos:
-        auditoriasFinales,
+  fechaFinalizacion:
+    new Date(),
 
-      fechaFinalizacion:
-        new Date()
-    });
+  resultados:
+    auditoriasFinales
+
+});
 
   } catch (err) {
 
