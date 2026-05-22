@@ -400,17 +400,19 @@ const auditoriasFiltradas =
 
       : !auditoria.finalizada;
 
-    const coincideTipo =
+   const coincideTipo =
 
-      filtroTipo ===
-      "todos"
+  filtroTipo ===
+  "todos"
 
-      ? true
+  ? true
 
+  : (
       (auditoria.tipoAuditoria || "")
-  .toLowerCase()
-===
-filtroTipo.toLowerCase()
+        .toLowerCase()
+      ===
+      filtroTipo.toLowerCase()
+    );
 
 
     return (
