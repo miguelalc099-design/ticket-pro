@@ -1682,24 +1682,63 @@ app.put("/it/equipos/:id", async (req, res) => {
 
   try {
 
-    const seguridad =
-      calcularEstadoSeguridad(
-        req.body
+    /* =========================
+       OBTENER EQUIPO ACTUAL
+    ========================= */
+
+    const equipoActual =
+
+      await EquipoIT.findById(
+        req.params.id
       );
 
+    if (!equipoActual) {
+
+      return res
+        .status(404)
+        .send("Equipo no encontrado");
+    }
+
+    /* =========================
+       MEZCLAR DATOS
+    ========================= */
+
+    const datosActualizados = {
+
+      ...equipoActual.toObject(),
+
+      ...req.body
+    };
+
+    /* =========================
+       RECALCULAR SEGURIDAD
+    ========================= */
+
+    const seguridad =
+
+      calcularEstadoSeguridad(
+        datosActualizados
+      );
+
+    /* =========================
+       GUARDAR
+    ========================= */
+
     await EquipoIT.findByIdAndUpdate(
+
       req.params.id,
+
       {
 
-        ...req.body,
+        ...datosActualizados,
 
         estadoSeguridad:
           seguridad.estadoSeguridad,
 
         alertas:
           seguridad.alertas
-
       }
+
     );
 
     res.json({
