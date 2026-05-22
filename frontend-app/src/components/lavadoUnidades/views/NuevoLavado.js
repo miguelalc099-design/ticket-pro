@@ -1,7 +1,5 @@
 import {
-
   useState
-
 } from "react";
 
 import "../styles/lavados.css";
@@ -11,7 +9,6 @@ function NuevoLavado({
   onVolver
 
 }) {
-
 
 /* =========================
    STATES
@@ -26,15 +23,15 @@ const [
 
 const [
 
-  operador,
-  setOperador
+  numeroUnidad,
+  setNumeroUnidad
 
 ] = useState("");
 
 const [
 
-  supervisor,
-  setSupervisor
+  comentarios,
+  setComentarios
 
 ] = useState("");
 
@@ -47,24 +44,24 @@ const [
 
 const [
 
-  numeroUnidad,
-  setNumeroUnidad
+  operadores,
+  setOperadores
 
-] = useState("");
-
-const [
-
-  tipoLavado,
-  setTipoLavado
-
-] = useState("");
+] = useState([]);
 
 const [
 
-  comentarios,
-  setComentarios
+  cantidadOperadores,
+  setCantidadOperadores
 
-] = useState("");
+] = useState(1);
+
+const [
+
+  tiposLavado,
+  setTiposLavado
+
+] = useState([]);
 
 const [
 
@@ -88,33 +85,140 @@ const [
 ] = useState(false);
 
 /* =========================
+   OPCIONES
+========================= */
+
+const operadoresLista = [
+
+  "Felipe",
+  "Miguel",
+  "Juan Jesus"
+
+];
+
+const servicios = [
+
+  "Lavada",
+  "Detallado",
+  "Barrida",
+  "Fumigada",
+  "Pulida",
+  "Limpieza interior"
+
+];
+
+/* =========================
+   OPERADORES
+========================= */
+
+const toggleOperador =
+(nombre) => {
+
+  if (
+    operadores.includes(nombre)
+  ) {
+
+    setOperadores(
+
+      operadores.filter(
+        (o) =>
+          o !== nombre
+      )
+
+    );
+
+  } else {
+
+    setOperadores([
+      ...operadores,
+      nombre
+    ]);
+
+  }
+
+};
+
+/* =========================
+   TIPOS LAVADO
+========================= */
+
+const toggleServicio =
+(servicio) => {
+
+  if (
+    tiposLavado.includes(
+      servicio
+    )
+  ) {
+
+    setTiposLavado(
+
+      tiposLavado.filter(
+        (s) =>
+          s !== servicio
+      )
+
+    );
+
+  } else {
+
+    setTiposLavado([
+      ...tiposLavado,
+      servicio
+    ]);
+
+  }
+
+};
+
+/* =========================
    FOTOS
 ========================= */
 
-const manejarFotosAntes =
+const tomarFotoAntes =
 (e) => {
 
-  const archivos =
-    Array.from(
-      e.target.files
-    );
+  const archivo =
+    e.target.files[0];
 
-  setFotosAntes(
-    archivos
-  );
+  if (!archivo) return;
+
+  if (
+    fotosAntes.length >= 2
+  ) {
+
+    return alert(
+      "Máximo 2 fotos antes"
+    );
+  }
+
+  setFotosAntes([
+    ...fotosAntes,
+    archivo
+  ]);
 };
 
-const manejarFotosDespues =
+const tomarFotoDespues =
 (e) => {
 
-  const archivos =
-    Array.from(
-      e.target.files
-    );
+  const archivo =
+    e.target.files[0];
 
-  setFotosDespues(
-    archivos
-  );
+  if (!archivo) return;
+
+  if (
+    fotosDespues.length >= 2
+  ) {
+
+    return alert(
+      "Máximo 2 fotos después"
+    );
+  }
+
+  setFotosDespues([
+    ...fotosDespues,
+    archivo
+  ]);
 };
 
 /* =========================
@@ -125,15 +229,38 @@ const guardarLavado =
 async () => {
 
   if (
-
-    fotosAntes.length < 2 ||
-
-    fotosDespues.length < 2
-
+    operadores.length === 0
   ) {
 
     return alert(
-      "Debes agregar mínimo 2 fotos antes y después"
+      "Selecciona operadores"
+    );
+  }
+
+  if (
+    tiposLavado.length === 0
+  ) {
+
+    return alert(
+      "Selecciona servicios"
+    );
+  }
+
+  if (
+    fotosAntes.length < 2
+  ) {
+
+    return alert(
+      "Debes tomar 2 fotos antes"
+    );
+  }
+
+  if (
+    fotosDespues.length < 2
+  ) {
+
+    return alert(
+      "Debes tomar 2 fotos después"
     );
   }
 
@@ -145,20 +272,20 @@ async () => {
 
       fechaLavado,
 
-      operador,
-
-      supervisor,
+      numeroUnidad,
 
       tipoUnidad,
 
-      numeroUnidad,
-
-      tipoLavado,
-
       comentarios,
 
-      fotosAntes: [],
-      fotosDespues: []
+      operadores,
+
+      cantidadOperadores,
+
+      tiposLavado,
+
+      estatus:
+        "EN_ESPERA"
 
     };
 
@@ -172,8 +299,10 @@ async () => {
         method: "POST",
 
         headers: {
+
           "Content-Type":
             "application/json"
+
         },
 
         body:
@@ -195,6 +324,7 @@ async () => {
 
     setLoading(false);
   }
+
 };
 
 /* =========================
@@ -206,17 +336,15 @@ return (
 <div
   className="lavados-container"
 >
+
 <button
   className="btn-lavado"
-
-  style={{
-    marginBottom: "20px"
-  }}
 
   onClick={onVolver}
 >
   ⬅ Volver
 </button>
+
 <div
   className="lavados-title"
 >
@@ -228,7 +356,7 @@ return (
 
     display: "grid",
 
-    gap: "18px"
+    gap: "20px"
   }}
 >
 
@@ -248,65 +376,61 @@ return (
   }
 />
 
-{/* OPERADOR */}
-
-<input
-  className="input-lavado"
-
-  placeholder="Operador"
-
-  value={operador}
-
-  onChange={(e) =>
-    setOperador(
-      e.target.value
-    )
-  }
-/>
-
-{/* SUPERVISOR */}
-
-<input
-  className="input-lavado"
-
-  placeholder="Supervisor"
-
-  value={supervisor}
-
-  onChange={(e) =>
-    setSupervisor(
-      e.target.value
-    )
-  }
-/>
-
 {/* TIPO UNIDAD */}
 
-<select
-  className="input-lavado"
+<div>
 
-  value={tipoUnidad}
+<div
+  className="section-title"
+>
+  Tipo Unidad
+</div>
 
-  onChange={(e) =>
+<div
+  className="chips-grid"
+>
+
+<button
+  className={
+    tipoUnidad ===
+    "TRACTO"
+
+    ? "chip-active"
+
+    : "chip"
+  }
+
+  onClick={() =>
     setTipoUnidad(
-      e.target.value
+      "TRACTO"
     )
   }
 >
+  🚛 Tracto
+</button>
 
-<option value="">
-  Tipo Unidad
-</option>
+<button
+  className={
+    tipoUnidad ===
+    "REMOLQUE"
 
-<option value="Tracto">
-  Tracto
-</option>
+    ? "chip-active"
 
-<option value="Remolque">
-  Remolque
-</option>
+    : "chip"
+  }
 
-</select>
+  onClick={() =>
+    setTipoUnidad(
+      "REMOLQUE"
+    )
+  }
+>
+  📦 Remolque
+</button>
+
+</div>
+
+</div>
 
 {/* NUMERO */}
 
@@ -324,58 +448,154 @@ return (
   }
 />
 
-{/* TIPO LAVADO */}
+{/* OPERADORES */}
 
-<select
-  className="input-lavado"
+<div>
 
-  value={tipoLavado}
+<div
+  className="section-title"
+>
+  Operadores
+</div>
 
-  onChange={(e) =>
-    setTipoLavado(
-      e.target.value
+<div
+  className="chips-grid"
+>
+
+{
+operadoresLista.map(
+  (op) => (
+
+<button
+  key={op}
+
+  className={
+    operadores.includes(op)
+
+    ? "chip-active"
+
+    : "chip"
+  }
+
+  onClick={() =>
+    toggleOperador(op)
+  }
+>
+  👤 {op}
+</button>
+
+))
+}
+
+</div>
+
+</div>
+
+{/* CANTIDAD */}
+
+<div>
+
+<div
+  className="section-title"
+>
+  Cantidad Operadores
+</div>
+
+<div
+  className="chips-grid"
+>
+
+<button
+  className={
+    cantidadOperadores === 1
+
+    ? "chip-active"
+
+    : "chip"
+  }
+
+  onClick={() =>
+    setCantidadOperadores(1)
+  }
+>
+  1 Operador
+</button>
+
+<button
+  className={
+    cantidadOperadores === 2
+
+    ? "chip-active"
+
+    : "chip"
+  }
+
+  onClick={() =>
+    setCantidadOperadores(2)
+  }
+>
+  2 Operadores
+</button>
+
+</div>
+
+</div>
+
+{/* SERVICIOS */}
+
+<div>
+
+<div
+  className="section-title"
+>
+  Servicios
+</div>
+
+<div
+  className="chips-grid"
+>
+
+{
+servicios.map(
+  (servicio) => (
+
+<button
+  key={servicio}
+
+  className={
+    tiposLavado.includes(
+      servicio
+    )
+
+    ? "chip-active"
+
+    : "chip"
+  }
+
+  onClick={() =>
+    toggleServicio(
+      servicio
     )
   }
 >
+  🧼 {servicio}
+</button>
 
-<option value="">
-  Tipo Lavado
-</option>
+))
+}
 
-<option value="Lavada">
-  Lavada
-</option>
+</div>
 
-<option value="Detallado">
-  Detallado
-</option>
-
-<option value="Barrida">
-  Barrida
-</option>
-
-<option value="Fumigada">
-  Fumigada
-</option>
-
-<option value="Pulida">
-  Pulida
-</option>
-
-<option value="Limpieza interior">
-  Limpieza interior
-</option>
-
-</select>
+</div>
 
 {/* COMENTARIOS */}
 
 <textarea
   className="input-lavado"
 
-  placeholder="Comentarios"
-
   rows={4}
+
+  placeholder="Comentarios"
 
   value={comentarios}
 
@@ -398,6 +618,12 @@ return (
   📸 Fotos Antes
 </div>
 
+<label
+  className="camera-btn"
+>
+
+📸 Tomar Foto
+
 <input
   type="file"
 
@@ -405,18 +631,19 @@ return (
 
   capture="environment"
 
-  multiple
-
   onChange={
-    manejarFotosAntes
+    tomarFotoAntes
   }
+
+  hidden
 />
+
+</label>
 
 <div
   className="upload-count"
 >
-  {fotosAntes.length}
-  fotos seleccionadas
+  {fotosAntes.length}/2 fotos
 </div>
 
 </div>
@@ -433,6 +660,12 @@ return (
   📸 Fotos Después
 </div>
 
+<label
+  className="camera-btn"
+>
+
+📸 Tomar Foto
+
 <input
   type="file"
 
@@ -440,18 +673,19 @@ return (
 
   capture="environment"
 
-  multiple
-
   onChange={
-    manejarFotosDespues
+    tomarFotoDespues
   }
+
+  hidden
 />
+
+</label>
 
 <div
   className="upload-count"
 >
-  {fotosDespues.length}
-  fotos seleccionadas
+  {fotosDespues.length}/2 fotos
 </div>
 
 </div>

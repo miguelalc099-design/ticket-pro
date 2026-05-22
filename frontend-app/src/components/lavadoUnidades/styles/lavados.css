@@ -315,3 +315,103 @@ textarea.input-lavado {
 
   font-size: 14px;
 }
+
+/* =========================
+   SECTION
+========================= */
+
+.section-title {
+
+  color: white;
+
+  font-weight: 700;
+
+  margin-bottom: 14px;
+}
+
+/* =========================
+   CHIPS
+========================= */
+
+.chips-grid {
+
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 12px;
+}
+
+.chip {
+
+  border: none;
+
+  border-radius: 999px;
+
+  padding:
+    12px 18px;
+
+  background:
+    rgba(15,23,42,0.88);
+
+  color: #cbd5e1;
+
+  border:
+    1px solid rgba(59,130,246,0.18);
+
+  cursor: pointer;
+
+  transition:
+    all 0.18s ease;
+}
+
+.chip-active {
+
+  border: none;
+
+  border-radius: 999px;
+
+  padding:
+    12px 18px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #2563eb,
+      #3b82f6
+    );
+
+  color: white;
+
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+/* =========================
+   CAMERA
+========================= */
+
+.camera-btn {
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  padding:
+    16px;
+
+  border-radius: 18px;
+
+  background:
+    rgba(59,130,246,0.14);
+
+  color:
+    #60a5fa;
+
+  font-weight: 700;
+
+  cursor: pointer;
+}
