@@ -46,24 +46,20 @@ const [
 
 useEffect(() => {
 
-  if (auditoria.finalizada) {
+  const actual =
+    auditoriasGuardadas[
+      equipoActual
+    ];
 
-    setResultadoEquipo(
-      auditoriasGuardadas[
-        equipoActual
-      ] || null
-    );
+  if (actual) {
 
-  } else {
-
-    setResultadoEquipo(null);
+    setResultadoEquipo(actual);
 
   }
 
 }, [
 
   equipoActual,
-  auditoria.finalizada,
   auditoriasGuardadas
 
 ]);
