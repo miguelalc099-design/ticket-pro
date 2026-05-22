@@ -6,7 +6,12 @@ import {
 
 import "../styles/lavados.css";
 
-function NuevoLavado() {
+function NuevoLavado({
+
+  onVolver
+
+}) {
+
 
 /* =========================
    STATES
@@ -201,7 +206,17 @@ return (
 <div
   className="lavados-container"
 >
+<button
+  className="btn-lavado"
 
+  style={{
+    marginBottom: "20px"
+  }}
+
+  onClick={onVolver}
+>
+  ⬅ Volver
+</button>
 <div
   className="lavados-title"
 >

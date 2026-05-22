@@ -134,7 +134,8 @@ function AdminPanel() {
   "kanban",
   "users",
   "ciclicos",
-  "inventarioIT"
+  "inventarioIT",
+  "lavados"
 ].map((p) => (
                 <label key={p}>
                   <input

@@ -8,6 +8,9 @@ import {
 import CardLavado
 from "../components/CardLavado";
 
+import NuevoLavado
+from "./NuevoLavado";
+
 import "../styles/lavados.css";
 
 function Lavados() {
@@ -29,6 +32,13 @@ const [
   setPaginaActual
 
 ] = useState(1);
+
+const [
+
+  creandoLavado,
+  setCreandoLavado
+
+] = useState(false);
 
 const registrosPorPagina = 10;
 
@@ -123,7 +133,21 @@ const totalPaginas =
     registrosPorPagina
 
   );
+if (creandoLavado) {
 
+  return (
+
+<NuevoLavado
+
+  onVolver={() =>
+    setCreandoLavado(false)
+  }
+
+/>
+
+  );
+
+}
 /* =========================
    JSX
 ========================= */
@@ -159,6 +183,10 @@ return (
 
 <button
   className="btn-lavado"
+
+  onClick={() =>
+    setCreandoLavado(true)
+  }
 >
   ➕ Nuevo Lavado
 </button>
