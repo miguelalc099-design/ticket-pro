@@ -214,21 +214,53 @@ const guardar =
        BODY
     ========================= */
 
-   const body = {
-
-  antivirus,
-
-  fechaExpiracionAntivirus,
-
-  fechaExpiracionPasswordWindows,
-
-  fechaExpiracionPasswordERP,
+  const body = {
 
   mfa,
 
   observaciones
 
 };
+
+/* ANTIVIRUS */
+
+if (antivirus) {
+
+  body.antivirus =
+    antivirus;
+
+}
+
+if (
+  fechaExpiracionAntivirus
+) {
+
+  body.fechaExpiracionAntivirus =
+    fechaExpiracionAntivirus;
+
+}
+
+/* WINDOWS */
+
+if (
+  fechaExpiracionPasswordWindows
+) {
+
+  body.fechaExpiracionPasswordWindows =
+    fechaExpiracionPasswordWindows;
+
+}
+
+/* ERP */
+
+if (
+  fechaExpiracionPasswordERP
+) {
+
+  body.fechaExpiracionPasswordERP =
+    fechaExpiracionPasswordERP;
+
+}
 
     /* =========================
        PASSWORD WINDOWS
