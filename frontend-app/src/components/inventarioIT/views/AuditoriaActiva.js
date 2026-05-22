@@ -158,11 +158,9 @@ const finalizarAuditoria =
     let auditoriasFinales =
       [...auditoriasGuardadas];
 
-    /* AGREGAR ULTIMO EQUIPO */
+   /* AGREGAR ULTIMO EQUIPO */
 
- if (resultadoEquipo) {
-
-  auditoriasFinales[
+auditoriasFinales[
   equipoActual
 ] = {
 
@@ -181,9 +179,7 @@ const finalizarAuditoria =
   ...resultadoEquipo
 };
 
-}
-
-    /* BODY GENERAL */
+/* BODY GENERAL */
 
    const body = {
 
