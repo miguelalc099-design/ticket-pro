@@ -38,6 +38,13 @@ const [
   setAuditoriaActiva
 ] = useState(null);
 
+const [
+  paginaActual,
+  setPaginaActual
+] = useState(1);
+
+const auditoriasPorPagina = 4;
+
 /* =========================
    CARGAR AUDITORIAS
 ========================= */
@@ -346,6 +353,31 @@ if (auditoriaActiva) {
   );
 
 }
+
+/* =========================
+   PAGINACION
+========================= */
+
+const indiceFinal =
+  paginaActual *
+  auditoriasPorPagina;
+
+const indiceInicio =
+  indiceFinal -
+  auditoriasPorPagina;
+
+const auditoriasPaginadas =
+  auditorias.slice(
+    indiceInicio,
+    indiceFinal
+  );
+
+const totalPaginas =
+  Math.ceil(
+    auditorias.length /
+    auditoriasPorPagina
+  );
+
 /* =========================
    JSX
 ========================= */
@@ -475,7 +507,7 @@ auditorias.length === 0 && (
 >
 
 {
-auditorias.map((auditoria) => (
+auditoriasPaginadas.map((auditoria) => (
 
 <div
   key={auditoria._id}
@@ -676,6 +708,75 @@ auditorias.map((auditoria) => (
 }
 
 </div>
+
+{/* =========================
+   FOOTER PAGINACION
+========================= */}
+
+{
+totalPaginas > 1 && (
+
+<div
+  style={{
+
+    display: "flex",
+
+    justifyContent: "center",
+
+    alignItems: "center",
+
+    gap: "20px",
+
+    marginTop: "30px"
+  }}
+>
+
+<button
+  className="btn-pro btn-secondary"
+
+  disabled={paginaActual === 1}
+
+  onClick={() =>
+    setPaginaActual(
+      paginaActual - 1
+    )
+  }
+>
+  ⬅ Anterior
+</button>
+
+<div
+  style={{
+    color: "#fff",
+    fontWeight: "700"
+  }}
+>
+  Página {paginaActual}
+  {" "}de{" "}
+  {totalPaginas}
+</div>
+
+<button
+  className="btn-pro btn-secondary"
+
+  disabled={
+    paginaActual ===
+    totalPaginas
+  }
+
+  onClick={() =>
+    setPaginaActual(
+      paginaActual + 1
+    )
+  }
+>
+  Siguiente ➡
+</button>
+
+</div>
+
+)
+}
 </div>
 
 );
