@@ -1,0 +1,317 @@
+.lavados-container {
+
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  padding: 20px;
+
+  min-height: 100vh;
+
+  background:
+    #0f172a;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.lavados-header {
+
+  display: flex;
+
+  justify-content:
+    space-between;
+
+  align-items: center;
+
+  gap: 16px;
+}
+
+.lavados-title {
+
+  color: white;
+
+  font-size: 28px;
+
+  font-weight: 700;
+}
+
+.lavados-subtitle {
+
+  color: #94a3b8;
+
+  margin-top: 6px;
+}
+
+/* =========================
+   KPIS
+========================= */
+
+.kpis-grid {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(2,1fr);
+
+  gap: 14px;
+}
+
+.kpi-card {
+
+  background:
+    rgba(15,23,42,0.85);
+
+  border:
+    1px solid rgba(59,130,246,0.18);
+
+  border-radius: 22px;
+
+  padding: 18px;
+
+  backdrop-filter:
+    blur(8px);
+}
+
+.kpi-title {
+
+  color: #94a3b8;
+
+  font-size: 13px;
+}
+
+.kpi-value {
+
+  color: white;
+
+  font-size: 28px;
+
+  font-weight: 700;
+
+  margin-top: 8px;
+}
+
+/* =========================
+   BOTONES
+========================= */
+
+.btn-lavado {
+
+  border: none;
+
+  border-radius: 18px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #3b82f6,
+      #2563eb
+    );
+
+  color: white;
+
+  padding:
+    14px 20px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    all 0.18s ease;
+}
+
+.btn-lavado:active {
+
+  transform:
+    scale(0.97);
+}
+
+/* =========================
+   CARDS
+========================= */
+
+.lavado-card {
+
+  background:
+    rgba(15,23,42,0.88);
+
+  border:
+    1px solid rgba(59,130,246,0.18);
+
+  border-radius: 24px;
+
+  padding: 20px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 14px;
+
+  transition:
+    all 0.18s ease;
+}
+
+.lavado-card:hover {
+
+  transform:
+    scale(1.01);
+}
+
+/* =========================
+   STATUS
+========================= */
+
+.status {
+
+  padding:
+    8px 14px;
+
+  border-radius:
+    999px;
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+  width: fit-content;
+}
+
+.status-pendiente {
+
+  background:
+    rgba(245,158,11,0.15);
+
+  color:
+    #f59e0b;
+}
+
+.status-aprobada {
+
+  background:
+    rgba(34,197,94,0.15);
+
+  color:
+    #22c55e;
+}
+
+.status-rechazada {
+
+  background:
+    rgba(239,68,68,0.15);
+
+  color:
+    #ef4444;
+}
+
+/* =========================
+   PAGINACION
+========================= */
+
+.pagination {
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  gap: 14px;
+
+  margin-top: 20px;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (
+  max-width: 768px
+) {
+
+  .lavados-header {
+
+    flex-direction:
+      column;
+
+    align-items:
+      flex-start;
+  }
+
+  .lavados-title {
+
+    font-size: 24px;
+  }
+}
+/* =========================
+   INPUTS
+========================= */
+
+.input-lavado {
+
+  width: 100%;
+
+  border: none;
+
+  outline: none;
+
+  border-radius: 18px;
+
+  padding: 16px;
+
+  background:
+    rgba(15,23,42,0.88);
+
+  color: white;
+
+  border:
+    1px solid rgba(59,130,246,0.18);
+
+  font-size: 15px;
+
+  box-sizing: border-box;
+}
+
+textarea.input-lavado {
+
+  resize: none;
+}
+
+/* =========================
+   UPLOAD
+========================= */
+
+.upload-card {
+
+  background:
+    rgba(15,23,42,0.88);
+
+  border:
+    1px solid rgba(59,130,246,0.18);
+
+  border-radius: 22px;
+
+  padding: 18px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 12px;
+}
+
+.upload-title {
+
+  color: white;
+
+  font-weight: 700;
+}
+
+.upload-count {
+
+  color: #94a3b8;
+
+  font-size: 14px;
+}
