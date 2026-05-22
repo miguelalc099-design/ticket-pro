@@ -792,7 +792,9 @@ resultadoEquipo?.score || 0
 
 </div>
 
-{/* FOOTER */}
+/* =========================
+   FOOTER
+========================= */
 
 <div
   style={{
@@ -843,9 +845,6 @@ resultadoEquipo?.score || 0
 </div>
 
 {
-  !auditoria.finalizada && (
-
-{
 equipoActual ===
 totalEquipos - 1 && (
 
@@ -864,11 +863,7 @@ totalEquipos - 1 && (
 
 )}
 
-  )
-}
-
 </div>
-
 </div>
 
 );
