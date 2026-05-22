@@ -845,6 +845,10 @@ resultadoEquipo?.score || 0
 {
   !auditoria.finalizada && (
 
+{
+equipoActual ===
+totalEquipos - 1 && (
+
 <button
   className="btn-pro"
 
@@ -857,6 +861,8 @@ resultadoEquipo?.score || 0
 >
   ✅ Finalizar Auditoría
 </button>
+
+)}
 
   )
 }
