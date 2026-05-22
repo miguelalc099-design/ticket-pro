@@ -126,7 +126,7 @@ const finalizarAuditoria =
     let auditoriasFinales =
       [...auditoriasGuardadas];
 
-    /* GUARDAR ULTIMO */
+    /* AGREGAR ULTIMO EQUIPO */
 
     if (resultadoEquipo) {
 
@@ -146,11 +146,39 @@ const finalizarAuditoria =
 
     }
 
-    for (const auditoria of auditoriasFinales) {
+    /* BODY GENERAL */
 
+    const body = {
+
+      nombreAuditoria:
+        auditoria.nombreAuditoria,
+
+      auditor:
+        localStorage.getItem("user")
+        || "Auditor",
+
+      estado:
+        "finalizada",
+
+      finalizada: true,
+
+      fechaInicio:
+        auditoria.fechaInicio
+        || new Date(),
+
+      fechaFinalizacion:
+        new Date(),
+
+      equipos:
+        auditoriasFinales
+    };
+
+    /* GUARDAR GENERAL */
+
+    const res =
       await fetch(
 
-        "https://ticket-pro-backend.onrender.com/it/auditorias",
+        "https://ticket-pro-backend.onrender.com/it/auditorias-generales",
 
         {
 
@@ -162,22 +190,14 @@ const finalizarAuditoria =
           },
 
           body:
-            JSON.stringify({
-
-              ...auditoria,
-
-              auditor:
-                localStorage.getItem("user")
-                || "Auditor"
-
-            })
-          }
+            JSON.stringify(body)
+        }
       );
 
-    }
+    await res.json();
 
     alert(
-      "✅ Auditorías guardadas correctamente"
+      "✅ Auditoría finalizada correctamente"
     );
 
     onFinalizar({
@@ -187,11 +207,15 @@ const finalizarAuditoria =
       estado:
         "finalizada",
 
+      finalizada: true,
+
       bloqueada: true,
+
+      equipos:
+        auditoriasFinales,
 
       fechaFinalizacion:
         new Date()
-
     });
 
   } catch (err) {
@@ -199,10 +223,11 @@ const finalizarAuditoria =
     console.log(err);
 
     alert(
-      "Error guardando auditorías"
+      "Error finalizando auditoría"
     );
   }
 };
+
 /* =========================
    JSX
 ========================= */

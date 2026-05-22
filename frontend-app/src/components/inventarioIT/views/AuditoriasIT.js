@@ -1,4 +1,7 @@
-import { useState } from "react";
+import {
+  useEffect,
+  useState
+} from "react";
 
 import NuevaAuditoria
 from "./NuevaAuditoria";
@@ -29,6 +32,39 @@ const [
   auditoriaActiva,
   setAuditoriaActiva
 ] = useState(null);
+
+/* =========================
+   CARGAR AUDITORIAS
+========================= */
+
+useEffect(() => {
+
+  obtenerAuditorias();
+
+}, []);
+
+const obtenerAuditorias =
+  async () => {
+
+  try {
+
+    const res =
+      await fetch(
+
+"https://ticket-pro-backend.onrender.com/it/auditorias-generales"
+
+      );
+
+    const data =
+      await res.json();
+
+    setAuditorias(data);
+
+  } catch (err) {
+
+    console.log(err);
+  }
+};
 
 /* =========================
    NUEVA AUDITORIA
@@ -92,8 +128,7 @@ if (auditoriaActiva) {
 
       auditorias.map((a) =>
 
-        a.id ===
-        auditoriaFinalizada.id
+        a._id === auditoriaFinalizada._id
 
         ? auditoriaFinalizada
 
@@ -246,7 +281,7 @@ auditorias.length === 0 && (
 auditorias.map((auditoria) => (
 
 <div
-  key={auditoria.id}
+  key={auditoria._id}
 
   className="card-pro"
 
