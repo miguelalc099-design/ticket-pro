@@ -829,6 +829,13 @@ resultadoEquipo?.score || 0
   }}
 >
 
+<div
+  style={{
+    display: "flex",
+    gap: "12px"
+  }}
+>
+
 <button
   className="btn-pro btn-secondary"
 
@@ -873,6 +880,7 @@ resultadoEquipo?.score || 0
 
 </div>
 
+</div>
 );
 
 }
