@@ -140,18 +140,16 @@ setAuditoriasGuardadas(
   copia
 );
 
-  if (
-    equipoActual <
-    totalEquipos - 1
-  ) {
+ if (
+  equipoActual <
+  totalEquipos - 1
+) {
 
-    setEquipoActual(
-      equipoActual + 1
-    );
+  setEquipoActual(
+    equipoActual + 1
+  );
 
-    setResultadoEquipo(null);
-
-  }
+}
 
 };
 
@@ -651,7 +649,7 @@ style={{
 
 <ModalAuditoriaEquipo
 
-  key={equipo._id}
+  key={equipo.equipoId || equipo._id}
 
 auditoria={{
   ...equipo,
