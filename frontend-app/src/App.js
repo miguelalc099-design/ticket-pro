@@ -17,9 +17,6 @@ import Ciclicos from "./Ciclicos";
 import InventarioIT
 from "./components/inventarioIT/InventarioIT";
 
-import Lavados
-from "./components/lavadoUnidades/views/Lavados";
-
 import {
   ToastContainer,
   toast
@@ -1145,8 +1142,6 @@ return (
  hasPermission(
   "lavados"
  ) && (
-
-<Lavados />
 
 )}
 
