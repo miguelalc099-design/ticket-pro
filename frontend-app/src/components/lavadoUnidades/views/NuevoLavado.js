@@ -291,8 +291,8 @@ async () => {
 
     const res =
       await fetch(
-
-"http://localhost:3001/lavados",
+"https://ticket-pro-backend.onrender.com/lavados"
+);
 
       {
 

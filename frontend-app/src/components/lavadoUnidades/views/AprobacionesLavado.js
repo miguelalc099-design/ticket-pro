@@ -11,7 +11,11 @@ from "react-signature-canvas";
 
 import "../styles/lavados.css";
 
-function AprobacionesLavado() {
+function AprobacionesLavado({
+
+  onClose
+
+}) {
 
 /* =========================
    STATES
@@ -59,7 +63,7 @@ async () => {
     const res =
       await fetch(
 
-"http://localhost:3001/lavados"
+"https://ticket-pro-backend.onrender.com/lavados"
 
       );
 
@@ -111,7 +115,7 @@ async () => {
 
     await fetch(
 
-`http://localhost:3001/lavados/${lavadoSeleccionado._id}`,
+`https://ticket-pro-backend.onrender.com/lavados/${lavadoSeleccionado._id}`,
 
     {
 
@@ -176,9 +180,8 @@ async () => {
 
   try {
 
-    await fetch(
-
-`http://localhost:3001/lavados/${lavadoSeleccionado._id}`,
+  await fetch(
+`https://ticket-pro-backend.onrender.com/lavados/${lavadoSeleccionado._id}`,
 
     {
 
@@ -401,7 +404,13 @@ return (
 <div
   className="lavados-container"
 >
+<button
+  className="btn-lavado"
 
+  onClick={onClose}
+>
+  ⬅ Volver
+</button>
 <div
   className="lavados-title"
 >
