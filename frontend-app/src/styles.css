@@ -73,8 +73,13 @@ body {
 
 /* ================= LAYOUT ================= */
 .layout {
+
   display: flex;
-  height: 100vh;
+
+  min-height: 100dvh;
+
+  background:
+    #020617;
 }
 
 /* ================= SIDEBAR ================= */
@@ -443,10 +448,6 @@ body {
 }
 
 /* logo más compacto */
-.sidebar .logo {
-  width: 55px !important;
-  height: auto !important;
-}
 
 /* ===== FIX FINAL SIN ROMPER NADA ===== */
 
@@ -467,27 +468,6 @@ body {
   width: 150px !important;
 }
 
-/* 3. FIX botón salir (ya no usa last-child) */
-.sidebar > button {
-  margin-top: 20px;
-
-  background: rgba(239,68,68,0.15);
-  color: #ef4444;
-
-  border: none;
-  border-radius: 10px;
-
-  padding: 10px;
-  font-size: 13px;
-
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-.sidebar > button:hover {
-  background: #ef4444;
-  color: white;
-}
 /* ===== SELECT CON COLOR (VISIBLE) ===== */
 
 .status-select.Abierto {
@@ -940,7 +920,7 @@ body {
 }
 
 /* ========================================
-   MOBILE
+   MOBILE FIX REAL
 ======================================== */
 
 @media screen and (max-width: 768px) {
@@ -954,43 +934,26 @@ body {
     justify-content: center;
   }
 
-  .layout {
+  .sidebar {
 
-    height: auto;
+    position: fixed;
 
-    min-height: 100vh;
+    top: 0;
+
+    left: -280px;
+
+    width: 250px;
+
+    height: 100dvh;
+
+    z-index: 9999;
+
+    transition: 0.25s ease;
+
+    overflow-y: auto;
+
+    padding-bottom: 100px;
   }
-
-.sidebar {
-
-  position: fixed;
-
-  top: 0;
-
-  left: -280px;
-
-  width: 260px;
-
-  height: 100dvh;
-
-  background:
-    rgba(2,6,23,0.96);
-
-  backdrop-filter:
-    blur(22px);
-
-  z-index: 9999;
-
-  transition:
-    0.25s ease;
-
-  box-shadow:
-    0 0 40px rgba(0,0,0,0.45);
-
-  overflow-y: auto;
-
-  padding-bottom: 120px;
-}
 
   .sidebar-open {
 
@@ -1002,11 +965,7 @@ body {
     width: 100%;
 
     padding:
-
-      85px
-      14px
-      20px
-      14px;
+      85px 14px 20px 14px;
 
     box-sizing: border-box;
   }
@@ -1025,12 +984,12 @@ body {
     gap: 10px;
   }
 
-  .filters-bar {
+  .form-row {
 
     flex-direction: column;
   }
 
-  .form-row {
+  .filters-bar {
 
     flex-direction: column;
   }
@@ -1047,14 +1006,8 @@ body {
     gap: 12px;
   }
 
-  .logo {
+  .logout-btn {
 
-    width: 120px !important;
+    margin-top: 20px;
   }
-
-  .user-name {
-
-    font-size: 14px !important;
-  }
-
 }
