@@ -909,14 +909,6 @@ body {
    MOBILE APP
 ========================= */
 
-@media (max-width: 768px) {
-
-  .layout {
-
-    flex-direction:
-      column;
-  }
-
   .sidebar {
 
     position: fixed;
@@ -1022,5 +1014,113 @@ body {
   .btn-lavado {
 
     min-height: 48px;
+  }
+}
+
+/* =========================
+   MOBILE FIX REAL
+========================= */
+
+@media screen and (max-width: 768px) {
+
+  .layout {
+
+    flex-direction: column;
+  }
+
+  .sidebar {
+
+    position: fixed;
+
+    bottom: 0;
+
+    left: 0;
+
+    width: 100% !important;
+
+    height: 74px;
+
+    min-width: 100% !important;
+
+    flex-direction: row;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 10px;
+
+    gap: 10px;
+
+    border-right: none;
+
+    border-top:
+      1px solid rgba(255,255,255,0.06);
+
+    z-index: 9999;
+  }
+
+  .sidebar .logo-box {
+
+    display: none !important;
+  }
+
+  .sidebar .logout-btn {
+
+    display: none !important;
+  }
+
+  .menu {
+
+    flex-direction: row !important;
+
+    justify-content: center;
+
+    align-items: center;
+
+    width: 100%;
+
+    gap: 6px;
+
+    overflow-x: auto;
+  }
+
+  .menu button {
+
+    min-width: 68px;
+
+    font-size: 10px;
+
+    padding: 8px;
+
+    border-radius: 12px;
+
+    white-space: nowrap;
+  }
+
+  .content {
+
+    width: 100%;
+
+    padding:
+      12px 12px 90px 12px;
+
+    box-sizing: border-box;
+  }
+
+  .card,
+  .card-pro {
+
+    padding: 14px !important;
+
+    border-radius: 18px;
+  }
+
+  .btn-pro,
+  .btn-lavado {
+
+    min-height: 46px;
+
+    font-size: 14px;
   }
 }
