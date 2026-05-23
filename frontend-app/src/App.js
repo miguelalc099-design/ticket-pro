@@ -917,6 +917,8 @@ if (!user) {
 
 return (
 
+<>
+
 <button
   className="mobile-menu-btn"
 
@@ -990,10 +992,13 @@ sidebarOpen && (
 ) && (
 
 <button
-  onClick={() =>
-    setView("dashboard")
-setSidebarOpen(false);
-  }
+ onClick={() => {
+
+  setView("dashboard");
+
+  setSidebarOpen(false);
+
+}}
 >
   📊 Dashboard
 </button>
@@ -1005,10 +1010,13 @@ setSidebarOpen(false);
 ) && (
 
 <button
-  onClick={() =>
-    setView("create")
-setSidebarOpen(false);
-  }
+  onClick={() => {
+
+  setView("create");
+
+  setSidebarOpen(false);
+
+}}
 >
   🎫 Crear
 </button>
@@ -1044,10 +1052,13 @@ setSidebarOpen(false);
 ) && (
 
 <button
-  onClick={() =>
-    setView("kanban")
-setSidebarOpen(false);
-  }
+  onClick={() => {
+
+  setView("kanban");
+
+  setSidebarOpen(false);
+
+}}
 >
   📋 Kanban
 </button>
@@ -1059,10 +1070,13 @@ setSidebarOpen(false);
 ) && (
 
 <button
-  onClick={() =>
-    setView("users")
-setSidebarOpen(false);
-  }
+  onClick={() => {
+
+  setView("users");
+
+  setSidebarOpen(false);
+
+}}
 >
   👥 Usuarios
 </button>
@@ -1074,10 +1088,13 @@ setSidebarOpen(false);
 ) && (
 
 <button
-  onClick={() =>
-    setView("ciclicos")
-setSidebarOpen(false);
-  }
+  onClick={() => {
+
+  setView("ciclicos");
+
+  setSidebarOpen(false);
+
+}}
 >
   📦 Cíclicos
 </button>
@@ -1089,10 +1106,13 @@ setSidebarOpen(false);
 ) && (
 
 <button
-  onClick={() =>
-    setView("inventarioIT")
-setSidebarOpen(false);
-  }
+  onClick={() => {
+
+  setView("inventarioIT");
+
+  setSidebarOpen(false);
+
+}}
 >
   💻 Inventario IT
 </button>
@@ -1104,10 +1124,13 @@ setSidebarOpen(false);
 ) && (
 
 <button
-  onClick={() =>
-    setView("lavados")
-setSidebarOpen(false);
-  }
+  onClick={() => {
+
+  setView("lavados");
+
+  setSidebarOpen(false);
+
+}}
 >
   🚛 Lavados
 </button>
