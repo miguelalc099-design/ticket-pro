@@ -81,10 +81,13 @@ body {
 .sidebar {
   width: 240px;
   background: linear-gradient(180deg, #020617, #0f172a);
+
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+
   padding: 20px;
+
+  overflow-y: auto;
 }
 
 .logo-box {
@@ -545,7 +548,12 @@ body {
 }
 /* FIX PROFESIONAL BOTON SALIR */
 .logout-btn {
-margin-top: auto;
+
+  margin-top: 20px;
+
+  position: sticky;
+
+  bottom: 10px;
 
   background: rgba(239,68,68,0.15) !important;
   color: #ef4444 !important;
@@ -921,17 +929,6 @@ margin-top: auto;
 
     transform:
       scale(1) translateY(0);
-  }
-}
-
-/* PEGAS ABAJO */
-
-@media screen and (max-width: 768px) {
-
-  .sidebar:not(.sidebar-open)
-  .logout-btn {
-
-    display: none;
   }
 }
 
