@@ -21,6 +21,8 @@ import {
   ToastContainer,
   toast
 } from "react-toastify";
+import LavadoUnidades
+from "./components/lavadoUnidades/LavadoUnidades";
 
 import "react-toastify/dist/ReactToastify.css";
 
@@ -1136,14 +1138,7 @@ return (
 
 )}
 
-{/* LAVADOS */}
 
-{view === "lavados" &&
- hasPermission(
-  "lavados"
- ) && (
-
-)}
 
 {/* KANBAN */}
 
