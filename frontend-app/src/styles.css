@@ -545,6 +545,7 @@ body {
 }
 /* FIX PROFESIONAL BOTON SALIR */
 .logout-btn {
+width: 100%;
   background: rgba(239,68,68,0.15) !important;
   color: #ef4444 !important;
 }
@@ -919,6 +920,17 @@ body {
 
     transform:
       scale(1) translateY(0);
+  }
+}
+
+/* PEGAS ABAJO */
+
+@media screen and (max-width: 768px) {
+
+  .sidebar:not(.sidebar-open)
+  .logout-btn {
+
+    display: none;
   }
 }
 
