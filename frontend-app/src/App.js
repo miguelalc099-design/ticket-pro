@@ -917,6 +917,8 @@ if (!user) {
 
 return (
 
+<>
+
 <button
   className="mobile-menu-btn"
 
@@ -1544,6 +1546,8 @@ ticketsFiltrados.map((t) => (
 </div>
 
 </div>
+
+</>
 
 );
 
