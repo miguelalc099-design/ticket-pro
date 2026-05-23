@@ -1541,12 +1541,6 @@ ticketsFiltrados.map((t) => (
 
 </div>
 
-)}
-
-</div>
-
-</div>
-
 </>
 
 );
