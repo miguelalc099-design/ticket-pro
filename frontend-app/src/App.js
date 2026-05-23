@@ -983,13 +983,6 @@ sidebarOpen && (
   {user.username}
 </p>
 
-<button
-  className="logout-btn"
-  onClick={logout}
->
-  Salir
-</button>
-
 </div>
 
 <div className="menu">
@@ -1146,7 +1139,12 @@ setSidebarOpen(false);
 
 </div>
 
-
+<button
+  className="logout-btn"
+  onClick={logout}
+>
+  Salir
+</button>
 
 </div>
 

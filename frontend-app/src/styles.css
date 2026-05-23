@@ -545,12 +545,9 @@ body {
 }
 /* FIX PROFESIONAL BOTON SALIR */
 .logout-btn {
+margin-top: auto;
 
-  margin-top: 12px;
-
-  background:
-    rgba(239,68,68,0.15) !important;
-
+  background: rgba(239,68,68,0.15) !important;
   color: #ef4444 !important;
 }
 
