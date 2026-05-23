@@ -1138,7 +1138,16 @@ return (
 
 )}
 
+{/* LAVADOS */}
 
+{view === "lavados" &&
+ hasPermission(
+  "lavados"
+ ) && (
+
+<LavadoUnidades />
+
+)}
 
 {/* KANBAN */}
 

@@ -6,7 +6,7 @@ import "../styles/lavados.css";
 
 function NuevoLavado({
 
-  onVolver
+  onClose
 
 }) {
 
@@ -340,7 +340,7 @@ return (
 <button
   className="btn-lavado"
 
-  onClick={onVolver}
+ onClick={onClose}
 >
   ⬅ Volver
 </button>

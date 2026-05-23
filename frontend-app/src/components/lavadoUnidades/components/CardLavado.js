@@ -44,7 +44,9 @@ return (
     marginTop: "6px"
   }}
 >
-  👤 {lavado.operador}
+  👤 {
+    lavado.operadores?.join(", ")
+  }
 </div>
 
 </div>
@@ -65,7 +67,19 @@ return (
     color: "#cbd5e1"
   }}
 >
-  🧼 {lavado.tipoLavado}
+  🧼 {
+    lavado.tiposLavado?.join(", ")
+  }
+</div>
+
+<div
+  style={{
+    color: "#94a3b8"
+  }}
+>
+  👥 {
+    lavado.cantidadOperadores
+  } operador(es)
 </div>
 
 <div
