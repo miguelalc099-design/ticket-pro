@@ -79,36 +79,60 @@ body {
 
 /* ================= SIDEBAR ================= */
 .sidebar {
-
-  width: 250px;
-
-  min-width: 250px;
-
-  background:
-    linear-gradient(
-      180deg,
-      rgba(2,6,23,0.98),
-      rgba(15,23,42,0.98)
-    );
-
+  width: 240px;
+  background: linear-gradient(180deg, #020617, #0f172a);
   display: flex;
-
   flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+}
 
-  padding: 18px;
+.logo-box {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 15px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+}
 
-  overflow-y: auto;
+.logo {
+  width: 600px;
+}
 
-  gap: 16px;
+.user-name {
+  font-size: 10px;
+  font-weight: 500;
+  color: #3b82f6;
+}
 
-  border-right:
-    1px solid rgba(255,255,255,0.05);
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 
-  backdrop-filter:
-    blur(18px);
+.menu button {
+  padding: 12px;
+  background: transparent;
+  border: none;
+  color: #cbd5f5;
+  border-radius: 10px;
+  text-align: left;
+  cursor: pointer;
+  transition: 0.2s;
+}
 
-  transition:
-    0.25s ease;
+.menu button:hover {
+  background: rgba(255,255,255,0.05);
+  transform: translateX(3px);
+}
+
+.menu button.active {
+  background: rgba(59,130,246,0.15);
+  color: white;
 }
 
 /* ================= CONTENT ================= */
@@ -448,6 +472,14 @@ body {
   height: auto !important;
 }
 
+/* usuario más abajo y visible este es el bueno para modificar el nombre del usuario */
+.sidebar .user-name {
+  margin-top: 200px !important;
+  font-size: 20px !important;
+  font-weight: 700 !important;
+  color: #000000 !important;
+}
+
 /* ===== FIX FINAL SIN ROMPER NADA ===== */
 
 /* 1. separar visualmente usuario del logo */
@@ -513,35 +545,51 @@ body {
 }
 /* FIX PROFESIONAL BOTON SALIR */
 .logout-btn {
-
-  margin-top: auto;
-
-  width: 100%;
-
-  padding: 14px;
-
-  border: none;
-
-  border-radius: 16px;
-
-  background:
-    rgba(239,68,68,0.12);
-
-  color: #ef4444;
-
-  font-weight: 700;
-
-  cursor: pointer;
-
-  transition: 0.25s ease;
+  background: rgba(239,68,68,0.15) !important;
+  color: #ef4444 !important;
 }
 
 .logout-btn:hover {
+  background: #ef4444 !important;
+  color: white !important;
+}
+/* KPIs PRO */
+.kpis {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+}
 
-  background:
-    #ef4444;
+.kpi {
+  background: #020617;
+  padding: 18px;
+  border-radius: 12px;
+  text-align: center;
+  border: 1px solid #1e293b;
+  transition: 0.2s;
+}
 
-  color: white;
+.kpi:hover {
+  transform: translateY(-3px);
+}
+
+.kpi h3 {
+  font-size: 26px;
+  margin: 0;
+}
+
+.kpi p {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.kpi.blue { border-left: 4px solid #3b82f6; }
+.kpi.yellow { border-left: 4px solid #facc15; }
+.kpi.orange { border-left: 4px solid #f97316; }
+.kpi.green { border-left: 4px solid #22c55e; }
+.kpi.red {
+  border-left: 4px solid #ef4444;
 }
 /* ===== FORM PRO ===== */
 
@@ -872,189 +920,4 @@ body {
     transform:
       scale(1) translateY(0);
   }
-}
-
-/* ========================================
-   MOBILE SIDEBAR PREMIUM
-======================================== */
-
-.mobile-menu-btn {
-
-  display: none;
-
-  position: fixed;
-
-  top: 16px;
-
-  left: 16px;
-
-  z-index: 99999;
-
-  width: 52px;
-
-  height: 52px;
-
-  border: none;
-
-  border-radius: 14px;
-
-  background:
-    rgba(15,23,42,0.92);
-
-  color: white;
-
-  font-size: 22px;
-
-  cursor: pointer;
-
-  backdrop-filter: blur(18px);
-
-  box-shadow:
-    0 10px 30px rgba(0,0,0,0.35);
-
-  transition: 0.25s;
-}
-
-.mobile-menu-btn:hover {
-
-  transform: scale(1.05);
-
-  background:
-    rgba(30,41,59,0.95);
-}
-
-/* overlay */
-
-.sidebar-overlay {
-
-  position: fixed;
-
-  inset: 0;
-
-  background:
-    rgba(0,0,0,0.55);
-
-  backdrop-filter: blur(4px);
-
-  z-index: 998;
-}
-
-/* ========================================
-   MOBILE
-======================================== */
-
-@media screen and (max-width: 768px) {
-
-  .mobile-menu-btn {
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-  }
-
-  .layout {
-
-    height: auto;
-
-    min-height: 100vh;
-  }
-
-.sidebar {
-
-  position: fixed;
-
-  top: 0;
-
-  left: -280px;
-
-  width: 260px;
-
-  height: 100dvh;
-
-  background:
-    rgba(2,6,23,0.96);
-
-  backdrop-filter:
-    blur(22px);
-
-  z-index: 9999;
-
-  transition:
-    0.25s ease;
-
-  box-shadow:
-    0 0 40px rgba(0,0,0,0.45);
-
-  overflow-y: auto;
-
-  padding-bottom: 120px;
-}
-
-  .sidebar-open {
-
-    left: 0;
-  }
-
-  .content {
-
-    width: 100%;
-
-    padding:
-
-      85px
-      14px
-      20px
-      14px;
-
-    box-sizing: border-box;
-  }
-
-  .ticket-header-top {
-
-    flex-direction: column;
-
-    gap: 14px;
-  }
-
-  .ticket-grid {
-
-    flex-direction: column;
-
-    gap: 10px;
-  }
-
-  .filters-bar {
-
-    flex-direction: column;
-  }
-
-  .form-row {
-
-    flex-direction: column;
-  }
-
-  .users-header {
-
-    display: none;
-  }
-
-  .users-row {
-
-    grid-template-columns: 1fr;
-
-    gap: 12px;
-  }
-
-  .logo {
-
-    width: 120px !important;
-  }
-
-  .user-name {
-
-    font-size: 14px !important;
-  }
-
 }
