@@ -545,6 +545,8 @@ body {
 }
 /* FIX PROFESIONAL BOTON SALIR */
 .logout-btn {
+
+  margin-top: auto;
   background: rgba(239,68,68,0.15) !important;
   color: #ef4444 !important;
 }
@@ -920,4 +922,178 @@ body {
     transform:
       scale(1) translateY(0);
   }
+}
+
+/* ========================================
+   MOBILE SIDEBAR PREMIUM
+======================================== */
+
+.mobile-menu-btn {
+
+  display: none;
+
+  position: fixed;
+
+  top: 16px;
+
+  left: 16px;
+
+  z-index: 99999;
+
+  width: 52px;
+
+  height: 52px;
+
+  border: none;
+
+  border-radius: 14px;
+
+  background:
+    rgba(15,23,42,0.92);
+
+  color: white;
+
+  font-size: 22px;
+
+  cursor: pointer;
+
+  backdrop-filter: blur(18px);
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.35);
+
+  transition: 0.25s;
+}
+
+.mobile-menu-btn:hover {
+
+  transform: scale(1.05);
+
+  background:
+    rgba(30,41,59,0.95);
+}
+
+/* overlay */
+
+.sidebar-overlay {
+
+  position: fixed;
+
+  inset: 0;
+
+  background:
+    rgba(0,0,0,0.55);
+
+  backdrop-filter: blur(4px);
+
+  z-index: 998;
+}
+
+/* ========================================
+   MOBILE
+======================================== */
+
+@media screen and (max-width: 768px) {
+
+  .mobile-menu-btn {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+  }
+
+  .layout {
+
+    height: auto;
+
+    min-height: 100vh;
+  }
+
+  .sidebar {
+
+    position: fixed;
+
+    top: 0;
+
+    left: -290px;
+
+    width: 260px;
+
+    height: 100vh;
+
+    z-index: 9999;
+
+    transition: 0.3s ease;
+
+    box-shadow:
+      0 0 40px rgba(0,0,0,0.55);
+  }
+
+  .sidebar-open {
+
+    left: 0;
+  }
+
+  .content {
+
+    width: 100%;
+
+    padding:
+
+      85px
+      14px
+      20px
+      14px;
+
+    box-sizing: border-box;
+  }
+
+  .ticket-header-top {
+
+    flex-direction: column;
+
+    gap: 14px;
+  }
+
+  .ticket-grid {
+
+    flex-direction: column;
+
+    gap: 10px;
+  }
+
+  .filters-bar {
+
+    flex-direction: column;
+  }
+
+  .form-row {
+
+    flex-direction: column;
+  }
+
+  .users-header {
+
+    display: none;
+  }
+
+  .users-row {
+
+    grid-template-columns: 1fr;
+
+    gap: 12px;
+  }
+
+  .logo {
+
+    width: 120px !important;
+  }
+
+  .user-name {
+
+    font-size: 14px !important;
+  }
+
 }
