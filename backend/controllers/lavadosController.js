@@ -1,5 +1,5 @@
-const LavadoUnidad =
-  require("../models/LavadoUnidad");
+const Lavado =
+  require("../models/Lavado");
 
 /* =========================
    CREAR LAVADO
@@ -11,7 +11,7 @@ async (req, res) => {
   try {
 
     const total =
-      await LavadoUnidad.countDocuments();
+      await Lavado.countDocuments();
 
     const folio =
       `LW-2026-${
@@ -20,7 +20,7 @@ async (req, res) => {
       }`;
 
     const nuevoLavado =
-      new LavadoUnidad({
+      new Lavado({
 
       ...req.body,
 
@@ -62,7 +62,7 @@ async (req, res) => {
   try {
 
     const lavados =
-      await LavadoUnidad
+      await Lavado
       .find()
       .sort({
         createdAt: -1
@@ -90,7 +90,7 @@ async (req, res) => {
   try {
 
     const lavado =
-      await LavadoUnidad
+      await Lavado
       .findByIdAndUpdate(
 
         req.params.id,
@@ -133,7 +133,7 @@ async (req, res) => {
   try {
 
     const lavado =
-      await LavadoUnidad
+      await Lavado
       .findByIdAndUpdate(
 
         req.params.id,
