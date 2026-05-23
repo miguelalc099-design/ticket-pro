@@ -73,49 +73,66 @@ body {
 
 /* ================= LAYOUT ================= */
 .layout {
-
   display: flex;
-
-  min-height: 100dvh;
-
-  background:
-    #020617;
-
-  overflow: hidden;
+  height: 100vh;
 }
 
 /* ================= SIDEBAR ================= */
 .sidebar {
-
-  width: 250px;
-
-  min-width: 250px;
-
-  background:
-    linear-gradient(
-      180deg,
-      rgba(2,6,23,0.96),
-      rgba(15,23,42,0.98)
-    );
-
-  backdrop-filter:
-    blur(20px);
-
-  border-right:
-    1px solid rgba(255,255,255,0.06);
-
+  width: 240px;
+  background: linear-gradient(180deg, #020617, #0f172a);
   display: flex;
-
   flex-direction: column;
-
   justify-content: space-between;
+  padding: 20px;
+}
 
-  padding: 18px;
+.logo-box {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 15px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+}
 
-  transition:
-    all 0.25s ease;
+.logo {
+  width: 600px;
+}
 
-  z-index: 200;
+.user-name {
+  font-size: 10px;
+  font-weight: 500;
+  color: #3b82f6;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.menu button {
+  padding: 12px;
+  background: transparent;
+  border: none;
+  color: #cbd5f5;
+  border-radius: 10px;
+  text-align: left;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.menu button:hover {
+  background: rgba(255,255,255,0.05);
+  transform: translateX(3px);
+}
+
+.menu button.active {
+  background: rgba(59,130,246,0.15);
+  color: white;
 }
 
 /* ================= CONTENT ================= */
@@ -902,220 +919,5 @@ body {
 
     transform:
       scale(1) translateY(0);
-  }
-}
-
-/* =========================
-   MOBILE FIX REAL
-========================= */
-
-@media screen and (max-width: 768px) {
-
-  .layout {
-
-    flex-direction: column;
-  }
-
-  .sidebar {
-
-    position: fixed;
-
-    bottom: 0;
-
-    left: 0;
-
-    width: 100% !important;
-
-    height: 74px;
-
-    min-width: 100% !important;
-
-    flex-direction: row;
-
-    align-items: center;
-
-    justify-content: center;
-
-    padding: 10px;
-
-    gap: 10px;
-
-    border-right: none;
-
-    border-top:
-      1px solid rgba(255,255,255,0.06);
-
-    z-index: 9999;
-  }
-
-  .sidebar .logo-box {
-
-    display: none !important;
-  }
-
-  .sidebar .logout-btn {
-
-    display: none !important;
-  }
-
-  .menu {
-
-    flex-direction: row !important;
-
-    justify-content: center;
-
-    align-items: center;
-
-    width: 100%;
-
-    gap: 6px;
-
-    overflow-x: auto;
-  }
-
-  .menu button {
-
-    min-width: 68px;
-
-    font-size: 10px;
-
-    padding: 8px;
-
-    border-radius: 12px;
-
-    white-space: nowrap;
-  }
-
-  .content {
-
-    width: 100%;
-
-    padding:
-      12px 12px 90px 12px;
-
-    box-sizing: border-box;
-  }
-
-  .card,
-  .card-pro {
-
-    padding: 14px !important;
-
-    border-radius: 18px;
-  }
-
-  .btn-pro,
-  .btn-lavado {
-
-    min-height: 46px;
-
-    font-size: 14px;
-  }
-}
-
-/* =========================
-   MOBILE SIDEBAR
-========================= */
-
-.mobile-menu-btn {
-
-  display: none;
-}
-
-.sidebar-overlay {
-
-  display: none;
-}
-
-@media screen and (max-width: 900px) {
-
-  .mobile-menu-btn {
-
-    position: fixed;
-
-    top: 16px;
-
-    left: 16px;
-
-    width: 52px;
-
-    height: 52px;
-
-    border: none;
-
-    border-radius: 16px;
-
-    background:
-      rgba(15,23,42,0.92);
-
-    backdrop-filter:
-      blur(20px);
-
-    color: white;
-
-    font-size: 26px;
-
-    z-index: 10001;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    box-shadow:
-      0 10px 30px rgba(0,0,0,0.45);
-  }
-
-  .sidebar {
-
-    position: fixed;
-
-    top: 0;
-
-    left: 0;
-
-    height: 100dvh;
-
-    transform:
-      translateX(-100%);
-
-    transition:
-      transform 0.28s ease;
-
-    z-index: 10000;
-  }
-
-  .sidebar.sidebar-open {
-
-    transform:
-      translateX(0);
-  }
-
-  .sidebar-overlay {
-
-    position: fixed;
-
-    inset: 0;
-
-    background:
-      rgba(0,0,0,0.45);
-
-    backdrop-filter:
-      blur(6px);
-
-    z-index: 9999;
-
-    display: block;
-  }
-
-  .content {
-
-    width: 100%;
-
-    padding:
-      80px 14px 14px 14px;
-
-    box-sizing: border-box;
   }
 }
