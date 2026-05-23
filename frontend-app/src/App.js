@@ -61,6 +61,10 @@ const [user, setUser] =
 
 const [view, setView] =
   useState("dashboard");
+const [
+  sidebarOpen,
+  setSidebarOpen
+] = useState(false);
 
 const [loading, setLoading] =
   useState(false);
@@ -913,6 +917,16 @@ if (!user) {
 
 return (
 
+<button
+  className="mobile-menu-btn"
+
+  onClick={() =>
+    setSidebarOpen(true)
+  }
+>
+  ☰
+</button>
+
 <div className="layout">
 
 {/* NOTIFICACIONES */}
@@ -933,10 +947,27 @@ return (
 ))}
 
 </div>
+{
+sidebarOpen && (
 
+<div
+  className="sidebar-overlay"
+
+  onClick={() =>
+    setSidebarOpen(false)
+  }
+/>
+
+)}
 {/* SIDEBAR */}
 
-<div className="sidebar">
+<div
+  className={`sidebar ${
+    sidebarOpen
+      ? "sidebar-open"
+      : ""
+  }`}
+>
 
 <div className="logo-box">
 
@@ -961,6 +992,7 @@ return (
 <button
   onClick={() =>
     setView("dashboard")
+setSidebarOpen(false);
   }
 >
   📊 Dashboard
@@ -975,6 +1007,7 @@ return (
 <button
   onClick={() =>
     setView("create")
+setSidebarOpen(false);
   }
 >
   🎫 Crear
@@ -993,6 +1026,7 @@ return (
     cargarTickets();
 
     setView("tickets");
+setSidebarOpen(false);
 
   }}
 >
@@ -1012,6 +1046,7 @@ return (
 <button
   onClick={() =>
     setView("kanban")
+setSidebarOpen(false);
   }
 >
   📋 Kanban
@@ -1026,6 +1061,7 @@ return (
 <button
   onClick={() =>
     setView("users")
+setSidebarOpen(false);
   }
 >
   👥 Usuarios
@@ -1040,6 +1076,7 @@ return (
 <button
   onClick={() =>
     setView("ciclicos")
+setSidebarOpen(false);
   }
 >
   📦 Cíclicos
@@ -1054,6 +1091,7 @@ return (
 <button
   onClick={() =>
     setView("inventarioIT")
+setSidebarOpen(false);
   }
 >
   💻 Inventario IT
@@ -1068,6 +1106,7 @@ return (
 <button
   onClick={() =>
     setView("lavados")
+setSidebarOpen(false);
   }
 >
   🚛 Lavados
