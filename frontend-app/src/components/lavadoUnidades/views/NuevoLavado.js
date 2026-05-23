@@ -289,26 +289,28 @@ async () => {
 
     };
 
-    const res =
-      await fetch(
-"https://ticket-pro-backend.onrender.com/lavados"
-);
+const res =
+  await fetch(
 
-      {
+"https://ticket-pro-backend.onrender.com/lavados",
 
-        method: "POST",
+    {
 
-        headers: {
+      method: "POST",
 
-          "Content-Type":
-            "application/json"
+      headers: {
 
-        },
+        "Content-Type":
+          "application/json"
 
-        body:
-          JSON.stringify(body)
+      },
 
-      });
+      body:
+        JSON.stringify(body)
+
+    }
+
+  );
 
     await res.json();
 
