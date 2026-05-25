@@ -48,6 +48,12 @@ const [
 
 ] = useState(null);
 
+const [
+
+  loadingAccion,
+  setLoadingAccion
+
+] = useState(false);
 
 const firmaRef =
   useRef();
@@ -115,7 +121,7 @@ async () => {
   }
 
   try {
-
+setLoadingAccion(true);
     const firma =
       firmaRef.current
         .toDataURL();
@@ -164,10 +170,14 @@ async () => {
 
     obtenerPendientes();
 
-  } catch (err) {
+} catch (err) {
 
-    console.log(err);
-  }
+  console.log(err);
+
+} finally {
+
+  setLoadingAccion(false);
+}
 
 };
 
@@ -186,6 +196,7 @@ async () => {
   }
 
   try {
+setLoadingAccion(true);
 
   await fetch(
 `https://ticket-pro-backend.onrender.com/lavados/${lavadoSeleccionado._id}`,
@@ -224,10 +235,14 @@ async () => {
 
     obtenerPendientes();
 
-  } catch (err) {
+ } catch (err) {
 
-    console.log(err);
-  }
+  console.log(err);
+
+} finally {
+
+  setLoadingAccion(false);
+}
 
 };
 
@@ -418,23 +433,51 @@ return (
 >
 
 <button
+
   className="btn-lavado"
 
   onClick={
     aprobarLavado
   }
+
+  disabled={
+    loadingAccion
+  }
 >
-  ✅ Aprobar
+
+{
+loadingAccion
+
+? "⏳ Procesando..."
+
+: "✅ Aprobar"
+
+}
+
 </button>
 
 <button
+
   className="btn-danger"
 
   onClick={
     rechazarLavado
   }
+
+  disabled={
+    loadingAccion
+  }
 >
-  ❌ Rechazar
+
+{
+loadingAccion
+
+? "⏳ Procesando..."
+
+: "❌ Rechazar"
+
+}
+
 </button>
 
 </div>

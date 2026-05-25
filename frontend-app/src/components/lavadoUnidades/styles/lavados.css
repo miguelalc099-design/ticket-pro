@@ -1503,3 +1503,17 @@ and (max-width: 1200px) {
     opacity: 1;
   }
 }
+
+/* =========================================================
+   BUTTON LOADING
+========================================================= */
+
+.btn-lavado:disabled,
+.btn-danger:disabled {
+
+  opacity: 0.7;
+
+  cursor: not-allowed;
+
+  transform: none;
+}
