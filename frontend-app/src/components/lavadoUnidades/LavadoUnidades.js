@@ -59,6 +59,10 @@ const [
 
 ] = useState(null);
 
+const usuario = JSON.parse(
+  localStorage.getItem("user")
+);
+
 const lavadosPorPagina = 10;
 
 /* =========================
@@ -241,6 +245,10 @@ return (
   ➕ Nuevo Lavado
 </button>
 
+{
+usuario?.permisos
+  ?.aprobarLavados && (
+
 <button
   className="btn-lavado secondary"
 
@@ -252,6 +260,9 @@ return (
 >
   ✅ Aprobaciones
 </button>
+
+)
+}
 
 </div>
 
