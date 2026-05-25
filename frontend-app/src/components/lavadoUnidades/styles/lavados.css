@@ -1,22 +1,35 @@
+/* =========================================================
+   LAVADOS ENTERPRISE MOBILE UI
+   PREMIUM EDITION
+========================================================= */
+
 .lavados-container {
-
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-
-  padding: 14px;
 
   min-height: 100dvh;
 
+  padding: 14px;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 16px;
+
   background:
+    radial-gradient(
+      circle at top,
+      rgba(37,99,235,0.14),
+      transparent 30%
+    ),
     #0f172a;
 
   box-sizing: border-box;
+
+  overflow-x: hidden;
 }
 
-/* =========================
+/* =========================================================
    HEADER
-========================= */
+========================================================= */
 
 .lavados-header {
 
@@ -24,80 +37,126 @@
 
   top: 0;
 
-  z-index: 40;
+  z-index: 90;
 
   display: flex;
 
-  justify-content:
-    space-between;
+  justify-content: space-between;
 
   align-items: center;
 
-  gap: 16px;
+  gap: 14px;
 
-  padding: 10px 0;
+  padding:
+    12px 4px;
 
   backdrop-filter:
     blur(18px);
 
   background:
-    rgba(15,23,42,0.72);
+    rgba(15,23,42,0.74);
+
+  border-bottom:
+    1px solid rgba(255,255,255,0.04);
 }
 
 .lavados-title {
 
-  color: white;
-
-  font-size: 24px;
+  font-size: 20px;
 
   font-weight: 800;
+
+  color: white;
 
   letter-spacing: -0.5px;
 }
 
 .lavados-subtitle {
 
-  color: #94a3b8;
-
   margin-top: 4px;
 
-  font-size: 14px;
+  color: #94a3b8;
+
+  font-size: 12px;
 }
 
-/* =========================
-   KPIS
-========================= */
+/* =========================================================
+   KPI SECTION
+========================================================= */
 
 .kpis-grid {
 
-  display: grid;
+  display: flex;
 
-  grid-template-columns:
-    repeat(2,1fr);
+  gap: 10px;
 
-  gap: 12px;
+  overflow-x: auto;
+
+  scrollbar-width: none;
+
+  padding-bottom: 4px;
+}
+
+.kpis-grid::-webkit-scrollbar {
+
+  display: none;
 }
 
 .kpi-card {
 
+  min-width: 115px;
+
   background:
-    rgba(15,23,42,0.88);
+    linear-gradient(
+      145deg,
+      rgba(15,23,42,0.95),
+      rgba(2,6,23,0.95)
+    );
 
   border:
-    1px solid rgba(59,130,246,0.18);
+    1px solid rgba(59,130,246,0.15);
 
   border-radius: 18px;
 
-  padding: 14px;
+  padding:
+    12px;
 
   backdrop-filter:
-    blur(12px);
+    blur(16px);
 
   box-shadow:
-    0 8px 30px rgba(0,0,0,0.25);
+    0 8px 25px rgba(0,0,0,0.22);
 
   transition:
-    all 0.2s ease;
+    all 0.18s ease;
+
+  position: relative;
+
+  overflow: hidden;
+}
+
+.kpi-card::before {
+
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,255,255,0.05),
+      transparent
+    );
+
+  pointer-events: none;
+}
+
+.kpi-card:hover {
+
+  transform:
+    translateY(-2px);
 }
 
 .kpi-card:active {
@@ -110,29 +169,34 @@
 
   color: #94a3b8;
 
-  font-size: 12px;
+  font-size: 11px;
+
+  font-weight: 600;
 }
 
 .kpi-value {
 
-  color: white;
+  margin-top: 5px;
 
   font-size: 22px;
 
   font-weight: 800;
 
-  margin-top: 6px;
+  color: white;
 }
 
-/* =========================
-   BOTONES
-========================= */
+/* =========================================================
+   BUTTONS
+========================================================= */
 
 .btn-lavado {
 
   border: none;
 
   border-radius: 18px;
+
+  padding:
+    12px 16px;
 
   background:
     linear-gradient(
@@ -143,12 +207,9 @@
 
   color: white;
 
-  padding:
-    13px 18px;
+  font-size: 14px;
 
   font-weight: 700;
-
-  font-size: 14px;
 
   cursor: pointer;
 
@@ -156,12 +217,45 @@
     all 0.18s ease;
 
   box-shadow:
-    0 10px 25px rgba(37,99,235,0.28);
+    0 10px 25px rgba(37,99,235,0.25);
+
+  position: relative;
+
+  overflow: hidden;
+}
+
+.btn-lavado::before {
+
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: -120%;
+
+  width: 120%;
+  height: 100%;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255,255,255,0.18),
+      transparent
+    );
+
+  transition: 0.5s;
+}
+
+.btn-lavado:hover::before {
+
+  left: 120%;
 }
 
 .btn-lavado:hover {
 
-  filter: brightness(1.08);
+  filter:
+    brightness(1.06);
 }
 
 .btn-lavado:active {
@@ -170,341 +264,9 @@
     scale(0.97);
 }
 
-/* =========================
-   CARDS
-========================= */
-
-.lavado-card {
-
-  background:
-    rgba(15,23,42,0.9);
-
-  border:
-    1px solid rgba(59,130,246,0.18);
-
-  border-radius: 22px;
-
-  padding: 16px;
-
-  display: flex;
-
-  flex-direction: column;
-
-  gap: 10px;
-
-  transition:
-    all 0.18s ease;
-
-  box-shadow:
-    0 10px 35px rgba(0,0,0,0.25);
-
-  backdrop-filter:
-    blur(10px);
-}
-
-.lavado-card:hover {
-
-  transform:
-    translateY(-2px);
-}
-
-/* =========================
-   STATUS
-========================= */
-
-.status {
-
-  padding:
-    8px 14px;
-
-  border-radius:
-    999px;
-
-  font-size: 11px;
-
-  font-weight: 800;
-
-  width: fit-content;
-
-  letter-spacing: 0.5px;
-
-  backdrop-filter:
-    blur(8px);
-}
-
-.status-pendiente {
-
-  background:
-    rgba(245,158,11,0.15);
-
-  color:
-    #f59e0b;
-}
-
-.status-aprobada {
-
-  background:
-    rgba(34,197,94,0.15);
-
-  color:
-    #22c55e;
-}
-
-.status-rechazada {
-
-  background:
-    rgba(239,68,68,0.15);
-
-  color:
-    #ef4444;
-}
-
-/* =========================
-   PAGINACION
-========================= */
-
-.pagination {
-
-  display: flex;
-
-  justify-content: center;
-
-  align-items: center;
-
-  gap: 12px;
-
-  margin-top: 8px;
-}
-
-/* =========================
-   INPUTS
-========================= */
-
-.input-lavado {
-
-  width: 100%;
-
-  border: none;
-
-  outline: none;
-
-  border-radius: 18px;
-
-  padding: 15px;
-
-  background:
-    rgba(15,23,42,0.92);
-
-  color: white;
-
-  border:
-    1px solid rgba(59,130,246,0.18);
-
-  font-size: 15px;
-
-  box-sizing: border-box;
-
-  transition:
-    all 0.2s ease;
-}
-
-.input-lavado:focus {
-
-  border:
-    1px solid rgba(59,130,246,0.45);
-
-  box-shadow:
-    0 0 0 4px rgba(59,130,246,0.12);
-}
-
-textarea.input-lavado {
-
-  resize: none;
-}
-
-/* =========================
-   UPLOAD
-========================= */
-
-.upload-card {
-
-  background:
-    rgba(15,23,42,0.9);
-
-  border:
-    1px solid rgba(59,130,246,0.18);
-
-  border-radius: 22px;
-
-  padding: 16px;
-
-  display: flex;
-
-  flex-direction: column;
-
-  gap: 12px;
-
-  backdrop-filter:
-    blur(10px);
-}
-
-.upload-title {
-
-  color: white;
-
-  font-weight: 700;
-}
-
-.upload-count {
-
-  color: #94a3b8;
-
-  font-size: 13px;
-}
-
-/* =========================
-   SECTION
-========================= */
-
-.section-title {
-
-  color: white;
-
-  font-weight: 700;
-
-  margin-bottom: 12px;
-
-  font-size: 14px;
-}
-
-/* =========================
-   CHIPS
-========================= */
-
-.chips-grid {
-
-  display: flex;
-
-  flex-wrap: wrap;
-
-  gap: 10px;
-}
-
-.chip {
-
-  border: none;
-
-  border-radius: 999px;
-
-  padding:
-    10px 16px;
-
-  background:
-    rgba(15,23,42,0.9);
-
-  color: #cbd5e1;
-
-  border:
-    1px solid rgba(59,130,246,0.18);
-
-  cursor: pointer;
-
-  transition:
-    all 0.18s ease;
-
-  font-size: 14px;
-}
-
-.chip:active {
-
-  transform:
-    scale(0.96);
-}
-
-.chip-active {
-
-  border: none;
-
-  border-radius: 999px;
-
-  padding:
-    10px 16px;
-
-  background:
-    linear-gradient(
-      135deg,
-      #2563eb,
-      #3b82f6
-    );
-
-  color: white;
-
-  font-weight: 700;
-
-  cursor: pointer;
-
-  font-size: 14px;
-
-  box-shadow:
-    0 10px 20px rgba(37,99,235,0.28);
-}
-
-/* =========================
-   CAMERA
-========================= */
-
-.camera-btn {
-
-  display: flex;
-
-  justify-content: center;
-
-  align-items: center;
-
-  padding:
-    16px;
-
-  border-radius: 18px;
-
-  background:
-    rgba(59,130,246,0.14);
-
-  color:
-    #60a5fa;
-
-  font-weight: 700;
-
-  cursor: pointer;
-
-  transition:
-    all 0.2s ease;
-}
-
-.camera-btn:active {
-
-  transform:
-    scale(0.97);
-}
-
-/* =========================
-   SIGNATURE
-========================= */
-
-.signature-canvas {
-
-  width: 100%;
-
-  height: 180px;
-
-  border-radius: 18px;
-
-  background:
-    white;
-}
-
-/* =========================
-   DANGER
-========================= */
+/* =========================================================
+   DANGER BUTTON
+========================================================= */
 
 .btn-danger {
 
@@ -513,7 +275,7 @@ textarea.input-lavado {
   border-radius: 18px;
 
   padding:
-    15px;
+    12px 16px;
 
   background:
     linear-gradient(
@@ -529,35 +291,426 @@ textarea.input-lavado {
   cursor: pointer;
 
   box-shadow:
-    0 10px 25px rgba(239,68,68,0.25);
+    0 10px 25px rgba(239,68,68,0.22);
+
+  transition:
+    0.18s ease;
 }
 
-/* =========================
-   MOBILE
-========================= */
+.btn-danger:active {
 
-@media (
-  max-width: 768px
-) {
+  transform:
+    scale(0.97);
+}
+
+/* =========================================================
+   CARDS
+========================================================= */
+
+.lavado-card {
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(15,23,42,0.94),
+      rgba(2,6,23,0.96)
+    );
+
+  border:
+    1px solid rgba(59,130,246,0.12);
+
+  border-radius: 24px;
+
+  padding: 14px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 8px;
+
+  backdrop-filter:
+    blur(18px);
+
+  box-shadow:
+    0 10px 35px rgba(0,0,0,0.22);
+
+  transition:
+    all 0.18s ease;
+
+  animation:
+    fadeCard 0.35s ease;
+}
+
+.lavado-card:hover {
+
+  transform:
+    translateY(-2px);
+
+  border-color:
+    rgba(59,130,246,0.28);
+}
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.status {
+
+  width: fit-content;
+
+  padding:
+    5px 10px;
+
+  border-radius:
+    999px;
+
+  font-size: 10px;
+
+  font-weight: 800;
+
+  letter-spacing: 0.5px;
+
+  backdrop-filter:
+    blur(10px);
+}
+
+.status-pendiente {
+
+  background:
+    rgba(245,158,11,0.14);
+
+  color:
+    #f59e0b;
+}
+
+.status-aprobada {
+
+  background:
+    rgba(34,197,94,0.14);
+
+  color:
+    #22c55e;
+}
+
+.status-rechazada {
+
+  background:
+    rgba(239,68,68,0.14);
+
+  color:
+    #ef4444;
+}
+
+/* =========================================================
+   INPUTS
+========================================================= */
+
+.input-lavado {
+
+  width: 100%;
+
+  border: none;
+
+  outline: none;
+
+  border-radius: 18px;
+
+  padding: 13px;
+
+  background:
+    rgba(15,23,42,0.92);
+
+  border:
+    1px solid rgba(59,130,246,0.14);
+
+  color: white;
+
+  font-size: 14px;
+
+  box-sizing: border-box;
+
+  transition:
+    all 0.18s ease;
+}
+
+.input-lavado:focus {
+
+  border:
+    1px solid rgba(59,130,246,0.42);
+
+  box-shadow:
+    0 0 0 4px rgba(59,130,246,0.10);
+}
+
+textarea.input-lavado {
+
+  resize: none;
+}
+
+/* =========================================================
+   UPLOADS
+========================================================= */
+
+.upload-card {
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(15,23,42,0.94),
+      rgba(2,6,23,0.96)
+    );
+
+  border:
+    1px solid rgba(59,130,246,0.14);
+
+  border-radius: 22px;
+
+  padding: 14px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 12px;
+
+  backdrop-filter:
+    blur(16px);
+}
+
+.upload-title {
+
+  color: white;
+
+  font-size: 14px;
+
+  font-weight: 700;
+}
+
+.upload-count {
+
+  color: #94a3b8;
+
+  font-size: 12px;
+}
+
+/* =========================================================
+   CHIPS
+========================================================= */
+
+.chips-grid {
+
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 8px;
+}
+
+.chip {
+
+  border: none;
+
+  border-radius: 999px;
+
+  padding:
+    8px 13px;
+
+  background:
+    rgba(15,23,42,0.92);
+
+  border:
+    1px solid rgba(59,130,246,0.14);
+
+  color: #cbd5e1;
+
+  font-size: 12px;
+
+  cursor: pointer;
+
+  transition:
+    all 0.18s ease;
+}
+
+.chip:hover {
+
+  border-color:
+    rgba(59,130,246,0.32);
+}
+
+.chip:active {
+
+  transform:
+    scale(0.96);
+}
+
+.chip-active {
+
+  border: none;
+
+  border-radius: 999px;
+
+  padding:
+    8px 13px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #2563eb,
+      #3b82f6
+    );
+
+  color: white;
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+  box-shadow:
+    0 8px 20px rgba(37,99,235,0.22);
+}
+
+/* =========================================================
+   SECTION TITLE
+========================================================= */
+
+.section-title {
+
+  color: white;
+
+  font-size: 13px;
+
+  font-weight: 700;
+
+  margin-bottom: 10px;
+}
+
+/* =========================================================
+   CAMERA BUTTON
+========================================================= */
+
+.camera-btn {
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  gap: 8px;
+
+  padding:
+    14px;
+
+  border-radius: 18px;
+
+  background:
+    rgba(59,130,246,0.12);
+
+  border:
+    1px dashed rgba(96,165,250,0.35);
+
+  color:
+    #60a5fa;
+
+  font-size: 14px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    all 0.18s ease;
+}
+
+.camera-btn:hover {
+
+  background:
+    rgba(59,130,246,0.18);
+}
+
+.camera-btn:active {
+
+  transform:
+    scale(0.97);
+}
+
+/* =========================================================
+   PAGINATION
+========================================================= */
+
+.pagination {
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  gap: 12px;
+
+  margin-top: 4px;
+}
+
+/* =========================================================
+   SIGNATURE
+========================================================= */
+
+.signature-canvas {
+
+  width: 100%;
+
+  height: 180px;
+
+  border-radius: 18px;
+
+  background: white;
+}
+
+/* =========================================================
+   ANIMATIONS
+========================================================= */
+
+@keyframes fadeCard {
+
+  from {
+
+    opacity: 0;
+
+    transform:
+      translateY(10px);
+  }
+
+  to {
+
+    opacity: 1;
+
+    transform:
+      translateY(0);
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media screen and (max-width: 768px) {
+
+  .lavados-container {
+
+    padding: 12px;
+  }
 
   .lavados-header {
 
-    flex-direction:
-      column;
+    flex-direction: column;
 
-    align-items:
-      flex-start;
+    align-items: flex-start;
   }
 
   .lavados-title {
 
-    font-size: 22px;
-  }
-
-  .kpis-grid {
-
-    grid-template-columns:
-      repeat(2,1fr);
+    font-size: 19px;
   }
 
   .btn-lavado,
@@ -566,14 +719,25 @@ textarea.input-lavado {
     width: 100%;
   }
 
-  .chips-grid {
+  .lavado-card {
 
-    gap: 8px;
+    border-radius: 22px;
   }
+}
 
-  .chip,
-  .chip-active {
+/* =========================================================
+   TABLET
+========================================================= */
 
-    font-size: 13px;
+@media screen and (min-width: 769px) {
+
+  .kpis-grid {
+
+    overflow: visible;
+
+    display: grid;
+
+    grid-template-columns:
+      repeat(4,1fr);
   }
 }
