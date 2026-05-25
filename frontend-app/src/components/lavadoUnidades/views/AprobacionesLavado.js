@@ -10,6 +10,8 @@ import SignatureCanvas
 from "react-signature-canvas";
 
 import "../styles/lavados.css";
+import toast
+from "react-hot-toast";
 
 function AprobacionesLavado({
 
@@ -115,9 +117,9 @@ async () => {
       ?.toDataURL()
   ) {
 
-    return alert(
-      "Debes firmar"
-    );
+  toast.error(
+  "Debes firmar"
+);
   }
 
   try {
@@ -160,9 +162,9 @@ setLoadingAccion(true);
 
     });
 
-    alert(
-      "✅ Lavado aprobado"
-    );
+  toast.success(
+  "Lavado aprobado"
+);
 
     setLavadoSeleccionado(
       null
@@ -190,9 +192,9 @@ async () => {
 
   if (!comentario) {
 
-    return alert(
-      "Debes agregar comentario"
-    );
+ toast.error(
+  "Agrega comentario"
+);
   }
 
   try {
@@ -225,9 +227,9 @@ setLoadingAccion(true);
 
     });
 
-    alert(
-      "❌ Lavado rechazado"
-    );
+   toast.error(
+  "Lavado rechazado"
+);
 
     setLavadoSeleccionado(
       null

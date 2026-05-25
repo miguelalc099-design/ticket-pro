@@ -25,6 +25,9 @@ import LavadoUnidades
 from "./components/lavadoUnidades/LavadoUnidades";
 
 import "react-toastify/dist/ReactToastify.css";
+import {
+  Toaster
+} from "react-hot-toast";
 
 /* =========================================
    API
@@ -1538,7 +1541,42 @@ ticketsFiltrados.map((t) => (
   theme="dark"
 
 />
+<Toaster
 
+  position="top-right"
+
+  toastOptions={{
+
+    duration: 3000,
+
+    style: {
+
+      background:
+        "#0f172a",
+
+      color:
+        "#fff",
+
+      border:
+        "1px solid rgba(59,130,246,0.18)",
+
+      borderRadius:
+        "18px",
+
+      padding:
+        "14px",
+
+      fontSize:
+        "13px",
+
+      fontWeight:
+        "700"
+
+    }
+
+  }}
+
+/>
 </div>
 
 </>
