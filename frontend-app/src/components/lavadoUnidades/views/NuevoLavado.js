@@ -268,26 +268,94 @@ async () => {
 
     setLoading(true);
 
-    const body = {
+    const formData =
+  new FormData();
 
-      fechaLavado,
+/* =========================
+   DATOS
+========================= */
 
-      numeroUnidad,
+formData.append(
+  "fechaLavado",
+  fechaLavado
+);
 
-      tipoUnidad,
+formData.append(
+  "numeroUnidad",
+  numeroUnidad
+);
 
-      comentarios,
+formData.append(
+  "tipoUnidad",
+  tipoUnidad
+);
 
-      operadores,
+formData.append(
+  "comentarios",
+  comentarios
+);
 
-      cantidadOperadores,
+formData.append(
+  "cantidadOperadores",
+  cantidadOperadores
+);
 
-      tiposLavado,
+formData.append(
+  "estatus",
+  "EN_ESPERA"
+);
 
-      estatus:
-        "EN_ESPERA"
+/* =========================
+   ARRAYS
+========================= */
 
-    };
+operadores.forEach((op) => {
+
+  formData.append(
+    "operadores",
+    op
+  );
+
+});
+
+tiposLavado.forEach((tipo) => {
+
+  formData.append(
+    "tiposLavado",
+    tipo
+  );
+
+});
+
+/* =========================
+   FOTOS ANTES
+========================= */
+
+fotosAntes.forEach((foto) => {
+
+  formData.append(
+    "fotosAntes",
+    foto
+  );
+
+});
+
+/* =========================
+   FOTOS DESPUES
+========================= */
+
+fotosDespues.forEach((foto) => {
+
+  formData.append(
+    "fotosDespues",
+    foto
+  );
+
+});
+
+/* =========================
+   REQUEST
+========================= */
 
 const res =
   await fetch(
@@ -298,15 +366,7 @@ const res =
 
       method: "POST",
 
-      headers: {
-
-        "Content-Type":
-          "application/json"
-
-      },
-
-      body:
-        JSON.stringify(body)
+      body: formData
 
     }
 
