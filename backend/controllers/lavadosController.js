@@ -19,20 +19,48 @@ async (req, res) => {
         .padStart(6, "0")
       }`;
 
-    const nuevoLavado =
-      new Lavado({
+ const fotosAntes =
 
-      ...req.body,
+  req.files?.fotosAntes
 
-      folio,
+  ? req.files.fotosAntes.map(
+      (file) => file.path
+    )
 
-      estatus:
-        "EN_ESPERA",
+  : [];
 
-      fechaEnvio:
-        new Date()
+const fotosDespues =
 
-    });
+  req.files?.fotosDespues
+
+  ? req.files.fotosDespues.map(
+      (file) => file.path
+    )
+
+  : [];
+
+/* =========================
+   NUEVO LAVADO
+========================= */
+
+const nuevoLavado =
+  new Lavado({
+
+    ...req.body,
+
+    folio,
+
+    fotosAntes,
+
+    fotosDespues,
+
+    estatus:
+      "EN_ESPERA",
+
+    fechaEnvio:
+      new Date()
+
+});
 
     await nuevoLavado.save();
 

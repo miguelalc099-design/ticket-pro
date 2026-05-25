@@ -17,12 +17,33 @@ const {
 
 );
 
+const upload =
+  require(
+    "../middlewares/uploadLavados"
+  );
+
 /* =========================
    RUTAS
 ========================= */
 
 router.post(
+
   "/",
+
+  upload.fields([
+
+    {
+      name: "fotosAntes",
+      maxCount: 2
+    },
+
+    {
+      name: "fotosDespues",
+      maxCount: 2
+    }
+
+  ]),
+
   crearLavado
 );
 
