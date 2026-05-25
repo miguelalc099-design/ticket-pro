@@ -3,6 +3,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const app = express();
 
@@ -597,26 +598,109 @@ const AuditoriaITGeneral =
 // 🔥 LOGIN SIMPLE
 
 app.post("/login", async (req, res) => {
-  const { username, password } = req.body;
+
+  const {
+    username,
+    password
+  } = req.body;
 
   try {
-    const user = await User.findOne({ username });
+
+    const user =
+      await User.findOne({
+        username
+      });
 
     if (!user) {
-      return res.status(401).send("Usuario no encontrado");
+
+      return res
+        .status(401)
+        .send(
+          "Usuario no encontrado"
+        );
     }
 
-    const valid = await bcrypt.compare(password, user.password);
+    const valid =
+      await bcrypt.compare(
+        password,
+        user.password
+      );
 
     if (!valid) {
-      return res.status(401).send("Contraseña incorrecta");
+
+      return res
+        .status(401)
+        .send(
+          "Contraseña incorrecta"
+        );
     }
 
-    res.json(user);
+    /* =========================
+       JWT
+    ========================= */
+
+    const token =
+      jwt.sign(
+
+        {
+
+          id: user._id,
+
+          username:
+            user.username,
+
+          permisos:
+            user.permisos,
+
+          role:
+            user.role
+
+        },
+
+        process.env.JWT_SECRET,
+
+        {
+
+          expiresIn:
+            "12h"
+        }
+
+      );
+
+    /* =========================
+       RESPONSE
+    ========================= */
+
+    res.json({
+
+      token,
+
+      user: {
+
+        _id:
+          user._id,
+
+        username:
+          user.username,
+
+        permisos:
+          user.permisos,
+
+        role:
+          user.role
+
+      }
+
+    });
 
   } catch (err) {
+
     console.log(err);
-    res.status(500).send("Error en login");
+
+    res.status(500)
+      .send(
+        "Error en login"
+      );
   }
 });
 
