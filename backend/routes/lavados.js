@@ -1,8 +1,15 @@
 const express =
   require("express");
 
+const auth =
+  require("../middleware/auth");
+
+const validarPermiso =
+  require("../middleware/permisos");
+
 const router =
   express.Router();
+
 
 const {
 
@@ -53,12 +60,28 @@ router.get(
 );
 
 router.put(
+
   "/aprobar/:id",
+
+  auth,
+
+  validarPermiso(
+    "aprobarLavados"
+  ),
+
   aprobarLavado
 );
 
 router.put(
+
   "/rechazar/:id",
+
+  auth,
+
+  validarPermiso(
+    "aprobarLavados"
+  ),
+
   rechazarLavado
 );
 
