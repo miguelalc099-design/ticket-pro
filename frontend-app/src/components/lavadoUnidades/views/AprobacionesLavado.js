@@ -59,6 +59,17 @@ const [
 
 const firmaRef =
   useRef();
+const token =
+  localStorage.getItem(
+    "token"
+  );
+
+const usuario =
+  JSON.parse(
+    localStorage.getItem(
+      "user"
+    )
+  );
 
 /* =========================
    OBTENER
@@ -138,12 +149,15 @@ setLoadingAccion(true);
 
       method: "PUT",
 
-      headers: {
+     headers: {
 
-        "Content-Type":
-          "application/json"
+  "Content-Type":
+    "application/json",
 
-      },
+  Authorization:
+    `Bearer ${token}`
+
+},
 
       body:
         JSON.stringify({
@@ -158,7 +172,7 @@ setLoadingAccion(true);
             comentario,
 
           aprobadoPor:
-            "Supervisor"
+  usuario.username
 
         })
 
@@ -213,10 +227,13 @@ setLoadingAccion(true);
 
       headers: {
 
-        "Content-Type":
-          "application/json"
+  "Content-Type":
+    "application/json",
 
-      },
+  Authorization:
+    `Bearer ${token}`
+
+},
 
       body:
         JSON.stringify({
