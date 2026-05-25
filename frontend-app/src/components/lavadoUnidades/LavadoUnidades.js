@@ -243,29 +243,43 @@ return (
 
 </div>
 
-{/* KPI */}
+{/* ================= KPIS PREMIUM ================= */}
 
-<div className="lavados-grid">
+<div className="kpis-grid">
 
-<div className="lavado-card">
+<div className="kpi-card">
 
-<h3>
-  Total
-</h3>
+<div className="kpi-icon blue">
+🚛
+</div>
 
-<h1>
-  {lavados.length}
-</h1>
+<div className="kpi-info">
+
+<span className="kpi-label">
+Total
+</span>
+
+<span className="kpi-number">
+{lavados.length}
+</span>
 
 </div>
 
-<div className="lavado-card">
+</div>
 
-<h3>
-  Pendientes
-</h3>
+<div className="kpi-card">
 
-<h1>
+<div className="kpi-icon yellow">
+🟡
+</div>
+
+<div className="kpi-info">
+
+<span className="kpi-label">
+Pendientes
+</span>
+
+<span className="kpi-number">
 
 {
 lavados.filter(
@@ -275,17 +289,25 @@ l.estatus ===
 ).length
 }
 
-</h1>
+</span>
 
 </div>
 
-<div className="lavado-card">
+</div>
 
-<h3>
-  Aprobadas
-</h3>
+<div className="kpi-card">
 
-<h1>
+<div className="kpi-icon green">
+🟢
+</div>
+
+<div className="kpi-info">
+
+<span className="kpi-label">
+Aprobadas
+</span>
+
+<span className="kpi-number">
 
 {
 lavados.filter(
@@ -295,17 +317,25 @@ l.estatus ===
 ).length
 }
 
-</h1>
+</span>
 
 </div>
 
-<div className="lavado-card">
+</div>
 
-<h3>
-  Rechazadas
-</h3>
+<div className="kpi-card">
 
-<h1>
+<div className="kpi-icon red">
+🔴
+</div>
+
+<div className="kpi-info">
+
+<span className="kpi-label">
+Rechazadas
+</span>
+
+<span className="kpi-number">
 
 {
 lavados.filter(
@@ -315,7 +345,9 @@ l.estatus ===
 ).length
 }
 
-</h1>
+</span>
+
+</div>
 
 </div>
 
