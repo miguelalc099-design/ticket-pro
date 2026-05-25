@@ -94,6 +94,78 @@ return (
   }
 </div>
 
+{/* =========================
+   GALERIA
+========================= */}
+
+{
+(
+lavado.fotosAntes?.length > 0 ||
+
+lavado.fotosDespues?.length > 0
+) && (
+
+<div className="card-gallery">
+
+{/* ANTES */}
+
+{
+lavado.fotosAntes?.map(
+(foto, index) => (
+
+<img
+
+  key={`antes-${index}`}
+
+  src={foto}
+
+  alt="antes"
+
+  className="card-gallery-image"
+
+/>
+
+))
+}
+
+{/* DESPUES */}
+
+{
+lavado.fotosDespues?.map(
+(foto, index) => (
+
+<img
+
+  key={`despues-${index}`}
+
+  src={foto}
+
+  alt="despues"
+
+  className="card-gallery-image"
+
+/>
+
+))
+}
+
+</div>
+
+)
+}
+<div className="lavado-photo-badge">
+
+📸 {
+
+(lavado.fotosAntes?.length || 0)
+
++
+
+(lavado.fotosDespues?.length || 0)
+
+} fotos
+
+</div>
 <div
   className={`
     status
