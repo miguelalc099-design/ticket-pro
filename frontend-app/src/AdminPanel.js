@@ -135,7 +135,8 @@ function AdminPanel() {
   "users",
   "ciclicos",
   "inventarioIT",
-  "lavados"
+  "lavados",
+  "aprobarLavados"
 ].map((p) => (
                 <label key={p}>
                   <input

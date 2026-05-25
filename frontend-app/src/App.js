@@ -220,16 +220,35 @@ const login =
 
       );
 
-    setUser(res.data);
+    setUser(
+  res.data.user
+);
 
-    localStorage.setItem(
-      "user",
-      JSON.stringify(res.data)
-    );
+/* =========================
+   STORAGE
+========================= */
 
-    toast.success(
-      `Bienvenido ${res.data.username}`
-    );
+localStorage.setItem(
+
+  "user",
+
+  JSON.stringify(
+    res.data.user
+  )
+
+);
+
+localStorage.setItem(
+
+  "token",
+
+  res.data.token
+
+);
+
+   toast.success(
+  `Bienvenido ${res.data.user.username}`
+);
 
     cargarTickets(res.data);
 
@@ -256,6 +275,9 @@ const logout = () => {
   localStorage.removeItem(
     "user"
   );
+localStorage.removeItem(
+  "token"
+);
 
   setUser(null);
 
