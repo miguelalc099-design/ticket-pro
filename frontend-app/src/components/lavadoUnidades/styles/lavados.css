@@ -2,14 +2,16 @@
 
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 16px;
 
-  padding: 20px;
+  padding: 14px;
 
-  min-height: 100vh;
+  min-height: 100dvh;
 
   background:
     #0f172a;
+
+  box-sizing: border-box;
 }
 
 /* =========================
@@ -17,6 +19,12 @@
 ========================= */
 
 .lavados-header {
+
+  position: sticky;
+
+  top: 0;
+
+  z-index: 40;
 
   display: flex;
 
@@ -26,22 +34,34 @@
   align-items: center;
 
   gap: 16px;
+
+  padding: 10px 0;
+
+  backdrop-filter:
+    blur(18px);
+
+  background:
+    rgba(15,23,42,0.72);
 }
 
 .lavados-title {
 
   color: white;
 
-  font-size: 28px;
+  font-size: 24px;
 
-  font-weight: 700;
+  font-weight: 800;
+
+  letter-spacing: -0.5px;
 }
 
 .lavados-subtitle {
 
   color: #94a3b8;
 
-  margin-top: 6px;
+  margin-top: 4px;
+
+  font-size: 14px;
 }
 
 /* =========================
@@ -55,41 +75,53 @@
   grid-template-columns:
     repeat(2,1fr);
 
-  gap: 14px;
+  gap: 12px;
 }
 
 .kpi-card {
 
   background:
-    rgba(15,23,42,0.85);
+    rgba(15,23,42,0.88);
 
   border:
     1px solid rgba(59,130,246,0.18);
 
-  border-radius: 22px;
+  border-radius: 18px;
 
-  padding: 18px;
+  padding: 14px;
 
   backdrop-filter:
-    blur(8px);
+    blur(12px);
+
+  box-shadow:
+    0 8px 30px rgba(0,0,0,0.25);
+
+  transition:
+    all 0.2s ease;
+}
+
+.kpi-card:active {
+
+  transform:
+    scale(0.98);
 }
 
 .kpi-title {
 
   color: #94a3b8;
 
-  font-size: 13px;
+  font-size: 12px;
 }
 
 .kpi-value {
 
   color: white;
 
-  font-size: 28px;
+  font-size: 22px;
 
-  font-weight: 700;
+  font-weight: 800;
 
-  margin-top: 8px;
+  margin-top: 6px;
 }
 
 /* =========================
@@ -112,14 +144,24 @@
   color: white;
 
   padding:
-    14px 20px;
+    13px 18px;
 
   font-weight: 700;
+
+  font-size: 14px;
 
   cursor: pointer;
 
   transition:
     all 0.18s ease;
+
+  box-shadow:
+    0 10px 25px rgba(37,99,235,0.28);
+}
+
+.btn-lavado:hover {
+
+  filter: brightness(1.08);
 }
 
 .btn-lavado:active {
@@ -135,29 +177,35 @@
 .lavado-card {
 
   background:
-    rgba(15,23,42,0.88);
+    rgba(15,23,42,0.9);
 
   border:
     1px solid rgba(59,130,246,0.18);
 
-  border-radius: 24px;
+  border-radius: 22px;
 
-  padding: 20px;
+  padding: 16px;
 
   display: flex;
 
   flex-direction: column;
 
-  gap: 14px;
+  gap: 10px;
 
   transition:
     all 0.18s ease;
+
+  box-shadow:
+    0 10px 35px rgba(0,0,0,0.25);
+
+  backdrop-filter:
+    blur(10px);
 }
 
 .lavado-card:hover {
 
   transform:
-    scale(1.01);
+    translateY(-2px);
 }
 
 /* =========================
@@ -172,11 +220,16 @@
   border-radius:
     999px;
 
-  font-size: 12px;
+  font-size: 11px;
 
-  font-weight: 700;
+  font-weight: 800;
 
   width: fit-content;
+
+  letter-spacing: 0.5px;
+
+  backdrop-filter:
+    blur(8px);
 }
 
 .status-pendiente {
@@ -218,33 +271,11 @@
 
   align-items: center;
 
-  gap: 14px;
+  gap: 12px;
 
-  margin-top: 20px;
+  margin-top: 8px;
 }
 
-/* =========================
-   MOBILE
-========================= */
-
-@media (
-  max-width: 768px
-) {
-
-  .lavados-header {
-
-    flex-direction:
-      column;
-
-    align-items:
-      flex-start;
-  }
-
-  .lavados-title {
-
-    font-size: 24px;
-  }
-}
 /* =========================
    INPUTS
 ========================= */
@@ -259,10 +290,10 @@
 
   border-radius: 18px;
 
-  padding: 16px;
+  padding: 15px;
 
   background:
-    rgba(15,23,42,0.88);
+    rgba(15,23,42,0.92);
 
   color: white;
 
@@ -272,6 +303,18 @@
   font-size: 15px;
 
   box-sizing: border-box;
+
+  transition:
+    all 0.2s ease;
+}
+
+.input-lavado:focus {
+
+  border:
+    1px solid rgba(59,130,246,0.45);
+
+  box-shadow:
+    0 0 0 4px rgba(59,130,246,0.12);
 }
 
 textarea.input-lavado {
@@ -286,20 +329,23 @@ textarea.input-lavado {
 .upload-card {
 
   background:
-    rgba(15,23,42,0.88);
+    rgba(15,23,42,0.9);
 
   border:
     1px solid rgba(59,130,246,0.18);
 
   border-radius: 22px;
 
-  padding: 18px;
+  padding: 16px;
 
   display: flex;
 
   flex-direction: column;
 
   gap: 12px;
+
+  backdrop-filter:
+    blur(10px);
 }
 
 .upload-title {
@@ -313,7 +359,7 @@ textarea.input-lavado {
 
   color: #94a3b8;
 
-  font-size: 14px;
+  font-size: 13px;
 }
 
 /* =========================
@@ -326,7 +372,9 @@ textarea.input-lavado {
 
   font-weight: 700;
 
-  margin-bottom: 14px;
+  margin-bottom: 12px;
+
+  font-size: 14px;
 }
 
 /* =========================
@@ -339,7 +387,7 @@ textarea.input-lavado {
 
   flex-wrap: wrap;
 
-  gap: 12px;
+  gap: 10px;
 }
 
 .chip {
@@ -349,10 +397,10 @@ textarea.input-lavado {
   border-radius: 999px;
 
   padding:
-    12px 18px;
+    10px 16px;
 
   background:
-    rgba(15,23,42,0.88);
+    rgba(15,23,42,0.9);
 
   color: #cbd5e1;
 
@@ -363,6 +411,14 @@ textarea.input-lavado {
 
   transition:
     all 0.18s ease;
+
+  font-size: 14px;
+}
+
+.chip:active {
+
+  transform:
+    scale(0.96);
 }
 
 .chip-active {
@@ -372,7 +428,7 @@ textarea.input-lavado {
   border-radius: 999px;
 
   padding:
-    12px 18px;
+    10px 16px;
 
   background:
     linear-gradient(
@@ -386,6 +442,11 @@ textarea.input-lavado {
   font-weight: 700;
 
   cursor: pointer;
+
+  font-size: 14px;
+
+  box-shadow:
+    0 10px 20px rgba(37,99,235,0.28);
 }
 
 /* =========================
@@ -414,6 +475,15 @@ textarea.input-lavado {
   font-weight: 700;
 
   cursor: pointer;
+
+  transition:
+    all 0.2s ease;
+}
+
+.camera-btn:active {
+
+  transform:
+    scale(0.97);
 }
 
 /* =========================
@@ -425,6 +495,11 @@ textarea.input-lavado {
   width: 100%;
 
   height: 180px;
+
+  border-radius: 18px;
+
+  background:
+    white;
 }
 
 /* =========================
@@ -438,7 +513,7 @@ textarea.input-lavado {
   border-radius: 18px;
 
   padding:
-    16px;
+    15px;
 
   background:
     linear-gradient(
@@ -452,4 +527,53 @@ textarea.input-lavado {
   font-weight: 700;
 
   cursor: pointer;
+
+  box-shadow:
+    0 10px 25px rgba(239,68,68,0.25);
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (
+  max-width: 768px
+) {
+
+  .lavados-header {
+
+    flex-direction:
+      column;
+
+    align-items:
+      flex-start;
+  }
+
+  .lavados-title {
+
+    font-size: 22px;
+  }
+
+  .kpis-grid {
+
+    grid-template-columns:
+      repeat(2,1fr);
+  }
+
+  .btn-lavado,
+  .btn-danger {
+
+    width: 100%;
+  }
+
+  .chips-grid {
+
+    gap: 8px;
+  }
+
+  .chip,
+  .chip-active {
+
+    font-size: 13px;
+  }
 }
