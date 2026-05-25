@@ -14,6 +14,18 @@ from "./views/AprobacionesLavado";
 import CardLavado
 from "./components/CardLavado";
 
+import jsPDF
+from "jspdf";
+
+import autoTable
+from "jspdf-autotable";
+
+import jsPDF
+from "jspdf";
+
+import autoTable
+from "jspdf-autotable";
+
 function LavadoUnidades() {
 
 /* =========================
@@ -199,6 +211,324 @@ if (
 
   );
 }
+
+/* =========================
+   PDF
+========================= */
+
+const descargarPDF =
+(lavado) => {
+
+const doc =
+  new jsPDF();
+
+/* =========================
+   HEADER
+========================= */
+
+doc.setFontSize(22);
+
+doc.text(
+  "AUDITORIA LAVADO",
+  20,
+  25
+);
+
+doc.setFontSize(12);
+
+doc.text(
+  `Folio: ${lavado.folio || "N/D"}`,
+  20,
+  45
+);
+
+doc.text(
+  `Unidad: ${lavado.numeroUnidad}`,
+  20,
+  55
+);
+
+doc.text(
+  `Tipo Unidad: ${lavado.tipoUnidad}`,
+  20,
+  65
+);
+
+doc.text(
+  `Operadores: ${
+    lavado.operadores?.join(", ")
+  }`,
+  20,
+  75
+);
+
+doc.text(
+  `Tipos Lavado: ${
+    lavado.tiposLavado?.join(", ")
+  }`,
+  20,
+  85
+);
+
+doc.text(
+  `Estatus: ${lavado.estatus}`,
+  20,
+  95
+);
+
+doc.text(
+  `Fecha: ${
+    new Date(
+      lavado.fechaLavado
+    ).toLocaleDateString()
+  }`,
+  20,
+  105
+);
+
+/* =========================
+   TABLA
+========================= */
+
+autoTable(doc, {
+
+  startY: 120,
+
+  head: [[
+    "Campo",
+    "Valor"
+  ]],
+
+  body: [
+
+    [
+      "Supervisor",
+      lavado.aprobadoPor || "N/D"
+    ],
+
+    [
+      "Comentario",
+      lavado.comentarioSupervisor || "N/D"
+    ],
+
+    [
+      "Fecha Aprobacion",
+
+      lavado.fechaAprobacion
+
+      ? new Date(
+          lavado.fechaAprobacion
+        ).toLocaleString()
+
+      : "N/D"
+    ]
+
+  ]
+
+});
+
+/* =========================
+   FIRMA
+========================= */
+
+if (
+  lavado.firmaSupervisor
+) {
+
+doc.text(
+  "Firma Supervisor",
+  20,
+  doc.lastAutoTable.finalY + 20
+);
+
+doc.addImage(
+
+  lavado.firmaSupervisor,
+
+  "PNG",
+
+  20,
+
+  doc.lastAutoTable.finalY + 30,
+
+  80,
+
+  40
+
+);
+
+}
+
+/* =========================
+   SAVE
+========================= */
+
+doc.save(
+
+`Lavado_${lavado.folio}.pdf`
+
+);
+
+};
+
+/* =========================
+   PDF
+========================= */
+
+const descargarPDF =
+(lavado) => {
+
+const doc =
+  new jsPDF();
+
+/* =========================
+   HEADER
+========================= */
+
+doc.setFontSize(22);
+
+doc.text(
+  "AUDITORIA LAVADO",
+  20,
+  25
+);
+
+doc.setFontSize(12);
+
+doc.text(
+  `Folio: ${lavado.folio || "N/D"}`,
+  20,
+  45
+);
+
+doc.text(
+  `Unidad: ${lavado.numeroUnidad}`,
+  20,
+  55
+);
+
+doc.text(
+  `Tipo Unidad: ${lavado.tipoUnidad}`,
+  20,
+  65
+);
+
+doc.text(
+  `Operadores: ${
+    lavado.operadores?.join(", ")
+  }`,
+  20,
+  75
+);
+
+doc.text(
+  `Tipos Lavado: ${
+    lavado.tiposLavado?.join(", ")
+  }`,
+  20,
+  85
+);
+
+doc.text(
+  `Estatus: ${lavado.estatus}`,
+  20,
+  95
+);
+
+doc.text(
+  `Fecha: ${
+    new Date(
+      lavado.fechaLavado
+    ).toLocaleDateString()
+  }`,
+  20,
+  105
+);
+
+/* =========================
+   TABLA
+========================= */
+
+autoTable(doc, {
+
+  startY: 120,
+
+  head: [[
+    "Campo",
+    "Valor"
+  ]],
+
+  body: [
+
+    [
+      "Supervisor",
+      lavado.aprobadoPor || "N/D"
+    ],
+
+    [
+      "Comentario",
+      lavado.comentarioSupervisor || "N/D"
+    ],
+
+    [
+      "Fecha Aprobacion",
+
+      lavado.fechaAprobacion
+
+      ? new Date(
+          lavado.fechaAprobacion
+        ).toLocaleString()
+
+      : "N/D"
+    ]
+
+  ]
+
+});
+
+/* =========================
+   FIRMA
+========================= */
+
+if (
+  lavado.firmaSupervisor
+) {
+
+doc.text(
+  "Firma Supervisor",
+  20,
+  doc.lastAutoTable.finalY + 20
+);
+
+doc.addImage(
+
+  lavado.firmaSupervisor,
+
+  "PNG",
+
+  20,
+
+  doc.lastAutoTable.finalY + 30,
+
+  80,
+
+  40
+
+);
+
+}
+
+/* =========================
+   SAVE
+========================= */
+
+doc.save(
+
+`Lavado_${lavado.folio}.pdf`
+
+);
+
+};
 
 /* =========================
    JSX
@@ -651,6 +981,139 @@ lavadoDetalle.comentarios
 </div>
 
 </div>
+
+)
+}
+{
+lavadoDetalle.estatus ===
+"APROBADA" && (
+
+<div className="audit-section">
+
+<div className="audit-title">
+
+🛡 Auditoría Supervisor
+
+</div>
+
+<div className="audit-grid">
+
+<div className="audit-card">
+
+<div className="modal-label">
+👤 Aprobado por
+</div>
+
+<div className="modal-value">
+
+{
+lavadoDetalle.aprobadoPor
+}
+
+</div>
+
+</div>
+
+<div className="audit-card">
+
+<div className="modal-label">
+📅 Fecha aprobación
+</div>
+
+<div className="modal-value">
+
+{
+lavadoDetalle.fechaAprobacion
+
+? new Date(
+    lavadoDetalle.fechaAprobacion
+  ).toLocaleString()
+
+: "N/D"
+}
+
+</div>
+
+</div>
+
+</div>
+
+{
+lavadoDetalle.comentarioSupervisor && (
+
+<div className="audit-comment">
+
+<div className="modal-label">
+📝 Comentario Supervisor
+</div>
+
+<div className="modal-comment-text">
+
+{
+lavadoDetalle.comentarioSupervisor
+}
+
+</div>
+
+</div>
+
+)
+}
+
+{
+lavadoDetalle.firmaSupervisor && (
+
+<div className="audit-signature">
+
+<div className="modal-label">
+✍ Firma Supervisor
+</div>
+
+<img
+
+  src={
+    lavadoDetalle.firmaSupervisor
+  }
+
+  alt="firma"
+
+  className="firma-preview"
+
+/>
+
+</div>
+
+)
+}
+
+</div>
+
+)
+}
+
+{
+lavadoDetalle.estatus ===
+"APROBADA" && (
+
+<button
+
+className="btn-lavado secondary"
+
+onClick={() =>
+  descargarPDF(
+    lavadoDetalle
+  )
+}
+
+style={{
+  marginBottom: "20px"
+}}
+
+>
+
+📄 Descargar PDF
+
+</button>
 
 )
 }

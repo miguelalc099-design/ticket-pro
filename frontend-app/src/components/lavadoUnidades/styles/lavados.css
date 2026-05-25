@@ -1517,3 +1517,83 @@ and (max-width: 1200px) {
 
   transform: none;
 }
+
+/* =========================================================
+   AUDITORIA
+========================================================= */
+
+.audit-section {
+
+  margin-bottom: 24px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 18px;
+}
+
+.audit-title {
+
+  color: white;
+
+  font-size: 16px;
+
+  font-weight: 800;
+}
+
+.audit-grid {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fit,minmax(220px,1fr));
+
+  gap: 14px;
+}
+
+.audit-card {
+
+  padding: 16px;
+
+  border-radius: 22px;
+
+  background:
+    rgba(15,23,42,0.92);
+
+  border:
+    1px solid rgba(59,130,246,0.12);
+}
+
+.audit-comment {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 10px;
+}
+
+.audit-signature {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 12px;
+}
+
+.firma-preview {
+
+  width: 100%;
+
+  max-width: 320px;
+
+  background: white;
+
+  border-radius: 18px;
+
+  padding: 12px;
+
+  object-fit: contain;
+}
