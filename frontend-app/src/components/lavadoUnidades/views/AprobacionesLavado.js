@@ -41,6 +41,13 @@ const [
   setComentario
 
 ] = useState("");
+const [
+
+  imagenActiva,
+  setImagenActiva
+
+] = useState(null);
+
 
 const firmaRef =
   useRef();
@@ -292,6 +299,51 @@ return (
   }
 </div>
 
+{/* =========================
+   EVIDENCIA
+========================= */}
+
+<div className="modal-gallery-section">
+
+<div className="modal-gallery-title">
+
+📸 Evidencia Fotográfica
+
+</div>
+
+<div className="modal-gallery">
+
+{
+[
+...(lavadoSeleccionado.fotosAntes || []),
+...(lavadoSeleccionado.fotosDespues || [])
+].map((foto, index) => (
+
+<img
+
+  key={index}
+
+  src={foto}
+
+  alt="evidencia"
+
+  className="modal-gallery-image"
+
+  onClick={() =>
+    setImagenActiva(
+      foto
+    )
+  }
+
+/>
+
+))
+}
+
+</div>
+
+</div>
+
 {/* FIRMA */}
 
 <div
@@ -388,7 +440,37 @@ return (
 </div>
 
 </div>
+{
+imagenActiva && (
 
+<div className="lightbox-overlay">
+
+<button
+
+  className="lightbox-close"
+
+  onClick={() =>
+    setImagenActiva(null)
+  }
+>
+  ✕
+
+</button>
+
+<img
+
+  src={imagenActiva}
+
+  alt="fullscreen"
+
+  className="lightbox-image"
+
+/>
+
+</div>
+
+)
+}
 </div>
 
 );
