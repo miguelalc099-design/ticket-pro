@@ -132,7 +132,7 @@ setLoadingAccion(true);
 
     await fetch(
 
-`https://ticket-pro-backend.onrender.com/lavados/${lavadoSeleccionado._id}`,
+`https://ticket-pro-backend.onrender.com/lavados/aprobar/${lavadoSeleccionado._id}`,
 
     {
 
@@ -205,7 +205,7 @@ if (!comentario) {
 setLoadingAccion(true);
 
   await fetch(
-`https://ticket-pro-backend.onrender.com/lavados/${lavadoSeleccionado._id}`,
+`https://ticket-pro-backend.onrender.com/lavados/rechazar/${lavadoSeleccionado._id}`,
 
     {
 
