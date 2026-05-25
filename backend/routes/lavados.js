@@ -17,9 +17,10 @@ const {
 
 );
 
-require(
-  "../middleware/uploadLavados"
-);
+const upload =
+  require(
+    "../middleware/uploadLavados"
+  );
 
 /* =========================
    RUTAS
