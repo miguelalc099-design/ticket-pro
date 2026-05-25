@@ -222,6 +222,36 @@ const tomarFotoDespues =
 };
 
 /* =========================
+   ELIMINAR FOTO
+========================= */
+
+const eliminarFotoAntes =
+(index) => {
+
+  setFotosAntes(
+
+    fotosAntes.filter(
+      (_, i) => i !== index
+    )
+
+  );
+
+};
+
+const eliminarFotoDespues =
+(index) => {
+
+  setFotosDespues(
+
+    fotosDespues.filter(
+      (_, i) => i !== index
+    )
+
+  );
+
+};
+
+/* =========================
    GUARDAR
 ========================= */
 
@@ -707,7 +737,51 @@ servicios.map(
 >
   {fotosAntes.length}/2 fotos
 </div>
+{
+fotosAntes.length > 0 && (
 
+<div className="preview-grid">
+
+{
+fotosAntes.map(
+(foto, index) => (
+
+<div
+  key={index}
+
+  className="preview-item"
+>
+
+<img
+
+  src={URL.createObjectURL(foto)}
+
+  alt="preview"
+
+  className="preview-image"
+
+/>
+
+<button
+
+  className="preview-remove"
+
+  onClick={() =>
+    eliminarFotoAntes(index)
+  }
+>
+  ✕
+</button>
+
+</div>
+
+))
+}
+
+</div>
+
+)
+}
 </div>
 
 {/* FOTOS DESPUES */}
@@ -749,7 +823,51 @@ servicios.map(
 >
   {fotosDespues.length}/2 fotos
 </div>
+{
+fotosDespues.length > 0 && (
 
+<div className="preview-grid">
+
+{
+fotosDespues.map(
+(foto, index) => (
+
+<div
+  key={index}
+
+  className="preview-item"
+>
+
+<img
+
+  src={URL.createObjectURL(foto)}
+
+  alt="preview"
+
+  className="preview-image"
+
+/>
+
+<button
+
+  className="preview-remove"
+
+  onClick={() =>
+    eliminarFotoDespues(index)
+  }
+>
+  ✕
+</button>
+
+</div>
+
+))
+}
+
+</div>
+
+)
+}
 </div>
 
 {/* BOTON */}
