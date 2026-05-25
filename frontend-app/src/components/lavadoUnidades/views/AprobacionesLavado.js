@@ -112,15 +112,17 @@ async () => {
 const aprobarLavado =
 async () => {
 
-  if (
-    !firmaRef.current
-      ?.toDataURL()
-  ) {
+ if (
+  !firmaRef.current
+    ?.toDataURL()
+) {
 
   toast.error(
-  "Debes firmar"
-);
-  }
+    "Debes firmar"
+  );
+
+  return;
+}
 
   try {
 setLoadingAccion(true);
@@ -190,12 +192,14 @@ setLoadingAccion(true);
 const rechazarLavado =
 async () => {
 
-  if (!comentario) {
+if (!comentario) {
 
- toast.error(
-  "Agrega comentario"
-);
-  }
+  toast.error(
+    "Agrega comentario"
+  );
+
+  return;
+}
 
   try {
 setLoadingAccion(true);
