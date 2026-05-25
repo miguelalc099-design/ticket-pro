@@ -45,6 +45,13 @@ const [
   setFiltro
 ] = useState("TODOS");
 
+const [
+
+  lavadoDetalle,
+  setLavadoDetalle
+
+] = useState(null);
+
 const lavadosPorPagina = 10;
 
 /* =========================
@@ -441,6 +448,12 @@ lavadosPaginados.map(
 
   lavado={lavado}
 
+  onClick={() =>
+    setLavadoDetalle(
+      lavado
+    )
+  }
+
 />
 
 ))
@@ -457,6 +470,211 @@ lavadosPaginados.length === 0 && (
 <div className="lavado-card">
 
   No existen registros.
+
+</div>
+
+)
+}
+
+{
+lavadoDetalle && (
+
+<div className="lavado-modal-overlay">
+
+<div className="lavado-modal">
+
+<button
+
+  className="modal-close"
+
+  onClick={() =>
+    setLavadoDetalle(null)
+  }
+>
+  ✕
+</button>
+
+{/* HEADER */}
+
+<div className="modal-header">
+
+<div>
+
+<div className="modal-unidad">
+
+🚛 {
+  lavadoDetalle.numeroUnidad
+}
+
+</div>
+
+<div className="modal-folio">
+
+{
+  lavadoDetalle.folio
+}
+
+</div>
+
+</div>
+
+<div
+  className={`
+    status
+    ${
+      lavadoDetalle.estatus ===
+      "APROBADA"
+
+      ? "status-aprobada"
+
+      : lavadoDetalle.estatus ===
+        "RECHAZADA"
+
+      ? "status-rechazada"
+
+      : "status-pendiente"
+    }
+  `}
+>
+  {lavadoDetalle.estatus}
+</div>
+
+</div>
+
+{/* INFO */}
+
+<div className="modal-info-grid">
+
+<div className="modal-info-card">
+
+<div className="modal-label">
+👤 Operadores
+</div>
+
+<div className="modal-value">
+
+{
+lavadoDetalle.operadores?.join(", ")
+}
+
+</div>
+
+</div>
+
+<div className="modal-info-card">
+
+<div className="modal-label">
+🧼 Servicios
+</div>
+
+<div className="modal-value">
+
+{
+lavadoDetalle.tiposLavado?.join(", ")
+}
+
+</div>
+
+</div>
+
+<div className="modal-info-card">
+
+<div className="modal-label">
+📅 Fecha
+</div>
+
+<div className="modal-value">
+
+{
+new Date(
+lavadoDetalle.fechaLavado
+).toLocaleDateString()
+}
+
+</div>
+
+</div>
+
+<div className="modal-info-card">
+
+<div className="modal-label">
+👥 Operadores
+</div>
+
+<div className="modal-value">
+
+{
+lavadoDetalle.cantidadOperadores
+}
+
+</div>
+
+</div>
+
+</div>
+
+{/* COMENTARIOS */}
+
+{
+lavadoDetalle.comentarios && (
+
+<div className="modal-comments">
+
+<div className="modal-label">
+📝 Comentarios
+</div>
+
+<div className="modal-comment-text">
+
+{
+lavadoDetalle.comentarios
+}
+
+</div>
+
+</div>
+
+)
+}
+
+{/* GALERIA */}
+
+<div className="modal-gallery-section">
+
+<div className="modal-gallery-title">
+
+📸 Evidencia Fotográfica
+
+</div>
+
+<div className="modal-gallery">
+
+{
+[
+...(lavadoDetalle.fotosAntes || []),
+...(lavadoDetalle.fotosDespues || [])
+].map((foto, index) => (
+
+<img
+
+  key={index}
+
+  src={foto}
+
+  alt="lavado"
+
+  className="modal-gallery-image"
+
+/>
+
+))
+}
+
+</div>
+
+</div>
+
+</div>
 
 </div>
 
