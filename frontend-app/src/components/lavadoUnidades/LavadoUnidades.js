@@ -52,6 +52,13 @@ const [
 
 ] = useState(null);
 
+const [
+
+  imagenActiva,
+  setImagenActiva
+
+] = useState(null);
+
 const lavadosPorPagina = 10;
 
 /* =========================
@@ -665,8 +672,13 @@ lavadoDetalle.comentarios
 
   className="modal-gallery-image"
 
-/>
+  onClick={() =>
+    setImagenActiva(
+      foto
+    )
+  }
 
+/>
 ))
 }
 
@@ -675,6 +687,37 @@ lavadoDetalle.comentarios
 </div>
 
 </div>
+
+</div>
+
+)
+}
+{
+imagenActiva && (
+
+<div className="lightbox-overlay">
+
+<button
+
+  className="lightbox-close"
+
+  onClick={() =>
+    setImagenActiva(null)
+  }
+>
+  ✕
+
+</button>
+
+<img
+
+  src={imagenActiva}
+
+  alt="fullscreen"
+
+  className="lightbox-image"
+
+/>
 
 </div>
 
