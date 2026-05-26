@@ -18,7 +18,7 @@ import {
 
   exportarExcelLavados
 
-} from "./utils/exportExcelLavados";
+} from "../../utils/exportExcelLavados";
 
 import jsPDF
 from "jspdf";
