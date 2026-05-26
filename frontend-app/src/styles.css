@@ -1461,18 +1461,22 @@ body {
 
 /* ROW */
 
-grid-template-columns:
-  260px
-  90px
-  120px
-  1fr
-  90px;
+.users-row {
+
+  display: grid;
+
+  grid-template-columns:
+    260px
+    90px
+    120px
+    1fr
+    90px;
 
   align-items: center;
 
   gap: 14px;
 
-padding: 14px 16px;
+  padding: 14px 16px;
 
   border-radius: 22px;
 
@@ -1704,7 +1708,7 @@ padding: 14px 16px;
 
     font-size: 18px;
   }
-
+}
 /* =========================================
    MASTER USER
 ========================================= */
