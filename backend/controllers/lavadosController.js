@@ -55,7 +55,8 @@ const nuevoLavado =
     fotosDespues,
 
     estatus:
-      "EN_ESPERA",
+      req.body.estatus ||
+      "EN_PROCESO",
 
     fechaEnvio:
       new Date()
