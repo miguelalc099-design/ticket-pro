@@ -42,12 +42,12 @@ router.post(
 
     {
       name: "fotosAntes",
-      maxCount: 2
+      maxCount: 4
     },
 
     {
       name: "fotosDespues",
-      maxCount: 2
+      maxCount: 4
     }
 
   ]),
