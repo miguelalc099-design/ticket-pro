@@ -65,25 +65,59 @@ function AdminPanel() {
   };
 
   return (
-    <div className="card">
-      <h2>👤 Gestión de Usuarios</h2>
+    <div className="card-pro users-panel-pro">
+    <div className="users-top-header">
+
+  <div>
+
+    <h2>👤 Gestión de Usuarios</h2>
+
+    <p>
+      Administra accesos, permisos y seguridad del sistema
+    </p>
+
+  </div>
+
+</div>
 
       {/* CREAR */}
-      <div className="user-form">
-        <input
-          placeholder="Nuevo usuario"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
+    <div className="user-form-pro">
 
-        <input
-          placeholder="Contraseña"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+  <div className="user-form-group">
 
-        <button onClick={createUser}>Crear</button>
-      </div>
+    <label>Usuario</label>
+
+    <input
+      className="input-pro"
+      placeholder="Nombre del usuario"
+      value={username}
+      onChange={(e) => setUsername(e.target.value)}
+    />
+
+  </div>
+
+  <div className="user-form-group">
+
+    <label>Contraseña</label>
+
+    <input
+      className="input-pro"
+      type="password"
+      placeholder="Contraseña segura"
+      value={password}
+      onChange={(e) => setPassword(e.target.value)}
+    />
+
+  </div>
+
+  <button
+    className="btn-pro"
+    onClick={createUser}
+  >
+    ✨ Crear Usuario
+  </button>
+
+</div>
 
       {/* TABLA */}
       <div className="users-table">
