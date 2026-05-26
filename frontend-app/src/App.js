@@ -93,6 +93,10 @@ const [username,
 const [password,
   setPassword] =
   useState("");
+const [
+  showPassword,
+  setShowPassword
+] = useState(false);
 
 /* =========================================
    TICKETS
@@ -193,7 +197,7 @@ const hasPermission =
 
 const login =
   async () => {
-
+setLoading(true);
   try {
 
     if (
@@ -254,14 +258,19 @@ localStorage.setItem(
 
     cargarUsuarios();
 
-  } catch (err) {
+} catch (err) {
 
-    console.log(err);
+  console.log(err);
 
-    toast.error(
-      "Credenciales incorrectas"
-    );
+  toast.error(
+    "Credenciales incorrectas"
+  );
 
+} finally {
+
+  setLoading(false);
+
+}
   }
 
 };
@@ -861,11 +870,11 @@ if (!user) {
 <div className="login-left">
 
 <h1>
-  Ticket System
+  SITEC 
 </h1>
 
 <p>
-  Gestión inteligente de tickets
+  (Sistema de Inventario, Transporte y Control)
 </p>
 
 </div>
@@ -897,9 +906,15 @@ if (!user) {
   }
 />
 
+<div className="password-box">
+
 <input
 
-  type="password"
+  type={
+    showPassword
+      ? "text"
+      : "password"
+  }
 
   placeholder="Contraseña"
 
@@ -921,9 +936,44 @@ if (!user) {
 />
 
 <button
-  onClick={login}
+
+  type="button"
+
+  className="show-pass-btn"
+
+  onClick={() =>
+
+    setShowPassword(
+      !showPassword
+    )
+
+  }
 >
-  Entrar
+
+  {
+    showPassword
+      ? "🙈"
+      : "👁"
+  }
+
+</button>
+
+</div>
+
+<button
+
+  onClick={login}
+
+  disabled={loading}
+
+>
+
+{
+  loading
+    ? "Ingresando..."
+    : "Entrar"
+}
+
 </button>
 
 </div>
