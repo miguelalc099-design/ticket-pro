@@ -193,6 +193,11 @@ const archivo = e.target.files[0];
 
 if (!archivo) return;
 
+await new Promise(
+  (resolve) =>
+    setTimeout(resolve, 300)
+);
+
 if (fotosAntes.length >= 4) {
 
 return alert(
@@ -209,10 +214,10 @@ const compressedFile =
   await imageCompression(
     archivo,
     {
-      maxSizeMB: 0.4,
-      maxWidthOrHeight: 0,
-      useWebWorker: true
-    }
+  maxSizeMB: 0.25,
+  maxWidthOrHeight: 700,
+  useWebWorker: true
+}
   );
 
 const preview =
