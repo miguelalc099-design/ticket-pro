@@ -203,8 +203,8 @@ const compressedFile =
   await imageCompression(
     archivo,
     {
-      maxSizeMB: 0.7,
-      maxWidthOrHeight: 1280,
+      maxSizeMB: 0.4,
+      maxWidthOrHeight: 900,
       useWebWorker: true
     }
   );
@@ -709,9 +709,10 @@ servicios.map(
 <input
   type="file"
 
-  accept="image/*"
+accept="image/jpeg"
 
   capture="environment"
+multiple={false}
 
   onChange={
     tomarFotoAntes
