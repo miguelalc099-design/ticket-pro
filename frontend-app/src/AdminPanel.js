@@ -63,8 +63,18 @@ function AdminPanel() {
       [id]: !prev[id]
     }));
   };
+const masterUser =
+  users.find(
+    u => u.username === "admin"
+  );
 
-  return (
+const normalUsers =
+  users.filter(
+    u => u.username !== "admin"
+  );
+
+return (
+ 
     <div className="card-pro users-panel-pro">
     <div className="users-top-header">
 
@@ -129,8 +139,85 @@ function AdminPanel() {
           <span>Permisos</span>
           <span>Acciones</span>
         </div>
+{/* =========================
+    MASTER USER
+========================= */}
 
-        {users.map((u) => (
+{masterUser && (
+
+  <div className="master-user-card">
+
+    <div className="master-badge">
+      👑 SISTEMA MAESTRO
+    </div>
+
+    <div className="master-user-top">
+
+      <div className="master-avatar">
+        👑
+      </div>
+
+      <div>
+
+        <h2>
+          {
+            masterUser.nombreReal ||
+            "Administrador Principal"
+          }
+        </h2>
+
+        <p>
+          @{masterUser.username}
+        </p>
+
+      </div>
+
+    </div>
+
+    <div className="master-info">
+
+      <div>
+
+        <span>ROL</span>
+
+        <strong>
+          MASTER ADMIN
+        </strong>
+
+      </div>
+
+      <div>
+
+        <span>ACCESO</span>
+
+        <strong>
+          TOTAL
+        </strong>
+
+      </div>
+
+      <div>
+
+        <span>ESTADO</span>
+
+        <strong className="active-status">
+          ACTIVO
+        </strong>
+
+      </div>
+
+    </div>
+
+  </div>
+)}
+
+<div className="users-section-title">
+
+  👥 Usuarios Operativos
+
+</div>
+
+{normalUsers.map((u) => (
           <div key={u._id} className="users-row">
 
             {/* USER */}
