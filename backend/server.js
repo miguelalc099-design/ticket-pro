@@ -96,11 +96,6 @@ const userSchema = new mongoose.Schema({
     default: "user"
   },
 
-  master: {
-    type: Boolean,
-    default: false
-  },
-
   activo: {
     type: Boolean,
     default: true
@@ -820,32 +815,155 @@ app.post("/users", async (req, res) => {
 
 // 🔥 ELIMINAR USUARIO
 app.delete("/users/:id", async (req, res) => {
+
   try {
-    await User.findByIdAndDelete(req.params.id);
-    res.json({ ok: true });
+
+    const user =
+      await User.findById(
+        req.params.id
+      );
+
+    if (!user) {
+
+      return res
+        .status(404)
+        .send("Usuario no encontrado");
+    }
+
+    /* =========================
+       PROTEGER MASTER
+    ========================= */
+
+    if (user.username === "admin") {
+
+      return res
+        .status(403)
+        .send(
+          "No puedes eliminar el usuario maestro"
+        );
+    }
+
+    await User.findByIdAndDelete(
+      req.params.id
+    );
+
+    res.json({
+      ok: true
+    });
+
   } catch (err) {
+
     console.log(err);
-    res.status(500).send("Error al eliminar usuario");
+
+    res.status(500)
+      .send(
+        "Error al eliminar usuario"
+      );
   }
 });
 
 // 🔥 ACTUALIZAR USUARIO (permisos, etc)
 app.put("/users/:id", async (req, res) => {
-  await User.findByIdAndUpdate(req.params.id, req.body);
-  res.json({ ok: true });
+
+  try {
+
+    const user =
+      await User.findById(
+        req.params.id
+      );
+
+    if (!user) {
+
+      return res
+        .status(404)
+        .send("Usuario no encontrado");
+    }
+
+    /* =========================
+       PROTEGER MASTER
+    ========================= */
+
+    if (
+  user.username === "admin" &&
+  req.body.role !== undefined
+) {
+
+      return res
+        .status(403)
+        .send(
+          "No puedes modificar el usuario maestro"
+        );
+    }
+
+    await User.findByIdAndUpdate(
+      req.params.id,
+      req.body
+    );
+
+    res.json({
+      ok: true
+    });
+
+  } catch (err) {
+
+    console.log(err);
+
+    res.status(500)
+      .send(
+        "Error actualizando usuario"
+      );
+  }
 });
 
 // 🔥 CAMBIAR PASSWORD
 app.put("/users/:id/password", async (req, res) => {
-  const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
-  await User.findByIdAndUpdate(req.params.id, {
-    password: hashedPassword
-  });
+  try {
 
-  res.json({ ok: true });
+    const user =
+      await User.findById(
+        req.params.id
+      );
+
+    if (!user) {
+
+      return res
+        .status(404)
+        .send("Usuario no encontrado");
+    }
+
+    /* =========================
+       PROTEGER MASTER
+    ========================= */
+
+    const hashedPassword =
+      await bcrypt.hash(
+        req.body.password,
+        10
+      );
+
+    await User.findByIdAndUpdate(
+      req.params.id,
+      {
+        password:
+          hashedPassword
+      }
+    );
+
+    res.json({
+      ok: true
+    });
+
+  } catch (err) {
+
+    console.log(err);
+
+    res.status(500)
+      .send(
+        "Error cambiando password"
+      );
+  }
 });
-
 
 // 🔥 GET TICKETS
 app.get("/tickets", async (req, res) => {
