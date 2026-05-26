@@ -42,6 +42,11 @@ const [
 
 ] = useState(false);
 
+const [
+  procesandoFoto,
+  setProcesandoFoto
+] = useState(false);
+
 /* =========================
    FOTO
 ========================= */
@@ -61,7 +66,7 @@ return alert(
 }
 
 try {
-
+setProcesandoFoto(true);
 const compressedFile =
   await imageCompression(
     archivo,
@@ -86,9 +91,11 @@ setPreviewsDespues((prev) => [
   ...prev,
   preview
 ]);
+setProcesandoFoto(false);
 
 } catch (error) {
 
+setProcesandoFoto(false);
 console.log(error);
 
 alert(
@@ -264,7 +271,11 @@ return (
   className="camera-btn"
 >
 
-📸 Tomar Foto
+{
+  procesandoFoto
+    ? "Procesando..."
+    : "📸 Tomar Foto"
+}
 
 <input
   type="file"
@@ -278,7 +289,9 @@ multiple={false}
     tomarFotoDespues
   }
 
-  hidden
+disabled={procesandoFoto}
+
+hidden
 />
 
 </label>

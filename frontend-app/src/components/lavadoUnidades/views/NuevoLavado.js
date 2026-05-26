@@ -91,6 +91,11 @@ const [
 
 ] = useState(false);
 
+const [
+  procesandoFoto,
+  setProcesandoFoto
+] = useState(false);
+
 /* =========================
    OPCIONES
 ========================= */
@@ -199,12 +204,13 @@ return alert(
 
 try {
 
+setProcesandoFoto(true);
 const compressedFile =
   await imageCompression(
     archivo,
     {
       maxSizeMB: 0.4,
-      maxWidthOrHeight: 900,
+      maxWidthOrHeight: 0,
       useWebWorker: true
     }
   );
@@ -223,10 +229,11 @@ setPreviewsAntes((prev) => [
   ...prev,
   preview
 ]);
-
+setProcesandoFoto(false);
 
 } catch (error) {
 
+setProcesandoFoto(false);
 console.log(error);
 
 alert(
@@ -704,23 +711,26 @@ servicios.map(
   className="camera-btn"
 >
 
-📸 Tomar Foto
-
+{
+  procesandoFoto
+    ? "Procesando..."
+    : "📸 Tomar Foto"
+}
 <input
   type="file"
 
-accept="image/jpeg"
+  accept="image/jpeg"
 
   capture="environment"
-multiple={false}
 
-  onChange={
-    tomarFotoAntes
-  }
+  multiple={false}
+
+  onChange={tomarFotoAntes}
+
+  disabled={procesandoFoto}
 
   hidden
 />
-
 </label>
 
 <div
