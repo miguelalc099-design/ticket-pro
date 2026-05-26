@@ -48,7 +48,7 @@ const tomarFotoDespues =
   if (!archivo) return;
 
   if (
-    fotosDespues.length >= 2
+    fotosDespues.length >= 4
   ) {
 
     return alert(
@@ -243,7 +243,7 @@ return (
 <div
   className="upload-count"
 >
-  {fotosDespues.length}/2 fotos
+  {fotosDespues.length}/4 fotos
 </div>
 
 {

@@ -1,3 +1,14 @@
+html {
+  scroll-behavior: smooth;
+}
+
+input,
+textarea,
+select {
+
+  font-size: 16px;
+}
+
 /* =========================================================
    LAVADOS ULTRA PREMIUM UI
    MOBILE + TABLET + DESKTOP
@@ -8,6 +19,8 @@
   min-height: 100dvh;
 
   padding: 14px;
+
+  padding-bottom: calc(14px + env(safe-area-inset-bottom));
 
   display: flex;
   flex-direction: column;
@@ -88,12 +101,11 @@
 
   border: none;
 
-  height: 42px;
+  min-height: 52px;
 
-  padding:
-    0 18px;
+  padding: 0 18px;
 
-  border-radius: 999px;
+  border-radius: 16px;
 
   background:
     linear-gradient(
@@ -123,6 +135,12 @@
 
   box-shadow:
     0 8px 20px rgba(37,99,235,0.22);
+
+  -webkit-tap-highlight-color: transparent;
+
+  user-select: none;
+
+  touch-action: manipulation;
 }
 
 .btn-lavado:hover {
@@ -144,12 +162,11 @@
 
   border: none;
 
-  height: 42px;
+  min-height: 52px;
 
-  padding:
-    0 18px;
+  padding: 0 18px;
 
-  border-radius: 999px;
+  border-radius: 16px;
 
   background:
     linear-gradient(
@@ -171,6 +188,12 @@
 
   box-shadow:
     0 8px 20px rgba(239,68,68,0.18);
+
+  -webkit-tap-highlight-color: transparent;
+
+  user-select: none;
+
+  touch-action: manipulation;
 }
 
 /* =========================================================
@@ -276,13 +299,12 @@
 .filter-chip {
 
   border: none;
-
-  height: 38px;
+min-height: 44px;
 
   padding:
     0 16px;
 
-  border-radius: 999px;
+border-radius: 16px;
 
   background:
     rgba(15,23,42,0.92);
@@ -441,8 +463,7 @@
   padding:
     5px 12px;
 
-  border-radius:
-    999px;
+border-radius: 999px;
 
   font-size: 10px;
 
@@ -584,9 +605,9 @@ textarea.input-lavado {
 
   border: none;
 
-  border-radius: 999px;
+  border-radius: 16px;
 
-  height: 36px;
+  min-height: 44px;
 
   padding:
     0 14px;
@@ -617,9 +638,9 @@ textarea.input-lavado {
 
   border: none;
 
-  border-radius: 999px;
+border-radius: 16px;
 
-  height: 36px;
+  min-height: 44px;
 
   padding:
     0 14px;
@@ -749,11 +770,23 @@ textarea.input-lavado {
     width: 100%;
   }
 
-  .btn-lavado,
-  .btn-danger {
+.btn-lavado,
+.btn-danger {
 
-    flex: 1;
-  }
+  width: 100%;
+
+  max-width: 100%;
+
+  min-height: 52px;
+
+  padding: 0 18px;
+
+  border-radius: 16px;
+
+  font-size: 16px;
+
+  flex: unset;
+}
 
   .kpis-grid {
 
@@ -923,12 +956,12 @@ and (max-width: 1200px) {
 
   border: none;
 
-  height: 42px;
+min-height: 52px;
 
   padding:
     0 18px;
 
-  border-radius: 999px;
+border-radius: 16px;
 
   background:
     rgba(15,23,42,0.9);
@@ -1031,8 +1064,7 @@ and (max-width: 1200px) {
 
   border: none;
 
-  border-radius: 999px;
-
+border-radius: 999px;
   background:
     rgba(239,68,68,0.92);
 
@@ -1120,8 +1152,7 @@ and (max-width: 1200px) {
   padding:
     7px 12px;
 
-  border-radius:
-    999px;
+ border-radius: 999px;
 
   background:
     rgba(59,130,246,0.12);
@@ -1208,7 +1239,7 @@ and (max-width: 1200px) {
 
   border: none;
 
-  border-radius: 999px;
+border-radius: 999px;
 
   background:
     rgba(239,68,68,0.14);
