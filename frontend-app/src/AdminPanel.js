@@ -7,6 +7,11 @@ function AdminPanel() {
   const [users, setUsers] = useState([]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+const [nombreReal, setNombreReal] = useState("");
+
+const [puesto, setPuesto] = useState("");
+
+const [area, setArea] = useState("");
   const [showPass, setShowPass] = useState({});
 
   const loadUsers = async () => {
@@ -21,10 +26,27 @@ function AdminPanel() {
   const createUser = async () => {
     if (!username || !password) return;
 
-    await axios.post(`${API}/users`, { username, password });
+await axios.post(`${API}/users`, {
+
+  username,
+
+  password,
+
+  nombreReal,
+
+  puesto,
+
+  area
+
+});
 
     setUsername("");
     setPassword("");
+setNombreReal("");
+
+setPuesto("");
+
+setArea("");
     loadUsers();
   };
 
@@ -119,6 +141,51 @@ return (
     />
 
   </div>
+
+<div className="user-form-group">
+
+  <label>Nombre Real</label>
+
+  <input
+    className="input-pro"
+    placeholder="Nombre completo"
+    value={nombreReal}
+    onChange={(e) =>
+      setNombreReal(e.target.value)
+    }
+  />
+
+</div>
+
+<div className="user-form-group">
+
+  <label>Puesto</label>
+
+  <input
+    className="input-pro"
+    placeholder="Supervisor de Lavado"
+    value={puesto}
+    onChange={(e) =>
+      setPuesto(e.target.value)
+    }
+  />
+
+</div>
+
+<div className="user-form-group">
+
+  <label>Área</label>
+
+  <input
+    className="input-pro"
+    placeholder="Patio Norte"
+    value={area}
+    onChange={(e) =>
+      setArea(e.target.value)
+    }
+  />
+
+</div>
 
   <button
     className="btn-pro"
@@ -225,7 +292,25 @@ return (
               <div className="avatar">
                 {u.username.charAt(0).toUpperCase()}
               </div>
-              <div>{u.username}</div>
+              <div className="user-text-info">
+
+  <strong>
+    {u.nombreReal || u.username}
+  </strong>
+
+  <span>
+    @{u.username}
+  </span>
+
+  {u.puesto && (
+
+    <small>
+      {u.puesto}
+    </small>
+
+  )}
+
+</div>
             </div>
 
             {/* ROLE */}
