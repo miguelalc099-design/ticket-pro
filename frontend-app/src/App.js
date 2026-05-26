@@ -271,7 +271,6 @@ localStorage.setItem(
   setLoading(false);
 
 }
-  }
 
 };
 
