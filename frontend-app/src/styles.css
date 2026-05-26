@@ -301,15 +301,13 @@ body {
 
   position: absolute !important;
 
-  top: 50% !important;
-
   right: 12px !important;
 
-  transform: translateY(-50%) !important;
+  top: 18px !important;
 
   width: 74px !important;
 
-  height: 42px !important;
+  height: 46px !important;
 
   margin: 0 !important;
 
@@ -335,9 +333,16 @@ body {
 
   font-weight: 700 !important;
 
+  line-height: 1 !important;
+
   box-shadow: none !important;
 
   z-index: 5;
+}
+
+.password-box input {
+
+  margin-top: 0 !important;
 }
 
 .password-box .show-pass-btn:hover {
