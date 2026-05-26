@@ -745,6 +745,10 @@ lavadosPaginados.map(
     )
   }
 
+  onDownloadPDF={() =>
+    descargarPDF(lavado)
+  }
+
 />
 
 ))
