@@ -203,11 +203,65 @@ async (req, res) => {
   }
 };
 
+/* =========================
+   COMPLETAR LAVADO
+========================= */
+
+const completarLavado =
+async (req, res) => {
+
+  try {
+
+const fotosDespues =
+
+  req.files?.fotosDespues
+
+  ? req.files.fotosDespues.map(
+      (file) => file.path
+    )
+
+  : [];
+
+const lavado =
+  await Lavado.findByIdAndUpdate(
+
+    req.params.id,
+
+    {
+
+      comentarios:
+        req.body.comentarios,
+
+      fotosDespues,
+
+      estatus:
+        "EN_ESPERA"
+
+    },
+
+    {
+      new: true
+    }
+
+  );
+
+    res.json(lavado);
+
+  } catch (err) {
+
+    console.log(err);
+
+    res.status(500).json({
+      ok: false
+    });
+  }
+};
 module.exports = {
 
   crearLavado,
   obtenerLavados,
   aprobarLavado,
-  rechazarLavado
+  rechazarLavado,
+  completarLavado
 
 };

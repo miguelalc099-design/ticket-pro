@@ -16,7 +16,8 @@ const {
   crearLavado,
   obtenerLavados,
   aprobarLavado,
-  rechazarLavado
+rechazarLavado,
+completarLavado
 
 } = require(
 
@@ -83,6 +84,21 @@ router.put(
   ),
 
   rechazarLavado
+);
+router.put(
+
+  "/completar/:id",
+
+  upload.fields([
+
+    {
+      name: "fotosDespues",
+      maxCount: 2
+    }
+
+  ]),
+
+  completarLavado
 );
 
 module.exports =
