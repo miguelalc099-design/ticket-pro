@@ -172,15 +172,19 @@ async (req, res) => {
 
         req.params.id,
 
-        {
+       {
+  estatus:
+    "RECHAZADA",
 
-          estatus:
-            "RECHAZADA",
+  comentarioSupervisor:
+    req.body.comentarioSupervisor,
 
-comentarioSupervisor:
-  req.body.comentarioSupervisor
+  aprobadoPor:
+    req.body.aprobadoPor,
 
-        },
+  fechaAprobacion:
+    new Date()
+},
 
         {
           new: true
