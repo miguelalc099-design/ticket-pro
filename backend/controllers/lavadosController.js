@@ -65,6 +65,10 @@ const nuevoLavado =
 
     await nuevoLavado.save();
 
+const io = req.app.get("io");
+
+io.emit("lavado_actualizado");
+
     res.status(201).json({
       ok: true,
       lavado: nuevoLavado
@@ -145,7 +149,9 @@ async (req, res) => {
           new: true
         }
       );
+const io = req.app.get("io");
 
+io.emit("lavado_actualizado");
     res.json(lavado);
 
   } catch (err) {
@@ -191,7 +197,9 @@ async (req, res) => {
           new: true
         }
       );
+const io = req.app.get("io");
 
+io.emit("lavado_actualizado");
     res.json(lavado);
 
   } catch (err) {
@@ -245,7 +253,9 @@ const lavado =
     }
 
   );
+const io = req.app.get("io");
 
+io.emit("lavado_actualizado");
     res.json(lavado);
 
   } catch (err) {

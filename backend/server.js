@@ -4,6 +4,9 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const http = require("http");
+
+const { Server } = require("socket.io");
 
 const app = express();
 
@@ -1946,6 +1949,42 @@ app.get(
 
 const PORT = process.env.PORT || 10000;
 
-app.listen(PORT, () => {
-  console.log("Servidor iniciado " + PORT);
+const server = http.createServer(app);
+
+const io = new Server(server, {
+
+cors: {
+origin: "*",
+methods: ["GET", "POST", "PUT"]
+}
+
+});
+
+app.set("io", io);
+
+io.on("connection", (socket) => {
+
+console.log(
+"🟢 Usuario conectado:",
+socket.id
+);
+
+socket.on("disconnect", () => {
+
+console.log(
+  "🔴 Usuario desconectado:",
+  socket.id
+);
+
+
+});
+
+});
+
+server.listen(PORT, () => {
+
+console.log(
+`🚀 Servidor corriendo en puerto ${PORT}`
+);
+
 });
