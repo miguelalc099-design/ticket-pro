@@ -42,10 +42,82 @@ const catalogoSchema = new mongoose.Schema({
 
 const Catalogo = mongoose.model("Catalogo", catalogoSchema);
 const userSchema = new mongoose.Schema({
-  username: String,
-  password: String,
-  role: String,
-  permisos: Object
+
+  /* =========================
+     LOGIN
+  ========================= */
+
+  username: {
+    type: String,
+    required: true,
+    unique: true,
+    trim: true
+  },
+
+  password: {
+    type: String,
+    required: true
+  },
+
+  /* =========================
+     INFORMACION REAL
+  ========================= */
+
+  nombreReal: {
+    type: String,
+    default: "",
+    trim: true
+  },
+
+  puesto: {
+    type: String,
+    default: "",
+    trim: true
+  },
+
+  area: {
+    type: String,
+    default: "",
+    trim: true
+  },
+
+  telefono: {
+    type: String,
+    default: "",
+    trim: true
+  },
+
+  /* =========================
+     SISTEMA
+  ========================= */
+
+  role: {
+    type: String,
+    default: "user"
+  },
+
+  master: {
+    type: Boolean,
+    default: false
+  },
+
+  activo: {
+    type: Boolean,
+    default: true
+  },
+
+  ultimoAcceso: {
+    type: Date,
+    default: null
+  },
+
+  permisos: {
+    type: Object,
+    default: {}
+  }
+
+}, {
+  timestamps: true
 });
 
 const User = mongoose.model("User", userSchema);
