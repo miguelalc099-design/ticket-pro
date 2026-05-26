@@ -189,11 +189,14 @@ body {
     0 0 0 4px rgba(59,130,246,0.12),
     0 0 25px rgba(59,130,246,0.18);
 }
+
 .password-box {
 
   position: relative;
 
   width: 100%;
+
+  margin-top: 18px;
 }
 
 .password-box input {
@@ -202,9 +205,9 @@ body {
 
   height: 64px;
 
-  padding: 0 90px 0 22px !important;
+  padding: 0 92px 0 22px !important;
 
-  margin-top: 18px;
+  margin-top: 0;
 
   box-sizing: border-box;
 }
@@ -215,27 +218,25 @@ body {
 
   top: 50%;
 
-  right: 14px;
+  right: 10px;
 
   transform: translateY(-50%);
 
-  width: 68px;
+  min-width: 74px;
 
-  height: 40px;
+  height: 46px;
 
-  border: none;
+  padding: 0 16px;
 
-  border-radius: 12px;
+  border-radius: 14px;
 
-  background:
-    rgba(15,23,42,0.95);
+  border: 1px solid rgba(59,130,246,0.18);
 
-  border:
-    1px solid rgba(59,130,246,0.14);
+  background: rgba(15,23,42,0.92);
 
   color: #60a5fa;
 
-  font-size: 13px;
+  font-size: 14px;
 
   font-weight: 700;
 
@@ -247,23 +248,27 @@ body {
 
   cursor: pointer;
 
-  z-index: 5;
+  transition:
+    all 0.2s ease;
 
-  padding: 0;
-
-  margin: 0;
-
-  box-shadow: none;
-
-  transition: 0.2s ease;
+  box-sizing: border-box;
 }
 
 .password-box .show-pass-btn:hover {
 
   background:
-    rgba(59,130,246,0.14);
+    rgba(59,130,246,0.18);
 
   color: white;
+
+  border-color:
+    rgba(59,130,246,0.35);
+}
+
+.password-box .show-pass-btn:active {
+
+  transform:
+    translateY(-50%) scale(0.96);
 }
 
 .login-card-pro > button {
