@@ -11,6 +11,9 @@ from "./views/NuevoLavado";
 import AprobacionesLavado
 from "./views/AprobacionesLavado";
 
+import CompletarLavado
+from "./views/CompletarLavado";
+
 import CardLavado
 from "./components/CardLavado";
 
@@ -43,6 +46,13 @@ const [
   lavados,
   setLavados
 ] = useState([]);
+
+const [
+
+  lavadoEnProceso,
+  setLavadoEnProceso
+
+] = useState(null);
 
 const [
   loading,
@@ -218,6 +228,45 @@ if (
   onClose={() => {
 
     setVista("listado");
+
+    cargarLavados();
+
+  }}
+
+/>
+
+  );
+}
+
+/* =========================
+   COMPLETAR LAVADO
+========================= */
+
+if (
+  lavadoEnProceso
+) {
+
+  return (
+
+<CompletarLavado
+
+  lavado={
+    lavadoEnProceso
+  }
+
+  onClose={() => {
+
+    setLavadoEnProceso(
+      null
+    );
+
+  }}
+
+  onFinalizado={() => {
+
+    setLavadoEnProceso(
+      null
+    );
 
     cargarLavados();
 
@@ -748,6 +797,13 @@ lavadosPaginados.map(
   onDownloadPDF={() =>
     descargarPDF(lavado)
   }
+onContinuar={() => {
+
+  setLavadoEnProceso(
+    lavado
+  );
+
+}}
 
 />
 

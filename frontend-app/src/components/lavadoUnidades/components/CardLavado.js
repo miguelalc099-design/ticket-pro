@@ -2,7 +2,8 @@ function CardLavado({
 
   lavado,
   onClick,
-  onDownloadPDF
+  onDownloadPDF,
+  onContinuar
 
 }) {
 
@@ -167,6 +168,36 @@ lavado.fotosDespues?.map(
 } fotos
 
 </div>
+
+{
+lavado.estatus ===
+"EN_PROCESO" && (
+
+<button
+
+className="btn-lavado"
+
+onClick={(e) => {
+
+  e.stopPropagation();
+
+  onContinuar();
+
+}}
+
+style={{
+  marginTop: "14px",
+  width: "100%"
+}}
+
+>
+
+▶ Continuar Lavado
+
+</button>
+
+)
+}
 
 {
 lavado.estatus ===
