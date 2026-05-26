@@ -2,6 +2,8 @@ import {
   useEffect,
   useState
 } from "react";
+import socket
+from "./socket";
 
 import "./styles/lavados.css";
 
@@ -144,6 +146,23 @@ async () => {
 useEffect(() => {
 
   cargarLavados();
+
+  socket.on(
+    "lavado_actualizado",
+    () => {
+
+      cargarLavados();
+
+    }
+  );
+
+  return () => {
+
+    socket.off(
+      "lavado_actualizado"
+    );
+
+  };
 
 }, []);
 
