@@ -14,11 +14,19 @@ from "./views/AprobacionesLavado";
 import CardLavado
 from "./components/CardLavado";
 
+import {
+
+  exportarExcelLavados
+
+} from "./utils/exportExcelLavados";
+
 import jsPDF
 from "jspdf";
 
 import autoTable
 from "jspdf-autotable";
+
+
 
 function LavadoUnidades() {
 
@@ -70,6 +78,20 @@ const usuario = JSON.parse(
 );
 
 const lavadosPorPagina = 10;
+
+const [
+
+  fechaInicio,
+  setFechaInicio
+
+] = useState("");
+
+const [
+
+  fechaFin,
+  setFechaFin
+
+] = useState("");
 
 /* =========================
    API
@@ -538,6 +560,92 @@ l.estatus ===
 </span>
 
 </div>
+
+</div>
+
+</div>
+<div
+  className="lavado-card"
+
+  style={{
+    marginBottom: "24px"
+  }}
+>
+
+<div
+  style={{
+    display: "flex",
+    gap: "12px",
+    flexWrap: "wrap",
+    alignItems: "center"
+  }}
+>
+
+<input
+
+  type="date"
+
+  className="input-lavado"
+
+  value={fechaInicio}
+
+  onChange={(e) =>
+    setFechaInicio(
+      e.target.value
+    )
+  }
+
+/>
+
+<input
+
+  type="date"
+
+  className="input-lavado"
+
+  value={fechaFin}
+
+  onChange={(e) =>
+    setFechaFin(
+      e.target.value
+    )
+  }
+
+/>
+
+<button
+
+  className="btn-lavado secondary"
+
+  onClick={() => {
+
+    if (
+      !fechaInicio ||
+      !fechaFin
+    ) {
+
+      return alert(
+"Selecciona fechas"
+      );
+    }
+
+    exportarExcelLavados(
+
+      lavados,
+
+      fechaInicio,
+
+      fechaFin
+
+    );
+
+  }}
+
+>
+
+📊 Exportar Excel
+
+</button>
 
 </div>
 
