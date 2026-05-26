@@ -49,7 +49,7 @@ estatus: {
   type: String,
 
   default:
-    "EN_ESPERA"
+  "EN_PROCESO"
 },
 
 comentarioSupervisor: {
