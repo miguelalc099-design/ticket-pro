@@ -277,11 +277,11 @@ async () => {
   }
 
   if (
-    fotosAntes.length < 3
+    fotosAntes.length < 2
   ) {
 
     return alert(
-      "Debes tomar 3 fotos antes"
+      "Debes tomar 2 fotos antes"
     );
   }
 
