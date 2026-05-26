@@ -783,15 +783,36 @@ app.get("/users", async (req, res) => {
 
 // 🔥 CREAR USUARIO
 app.post("/users", async (req, res) => {
-  const { username, password } = req.body;
+  const {
+
+  username,
+
+  password,
+
+  nombreReal,
+
+  puesto,
+
+  area
+
+} = req.body;
 
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const user = new User({
-      username,
-      password: hashedPassword,
-      role: "user",
+   const user = new User({
+
+  username,
+
+  password: hashedPassword,
+
+  nombreReal,
+
+  puesto,
+
+  area,
+
+  role: "user",
      permisos: {
   dashboard: true,
   tickets: true,
