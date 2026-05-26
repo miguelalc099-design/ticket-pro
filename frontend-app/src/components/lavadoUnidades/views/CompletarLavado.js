@@ -29,6 +29,11 @@ const [
 ] = useState([]);
 
 const [
+  previewsDespues,
+  setPreviewsDespues
+] = useState([]);
+
+const [
 
   loading,
   setLoading
@@ -39,26 +44,30 @@ const [
    FOTO
 ========================= */
 
-const tomarFotoDespues =
-(e) => {
+const tomarFotoDespues = (e) => {
 
-  const archivo =
-    e.target.files[0];
+  const archivo = e.target.files[0];
 
   if (!archivo) return;
 
-  if (
-    fotosDespues.length >= 4
-  ) {
+  if (fotosDespues.length >= 4) {
 
     return alert(
-      "Máximo 2 fotos"
+      "Máximo 4 fotos"
     );
   }
 
-  setFotosDespues([
-    ...fotosDespues,
+  const preview =
+    URL.createObjectURL(archivo);
+
+  setFotosDespues((prev) => [
+    ...prev,
     archivo
+  ]);
+
+  setPreviewsDespues((prev) => [
+    ...prev,
+    preview
   ]);
 };
 
@@ -66,17 +75,23 @@ const tomarFotoDespues =
    ELIMINAR
 ========================= */
 
-const eliminarFoto =
-(index) => {
+const eliminarFoto = (index) => {
+
+  URL.revokeObjectURL(
+    previewsDespues[index]
+  );
 
   setFotosDespues(
-
     fotosDespues.filter(
       (_, i) => i !== index
     )
-
   );
 
+  setPreviewsDespues(
+    previewsDespues.filter(
+      (_, i) => i !== index
+    )
+  );
 };
 
 /* =========================
@@ -263,7 +278,7 @@ fotosDespues.map(
 
 <img
 
-  src={URL.createObjectURL(foto)}
+ src={previewsDespues[index]}
 
   alt="preview"
 

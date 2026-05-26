@@ -71,6 +71,11 @@ const [
 ] = useState([]);
 
 const [
+  previewsAntes,
+  setPreviewsAntes
+] = useState([]);
+
+const [
 
   fotosDespues,
   setFotosDespues
@@ -175,49 +180,30 @@ const toggleServicio =
    FOTOS
 ========================= */
 
-const tomarFotoAntes =
-(e) => {
+const tomarFotoAntes = (e) => {
 
-  const archivo =
-    e.target.files[0];
+  const archivo = e.target.files[0];
 
   if (!archivo) return;
 
-  if (
-    fotosAntes.length >= 2
-  ) {
+  if (fotosAntes.length >= 2) {
 
     return alert(
       "Máximo 2 fotos antes"
     );
   }
 
-  setFotosAntes([
-    ...fotosAntes,
+  const preview =
+    URL.createObjectURL(archivo);
+
+  setFotosAntes((prev) => [
+    ...prev,
     archivo
   ]);
-};
 
-const tomarFotoDespues =
-(e) => {
-
-  const archivo =
-    e.target.files[0];
-
-  if (!archivo) return;
-
-  if (
-    fotosDespues.length >= 2
-  ) {
-
-    return alert(
-      "Máximo 2 fotos después"
-    );
-  }
-
-  setFotosDespues([
-    ...fotosDespues,
-    archivo
+  setPreviewsAntes((prev) => [
+    ...prev,
+    preview
   ]);
 };
 
@@ -225,30 +211,23 @@ const tomarFotoDespues =
    ELIMINAR FOTO
 ========================= */
 
-const eliminarFotoAntes =
-(index) => {
+const eliminarFotoAntes = (index) => {
+
+  URL.revokeObjectURL(
+    previewsAntes[index]
+  );
 
   setFotosAntes(
-
     fotosAntes.filter(
       (_, i) => i !== index
     )
-
   );
 
-};
-
-const eliminarFotoDespues =
-(index) => {
-
-  setFotosDespues(
-
-    fotosDespues.filter(
+  setPreviewsAntes(
+    previewsAntes.filter(
       (_, i) => i !== index
     )
-
   );
-
 };
 
 /* =========================
@@ -735,7 +714,7 @@ fotosAntes.map(
 
 <img
 
-  src={URL.createObjectURL(foto)}
+  src={previewsAntes[index]}
 
   alt="preview"
 
