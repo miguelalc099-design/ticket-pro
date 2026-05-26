@@ -2,6 +2,8 @@ import {
   useState
 } from "react";
 
+import imageCompression from "browser-image-compression";
+
 import "../styles/lavados.css";
 
 function NuevoLavado({
@@ -180,32 +182,60 @@ const toggleServicio =
    FOTOS
 ========================= */
 
-const tomarFotoAntes = (e) => {
+const tomarFotoAntes = async (e) => {
 
-  const archivo = e.target.files[0];
+const archivo = e.target.files[0];
 
-  if (!archivo) return;
+if (!archivo) return;
 
-  if (fotosAntes.length >= 2) {
+if (fotosAntes.length >= 4) {
 
-    return alert(
-      "Máximo 2 fotos antes"
-    );
-  }
+return alert(
+  "Máximo 4 fotos antes"
+);
 
-  const preview =
-    URL.createObjectURL(archivo);
 
-  setFotosAntes((prev) => [
-    ...prev,
-    archivo
-  ]);
+}
 
-  setPreviewsAntes((prev) => [
-    ...prev,
-    preview
-  ]);
+try {
+
+const compressedFile =
+  await imageCompression(
+    archivo,
+    {
+      maxSizeMB: 0.7,
+      maxWidthOrHeight: 1280,
+      useWebWorker: true
+    }
+  );
+
+const preview =
+  URL.createObjectURL(
+    compressedFile
+  );
+
+setFotosAntes((prev) => [
+  ...prev,
+  compressedFile
+]);
+
+setPreviewsAntes((prev) => [
+  ...prev,
+  preview
+]);
+
+
+} catch (error) {
+
+console.log(error);
+
+alert(
+  "Error comprimiendo imagen"
+);
+
+}
 };
+
 
 /* =========================
    ELIMINAR FOTO
@@ -695,7 +725,7 @@ servicios.map(
 <div
   className="upload-count"
 >
-  {fotosAntes.length}/2 fotos
+  {fotosAntes.length}/4 fotos
 </div>
 {
 fotosAntes.length > 0 && (

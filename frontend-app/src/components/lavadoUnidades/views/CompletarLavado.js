@@ -2,6 +2,8 @@ import {
   useState
 } from "react";
 
+import imageCompression from "browser-image-compression";
+
 import "../styles/lavados.css";
 
 function CompletarLavado({
@@ -44,31 +46,56 @@ const [
    FOTO
 ========================= */
 
-const tomarFotoDespues = (e) => {
+const tomarFotoDespues = async (e) => {
 
-  const archivo = e.target.files[0];
+const archivo = e.target.files[0];
 
-  if (!archivo) return;
+if (!archivo) return;
 
-  if (fotosDespues.length >= 4) {
+if (fotosDespues.length >= 4) {
 
-    return alert(
-      "Máximo 4 fotos"
-    );
-  }
+return alert(
+  "Máximo 4 fotos"
+);
 
-  const preview =
-    URL.createObjectURL(archivo);
+}
 
-  setFotosDespues((prev) => [
-    ...prev,
-    archivo
-  ]);
+try {
 
-  setPreviewsDespues((prev) => [
-    ...prev,
-    preview
-  ]);
+const compressedFile =
+  await imageCompression(
+    archivo,
+    {
+      maxSizeMB: 0.7,
+      maxWidthOrHeight: 1280,
+      useWebWorker: true
+    }
+  );
+
+const preview =
+  URL.createObjectURL(
+    compressedFile
+  );
+
+setFotosDespues((prev) => [
+  ...prev,
+  compressedFile
+]);
+
+setPreviewsDespues((prev) => [
+  ...prev,
+  preview
+]);
+
+} catch (error) {
+
+console.log(error);
+
+alert(
+  "Error comprimiendo imagen"
+);
+
+}
 };
 
 /* =========================
