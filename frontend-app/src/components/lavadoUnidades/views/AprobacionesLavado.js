@@ -236,15 +236,18 @@ setLoadingAccion(true);
 },
 
       body:
-        JSON.stringify({
+  JSON.stringify({
 
-          estatus:
-            "RECHAZADA",
+    estatus:
+      "RECHAZADA",
 
-          comentarioSupervisor:
-            comentario
+    comentarioSupervisor:
+      comentario,
 
-        })
+    aprobadoPor:
+      usuario.username
+
+  })
 
     });
 

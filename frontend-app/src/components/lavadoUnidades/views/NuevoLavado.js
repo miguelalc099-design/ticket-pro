@@ -277,22 +277,14 @@ async () => {
   }
 
   if (
-    fotosAntes.length < 2
+    fotosAntes.length < 3
   ) {
 
     return alert(
-      "Debes tomar 2 fotos antes"
+      "Debes tomar 3 fotos antes"
     );
   }
 
-  if (
-    fotosDespues.length < 2
-  ) {
-
-    return alert(
-      "Debes tomar 2 fotos después"
-    );
-  }
 
   try {
 
@@ -332,7 +324,7 @@ formData.append(
 
 formData.append(
   "estatus",
-  "EN_ESPERA"
+  "EN_PROCESO"
 );
 
 /* =========================
@@ -365,19 +357,6 @@ fotosAntes.forEach((foto) => {
 
   formData.append(
     "fotosAntes",
-    foto
-  );
-
-});
-
-/* =========================
-   FOTOS DESPUES
-========================= */
-
-fotosDespues.forEach((foto) => {
-
-  formData.append(
-    "fotosDespues",
     foto
   );
 
@@ -786,92 +765,6 @@ fotosAntes.map(
 }
 </div>
 
-{/* FOTOS DESPUES */}
-
-<div
-  className="upload-card"
->
-
-<div
-  className="upload-title"
->
-  📸 Fotos Después
-</div>
-
-<label
-  className="camera-btn"
->
-
-📸 Tomar Foto
-
-<input
-  type="file"
-
-  accept="image/*"
-
-  capture="environment"
-
-  onChange={
-    tomarFotoDespues
-  }
-
-  hidden
-/>
-
-</label>
-
-<div
-  className="upload-count"
->
-  {fotosDespues.length}/2 fotos
-</div>
-{
-fotosDespues.length > 0 && (
-
-<div className="preview-grid">
-
-{
-fotosDespues.map(
-(foto, index) => (
-
-<div
-  key={index}
-
-  className="preview-item"
->
-
-<img
-
-  src={URL.createObjectURL(foto)}
-
-  alt="preview"
-
-  className="preview-image"
-
-/>
-
-<button
-
-  className="preview-remove"
-
-  onClick={() =>
-    eliminarFotoDespues(index)
-  }
->
-  ✕
-</button>
-
-</div>
-
-))
-}
-
-</div>
-
-)
-}
-</div>
-
 {/* BOTON */}
 
 <button
@@ -888,7 +781,7 @@ fotosDespues.map(
 
     ? "Guardando..."
 
-    : "🚛 Enviar Lavado"
+    : "🚛 Iniciar Lavado"
   }
 </button>
 
