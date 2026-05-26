@@ -344,14 +344,31 @@ return (
   "lavados",
   "aprobarLavados"
 ].map((p) => (
-                <label key={p}>
-                  <input
-                    type="checkbox"
-                    checked={u.permisos?.[p] || false}
-                    onChange={() => togglePermiso(u, p)}
-                  />
-                  {p}
-                </label>
+                <div
+  key={p}
+  className="permiso-switch"
+>
+
+  <span className="permiso-label">
+    {p}
+  </span>
+
+  <button
+    className={`switch-btn ${
+      u.permisos?.[p]
+        ? "active"
+        : ""
+    }`}
+    onClick={() =>
+      togglePermiso(u, p)
+    }
+  >
+
+    <div className="switch-ball" />
+
+  </button>
+
+</div>
               ))}
             </div>
 
