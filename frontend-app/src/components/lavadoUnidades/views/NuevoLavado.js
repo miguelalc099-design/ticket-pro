@@ -404,11 +404,13 @@ const res =
 
     await res.json();
 
-    setLoading(false);
+setLoading(false);
 
-    alert(
-      "✅ Lavado enviado"
-    );
+alert(
+  "✅ Lavado enviado"
+);
+
+onClose();
 
   } catch (err) {
 
