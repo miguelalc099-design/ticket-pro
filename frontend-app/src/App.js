@@ -873,7 +873,7 @@ if (!user) {
 </h1>
 
 <p>
-  (Sistema de Inventario, Transporte y Control)
+  Sistema de Inventario, Transporte y Control
 </p>
 
 </div>
@@ -891,6 +891,10 @@ if (!user) {
 <h2>
   Iniciar sesión
 </h2>
+
+<p>
+  Plataforma integral de operación y control
+</p>
 
 <input
 
@@ -949,11 +953,11 @@ if (!user) {
   }
 >
 
-  {
-    showPassword
-      ? "🙈"
-      : "👁"
-  }
+ {
+  showPassword
+    ? "Hide"
+    : "Show"
+}
 
 </button>
 
