@@ -185,6 +185,8 @@ async (req, res) => {
 
   comentarioSupervisor:
     req.body.comentarioSupervisor,
+firmaSupervisor:
+  req.body.firmaSupervisor,
 
   aprobadoPor:
     req.body.aprobadoPor,
