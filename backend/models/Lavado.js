@@ -88,6 +88,6 @@ timestamps: true
 
 module.exports =
 mongoose.model(
-  "Lavado.",
+  "Lavado",
   lavadoSchema
 );
