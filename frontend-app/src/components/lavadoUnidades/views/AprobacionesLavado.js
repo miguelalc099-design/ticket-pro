@@ -116,7 +116,9 @@ async () => {
 
 };
 
-/* =========================
+
+
+    /* =========================
    APROBAR
 ========================= */
 
@@ -141,7 +143,7 @@ setLoadingAccion(true);
       firmaRef.current
         .toDataURL();
 
-    await fetch(
+const res = await fetch(
 
 `https://ticket-pro-backend.onrender.com/lavados/aprobar/${lavadoSeleccionado._id}`,
 
@@ -172,11 +174,25 @@ setLoadingAccion(true);
             comentario,
 
           aprobadoPor:
-  usuario.username
+  usuario?.username || "Supervisor"
 
         })
 
     });
+
+const data =
+  await res.json();
+
+console.log(data);
+
+if (!res.ok) {
+
+  throw new Error(
+    data.msg ||
+    "Error backend"
+  );
+
+}
 
   toast.success(
   "Lavado aprobado"
@@ -245,7 +261,7 @@ setLoadingAccion(true);
       comentario,
 
     aprobadoPor:
-      usuario.username
+  usuario?.username || "Supervisor"
 
   })
 
