@@ -60,6 +60,11 @@ firmaSupervisor: {
   type: String
 },
 
+creadoPor: {
+  type: String,
+  default: ""
+}
+
 aprobadoPor: {
   type: String
 },
