@@ -68,6 +68,7 @@ creadoPor: {
 aprobadoPor: {
   type: String
 },
+
 fechaAprobacion: {
   type: Date
 },
