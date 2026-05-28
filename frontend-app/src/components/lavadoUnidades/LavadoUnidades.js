@@ -219,6 +219,8 @@ if (
 
 <NuevoLavado
 
+  user={usuario}
+
   onClose={() => {
 
     setVista("listado");
