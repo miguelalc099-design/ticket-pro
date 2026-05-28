@@ -51,10 +51,13 @@ const [
 ] = useState(null);
 
 const [
+  loadingAprobar,
+  setLoadingAprobar
+] = useState(false);
 
-  loadingAccion,
-  setLoadingAccion
-
+const [
+  loadingRechazar,
+  setLoadingRechazar
 ] = useState(false);
 
 const firmaRef =
@@ -137,7 +140,7 @@ async () => {
 }
 
   try {
-setLoadingAccion(true);
+setLoadingAprobar(true);
     const firma =
       firmaRef.current
         .toDataURL();
@@ -193,15 +196,13 @@ if (!res.ok) {
 
 }
 
-  toast.success(
+await obtenerPendientes();
+
+toast.success(
   "Lavado aprobado"
 );
 
-    setLavadoSeleccionado(
-      null
-    );
-
-    obtenerPendientes();
+setLavadoSeleccionado(null);
 
 } catch (err) {
 
@@ -209,7 +210,7 @@ if (!res.ok) {
 
 } finally {
 
-  setLoadingAccion(false);
+  setLoadingAprobar(false);
 }
 
 };
@@ -232,7 +233,7 @@ if (!comentario) {
 
 try {
 
-  setLoadingAccion(true);
+  setLoadingRechazar(true);
 
   const res = await fetch(
 
@@ -277,15 +278,22 @@ try {
 
   console.log(res.status);
 
-  toast.error(
-    "Lavado rechazado"
+if (!res.ok) {
+
+  throw new Error(
+    data.msg ||
+    "Error backend"
   );
 
-  setLavadoSeleccionado(
-    null
-  );
+}
 
-  obtenerPendientes();
+await obtenerPendientes();
+
+toast.success(
+  "Lavado rechazado"
+);
+
+setLavadoSeleccionado(null);
 
 } catch (err) {
 
@@ -293,7 +301,7 @@ try {
 
 } finally {
 
-  setLoadingAccion(false);
+  setLoadingRechazar(false);
 
 }
 
@@ -495,21 +503,17 @@ return (
   }
 
   disabled={
-    loadingAccion
+    loadingAprobar
   }
 >
 
 {
-loadingAccion
-
-? "⏳ Procesando..."
-
-: "✅ Aprobar"
-
+  loadingAprobar
+    ? "⏳ Procesando..."
+    : "✅ Aprobar"
 }
 
 </button>
-
 <button
   type="button"
 
@@ -520,21 +524,17 @@ loadingAccion
   }
 
   disabled={
-    loadingAccion
+    loadingRechazar
   }
 >
 
 {
-loadingAccion
-
-? "⏳ Procesando..."
-
-: "❌ Rechazar"
-
+  loadingRechazar
+    ? "⏳ Procesando..."
+    : "❌ Rechazar"
 }
 
 </button>
-
 </div>
 
 </div>
