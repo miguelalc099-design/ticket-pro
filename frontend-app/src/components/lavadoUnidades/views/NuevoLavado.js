@@ -8,7 +8,8 @@ import "../styles/lavados.css";
 
 function NuevoLavado({
 
-  onClose
+  onClose,
+  user
 
 }) {
 
@@ -348,6 +349,11 @@ formData.append(
   "EN_PROCESO"
 );
 
+formData.append(
+  "creadoPor",
+  user?.username || "Sistema"
+);
+
 /* =========================
    ARRAYS
 ========================= */
@@ -549,7 +555,7 @@ return (
 <div
   className="section-title"
 >
-  Operadores
+ Lavadores
 </div>
 
 <div
@@ -592,7 +598,7 @@ operadoresLista.map(
 <div
   className="section-title"
 >
-  Cantidad Operadores
+  Cantidad Lavadores
 </div>
 
 <div
@@ -612,7 +618,7 @@ operadoresLista.map(
     setCantidadOperadores(1)
   }
 >
-  1 Operador
+ 1 Lavador
 </button>
 
 <button
@@ -628,7 +634,7 @@ operadoresLista.map(
     setCantidadOperadores(2)
   }
 >
-  2 Operadores
+  2 Lavadores
 </button>
 
 </div>
