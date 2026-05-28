@@ -63,12 +63,11 @@ firmaSupervisor: {
 creadoPor: {
   type: String,
   default: ""
-}
+},
 
 aprobadoPor: {
   type: String
 },
-
 fechaAprobacion: {
   type: Date
 },
