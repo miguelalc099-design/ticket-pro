@@ -48,6 +48,11 @@ const nuevoLavado =
 
     ...req.body,
 
+    creadoPor:
+      req.body.creadoPor ||
+      req.user?.username ||
+      "Sistema",
+
     folio,
 
     fotosAntes,
