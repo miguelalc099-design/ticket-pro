@@ -126,8 +126,7 @@ const aprobarLavado =
 async () => {
 
  if (
-  !firmaRef.current
-    ?.toDataURL()
+  firmaRef.current.isEmpty()
 ) {
 
   toast.error(
@@ -231,10 +230,12 @@ if (!comentario) {
   return;
 }
 
-  try {
-setLoadingAccion(true);
+try {
 
-  await fetch(
+  setLoadingAccion(true);
+
+  const res = await fetch(
+
 `https://ticket-pro-backend.onrender.com/lavados/rechazar/${lavadoSeleccionado._id}`,
 
     {
@@ -243,47 +244,57 @@ setLoadingAccion(true);
 
       headers: {
 
-  "Content-Type":
-    "application/json",
+        "Content-Type":
+          "application/json",
 
-  Authorization:
-    `Bearer ${token}`
+        Authorization:
+          `Bearer ${token}`
 
-},
+      },
 
       body:
-  JSON.stringify({
+        JSON.stringify({
 
-    estatus:
-      "RECHAZADA",
+          estatus:
+            "RECHAZADA",
 
-    comentarioSupervisor:
-      comentario,
+          comentarioSupervisor:
+            comentario,
 
-    aprobadoPor:
-  usuario?.username || "Supervisor"
+          aprobadoPor:
+            usuario?.username || "Supervisor"
 
-  })
+        })
 
-    });
+    }
 
-   toast.error(
-  "Lavado rechazado"
-);
+  );
 
-    setLavadoSeleccionado(
-      null
-    );
+  const data =
+    await res.json();
 
-    obtenerPendientes();
+  console.log(data);
 
- } catch (err) {
+  console.log(res.status);
+
+  toast.error(
+    "Lavado rechazado"
+  );
+
+  setLavadoSeleccionado(
+    null
+  );
+
+  obtenerPendientes();
+
+} catch (err) {
 
   console.log(err);
 
 } finally {
 
   setLoadingAccion(false);
+
 }
 
 };
@@ -475,6 +486,7 @@ return (
 >
 
 <button
+  type="button"
 
   className="btn-lavado"
 
@@ -499,6 +511,7 @@ loadingAccion
 </button>
 
 <button
+  type="button"
 
   className="btn-danger"
 
