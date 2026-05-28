@@ -548,7 +548,7 @@ return (
   }
 />
 
-{/* OPERADORES */}
+{/* LAVADORES */}
 
 <div>
 
