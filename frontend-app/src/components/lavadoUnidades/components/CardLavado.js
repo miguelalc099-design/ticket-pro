@@ -96,6 +96,54 @@ return (
   }
 </div>
 
+{
+  lavado.creadoPor && (
+
+<div
+  style={{
+    color: "#94a3b8"
+  }}
+>
+  👨‍🔧 Creó:
+  {lavado.creadoPor}
+</div>
+
+  )
+}
+
+{
+  lavado.aprobadoPor && (
+
+<div
+  style={{
+    color:
+
+      lavado.estatus ===
+      "RECHAZADA"
+
+      ? "#ef4444"
+
+      : "#22c55e"
+  }}
+>
+  {
+    lavado.estatus ===
+    "RECHAZADA"
+
+    ? "❌ Rechazó:"
+
+    : "✅ Aprobó:"
+  }
+
+  {" "}
+
+  {lavado.aprobadoPor}
+
+</div>
+
+  )
+}
+
 {/* =========================
    GALERIA
 ========================= */}

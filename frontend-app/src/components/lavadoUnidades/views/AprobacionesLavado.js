@@ -234,7 +234,9 @@ if (!comentario) {
 try {
 
   setLoadingRechazar(true);
-
+const firma =
+  firmaRef.current
+    ?.toDataURL();
   const res = await fetch(
 
 `https://ticket-pro-backend.onrender.com/lavados/rechazar/${lavadoSeleccionado._id}`,
@@ -261,6 +263,9 @@ try {
 
           comentarioSupervisor:
             comentario,
+
+firmaSupervisor:
+  firma,
 
           aprobadoPor:
             usuario?.username || "Supervisor"

@@ -970,6 +970,49 @@ lavadoDetalle.fechaLavado
 <div className="modal-info-card">
 
 <div className="modal-label">
+👨‍🔧 Creó
+</div>
+
+<div className="modal-value">
+
+{
+  lavadoDetalle.creadoPor ||
+  "N/D"
+}
+
+</div>
+
+</div>
+
+<div className="modal-info-card">
+
+<div className="modal-label">
+
+{
+  lavadoDetalle.estatus ===
+  "RECHAZADA"
+
+  ? "❌ Rechazó"
+
+  : "✅ Supervisor"
+}
+
+</div>
+
+<div className="modal-value">
+
+{
+  lavadoDetalle.aprobadoPor ||
+  "N/D"
+}
+
+</div>
+
+</div>
+
+<div className="modal-info-card">
+
+<div className="modal-label">
 👥 Operadores
 </div>
 
@@ -1009,8 +1052,15 @@ lavadoDetalle.comentarios
 )
 }
 {
+(
 lavadoDetalle.estatus ===
-"APROBADA" && (
+"APROBADA"
+
+||
+
+lavadoDetalle.estatus ===
+"RECHAZADA"
+) && (
 
 <div className="audit-section">
 
