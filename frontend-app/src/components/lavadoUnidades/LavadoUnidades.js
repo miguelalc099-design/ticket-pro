@@ -958,9 +958,15 @@ lavadoDetalle.tiposLavado?.join(", ")
 <div className="modal-value">
 
 {
-new Date(
-lavadoDetalle.fechaLavado
-).toLocaleDateString()
+{
+  lavadoDetalle.fechaLavado
+
+  ? new Date(
+      lavadoDetalle.fechaLavado
+    ).toLocaleDateString("es-MX")
+
+  : "Sin fecha"
+}
 }
 
 </div>

@@ -19,13 +19,6 @@ function NuevoLavado({
 
 const [
 
-  fechaLavado,
-  setFechaLavado
-
-] = useState("");
-
-const [
-
   numeroUnidad,
   setNumeroUnidad
 
@@ -280,6 +273,14 @@ const eliminarFotoAntes = (index) => {
 const guardarLavado =
 async () => {
 
+if (!fechaLavado) {
+
+  return alert(
+    "Selecciona la fecha del lavado"
+  );
+
+}
+
   if (
     operadores.length === 0
   ) {
@@ -318,11 +319,6 @@ async () => {
 /* =========================
    DATOS
 ========================= */
-
-formData.append(
-  "fechaLavado",
-  fechaLavado
-);
 
 formData.append(
   "numeroUnidad",
@@ -459,22 +455,18 @@ return (
     gap: "20px"
   }}
 >
-
-{/* FECHA */}
-
-<input
-  type="date"
-
-  className="input-lavado"
-
-  value={fechaLavado}
-
-  onChange={(e) =>
-    setFechaLavado(
-      e.target.value
-    )
-  }
-/>
+{/* FECHA DE LAVADO */}
+<div
+  className="lavado-card"
+  style={{
+    padding: "12px",
+    textAlign: "center"
+  }}
+>
+  📅 Fecha del sistema:
+  {" "}
+  {new Date().toLocaleDateString("es-MX")}
+</div>
 
 {/* TIPO UNIDAD */}
 

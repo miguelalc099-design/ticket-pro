@@ -90,10 +90,14 @@ return (
   }}
 >
   📅 {
-    new Date(
-      lavado.fechaLavado
-    ).toLocaleDateString()
-  }
+  lavado.fechaLavado
+
+    ? new Date(
+        lavado.fechaLavado
+      ).toLocaleDateString("es-MX")
+
+    : "Sin fecha"
+}
 </div>
 
 {
