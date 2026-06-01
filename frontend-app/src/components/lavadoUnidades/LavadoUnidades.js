@@ -958,13 +958,16 @@ lavadoDetalle.tiposLavado?.join(", ")
 <div className="modal-value">
 
 {
-  lavadoDetalle.fechaLavado
-
-  ? new Date(
-      lavadoDetalle.fechaLavado
-    ).toLocaleDateString("es-MX")
-
-  : "Sin fecha"
+  new Date(
+    lavadoDetalle.fechaLavado ||
+    lavadoDetalle.createdAt
+  ).toLocaleDateString(
+    "es-MX",
+    {
+      timeZone:
+        "America/Mexico_City"
+    }
+  )
 }
 
 </div>

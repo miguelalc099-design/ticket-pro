@@ -89,14 +89,17 @@ return (
     color: "#94a3b8"
   }}
 >
-  📅 {
-  lavado.fechaLavado
-
-    ? new Date(
-        lavado.fechaLavado
-      ).toLocaleDateString("es-MX")
-
-    : "Sin fecha"
+📅 {
+  new Date(
+    lavado.fechaLavado ||
+    lavado.createdAt
+  ).toLocaleDateString(
+    "es-MX",
+    {
+      timeZone:
+        "America/Mexico_City"
+    }
+  )
 }
 </div>
 
