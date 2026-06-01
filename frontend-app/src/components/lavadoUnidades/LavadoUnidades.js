@@ -958,10 +958,9 @@ lavadoDetalle.tiposLavado?.join(", ")
 <div className="modal-value">
 
 {
-  new Date(
-    lavadoDetalle.fechaLavado ||
-    lavadoDetalle.createdAt
-  ).toLocaleDateString(
+ new Date(
+  lavadoDetalle.createdAt
+).toLocaleDateString(
     "es-MX",
     {
       timeZone:

@@ -91,7 +91,6 @@ return (
 >
 📅 {
   new Date(
-    lavado.fechaLavado ||
     lavado.createdAt
   ).toLocaleDateString(
     "es-MX",
