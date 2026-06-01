@@ -273,9 +273,6 @@ const eliminarFotoAntes = (index) => {
 const guardarLavado =
 async () => {
 
-
-}
-
   if (
     operadores.length === 0
   ) {
@@ -303,14 +300,12 @@ async () => {
     );
   }
 
-
   try {
 
     setLoading(true);
 
     const formData =
-  new FormData();
-
+      new FormData();
 /* =========================
    DATOS
 ========================= */
@@ -408,7 +403,6 @@ alert(
 );
 
 onClose();
-
   } catch (err) {
 
     console.log(err);
