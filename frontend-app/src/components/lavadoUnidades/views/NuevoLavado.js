@@ -273,11 +273,6 @@ const eliminarFotoAntes = (index) => {
 const guardarLavado =
 async () => {
 
-if (!fechaLavado) {
-
-  return alert(
-    "Selecciona la fecha del lavado"
-  );
 
 }
 
