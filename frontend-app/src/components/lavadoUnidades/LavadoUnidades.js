@@ -958,7 +958,6 @@ lavadoDetalle.tiposLavado?.join(", ")
 <div className="modal-value">
 
 {
-{
   lavadoDetalle.fechaLavado
 
   ? new Date(
@@ -967,10 +966,8 @@ lavadoDetalle.tiposLavado?.join(", ")
 
   : "Sin fecha"
 }
-}
 
 </div>
-
 </div>
 
 <div className="modal-info-card">
