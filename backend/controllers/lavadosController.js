@@ -48,6 +48,9 @@ const nuevoLavado =
 
     ...req.body,
 
+    fechaLavado:
+      new Date(),
+
     creadoPor:
       req.body.creadoPor ||
       req.user?.username ||
