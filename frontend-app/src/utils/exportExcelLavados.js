@@ -21,24 +21,28 @@ export const exportarExcelLavados = (
   const filtrados =
     lavados.filter((l) => {
 
-    const fecha =
-      new Date(
-        l.fechaLavado
+      const fecha =
+        new Date(l.createdAt);
+
+      const inicio =
+        new Date(fechaInicio);
+
+      const fin =
+        new Date(fechaFin);
+
+      fin.setHours(
+        23,
+        59,
+        59,
+        999
       );
 
-    return (
+      return (
+        fecha >= inicio &&
+        fecha <= fin
+      );
 
-      fecha >=
-      new Date(fechaInicio)
-
-      &&
-
-      fecha <=
-      new Date(fechaFin)
-
-    );
-
-  });
+    });
 
   /* =========================
      DATA
@@ -47,39 +51,48 @@ export const exportarExcelLavados = (
   const data =
     filtrados.map((l) => ({
 
-    Folio:
-      l.folio,
+      Folio:
+        l.folio,
 
-    Fecha:
-      new Date(
-        l.fechaLavado
-      ).toLocaleDateString(),
+      Fecha:
+        new Date(
+          l.createdAt
+        ).toLocaleDateString(
+          "es-MX",
+          {
+            timeZone:
+              "America/Mexico_City"
+          }
+        ),
 
-    Unidad:
-      l.numeroUnidad,
+      Unidad:
+        l.numeroUnidad,
 
-    TipoUnidad:
-      l.tipoUnidad,
+      TipoUnidad:
+        l.tipoUnidad,
 
-    Operadores:
-      l.operadores?.join(", "),
+      Operadores:
+        l.operadores?.join(", "),
 
-    CantidadOperadores:
-      l.cantidadOperadores,
+      CantidadOperadores:
+        l.cantidadOperadores,
 
-    TiposLavado:
-      l.tiposLavado?.join(", "),
+      TiposLavado:
+        l.tiposLavado?.join(", "),
 
-    Estatus:
-      l.estatus,
+      Estatus:
+        l.estatus,
 
-    Supervisor:
-      l.aprobadoPor || "",
+      CreadoPor:
+        l.creadoPor || "",
 
-    ComentarioSupervisor:
-      l.comentarioSupervisor || ""
+      Supervisor:
+        l.aprobadoPor || "",
 
-  }));
+      ComentarioSupervisor:
+        l.comentarioSupervisor || ""
+
+    }));
 
   /* =========================
      SHEET
@@ -111,7 +124,7 @@ export const exportarExcelLavados = (
 
     workbook,
 
-`Lavados_${fechaInicio}_${fechaFin}.xlsx`
+    `Lavados_${fechaInicio}_${fechaFin}.xlsx`
 
   );
 
