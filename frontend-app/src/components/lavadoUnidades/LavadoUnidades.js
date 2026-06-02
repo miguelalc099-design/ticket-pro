@@ -365,11 +365,33 @@ doc.text(
 doc.text(
   `Fecha: ${
     new Date(
-      lavado.fechaLavado
-    ).toLocaleDateString()
+      lavado.createdAt
+    ).toLocaleDateString(
+      "es-MX",
+      {
+        timeZone:
+          "America/Mexico_City"
+      }
+    )
   }`,
   20,
   105
+);
+
+doc.text(
+  `Creado por: ${
+    lavado.creadoPor || "N/D"
+  }`,
+  20,
+  115
+);
+
+doc.text(
+  `Supervisor: ${
+    lavado.aprobadoPor || "N/D"
+  }`,
+  20,
+  125
 );
 
 /* =========================
@@ -378,7 +400,7 @@ doc.text(
 
 autoTable(doc, {
 
-  startY: 120,
+startY: 140,
 
   head: [[
     "Campo",
@@ -1106,11 +1128,16 @@ lavadoDetalle.fechaAprobacion
 
 ? new Date(
     lavadoDetalle.fechaAprobacion
-  ).toLocaleString()
+  ).toLocaleString(
+      "es-MX",
+      {
+        timeZone:
+          "America/Mexico_City"
+      }
+    )
 
 : "N/D"
 }
-
 </div>
 
 </div>
