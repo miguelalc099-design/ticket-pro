@@ -24,14 +24,31 @@ return (
   }}
 >
 
-<div
-  style={{
-    color: "#fff",
-    fontWeight: "700",
-    fontSize: "22px"
-  }}
->
-  🚛 {lavado.numeroUnidad}
+<div>
+
+  <div
+    style={{
+      color: "#fff",
+      fontWeight: "700",
+      fontSize: "22px"
+    }}
+  >
+    🚛 {lavado.numeroUnidad}
+  </div>
+
+  <span
+    style={{
+      background: "#1e293b",
+      color: "#60a5fa",
+      padding: "3px 8px",
+      borderRadius: "8px",
+      fontSize: "11px",
+      fontWeight: "700"
+    }}
+  >
+    {lavado.tipoUnidad}
+  </span>
+
 </div>
 
 <div
