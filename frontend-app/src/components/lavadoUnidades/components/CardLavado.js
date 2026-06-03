@@ -180,24 +180,26 @@ return (
 
 {
 lavado.estatus === "EN_PROCESO" &&
-lavado.creadoPor === usuario?.username && (
+(
+  lavado.creadoPor === usuario?.username ||
+  usuario?.username?.toLowerCase() === "admin"
+) && (
 
 <button
 
-className="btn-lavado"
+  className="btn-lavado"
 
-onClick={(e) => {
+  onClick={(e) => {
 
-  e.stopPropagation();
+    e.stopPropagation();
+    onContinuar();
 
-  onContinuar();
+  }}
 
-}}
-
-style={{
-  marginTop: "10px",
-  width: "100%"
-}}
+  style={{
+    marginTop: "10px",
+    width: "100%"
+  }}
 
 >
 
