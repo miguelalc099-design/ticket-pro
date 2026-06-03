@@ -1,3 +1,6 @@
+import tractoImg from "../assets/tracto.png";
+import remolqueImg from "../assets/remolque.png";
+
 function CardLavado({
 
   lavado,
@@ -6,6 +9,10 @@ function CardLavado({
   onContinuar
 
 }) {
+const imagenUnidad =
+  lavado.tipoUnidad?.toUpperCase() === "TRACTO"
+    ? tractoImg
+    : remolqueImg;
 
 return (
 
@@ -26,28 +33,54 @@ return (
 
 <div>
 
-  <div
-    style={{
-      color: "#fff",
-      fontWeight: "700",
-      fontSize: "22px"
-    }}
-  >
-    🚛 {lavado.numeroUnidad}
+<div
+  style={{
+    display: "flex",
+    alignItems: "center",
+    gap: "12px"
+  }}
+>
+
+ <img
+  src={imagenUnidad}
+  alt={lavado.tipoUnidad}
+  style={{
+    width: "50px",
+    height: "auto",
+    objectFit: "contain"
+  }}
+/>
+
+  <div>
+
+    <div
+      style={{
+        color: "#fff",
+        fontWeight: "700",
+        fontSize: "22px"
+      }}
+    >
+      {lavado.numeroUnidad}
+    </div>
+
   </div>
 
+</div>
+
   <span
-    style={{
-      background: "#1e293b",
-      color: "#60a5fa",
-      padding: "3px 8px",
-      borderRadius: "8px",
-      fontSize: "11px",
-      fontWeight: "700"
-    }}
-  >
-    {lavado.tipoUnidad}
-  </span>
+  style={{
+    display: "inline-block",
+    marginTop: "6px",
+    background: "#1e293b",
+    color: "#60a5fa",
+    padding: "3px 8px",
+    borderRadius: "8px",
+    fontSize: "11px",
+    fontWeight: "700"
+  }}
+>
+  {lavado.tipoUnidad}
+</span>
 
 </div>
 
