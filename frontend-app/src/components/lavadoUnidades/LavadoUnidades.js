@@ -1234,35 +1234,100 @@ style={{
 
 </div>
 
+{
+lavadoDetalle.fotosAntes?.length > 0 && (
+
+<>
+
+<div
+  style={{
+    color: "#60a5fa",
+    fontWeight: "700",
+    marginBottom: "10px"
+  }}
+>
+📸 Fotos Antes
+</div>
+
 <div className="modal-gallery">
 
 {
-[
-...(lavadoDetalle.fotosAntes || []),
-...(lavadoDetalle.fotosDespues || [])
-].map((foto, index) => (
+lavadoDetalle.fotosAntes.map(
+(foto, index) => (
 
 <img
 
-  key={index}
+  key={`antes-${index}`}
 
   src={foto}
 
-  alt="lavado"
+  alt="antes"
 
   className="modal-gallery-image"
 
   onClick={() =>
-    setImagenActiva(
-      foto
-    )
+    setImagenActiva(foto)
   }
 
 />
+
 ))
 }
 
 </div>
+
+</>
+
+)
+}
+
+{
+lavadoDetalle.fotosDespues?.length > 0 && (
+
+<>
+
+<div
+  style={{
+    color: "#22c55e",
+    fontWeight: "700",
+    marginTop: "20px",
+    marginBottom: "10px"
+  }}
+>
+📸 Fotos Después
+</div>
+
+<div className="modal-gallery">
+
+{
+lavadoDetalle.fotosDespues.map(
+(foto, index) => (
+
+<img
+
+  key={`despues-${index}`}
+
+  src={foto}
+
+  alt="despues"
+
+  className="modal-gallery-image"
+
+  onClick={() =>
+    setImagenActiva(foto)
+  }
+
+/>
+
+))
+}
+
+</div>
+
+</>
+
+)
+}
 
 </div>
 
