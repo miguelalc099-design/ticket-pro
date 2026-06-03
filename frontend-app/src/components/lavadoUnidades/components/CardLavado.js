@@ -161,48 +161,84 @@ lavado.fotosAntes?.length > 0 ||
 lavado.fotosDespues?.length > 0
 ) && (
 
-<div className="card-gallery">
-
-{/* ANTES */}
+<div>
 
 {
-lavado.fotosAntes?.map(
+lavado.fotosAntes?.length > 0 && (
+
+<>
+
+<div
+  style={{
+    color: "#60a5fa",
+    fontWeight: "700",
+    marginTop: "12px",
+    marginBottom: "8px"
+  }}
+>
+📸 Antes
+</div>
+
+<div className="card-gallery">
+
+{
+lavado.fotosAntes.map(
 (foto, index) => (
 
 <img
-
   key={`antes-${index}`}
-
   src={foto}
-
   alt="antes"
-
   className="card-gallery-image"
-
 />
 
 ))
 }
 
-{/* DESPUES */}
+</div>
+
+</>
+
+)
+}
 
 {
-lavado.fotosDespues?.map(
+lavado.fotosDespues?.length > 0 && (
+
+<>
+
+<div
+  style={{
+    color: "#22c55e",
+    fontWeight: "700",
+    marginTop: "12px",
+    marginBottom: "8px"
+  }}
+>
+📸 Después
+</div>
+
+<div className="card-gallery">
+
+{
+lavado.fotosDespues.map(
 (foto, index) => (
 
 <img
-
   key={`despues-${index}`}
-
   src={foto}
-
   alt="despues"
-
   className="card-gallery-image"
-
 />
 
 ))
+}
+
+</div>
+
+</>
+
+)
 }
 
 </div>
