@@ -4,6 +4,7 @@ import remolqueImg from "../../../assets/remolque.png";
 function CardLavado({
 
   lavado,
+  usuario,
   onClick,
   onDownloadPDF,
   onContinuar
@@ -178,8 +179,8 @@ return (
 {/* BOTON CONTINUAR */}
 
 {
-lavado.estatus ===
-"EN_PROCESO" && (
+lavado.estatus === "EN_PROCESO" &&
+lavado.creadoPor === usuario?.username && (
 
 <button
 

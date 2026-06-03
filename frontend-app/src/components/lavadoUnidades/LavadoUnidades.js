@@ -971,6 +971,8 @@ lavadosPaginados.map(
 
   lavado={lavado}
 
+  usuario={usuario}
+
   onClick={() =>
     setLavadoDetalle(
       lavado
@@ -980,13 +982,14 @@ lavadosPaginados.map(
   onDownloadPDF={() =>
     descargarPDF(lavado)
   }
-onContinuar={() => {
 
-  setLavadoEnProceso(
-    lavado
-  );
+  onContinuar={() => {
 
-}}
+    setLavadoEnProceso(
+      lavado
+    );
+
+  }}
 
 />
 
