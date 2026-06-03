@@ -31,7 +31,8 @@ from "jspdf";
 import autoTable
 from "jspdf-autotable";
 
-
+import tractoImg from "../../assets/tracto.png";
+import remolqueImg from "../../assets/remolque.png";
 
 function LavadoUnidades() {
 
@@ -1033,11 +1034,31 @@ lavadoDetalle && (
 
 <div>
 
-<div className="modal-unidad">
+<div
+  className="modal-unidad"
+  style={{
+    display: "flex",
+    alignItems: "center",
+    gap: "12px"
+  }}
+>
 
-🚛 {
-  lavadoDetalle.numeroUnidad
-}
+  <img
+    src={
+      lavadoDetalle.tipoUnidad?.toUpperCase() === "TRACTO"
+        ? tractoImg
+        : remolqueImg
+    }
+    alt={lavadoDetalle.tipoUnidad}
+    style={{
+      width: "70px",
+      height: "auto"
+    }}
+  />
+
+  <span>
+    {lavadoDetalle.numeroUnidad}
+  </span>
 
 </div>
 
