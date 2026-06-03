@@ -105,6 +105,11 @@ const [
 
 ] = useState("");
 
+const [
+  aplicarFiltroFecha,
+  setAplicarFiltroFecha
+] = useState(false);
+
 /* =========================
    API
 ========================= */
@@ -170,19 +175,71 @@ useEffect(() => {
    FILTROS
 ========================= */
 
+const hoy = new Date();
+
+hoy.setHours(0, 0, 0, 0);
+
 const lavadosFiltrados =
   lavados.filter((lavado) => {
 
-    if (
-      filtro === "TODOS"
-    ) return true;
+    const fechaLavado =
+      new Date(lavado.createdAt);
 
-    return (
-      lavado.estatus === filtro
+    fechaLavado.setHours(
+      0,
+      0,
+      0,
+      0
     );
 
-  });
+    // FILTRO HOME = HOY
 
+    if (!aplicarFiltroFecha) {
+
+      if (
+        fechaLavado.getTime() !==
+        hoy.getTime()
+      ) {
+        return false;
+      }
+
+    } else {
+
+      if (
+        fechaInicio &&
+        fechaLavado <
+          new Date(fechaInicio)
+      ) {
+        return false;
+      }
+
+      if (
+        fechaFin &&
+        fechaLavado >
+          new Date(
+            fechaFin +
+            "T23:59:59"
+          )
+      ) {
+        return false;
+      }
+
+    }
+
+    // FILTRO ESTATUS
+
+    if (
+      filtro !== "TODOS" &&
+      lavado.estatus !== filtro
+    ) {
+
+      return false;
+
+    }
+
+    return true;
+
+  });
 /* =========================
    PAGINACION
 ========================= */
@@ -551,111 +608,154 @@ usuario?.permisos
 
 <div className="kpis-grid">
 
+  {/* TOTAL HISTORICO */}
+  <div className="kpi-card">
+
+    <div className="kpi-icon blue">
+      🚛
+    </div>
+
+    <div className="kpi-info">
+
+      <span className="kpi-label">
+        Total Histórico
+      </span>
+
+      <span className="kpi-number">
+        {lavados.length}
+      </span>
+
+    </div>
+
+  </div>
+
+  {/* MOSTRANDO */}
+  <div className="kpi-card">
+
+    <div className="kpi-icon blue">
+      👁
+    </div>
+
+    <div className="kpi-info">
+
+      <span className="kpi-label">
+        Mostrando
+      </span>
+
+      <span className="kpi-number">
+        {lavadosFiltrados.length}
+      </span>
+
+    </div>
+
+  </div>
+
+  {/* PENDIENTES */}
+  <div className="kpi-card">
+
+    <div className="kpi-icon yellow">
+      🟡
+    </div>
+
+    <div className="kpi-info">
+
+      <span className="kpi-label">
+        Pendientes
+      </span>
+
+      <span className="kpi-number">
+        {
+          lavadosFiltrados.filter(
+            (l) =>
+              l.estatus === "EN_ESPERA"
+          ).length
+        }
+      </span>
+
+    </div>
+
+  </div>
+
+  {/* EN PROCESO */}
+  <div className="kpi-card">
+
+    <div className="kpi-icon blue">
+      🔵
+    </div>
+
+    <div className="kpi-info">
+
+      <span className="kpi-label">
+        En Proceso
+      </span>
+
+      <span className="kpi-number">
+        {
+          lavadosFiltrados.filter(
+            (l) =>
+              l.estatus === "EN_PROCESO"
+          ).length
+        }
+      </span>
+
+    </div>
+
+  </div>
+
+  {/* APROBADAS */}
+  <div className="kpi-card">
+
+    <div className="kpi-icon green">
+      🟢
+    </div>
+
+    <div className="kpi-info">
+
+      <span className="kpi-label">
+        Aprobadas
+      </span>
+
+      <span className="kpi-number">
+        {
+          lavadosFiltrados.filter(
+            (l) =>
+              l.estatus === "APROBADA"
+          ).length
+        }
+      </span>
+
+    </div>
+
+  </div>
+
+{/* RECHAZADAS */}
 <div className="kpi-card">
 
-<div className="kpi-icon blue">
-🚛
-</div>
+  <div className="kpi-icon red">
+    🔴
+  </div>
 
-<div className="kpi-info">
+  <div className="kpi-info">
 
-<span className="kpi-label">
-Total
-</span>
+    <span className="kpi-label">
+      Rechazadas
+    </span>
 
-<span className="kpi-number">
-{lavados.length}
-</span>
+    <span className="kpi-number">
+      {
+        lavadosFiltrados.filter(
+          (l) =>
+            l.estatus === "RECHAZADA"
+        ).length
+      }
+    </span>
 
-</div>
-
-</div>
-
-<div className="kpi-card">
-
-<div className="kpi-icon yellow">
-🟡
-</div>
-
-<div className="kpi-info">
-
-<span className="kpi-label">
-Pendientes
-</span>
-
-<span className="kpi-number">
-
-{
-lavados.filter(
-(l) =>
-l.estatus ===
-"EN_ESPERA"
-).length
-}
-
-</span>
+  </div>
 
 </div>
 
 </div>
 
-<div className="kpi-card">
-
-<div className="kpi-icon green">
-🟢
-</div>
-
-<div className="kpi-info">
-
-<span className="kpi-label">
-Aprobadas
-</span>
-
-<span className="kpi-number">
-
-{
-lavados.filter(
-(l) =>
-l.estatus ===
-"APROBADA"
-).length
-}
-
-</span>
-
-</div>
-
-</div>
-
-<div className="kpi-card">
-
-<div className="kpi-icon red">
-🔴
-</div>
-
-<div className="kpi-info">
-
-<span className="kpi-label">
-Rechazadas
-</span>
-
-<span className="kpi-number">
-
-{
-lavados.filter(
-(l) =>
-l.estatus ===
-"RECHAZADA"
-).length
-}
-
-</span>
-
-</div>
-
-</div>
-
-</div>
 <div
   className="lavado-card"
 
@@ -738,7 +838,45 @@ l.estatus ===
 📊 Exportar Excel
 
 </button>
+<button
+  className="btn-lavado"
+  onClick={() => {
 
+    if (
+      !fechaInicio ||
+      !fechaFin
+    ) {
+      return alert(
+        "Selecciona ambas fechas"
+      );
+    }
+
+    setAplicarFiltroFecha(true);
+
+    setPaginaActual(1);
+
+  }}
+>
+🔎 Aplicar Fechas
+</button>
+
+<button
+  className="btn-danger"
+  onClick={() => {
+
+    setFechaInicio("");
+    setFechaFin("");
+
+    setAplicarFiltroFecha(false);
+
+    setFiltro("TODOS");
+
+    setPaginaActual(1);
+
+  }}
+>
+🧹 Limpiar
+</button>
 </div>
 
 </div>
@@ -765,6 +903,7 @@ l.estatus ===
 [
   "TODOS",
   "EN_ESPERA",
+  "EN_PROCESO",
   "APROBADA",
   "RECHAZADA"
 ].map((estado) => (
@@ -1436,5 +1575,5 @@ totalPaginas > 1 && (
 );
 
 }
-
-export default LavadoUnidades;
+ 
+export default LavadoUnidades; 
