@@ -11,30 +11,24 @@ return (
 
 <div
   className="lavado-card"
-
   onClick={onClick}
 >
 
+{/* HEADER */}
+
 <div
   style={{
-
     display: "flex",
-
-    justifyContent:
-      "space-between",
-
-    alignItems:
-      "center"
+    justifyContent: "space-between",
+    alignItems: "center"
   }}
 >
-
-<div>
 
 <div
   style={{
     color: "#fff",
     fontWeight: "700",
-    fontSize: "18px"
+    fontSize: "22px"
   }}
 >
   🚛 {lavado.numeroUnidad}
@@ -42,21 +36,9 @@ return (
 
 <div
   style={{
-    color: "#94a3b8",
-    marginTop: "6px"
-  }}
->
-  👤 {
-    lavado.operadores?.join(", ")
-  }
-</div>
-
-</div>
-
-<div
-  style={{
     color: "#60a5fa",
-    fontWeight: "700"
+    fontWeight: "700",
+    fontSize: "13px"
   }}
 >
   {lavado.folio}
@@ -64,200 +46,86 @@ return (
 
 </div>
 
-<div
-  style={{
-    color: "#cbd5e1"
-  }}
->
-  🧼 {
-    lavado.tiposLavado?.join(", ")
+{/* INFO */}
+
+<div className="card-info-grid">
+
+<div>
+  👤 {lavado.operadores?.join(", ")}
+</div>
+
+<div>
+  🧼 {lavado.tiposLavado?.join(", ")}
+</div>
+
+<div>
+  📅 {
+    new Date(
+      lavado.createdAt
+    ).toLocaleDateString(
+      "es-MX",
+      {
+        timeZone:
+          "America/Mexico_City"
+      }
+    )
   }
 </div>
 
-<div
-  style={{
-    color: "#94a3b8"
-  }}
->
+<div>
   👥 {
     lavado.cantidadOperadores
   } operador(es)
 </div>
 
-<div
-  style={{
-    color: "#94a3b8"
-  }}
->
-📅 {
-  new Date(
-    lavado.createdAt
-  ).toLocaleDateString(
-    "es-MX",
-    {
-      timeZone:
-        "America/Mexico_City"
-    }
-  )
-}
-</div>
-
-{
-  lavado.creadoPor && (
-
-<div
-  style={{
-    color: "#94a3b8"
-  }}
->
+<div>
   👨‍🔧 Creó:
-  {lavado.creadoPor}
+  {" "}
+  {
+    lavado.creadoPor ||
+    "N/D"
+  }
 </div>
 
-  )
-}
+<div>
+  📸 A:
+  {
+    lavado.fotosAntes?.length || 0
+  }
+
+  {" | "}
+
+  D:
+  {
+    lavado.fotosDespues?.length || 0
+  }
+</div>
 
 {
   lavado.aprobadoPor && (
 
-<div
-  style={{
-    color:
-
-      lavado.estatus ===
-      "RECHAZADA"
-
-      ? "#ef4444"
-
-      : "#22c55e"
-  }}
->
+<div>
   {
     lavado.estatus ===
     "RECHAZADA"
 
-    ? "❌ Rechazó:"
+    ? "❌ "
 
-    : "✅ Aprobó:"
+    : "✅ "
   }
 
-  {" "}
-
-  {lavado.aprobadoPor}
+  {
+    lavado.aprobadoPor
+  }
 
 </div>
 
   )
 }
 
-{/* =========================
-   GALERIA
-========================= */}
-
-{
-(
-lavado.fotosAntes?.length > 0 ||
-
-lavado.fotosDespues?.length > 0
-) && (
-
-<div>
-
-{
-lavado.fotosAntes?.length > 0 && (
-
-<>
-
-<div
-  style={{
-    color: "#60a5fa",
-    fontWeight: "700",
-    marginTop: "12px",
-    marginBottom: "8px"
-  }}
->
-📸 Antes
 </div>
 
-<div className="card-gallery">
-
-{
-lavado.fotosAntes.map(
-(foto, index) => (
-
-<img
-  key={`antes-${index}`}
-  src={foto}
-  alt="antes"
-  className="card-gallery-image"
-/>
-
-))
-}
-
-</div>
-
-</>
-
-)
-}
-
-{
-lavado.fotosDespues?.length > 0 && (
-
-<>
-
-<div
-  style={{
-    color: "#22c55e",
-    fontWeight: "700",
-    marginTop: "12px",
-    marginBottom: "8px"
-  }}
->
-📸 Después
-</div>
-
-<div className="card-gallery">
-
-{
-lavado.fotosDespues.map(
-(foto, index) => (
-
-<img
-  key={`despues-${index}`}
-  src={foto}
-  alt="despues"
-  className="card-gallery-image"
-/>
-
-))
-}
-
-</div>
-
-</>
-
-)
-}
-
-</div>
-
-)
-}
-<div className="lavado-photo-badge">
-
-📸 {
-
-(lavado.fotosAntes?.length || 0)
-
-+
-
-(lavado.fotosDespues?.length || 0)
-
-} fotos
-
-</div>
+{/* BOTON CONTINUAR */}
 
 {
 lavado.estatus ===
@@ -276,7 +144,7 @@ onClick={(e) => {
 }}
 
 style={{
-  marginTop: "14px",
+  marginTop: "10px",
   width: "100%"
 }}
 
@@ -288,6 +156,8 @@ style={{
 
 )
 }
+
+{/* BOTON PDF */}
 
 {
 lavado.estatus ===
@@ -306,7 +176,7 @@ onClick={(e) => {
 }}
 
 style={{
-  marginTop: "14px",
+  marginTop: "10px",
   width: "100%"
 }}
 
@@ -319,12 +189,12 @@ style={{
 )
 }
 
+{/* STATUS */}
+
 <div
-  className={`
-    status
-    ${
-      lavado.estatus ===
-      "APROBADA"
+  className={`status ${
+    lavado.estatus ===
+    "APROBADA"
 
       ? "status-aprobada"
 
@@ -334,8 +204,7 @@ style={{
       ? "status-rechazada"
 
       : "status-pendiente"
-    }
-  `}
+  }`}
 >
   {lavado.estatus}
 </div>

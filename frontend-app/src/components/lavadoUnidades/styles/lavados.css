@@ -199,17 +199,6 @@ select {
 /* =========================================================
    KPIS
 ========================================================= */
-
-.kpis-grid {
-
-  display: grid;
-
-  grid-template-columns:
-    repeat(4,1fr);
-
-  gap: 12px;
-}
-
 .kpi-card {
 
   background:
@@ -363,33 +352,20 @@ border-radius: 16px;
   border:
     1px solid rgba(59,130,246,0.12);
 
-  border-radius: 24px;
+  border-radius: 20px;
 
-  padding: 14px;
+  padding: 12px;
 
   display: flex;
 
   flex-direction: column;
 
-  gap: 10px;
+  gap: 6px;
 
   box-shadow:
     0 10px 35px rgba(0,0,0,0.22);
 
-  backdrop-filter:
-    blur(18px);
-
-  transition:
-    all 0.18s ease;
-}
-
-.lavado-card:hover {
-
-  transform:
-    translateY(-2px);
-
-  border-color:
-    rgba(59,130,246,0.25);
+  cursor: pointer;
 }
 
 /* =========================================================
@@ -459,6 +435,10 @@ border-radius: 16px;
 .status {
 
   width: fit-content;
+
+  margin-top: 8px;
+
+  align-self: flex-start;
 
   padding:
     5px 12px;
@@ -1627,4 +1607,34 @@ border-radius: 999px;
   padding: 12px;
 
   object-fit: contain;
+}
+
+.card-info-grid {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 6px 16px;
+
+  margin-top: 8px;
+
+  color: #94a3b8;
+
+  font-size: 13px;
+}
+
+@media (max-width: 768px) {
+
+  .card-info-grid {
+
+    grid-template-columns:
+      repeat(2, 1fr);
+
+    gap: 6px 12px;
+
+    font-size: 12px;
+  }
+
 }
