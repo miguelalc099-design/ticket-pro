@@ -1,5 +1,5 @@
-import tractoImg from "../assets/tracto.png";
-import remolqueImg from "../assets/remolque.png";
+import tractoImg from "../../../assets/tracto.png";
+import remolqueImg from "../../../assets/remolque.png";
 
 function CardLavado({
 
