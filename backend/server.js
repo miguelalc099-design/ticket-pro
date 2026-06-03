@@ -40,6 +40,14 @@ const catalogoSchema = new mongoose.Schema({
   ubicacion: String
 });
 
+const serviciosLavadoRoutes =
+require("./routes/serviciosLavado");
+
+app.use(
+  "/servicios-lavado",
+  serviciosLavadoRoutes
+);
+
 const Catalogo = mongoose.model("Catalogo", catalogoSchema);
 const userSchema = new mongoose.Schema({
 
