@@ -17,32 +17,25 @@ export const exportarExcelLavados = (
   /* =========================
      FILTRAR FECHAS
   ========================= */
+const filtrados =
+  lavados.filter((l) => {
 
-  const filtrados =
-    lavados.filter((l) => {
-
-      const fecha =
-        new Date(l.createdAt);
-
-      const inicio =
-        new Date(fechaInicio);
-
-      const fin =
-        new Date(fechaFin);
-
-      fin.setHours(
-        23,
-        59,
-        59,
-        999
+    const fechaLavado =
+      new Date(l.createdAt)
+      .toLocaleDateString(
+        "en-CA",
+        {
+          timeZone:
+            "America/Mexico_City"
+        }
       );
 
-      return (
-        fecha >= inicio &&
-        fecha <= fin
-      );
+    return (
+      fechaLavado >= fechaInicio &&
+      fechaLavado <= fechaFin
+    );
 
-    });
+  });
 
   /* =========================
      DATA
