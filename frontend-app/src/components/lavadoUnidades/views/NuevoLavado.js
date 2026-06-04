@@ -1,5 +1,6 @@
 import {
-  useState
+  useState,
+  useEffect
 } from "react";
 
 import imageCompression from "browser-image-compression";
@@ -58,6 +59,12 @@ const [
   setTiposLavado
 
 ] = useState([]);
+const [
+
+  servicios,
+  setServicios
+
+] = useState([]);
 
 const [
 
@@ -102,16 +109,40 @@ const operadoresLista = [
 
 ];
 
-const servicios = [
+useEffect(() => {
 
-  "Lavada",
-  "Detallado",
-  "Barrida",
-  "Fumigada",
-  "Pulida",
-  "Limpieza interior"
+  obtenerServicios();
 
-];
+}, []);
+
+const obtenerServicios =
+async () => {
+
+  try {
+
+    const res =
+      await fetch(
+
+"https://ticket-pro-backend.onrender.com/servicios-lavado"
+
+      );
+
+    const data =
+      await res.json();
+
+    setServicios(data);
+
+  } catch (err) {
+
+    console.log(
+      "Error cargando servicios",
+      err
+    );
+
+  }
+
+};
+
 
 /* =========================
    OPERADORES
@@ -176,6 +207,34 @@ const toggleServicio =
   }
 
 };
+
+/* =========================
+   TOTAL SERVICIOS
+========================= */
+
+const totalServicios =
+servicios
+
+.filter((servicio) =>
+
+  tiposLavado.includes(
+    servicio.nombre
+  )
+
+)
+
+.reduce(
+
+  (total, servicio) =>
+
+    total +
+    Number(
+      servicio.precio || 0
+    ),
+
+  0
+
+);
 
 /* =========================
    FOTOS
@@ -338,6 +397,11 @@ formData.append(
 formData.append(
   "creadoPor",
   user?.username || "Sistema"
+);
+
+formData.append(
+  "costoTotal",
+  totalServicios
 );
 
 /* =========================
@@ -641,30 +705,68 @@ servicios.map(
   (servicio) => (
 
 <button
-  key={servicio}
+key={servicio._id}
 
-  className={
-    tiposLavado.includes(
-      servicio
-    )
+ className={
+  tiposLavado.includes(
+    servicio.nombre
+  )
 
-    ? "chip-active"
+  ? "chip-active"
 
-    : "chip"
-  }
+  : "chip"
+}
 
   onClick={() =>
-    toggleServicio(
-      servicio
-    )
+  toggleServicio(
+  servicio.nombre
+)
   }
 >
-  🧼 {servicio}
+  🧼 {servicio.nombre}
+
+<br />
+
+<small>
+  ${servicio.precio}
+</small>
 </button>
 
 ))
 }
 
+</div>
+
+</div>
+{/* TOTAL */}
+
+<div
+  className="lavado-card"
+  style={{
+    textAlign: "center"
+  }}
+>
+
+<div
+  style={{
+    fontSize: "14px",
+    color: "#94a3b8"
+  }}
+>
+  Total Servicios
+</div>
+
+<div
+  style={{
+    fontSize: "28px",
+    fontWeight: "700",
+    color: "#22c55e"
+  }}
+>
+  $
+  {totalServicios.toLocaleString(
+    "es-MX"
+  )}
 </div>
 
 </div>

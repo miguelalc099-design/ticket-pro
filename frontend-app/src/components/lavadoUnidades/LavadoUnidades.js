@@ -16,6 +16,9 @@ from "./views/AprobacionesLavado";
 import CompletarLavado
 from "./views/CompletarLavado";
 
+import ServicioLavado
+from "./views/ServicioLavado";
+
 import CardLavado
 from "./components/CardLavado";
 
@@ -318,6 +321,29 @@ if (
 }
 
 /* =========================
+   SERVICIOS
+========================= */
+
+if (
+  vista === "servicios"
+) {
+
+  return (
+
+<ServicioLavado
+
+  onClose={() => {
+
+    setVista("listado");
+
+  }}
+
+/>
+
+  );
+}
+
+/* =========================
    COMPLETAR LAVADO
 ========================= */
 
@@ -580,6 +606,16 @@ return (
   }
 >
   ➕ Nuevo Lavado
+</button>
+
+<button
+  className="btn-lavado secondary"
+
+  onClick={() =>
+    setVista("servicios")
+  }
+>
+  🧼 Servicios
 </button>
 
 {
