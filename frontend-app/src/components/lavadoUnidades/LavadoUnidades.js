@@ -1208,128 +1208,157 @@ lavadoDetalle && (
 
 <div className="modal-info-grid">
 
-<div className="modal-info-card">
+  <div className="modal-info-card">
 
-<div className="modal-label">
-👤 Operadores
-</div>
+    <div className="modal-label">
+      👤 Operadores
+    </div>
 
-<div className="modal-value">
-
-{
-lavadoDetalle.operadores?.join(", ")
-}
-
-</div>
-
-</div>
-
-<div className="modal-info-card">
-
-  <div className="modal-label">
-    🧼 Servicios
-  </div>
-
-  <div className="modal-label">
-    💰 Costo Total
-  </div>
-
-  <div className="modal-value">
-
-    $
-
-    {
-      (lavadoDetalle.costoTotal || 0)
-      .toLocaleString("es-MX")
-    }
+    <div className="modal-value">
+      {lavadoDetalle.operadores?.join(", ")}
+    </div>
 
   </div>
 
-</div>
+  <div className="modal-info-card">
 
-<div className="modal-info-card">
+    <div className="modal-label">
+      🧼 Servicios
+    </div>
 
-  <div className="modal-label">
-    📅 Fecha
+    <div className="modal-value">
+      {lavadoDetalle.tiposLavado?.join(", ")}
+    </div>
+
   </div>
 
-<div className="modal-value">
+  <div className="modal-info-card">
+
+    <div className="modal-label">
+      💰 Costo Total
+    </div>
+
+    <div className="modal-value">
+
+      $
+
+      {
+        (lavadoDetalle.costoTotal || 0)
+        .toLocaleString("es-MX")
+      }
+
+    </div>
+
+  </div>
+
+  <div className="modal-info-card">
+
+    <div className="modal-label">
+      📅 Fecha
+    </div>
+
+    <div className="modal-value">
+
+      {
+        new Date(
+          lavadoDetalle.createdAt
+        ).toLocaleDateString(
+          "es-MX",
+          {
+            timeZone:
+              "America/Mexico_City"
+          }
+        )
+      }
+
+    </div>
+
+  </div>
+
+  <div className="modal-info-card">
+
+    <div className="modal-label">
+      👨‍🔧 Creó
+    </div>
+
+    <div className="modal-value">
+
+      {
+        lavadoDetalle.creadoPor ||
+        "N/D"
+      }
+
+    </div>
+
+  </div>
+
+  <div className="modal-info-card">
+
+    <div className="modal-label">
+
+      {
+        lavadoDetalle.estatus ===
+        "RECHAZADA"
+
+        ? "❌ Rechazó"
+
+        : "✅ Supervisor"
+      }
+
+    </div>
+
+    <div className="modal-value">
+
+      {
+        lavadoDetalle.aprobadoPor ||
+        "N/D"
+      }
+
+    </div>
+
+  </div>
+
+  <div className="modal-info-card">
+
+    <div className="modal-label">
+      👥 Cantidad Operadores
+    </div>
+
+    <div className="modal-value">
+
+      {
+        lavadoDetalle.cantidadOperadores
+      }
+
+    </div>
+
+  </div>
+
+</div>
+
+{/* COMENTARIOS */}
 
 {
- new Date(
-  lavadoDetalle.createdAt
-).toLocaleDateString(
-    "es-MX",
-    {
-      timeZone:
-        "America/Mexico_City"
-    }
-  )
-}
+lavadoDetalle.comentarios && (
 
-</div>
-</div>
-
-<div className="modal-info-card">
+<div className="modal-comments">
 
 <div className="modal-label">
-👨‍🔧 Creó
+📝 Comentarios
 </div>
 
-<div className="modal-value">
+<div className="modal-comment-text">
 
 {
-  lavadoDetalle.creadoPor ||
-  "N/D"
+lavadoDetalle.comentarios
 }
 
 </div>
 
 </div>
 
-<div className="modal-info-card">
-
-<div className="modal-label">
-
-{
-  lavadoDetalle.estatus ===
-  "RECHAZADA"
-
-  ? "❌ Rechazó"
-
-  : "✅ Supervisor"
+)
 }
-
-</div>
-
-<div className="modal-value">
-
-{
-  lavadoDetalle.aprobadoPor ||
-  "N/D"
-}
-
-</div>
-
-</div>
-
-<div className="modal-info-card">
-
-<div className="modal-label">
-👥 Operadores
-</div>
-
-<div className="modal-value">
-
-{
-lavadoDetalle.cantidadOperadores
-}
-
-</div>
-
-</div>
-
-</div>
 
 {/* COMENTARIOS */}
 
