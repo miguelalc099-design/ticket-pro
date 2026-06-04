@@ -1359,30 +1359,6 @@ lavadoDetalle.comentarios
 
 )
 }
-
-{/* COMENTARIOS */}
-
-{
-lavadoDetalle.comentarios && (
-
-<div className="modal-comments">
-
-<div className="modal-label">
-📝 Comentarios
-</div>
-
-<div className="modal-comment-text">
-
-{
-lavadoDetalle.comentarios
-}
-
-</div>
-
-</div>
-
-)
-}
 {
 (
 lavadoDetalle.estatus ===
