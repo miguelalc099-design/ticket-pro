@@ -332,6 +332,44 @@ const eliminarFotoAntes = (index) => {
 const guardarLavado =
 async () => {
 
+if (!tipoUnidad) {
+
+  return alert(
+    "Selecciona el tipo de unidad"
+  );
+
+}
+
+if (
+  !numeroUnidad.trim()
+) {
+
+  return alert(
+    "Debes capturar el número de unidad"
+  );
+
+}
+
+if (
+  numeroUnidad.trim().length > 15
+) {
+
+  return alert(
+    "Número de unidad demasiado largo"
+  );
+
+}
+
+if (
+  numeroUnidad.trim().length < 2
+) {
+
+  return alert(
+    "Número de unidad inválido"
+  );
+
+}
+
   if (
     operadores.length === 0
   ) {
@@ -581,18 +619,15 @@ return (
 
 <input
   className="input-lavado"
-
   placeholder="Número Unidad"
-
+  maxLength={15}
   value={numeroUnidad}
-
   onChange={(e) =>
     setNumeroUnidad(
-      e.target.value
+      e.target.value.toUpperCase()
     )
   }
 />
-
 {/* LAVADORES */}
 
 <div>
