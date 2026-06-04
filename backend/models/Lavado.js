@@ -73,6 +73,14 @@ fechaAprobacion: {
   type: Date
 },
 
+costoTotal: {
+
+  type: Number,
+
+  default: 0
+
+},
+
 bloqueado: {
 
   type: Boolean,

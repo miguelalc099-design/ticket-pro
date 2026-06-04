@@ -10,6 +10,9 @@ async (req, res) => {
 
   try {
 
+console.log("BODY:");
+console.log(req.body);
+
     const total =
       await Lavado.countDocuments();
 
@@ -47,6 +50,11 @@ const nuevoLavado =
   new Lavado({
 
     ...req.body,
+
+    costoTotal:
+      Number(
+        req.body.costoTotal || 0
+      ),
 
     fechaLavado:
       new Date(),
