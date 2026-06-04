@@ -17,6 +17,10 @@ const [loading, setLoading] =
   useState(false);
 const [editandoId, setEditandoId] =
   useState(null);
+const [
+  mostrarInactivos,
+  setMostrarInactivos
+] = useState(false);
 
 const API =
 "https://ticket-pro-backend.onrender.com/servicios-lavado";
@@ -31,7 +35,9 @@ async () => {
   try {
 
     const res =
-      await fetch(API);
+      await fetch(
+        `${API}/todos`
+      );
 
     const data =
       await res.json();
@@ -236,6 +242,31 @@ async (id) => {
 
 };
 
+const reactivarServicio =
+async (id) => {
+
+  try {
+
+    await fetch(
+
+      `${API}/${id}/reactivar`,
+
+      {
+        method: "PUT"
+      }
+
+    );
+
+    cargarServicios();
+
+  } catch (err) {
+
+    console.log(err);
+
+  }
+
+};
+
 return (
 
 <div className="lavados-container">
@@ -311,7 +342,37 @@ loading
 </button>
 
 </div>
+<div
+  style={{
+    marginTop: "20px",
+    marginBottom: "10px"
+  }}
+>
 
+<label
+  style={{
+    color: "#fff",
+    display: "flex",
+    alignItems: "center",
+    gap: "8px"
+  }}
+>
+
+<input
+  type="checkbox"
+  checked={mostrarInactivos}
+  onChange={(e) =>
+    setMostrarInactivos(
+      e.target.checked
+    )
+  }
+/>
+
+Mostrar inactivos
+
+</label>
+
+</div>
 <div
   style={{
     display: "grid",
@@ -321,7 +382,19 @@ loading
 >
 
 {
-servicios.map(
+servicios
+
+.filter((servicio) =>
+
+  mostrarInactivos
+
+    ? true
+
+    : servicio.activo !== false
+
+)
+
+.map(
 (servicio) => (
 
 <div
@@ -382,6 +455,9 @@ servicios.map(
   ✏ Editar
 </button>
 
+{
+servicio.activo !== false ? (
+
 <button
   className="btn-danger"
 
@@ -393,6 +469,23 @@ servicios.map(
 >
   ❌ Desactivar
 </button>
+
+) : (
+
+<button
+  className="btn-lavado"
+
+  onClick={() =>
+    reactivarServicio(
+      servicio._id
+    )
+  }
+>
+  🔄 Reactivar
+</button>
+
+)
+}
 
 </div>
 

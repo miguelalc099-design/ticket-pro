@@ -641,15 +641,20 @@ return (
   ➕ Nuevo Lavado
 </button>
 
+{
+usuario?.username === "admin" && (
+
 <button
   className="btn-lavado secondary"
-
   onClick={() =>
     setVista("servicios")
   }
 >
   🧼 Servicios
 </button>
+
+)
+}
 
 {
 usuario?.permisos
