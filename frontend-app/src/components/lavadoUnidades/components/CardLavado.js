@@ -108,6 +108,11 @@ return (
 <div>
   🧼 {lavado.tiposLavado?.join(", ")}
 </div>
+<div>
+  💰 $
+  {(lavado.costoTotal || 0)
+    .toLocaleString("es-MX")}
+</div>
 
 <div>
   📅 {

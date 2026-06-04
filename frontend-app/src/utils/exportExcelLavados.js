@@ -79,6 +79,8 @@ export const exportarExcelLavados = (
 
       TiposLavado:
         l.tiposLavado?.join(", "),
+CostoTotal:
+  l.costoTotal || 0,
 
       Estatus:
         l.estatus,
