@@ -201,68 +201,37 @@ select {
 ========================================================= */
 .kpi-card {
 
-  background:
-    linear-gradient(
-      145deg,
-      rgba(15,23,42,0.94),
-      rgba(2,6,23,0.96)
-    );
+  position: relative;
 
-  border:
-    1px solid rgba(59,130,246,0.12);
-
-  border-radius: 20px;
-
-  padding:
-    14px;
-
-  min-height: 88px;
+  overflow: hidden;
 
   display: flex;
 
-  flex-direction: column;
+  align-items: center;
 
-  justify-content: center;
+  gap: 12px;
+
+  min-height: 78px;
+
+  padding: 14px;
+
+  border-radius: 20px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(15,23,42,0.95),
+      rgba(2,6,23,0.98)
+    );
+
+  border:
+    1px solid rgba(59,130,246,0.15);
 
   box-shadow:
-    0 8px 25px rgba(0,0,0,0.22);
+    0 10px 30px rgba(0,0,0,0.35);
 
-  backdrop-filter:
-    blur(14px);
-
-  transition:
-    all 0.18s ease;
+  transition: 0.22s ease;
 }
-
-.kpi-card:hover {
-
-  transform:
-    translateY(-2px);
-
-  border-color:
-    rgba(59,130,246,0.25);
-}
-
-.kpi-title {
-
-  color: #94a3b8;
-
-  font-size: 11px;
-
-  font-weight: 600;
-}
-
-.kpi-value {
-
-  margin-top: 6px;
-
-  font-size: 24px;
-
-  font-weight: 800;
-
-  color: white;
-}
-
 /* =========================================================
    FILTERS
 ========================================================= */
@@ -768,22 +737,16 @@ border-radius: 16px;
   flex: unset;
 }
 
-  .kpis-grid {
+.kpis-grid {
 
-    grid-template-columns:
-      repeat(2,1fr);
-  }
+  display: grid;
 
-  .lavado-unidad {
+  grid-template-columns:
+    repeat(auto-fit, minmax(180px,1fr));
 
-    font-size: 24px;
-  }
+  gap: 12px;
 
-  .lavado-info {
-
-    grid-template-columns:
-      1fr;
-  }
+  margin-bottom: 20px;
 }
 
 /* =========================================================
@@ -862,21 +825,13 @@ and (max-width: 1200px) {
 
 .kpi-icon {
 
-  width: 58px;
+  width: 48px;
 
-  height: 58px;
+  height: 48px;
 
-  border-radius: 20px;
+  border-radius: 16px;
 
-  display: flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-  font-size: 24px;
-
-  flex-shrink: 0;
+  font-size: 20px;
 }
 
 .kpi-icon.blue {
@@ -912,14 +867,14 @@ and (max-width: 1200px) {
 
 .kpi-label {
 
-  font-size: 13px;
+  font-size: 11px;
 
   color: #94a3b8;
 }
 
 .kpi-number {
 
-  font-size: 30px;
+  font-size: 22px;
 
   font-weight: 800;
 

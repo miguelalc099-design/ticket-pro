@@ -300,42 +300,6 @@ lavadosFiltrados.reduce(
 
 );
 
-const costoHoy =
-lavados
-
-.filter((lavado) => {
-
-  const fecha =
-    new Date(
-      lavado.createdAt
-    );
-
-  fecha.setHours(
-    0,
-    0,
-    0,
-    0
-  );
-
-  return (
-    fecha.getTime() ===
-    hoy.getTime()
-  );
-
-})
-
-.reduce(
-
-  (total, lavado) =>
-
-    total +
-    Number(
-      lavado.costoTotal || 0
-    ),
-
-  0
-
-);
 
 /* =========================
    NUEVO LAVADO
@@ -728,8 +692,26 @@ usuario?.permisos
       </span>
 
       <span className="kpi-number">
-        {lavados.length}
-      </span>
+  {lavados.length}
+</span>
+
+<div
+  style={{
+    color: "#22c55e",
+    fontSize: "13px",
+    fontWeight: "700",
+    marginTop: "4px"
+  }}
+>
+💰 $
+
+{
+costoHistorico.toLocaleString(
+  "es-MX"
+)
+}
+
+</div>
 
     </div>
 
@@ -751,6 +733,23 @@ usuario?.permisos
       <span className="kpi-number">
         {lavadosFiltrados.length}
       </span>
+<div
+  style={{
+    color: "#60a5fa",
+    fontSize: "13px",
+    fontWeight: "700",
+    marginTop: "4px"
+  }}
+>
+💵 $
+
+{
+costoMostrado.toLocaleString(
+  "es-MX"
+)
+}
+
+</div>
 
     </div>
 
@@ -862,95 +861,7 @@ usuario?.permisos
 
 </div>
 
-{/* COSTO HISTORICO */}
 
-<div className="kpi-card">
-
-<div className="kpi-icon green">
-💰
-</div>
-
-<div className="kpi-info">
-
-<span className="kpi-label">
-Costo Histórico
-</span>
-
-<span className="kpi-number">
-
-$
-
-{
-costoHistorico.toLocaleString(
-  "es-MX"
-)
-}
-
-</span>
-
-</div>
-
-</div>
-
-{/* COSTO MOSTRADO */}
-
-<div className="kpi-card">
-
-<div className="kpi-icon blue">
-💵
-</div>
-
-<div className="kpi-info">
-
-<span className="kpi-label">
-Costo Mostrado
-</span>
-
-<span className="kpi-number">
-
-$
-
-{
-costoMostrado.toLocaleString(
-  "es-MX"
-)
-}
-
-</span>
-
-</div>
-
-</div>
-
-{/* COSTO HOY */}
-
-<div className="kpi-card">
-
-<div className="kpi-icon yellow">
-💸
-</div>
-
-<div className="kpi-info">
-
-<span className="kpi-label">
-Costo Hoy
-</span>
-
-<span className="kpi-number">
-
-$
-
-{
-costoHoy.toLocaleString(
-  "es-MX"
-)
-}
-
-</span>
-
-</div>
-
-</div>
 
 <div
   className="lavado-card"
@@ -1315,43 +1226,32 @@ lavadoDetalle.operadores?.join(", ")
 
 <div className="modal-info-card">
 
-<div className="modal-label">
-🧼 Servicios
-</div>
-<div className="modal-info-card">
+  <div className="modal-label">
+    🧼 Servicios
+  </div>
 
-<div className="modal-label">
-💰 Costo Total
-</div>
+  <div className="modal-label">
+    💰 Costo Total
+  </div>
 
-<div className="modal-value">
+  <div className="modal-value">
 
-$
+    $
 
-{
-(lavadoDetalle.costoTotal || 0)
-.toLocaleString("es-MX")
-}
+    {
+      (lavadoDetalle.costoTotal || 0)
+      .toLocaleString("es-MX")
+    }
 
-</div>
-
-</div>
-
-<div className="modal-value">
-
-{
-lavadoDetalle.tiposLavado?.join(", ")
-}
-
-</div>
+  </div>
 
 </div>
 
 <div className="modal-info-card">
 
-<div className="modal-label">
-📅 Fecha
-</div>
+  <div className="modal-label">
+    📅 Fecha
+  </div>
 
 <div className="modal-value">
 
