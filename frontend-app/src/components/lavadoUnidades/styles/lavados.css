@@ -708,50 +708,30 @@ border-radius: 16px;
 @media screen and (max-width: 768px) {
 
   .lavados-header {
-
     flex-direction: column;
-
     align-items: flex-start;
   }
 
   .lavados-actions {
-
     width: 100%;
   }
 
-.btn-lavado,
-.btn-danger {
+  .btn-lavado,
+  .btn-danger {
+    width: 100%;
+    max-width: 100%;
+    min-height: 52px;
+  }
 
-  width: 100%;
+  .kpis-grid {
+    display: grid;
+    grid-template-columns:
+      repeat(auto-fit, minmax(180px,1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+  }
 
-  max-width: 100%;
-
-  min-height: 52px;
-
-  padding: 0 18px;
-
-  border-radius: 16px;
-
-  font-size: 16px;
-
-  flex: unset;
-}
-
-.kpis-grid {
-
-  display: grid;
-
-  grid-template-columns:
-    repeat(auto-fit, minmax(180px,1fr));
-
-  gap: 12px;
-
-  margin-bottom: 20px;
-}
-
-/* =========================================================
-   TABLET
-========================================================= */
+}  /* <-- ESTA LLAVE FALTA */
 
 @media screen and (min-width: 769px)
 and (max-width: 1200px) {
@@ -760,7 +740,9 @@ and (max-width: 1200px) {
 
     grid-template-columns:
       repeat(2,1fr);
+
   }
+
 }
 
 /* ========================================
