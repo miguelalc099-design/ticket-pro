@@ -93,7 +93,7 @@ router.put(
 
     {
       name: "fotosDespues",
-      maxCount: 2
+      maxCount: 4
     }
 
   ]),
