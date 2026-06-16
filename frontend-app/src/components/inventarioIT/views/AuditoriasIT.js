@@ -150,13 +150,17 @@ doc.text(
   75
 );
 
-  doc.text(
-    `Fecha: ${
-      new Date().toLocaleDateString()
-    }`,
-    20,
-    85
-  );
+doc.text(
+  `Fecha: ${
+    new Date(
+      auditoria.fecha ||
+      auditoria.fechaInicio ||
+      auditoria.createdAt
+    ).toLocaleDateString()
+  }`,
+  20,
+  85
+);
 
   /* =========================
      EQUIPOS
@@ -797,8 +801,10 @@ auditoriasPaginadas.map((auditoria) => (
 >
   📅 {
     new Date(
-      auditoria.fecha
-    ).toLocaleDateString()
+  auditoria.fecha ||
+  auditoria.fechaInicio ||
+  auditoria.createdAt
+).toLocaleDateString()
   }
 </div>
 

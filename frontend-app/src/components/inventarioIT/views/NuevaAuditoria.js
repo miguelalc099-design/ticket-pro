@@ -98,7 +98,7 @@ const guardarAuditoria =
     return;
   }
 
- const nueva = {
+const nueva = {
 
   nombreAuditoria,
 
@@ -107,6 +107,9 @@ const guardarAuditoria =
   tipoAuditoria,
 
   fecha:
+    new Date(),
+
+  fechaInicio:
     new Date(),
 
 equipos: equiposSeleccionados.map(
